@@ -1,6 +1,8 @@
 const express = require('express');
 const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaAdministrativo, vistaListaDocente, vistaListaFederal, vistaInfoPersonal } = require('../controllers/Pagecontrollers');
 const router = express.Router();
+const connection = require('../src/config/db'); //Ruta de db
+
 
 router.get('/', vistaPrincipal)
 router.get('/revisiones', vistaReviciones)
@@ -22,5 +24,16 @@ router.get('/lista-docente', vistaListaDocente);
 router.get('/lista-federal', vistaListaFederal);
 router.get('/info-personal', vistaInfoPersonal);
 
+// Conexión a la base de datos
+router.get('/lista-general', (req, res) => {
+    connection.query('SELECT * FROM personal', (err, results) => {
+        if (err) {
+            console.error('Error al hacer la consulta:', err);
+            res.status(500).send('Error al consultar la base de datos');
+        } else {
+            res.json(results);
+        }
+    });
+});
 
 module.exports = router;

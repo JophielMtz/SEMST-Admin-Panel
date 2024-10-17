@@ -1,3 +1,6 @@
+const connection = require('../src/config/db');
+
+
 const vistaPrincipal = (req, res, ) => {
     res.render('home')
 }
@@ -55,8 +58,35 @@ const vistaApoyoLentes = (req, res) => {
 }
 
 const vistaListaGeneral = (req, res) => {
-    res.render('lista-general');
-}
+    connection.query(`
+        SELECT 
+            p.personal_id, 
+            p.rfc, 
+            p.nombre, 
+            p.apellido_paterno, 
+            p.apellido_materno, 
+            p.edad, 
+            p.telefono, 
+            p.correo, 
+            c.descripcion AS cargo
+        FROM 
+            personal p
+        INNER JOIN 
+            detalle_laboral dl ON p.personal_id = dl.personal_id
+        INNER JOIN 
+            cargos c ON dl.cargo_id = c.cargo_id
+    `, (err, results) => {
+        if (err) {
+            console.error('Error al hacer la consulta:', err);
+            res.status(500).send('Error en la consulta de la base de datos');
+        } else {
+            // Aquí enviamos los datos como 'personal' a la vista
+            res.render('lista-general', { personal: results });
+        }
+    });
+};
+
+
 
 const vistaListaAdministrativo = (req, res) => {
     res.render('lista-administrativo');

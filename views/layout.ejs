@@ -1,314 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="images/favicon.ico" type="image/ico" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Semst Adm Panel</title>
+	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+	<link rel="icon" href="img/kaiadmin/favicon.ico" type="image/x-icon"/>
 
-    <title>Panel de Administración</title>
+	<!-- Fonts and icons -->
+	<script src="js/plugin/webfont/webfont.min.js"></script>
+	<script>
+		WebFont.load({
+			google: {"families":["Public Sans:300,400,500,600,700"]},
+			custom: {"families":["Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['css/fonts.min.css']},
+			active: function() {
+				sessionStorage.fonts = true;
+			}
+		});
+	</script>
 
-    <!-- Bootstrap -->
-    <link href="/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="/vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	<!-- CSS Files -->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/plugins.min.css">
+	<link rel="stylesheet" href="css/kaiadmin.min.css">
 
-    <!-- bootstrap-progressbar -->
-    <link href="/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-    <!-- JQVMap -->
-    <link href="/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
-    <!-- bootstrap-daterangepicker -->
-    <link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="/production/build/css/custom.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/production/build/css/my-styles.css">
 </head>
-<!--Logo-->
+<body>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<div class="sidebar" data-background-color="dark">
+			<div class="sidebar-logo">
+				<!-- Logo Header -->
+				<div class="logo-header" data-background-color="dark">
 
-<body class="nav-md">
-    <div class="container body">
-        <div class="main_container">
-            <div class="col-md-3 left_col">
-                <div class="left_col scroll-view">
-                    <div class="navbar nav_title" style="border: 0;">
-                        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>SEMST</span></a>
-                    </div>
-                    <!--Fin-Logo-->
+					<a href="index.html" class="logo">
+						<img src="img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20">
+					</a>
+					<div class="nav-toggle">
+						<button class="btn btn-toggle toggle-sidebar">
+							<i class="gg-menu-right"></i>
+						</button>
+						<button class="btn btn-toggle sidenav-toggler">
+							<i class="gg-menu-left"></i>
+						</button>
+					</div>
+					<button class="topbar-toggler more">
+						<i class="gg-more-vertical-alt"></i>
+					</button>
 
-                    <div class="clearfix"></div>
-
-                    <!-- menu profile quick info -->
-                    <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="/production/images/img1.jpg" alt="..." class="img-circle profile_img">
-                        </div>
-                        <div class="profile_info">
-                            <span>Bienvenid@</span>
-                            <h2>Clauida Inés Medina</h2>
-                        </div>
-                    </div>
-                    <!-- /menu profile quick info -->
-
-                    <br />
-                    <!--Salto de linea-->
-
-                    <!--sidebar-->
-                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                        <div class="menu_section">
-                            <h3>General</h3>
-                            <ul class="nav side-menu">
-                                <li><a href="/"><i class="fa fa-home"></i>Inicio</a></li>
-                                <li><a href="/revisiones"><i class="fa fa-file-alt"></i>Revisiones</a></li>
-                                <li><a href="/pendientes"><i class="fa fa-clock-o"></i>Pendientes</a></li>
-                                <li>
-                                    <a><i class="fa fa-book"></i> Gestión de Docentes<span
-                                            class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="/docentes-disponibles">Docentes disponibles</a></li>
-                                        <li><a href="/nombramientos-docentes">Nombramientos docentes</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-clipboard"></i> Licencias e Incidencias<span
-                                            class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="/licencias-sin-goce">Licencias sin goce</a></li>
-                                        <li><a href="/incidencias">Incidencias</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="/calendario"><i class="fa fa-calendar"></i>Calendario</a></li>
-                                <li>
-                                    <a><i class="fa fa-paper-plane"></i> Solicitudes<span
-                                            class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="/solicitudes-generales">Generales</a></li>
-                                        <li><a href="/cambio">Cambio</a></li>
-                                        <li><a href="/solicitudes-personal">Personal</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-user-md"></i> Salud y Apoyo<span
-                                            class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="/salud">Salud</a></li>
-                                        <li><a href="/beca-comision">Beca Comisión</a></li>
-                                        <li><a href="/apoyo-lentes">Apoyo lentes</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a><i class="fa fa-user"></i> Lista de personal<span
-                                            class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="/lista-general">General</a></li>
-                                        <li><a href="/lista-administrativo">Administrativo</a></li>
-                                        <li><a href="/lista-docente">Docente</a></li>
-                                        <li><a href="/lista-federal">Federal</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="/info-personal"><i class="fa fa-users"></i>Info .Personal</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Fin-sidebar -->
-
-                    <!-- /menu footer buttons -->
-                    <div class="sidebar-footer hidden-small">
-                        <a data-toggle="tooltip" data-placement="top" title="Settings">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                        </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Fin-menu footer buttons -->
-
-            <!-- top navigation -->
-            <div class="top_nav">
-                <div class="nav_menu">
-                    <div class="nav toggle">
-                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                    </div>
-                    <nav class="nav navbar-nav">
-                        <ul class=" navbar-right">
-                            <li class="nav-item dropdown open" style="padding-left: 15px;">
-                                <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="/production/images/img1.jpg" alt="">Clauida
+				</div>
+				<!-- End Logo Header -->	
+			</div>	
+			<div class="sidebar-wrapper scrollbar scrollbar-inner">
+				<div class="sidebar-content">
+					<ul class="nav nav-secondary">
+						<li class="nav-item active">
+							<a href="/">
+								<i class="fas fa-home"></i>
+								<p>Inicio</p>
+							</a>
+							<div class="collapse" id="dashboard">
+							</div>
+						</li>
+						<li class="nav-section">
+							<span class="sidebar-mini-icon">
+								<i class="fa fa-ellipsis-h"></i>
+							</span>
+							<h4 class="text-section">Components</h4>
+						</li>
+						<li class="nav-item">
+							<a href="/revisiones"><i class="fab fa-readme"></i>
+								<p>Revisiones</p></a>
+            </li>
+            <li class="nav-item">
+			<a href="/pendientes"><i class="far fa-check-square"></i>
+				<p>Pendientes</p></a>
+            </li>
+			<li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#gestionDocentes">
+                        <i class="fas fa-address-book"></i>
+                        <p>Gestión de Docentes</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="gestionDocentes">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="/docentes-disponibles">
+                                    <span class="sub-item">Docentes disponibles</span>
                                 </a>
-                                <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="javascript:;"> Perfil</a>
-                                    <a class="dropdown-item" href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span><span>Configuración</span></a>
-                                    <a class="dropdown-item" href="javascript:;">Ayuda</a>
-                                    <a class="dropdown-item" href="login.html"><i class="fa fa-sign-out pull-right"></i>
-                                        Cerrar sesión</a>
-                                </div>
                             </li>
-                            <!--Notificaciones-->
-                            <li role="presentation" class="nav-item dropdown open">
-                                <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
+                            <li>
+                                <a href="/nombramientos-docentes">
+                                    <span class="sub-item">Nombramientos</span>
                                 </a>
-                                <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="/production/images/img.jpg"
-                                                    alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="/production/images/img.jpg"
-                                                    alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="/production/images/img.jpg"
-                                                    alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="dropdown-item">
-                                            <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                                            <span>
-                                                <span>John Smith</span>
-                                            <span class="time">3 mins ago</span>
-                                            </span>
-                                            <span class="message">
-                                                Film festivals used to be do-or-die moments for movie makers. They were
-                                                where...
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <div class="text-center">
-                                            <a href="inbox.html" class="dropdown-item">
-                                                <strong>Ver todos los mensajes</strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
                             </li>
                         </ul>
-                    </nav>
-                </div>
-            </div>
-            <!-- Fin top navigation -->
+                    </div>
+            </li>
+
+						<li class="nav-item">
+							<a data-bs-toggle="collapse" href="#licencias">
+								<i class="fas fa-pen-square"></i>
+								<p>Licencias e incidencias</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="licencias">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="/licencias-sin-goce">
+											<span class="sub-item">Licencias sin gose</span>
+										</a>
+									</li>
+									<li>
+										<a href="/incidencias">
+											<span class="sub-item">Incidencias</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a href="/calendario">
+								<i class="fas fa-table"></i>
+								<p>Calendario</p></a>
+						</li><li class="nav-item">
+							<a href="/mapa">
+								<i class="fas fa-map-marked-alt"></i>
+								<p>Mapa</p></a>
+						</li>
+						<li class="nav-item">
+							<a data-bs-toggle="collapse" href="#solicitudes">
+								<i class="fas fa-paper-plane"></i>
+								<p>Solicitudes</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="solicitudes">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="/solicitudes-generales">
+											<span class="sub-item">Generales</span>
+										</a>
+									</li>
+									<li>
+										<a href="/cambio">
+											<span class="sub-item">Cambio</span>
+										</a>
+									</li>
+									<li>
+										<a href="/solicitudes-personal">
+											<span class="sub-item">Personal</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a data-bs-toggle="collapse" href="#salud">
+								<i class="fas fa-hand-holding-heart"></i>
+								<p>Salud y apoyo</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="salud">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="/salud">
+											<span class="sub-item">Salud</span>
+										</a>
+									</li>
+									<li>
+										<a href="/beca-comision">
+											<span class="sub-item">Beca comisión</span>
+										</a>
+									</li>
+									<li>
+										<a href="/apoyo-lentes">
+											<span class="sub-item">Apoyo lentes</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a data-bs-toggle="collapse" href="#personal">
+								<i class="fas fa-users"></i>
+								<p>Listado del personal</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="personal">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="/lista-general">
+											<span class="sub-item">General</span>
+										</a>
+									</li>
+									<li>
+										<a href="/lista-administrativo">
+											<span class="sub-item">Administrativo</span>
+										</a>
+									</li>
+									<li>
+										<a href="/lista-docente">
+											<span class="sub-item">Docente</span>
+										</a>
+									</li>
+									<li>
+										<a href="/lista-federal">
+											<span class="sub-item">Federal</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li class="nav-item">
+							<a href="/info-personal">
+								<i class="fas fa-user-tie"></i>
+								<p>Info. personal</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- End Sidebar -->
+
+		<div class="main-panel">
+			<div class="main-header">
+				<div class="main-header-logo">
+					<!-- Logo Header -->
+					<div class="logo-header" data-background-color="dark">
+
+						<a href="index.html" class="logo">
+							<img src="img/kaiadmin/logo_light.svg" alt="navbar brand" class="navbar-brand" height="20">
+						</a>
+						<div class="nav-toggle">
+							<button class="btn btn-toggle toggle-sidebar">
+								<i class="gg-menu-right"></i>
+							</button>
+							<button class="btn btn-toggle sidenav-toggler">
+								<i class="gg-menu-left"></i>
+							</button>
+						</div>
+						<button class="topbar-toggler more">
+							<i class="gg-more-vertical-alt"></i>
+						</button>
+
+					</div>
+					<!-- End Logo Header -->
+				</div>
+				<!-- Navbar Header -->
+				<nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+
+					<div class="container-fluid">
+						<nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<button type="submit" class="btn btn-search pe-1">
+										<i class="fa fa-search search-icon"></i>
+									</button>
+								</div>
+								<input type="text" placeholder="Search ..." class="form-control">
+							</div>
+						</nav>
+
+						<ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+							<li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
+								<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" aria-haspopup="true">
+									<i class="fa fa-search"></i>
+								</a>
+								<ul class="dropdown-menu dropdown-search animated fadeIn">
+									<form class="navbar-left navbar-form nav-search">
+										<div class="input-group">
+											<input type="text" placeholder="Search ..." class="form-control">
+										</div>
+									</form>
+								</ul>
+							</li>
+							<li class="nav-item topbar-icon dropdown hidden-caret">
+								<a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fa fa-envelope"></i>
+								</a>
+								<ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
+									<li>
+										<div class="dropdown-title d-flex justify-content-between align-items-center">
+											Messages 									
+											<a href="#" class="small">Mark all as read</a>
+										</div>
+									</li>
+									<li>
+										<div class="message-notif-scroll scrollbar-outer">
+											<div class="notif-center">
+												<a href="#">
+													<div class="notif-img"> 
+														<img src="img/jm_denis.jpg" alt="Img Profile">
+													</div>
+													<div class="notif-content">
+														<span class="subject">Jimmy Denis</span>
+														<span class="block">
+															How are you ?
+														</span>
+														<span class="time">5 minutes ago</span> 
+													</div>
+												</a>
+												<a href="#">
+													<div class="notif-img"> 
+														<img src="img/chadengle.jpg" alt="Img Profile">
+													</div>
+													<div class="notif-content">
+														<span class="subject">Chad</span>
+														<span class="block">
+															Ok, Thanks !
+														</span>
+														<span class="time">12 minutes ago</span> 
+													</div>
+												</a>
+												<a href="#">
+													<div class="notif-img"> 
+														<img src="img/mlane.jpg" alt="Img Profile">
+													</div>
+													<div class="notif-content">
+														<span class="subject">Jhon Doe</span>
+														<span class="block">
+															Ready for the meeting today...
+														</span>
+														<span class="time">12 minutes ago</span> 
+													</div>
+												</a>
+												<a href="#">
+													<div class="notif-img"> 
+														<img src="img/talha.jpg" alt="Img Profile">
+													</div>
+													<div class="notif-content">
+														<span class="subject">Talha</span>
+														<span class="block">
+															Hi, Apa Kabar ?
+														</span>
+														<span class="time">17 minutes ago</span> 
+													</div>
+												</a>
+											</div>
+										</div>
+									</li>
+									<li>
+										<a class="see-all" href="javascript:void(0);">See all messages<i class="fa fa-angle-right"></i> </a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item topbar-icon dropdown hidden-caret">
+								<a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fa fa-bell"></i>
+									<span class="notification">4</span>
+								</a>
+								<ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+									<li>
+										<div class="dropdown-title">You have 4 new notification</div>
+									</li>
+									<li>
+										<div class="notif-scroll scrollbar-outer">
+											<div class="notif-center">
+												<a href="#">
+													<div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div>
+													<div class="notif-content">
+														<span class="block">
+															New user registered
+														</span>
+														<span class="time">5 minutes ago</span> 
+													</div>
+												</a>
+												<a href="#">
+													<div class="notif-icon notif-success"> <i class="fa fa-comment"></i> </div>
+													<div class="notif-content">
+														<span class="block">
+															Rahmad commented on Admin
+														</span>
+														<span class="time">12 minutes ago</span> 
+													</div>
+												</a>
+												<a href="#">
+													<div class="notif-img"> 
+														<img src="img/profile2.jpg" alt="Img Profile">
+													</div>
+													<div class="notif-content">
+														<span class="block">
+															Reza send messages to you
+														</span>
+														<span class="time">12 minutes ago</span> 
+													</div>
+												</a>
+												<a href="#">
+													<div class="notif-icon notif-danger"> <i class="fa fa-heart"></i> </div>
+													<div class="notif-content">
+														<span class="block">
+															Farrah liked Admin
+														</span>
+														<span class="time">17 minutes ago</span> 
+													</div>
+												</a>
+											</div>
+										</div>
+									</li>
+									<li>
+										<a class="see-all" href="javascript:void(0);">See all notifications<i class="fa fa-angle-right"></i> </a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item topbar-icon dropdown hidden-caret">
+								<a class="nav-link" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+									<i class="fas fa-layer-group"></i>
+								</a>
+								<div class="dropdown-menu quick-actions animated fadeIn">
+									<div class="quick-actions-header">
+										<span class="title mb-1">Quick Actions</span>
+										<span class="subtitle op-7">Shortcuts</span>
+									</div>
+									<div class="quick-actions-scroll scrollbar-outer">
+										<div class="quick-actions-items">
+											<div class="row m-0">
+												<a class="col-6 col-md-4 p-0" href="#">
+													<div class="quick-actions-item">
+														<div class="avatar-item bg-danger rounded-circle">
+															<i class="far fa-calendar-alt"></i>
+														</div>
+														<span class="text">Calendar</span>
+													</div>
+												</a>
+												<a class="col-6 col-md-4 p-0" href="#">
+													<div class="quick-actions-item">
+														<div class="avatar-item bg-warning rounded-circle">
+															<i class="fas fa-map"></i>
+														</div>
+														<span class="text">Maps</span>
+													</div>
+												</a>
+												<a class="col-6 col-md-4 p-0" href="#">
+													<div class="quick-actions-item">
+														<div class="avatar-item bg-info rounded-circle">
+															<i class="fas fa-file-excel"></i>
+														</div>
+														<span class="text">Reports</span>
+													</div>
+												</a>
+												<a class="col-6 col-md-4 p-0" href="#">
+													<div class="quick-actions-item">
+														<div class="avatar-item bg-success rounded-circle">
+															<i class="fas fa-envelope"></i>
+														</div>
+														<span class="text">Emails</span>
+													</div>
+												</a>
+												<a class="col-6 col-md-4 p-0" href="#">
+													<div class="quick-actions-item">
+														<div class="avatar-item bg-primary rounded-circle">
+															<i class="fas fa-file-invoice-dollar"></i>
+														</div>
+														<span class="text">Invoice</span>
+													</div>
+												</a>
+												<a class="col-6 col-md-4 p-0" href="#">
+													<div class="quick-actions-item">
+														<div class="avatar-item bg-secondary rounded-circle">
+															<i class="fas fa-credit-card"></i>
+														</div>
+														<span class="text">Payments</span>
+													</div>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+							
+							<li class="nav-item topbar-user dropdown hidden-caret">
+								<a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+									<div class="avatar-sm">
+										<img src="img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+									</div>
+									<span class="profile-username">
+										<span class="op-7">Hi,</span> <span class="fw-bold">Hizrian</span>
+									</span>
+								</a>
+								<ul class="dropdown-menu dropdown-user animated fadeIn">
+									<div class="dropdown-user-scroll scrollbar-outer">
+										<li>
+											<div class="user-box">
+												<div class="avatar-lg"><img src="img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
+												<div class="u-text">
+													<h4>Hizrian</h4>
+													<p class="text-muted">hello@example.com</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+												</div>
+											</div>
+										</li>
+										<li>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#">My Profile</a>
+											<a class="dropdown-item" href="#">My Balance</a>
+											<a class="dropdown-item" href="#">Inbox</a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#">Account Setting</a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="#">Logout</a>
+										</li>
+									</div>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<!-- End Navbar -->
+			</div>
+
+
+
+
 
             <!-- Inicio Contenido principal -->
             <%-body%>
                 <!-- Fin Contenido principal -->
 
-                <!-- footer content -->
-                <footer>
-
-                    <div class="clearfix"></div>
+		
+                <footer class="footer">
+                  <div class="container-fluid">
+                    <nav class="pull-left">
+                      <ul class="nav">
+                        <li class="nav-item">
+                          <a class="nav-link" href="http://www.themekita.com">
+                          
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">
+                            Help
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">
+                            Licenses
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                    <div class="copyright ms-auto">
+                      
+                    </div>				
+                  </div>
                 </footer>
-                <!-- /footer content -->
-        </div>
-    </div>
-
-    <!-- jQuery -->
-    <script src="/vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- FastClick -->
-    <script src="/vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="/vendors/nprogress/nprogress.js"></script>
-    <!-- Chart.js -->
-    <script src="/vendors/Chart.js/dist/Chart.min.js"></script>
-    <!-- gauge.js -->
-    <script src="/vendors/gauge.js/dist/gauge.min.js"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <!-- iCheck -->
-    <script src="/vendors/iCheck/icheck.min.js"></script>
-    <!-- Skycons -->
-    <script src="/vendors/skycons/skycons.js"></script>
-    <!-- Flot -->
-    <script src="/vendors/Flot/jquery.flot.js"></script>
-    <script src="/vendors/Flot/jquery.flot.pie.js"></script>
-    <script src="/vendors/Flot/jquery.flot.time.js"></script>
-    <script src="/vendors/Flot/jquery.flot.stack.js"></script>
-    <script src="/vendors/Flot/jquery.flot.resize.js"></script>
-    <!-- Flot plugins -->
-    <script src="/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-    <script src="/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-    <script src="/vendors/flot.curvedlines/curvedLines.js"></script>
-    <!-- DateJS -->
-    <script src="../vendors/DateJS/build/date.js"></script>
-    <!-- JQVMap -->
-    <script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
-    <script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-    <!-- Custom Theme Scripts -->
-    <script src="/production/build/js/custom.min.js"></script>
-    <!-- Datatables -->
-    <script src="/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="/vendors/jszip/dist/jszip.min.js"></script>
-    <script src="/vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="/vendors/pdfmake/build/vfs_fonts.js"></script>
-
-</body>
-
-</html>
+              </div>
+              
+             
+          
+            </div>
+            <!--   Core JS Files   -->
+            <script src="js/core/jquery-3.7.1.min.js"></script>
+            <script src="js/core/popper.min.js"></script>
+            <script src="js/core/bootstrap.min.js"></script>
+          
+            <!-- jQuery Scrollbar -->
+            <script src="js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+          
+            <!-- Chart JS -->
+            <script src="js/plugin/chart.js/chart.min.js"></script>
+          
+            <!-- jQuery Sparkline -->
+            <script src="js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+          
+            <!-- Chart Circle -->
+            <script src="js/plugin/chart-circle/circles.min.js"></script>
+          
+            <!-- Datatables -->
+            <script src="js/plugin/datatables/datatables.min.js"></script>
+          
+            <!-- Bootstrap Notify -->
+            <script src="js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+          
+            <!-- jQuery Vector Maps -->
+            <script src="js/plugin/jsvectormap/jsvectormap.min.js"></script>
+            <script src="js/plugin/jsvectormap/world.js"></script>
+          
+            <!-- Sweet Alert -->
+            <script src="js/plugin/sweetalert/sweetalert.min.js"></script>
+          
+            <!-- Kaiadmin JS -->
+            <script src="js/kaiadmin.min.js"></script>
+			<script >
+				$(document).ready(function() {
+					$('#basic-datatables').DataTable({
+					});
+		
+					$('#multi-filter-select').DataTable( {
+						"pageLength": 5,
+						initComplete: function () {
+							this.api().columns().every( function () {
+								var column = this;
+								var select = $('<select class="form-select"><option value=""></option></select>')
+								.appendTo( $(column.footer()).empty() )
+								.on( 'change', function () {
+									var val = $.fn.dataTable.util.escapeRegex(
+										$(this).val()
+										);
+		
+									column
+									.search( val ? '^'+val+'$' : '', true, false )
+									.draw();
+								} );
+		
+								column.data().unique().sort().each( function ( d, j ) {
+									select.append( '<option value="'+d+'">'+d+'</option>' )
+								} );
+							} );
+						}
+					});
+		
+					// Add Row
+					$('#add-row').DataTable({
+						"pageLength": 5,
+					});
+		
+					var action = '<td> <div class="form-button-action"> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+		
+					$('#addRowButton').click(function() {
+						$('#add-row').dataTable().fnAddData([
+							$("#addName").val(),
+							$("#addPosition").val(),
+							$("#addOffice").val(),
+							action
+							]);
+						$('#addRowModal').modal('hide');
+		
+					});
+				});
+			</script>
+          </body>
+          </html>
