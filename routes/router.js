@@ -1,7 +1,22 @@
 const express = require('express');
-const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaAdministrativo, vistaListaDocente, vistaListaFederal, vistaInfoPersonal } = require('../controllers/Pagecontrollers');
+const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaAdministrativo, vistaListaDocente, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, agregarPersonal  } = require('../controllers/Pagecontrollers');
 const router = express.Router();
 const connection = require('../src/config/db'); //Ruta de db
+
+const multer = require('multer');
+const path = require('path');
+
+// Configuración de Multer para el almacenamiento de archivos
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.join(__dirname, '..', 'uploads')); // Carpeta donde se guardarán los archivos subidos
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname); // Nombre del archivo
+    }
+  });
+  
+  const upload = multer({ storage: storage });
 
 
 router.get('/', vistaPrincipal)
@@ -23,8 +38,14 @@ router.get('/lista-administrativo', vistaListaAdministrativo);
 router.get('/lista-docente', vistaListaDocente);
 router.get('/lista-federal', vistaListaFederal);
 router.get('/info-personal', vistaInfoPersonal);
+router.get('/agregar-personal', vistaAgregarpersonal);
 
-// Conexión a la base de datos
+
+router.post('/personal/agregar', upload.single('imagen'), agregarPersonal);
+
+
+
+// Ruta para consultar los datos (ya existente)
 router.get('/lista-general', (req, res) => {
     connection.query('SELECT * FROM personal', (err, results) => {
         if (err) {

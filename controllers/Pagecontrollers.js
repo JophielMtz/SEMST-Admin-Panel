@@ -71,9 +71,9 @@ const vistaListaGeneral = (req, res) => {
             c.descripcion AS cargo
         FROM 
             personal p
-        INNER JOIN 
+        LEFT JOIN 
             detalle_laboral dl ON p.personal_id = dl.personal_id
-        INNER JOIN 
+        LEFT JOIN 
             cargos c ON dl.cargo_id = c.cargo_id
     `, (err, results) => {
         if (err) {
@@ -85,6 +85,7 @@ const vistaListaGeneral = (req, res) => {
         }
     });
 };
+
 
 
 
@@ -104,7 +105,45 @@ const vistaInfoPersonal = (req, res) => {
     res.render('info-personal');
 }
 
+const vistaAgregarpersonal = (req, res) => {
+    res.render('agregar-personal');
+  };
 
+  const agregarPersonal = (req, res) => {
+    console.log('req.body:', req.body); // Datos del formulario
+    console.log('req.file:', req.file); // Información del archivo subido
+  
+    // Extraer los datos del formulario
+    const {
+      rfc,
+      nombre,
+      apellido_paterno,
+      apellido_materno,
+      fecha_nacimiento,
+      sexo,
+      curp,
+      telefono,
+      correo,
+      direccion
+    } = req.body;
+  
+    // Obtener el nombre del archivo subido (si existe)
+    const imagen = req.file ? req.file.filename : null;
+  
+    // Consulta SQL incluyendo la columna 'imagen'
+    const sql = 'INSERT INTO personal (rfc, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, sexo, curp, telefono, correo, direccion, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  
+    // Ejecutar la consulta
+    connection.query(sql, [rfc, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, sexo, curp, telefono, correo, direccion, imagen], (err, result) => {
+      if (err) {
+        console.error('Error al insertar datos en la base de datos:', err);
+        return res.status(500).send('Error al insertar datos en la base de datos');
+      }
+      res.redirect('Datos recibidos correctamente');
+    });
+  };
+  
+  
 
 
 module.exports = {
@@ -126,7 +165,8 @@ module.exports = {
     vistaListaAdministrativo,
     vistaListaDocente,
     vistaListaFederal,
-    vistaInfoPersonal
-
+    vistaInfoPersonal,
+    vistaAgregarpersonal,
+    agregarPersonal  // Exporta para manejar el POST de agregar personal
 
 }

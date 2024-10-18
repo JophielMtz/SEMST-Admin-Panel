@@ -1335,7 +1335,7 @@ body[data-background-color="dark"] .border-top {
   background: #fafafe; }
 
 .sidebar[data-background-color="dark"] {
-  background: #1a2035 !important; }
+  background: #13010c !important; }
   .sidebar[data-background-color="dark"] .user {
     border-color: rgba(181, 181, 181, 0.1) !important; }
     .sidebar[data-background-color="dark"] .user .info a > span {

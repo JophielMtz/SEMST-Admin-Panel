@@ -1,8 +1,21 @@
 const express = require('express') 
 const path = require('path');
+const multer = require('multer');
+
+// Configuración de Multer para el almacenamiento de archivos
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'uploads')); // Carpeta donde se guardarán los archivos subidos
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Nombre del archivo
+  }
+});
+
+const upload = multer({ storage: storage });
+
 const expressLayouts = require('express-ejs-layouts');
-// Importar la conexión a la base de datos
-const db = require('./src/config/db');  // Aquí importas la conexión
+const db = require('./src/config/db');  // Importar la conexión a la base de datos
 
 const app = express();
 
@@ -11,12 +24,12 @@ app.use(expressLayouts);
 
 app.use(express.static(path.join(__dirname, 'public'))); 
 
+// Middleware para procesar datos del formulario
+app.use(express.urlencoded({ extended: true }));
 
 const router = require('./routes/router')
 app.use(router);
 
-
-
-app.listen (3000, ()=> {
+app.listen(3000, () => {
     console.log('server up running in http://localhost:3000/')
-})
+});

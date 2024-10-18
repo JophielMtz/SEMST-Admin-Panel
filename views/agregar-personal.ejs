@@ -1,0 +1,169 @@
+<div class="cotainer mt-5">
+    <div class="page-inner">
+        <div class="pt-2 pb-4">
+            <div>
+                <h3 class="col-md-10 text-center fw-bold mt-5">Dashboard</h3>
+                <h6 class="op-7 mb-2">Free Bootstrap 5 Admin Dashboard</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="card card-round">
+                    <div class="card-header">
+                        <div class="card-head-row">
+                            <div class="card-title">User Statistics</div>
+                        </div>
+                    </div>
+                    <!--Formulario-->
+                    <div class="card-body">
+                        <form id="formAgregarPersonal" method="POST" action="/personal/agregar"
+                            enctype="multipart/form-data" class="needs-validation ps-3" novalidate>
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingresa el nombre" required>
+                                <div class="invalid-feedback">Por favor ingresa el nombre.</div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 mb-3">
+                                    <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
+                                    <input type="text" class="form-control" id="apellido_paterno"
+                                        name="apellido_paterno" placeholder="Ingresa el apellido paterno" required />
+                                    <div class="invalid-feedback">
+                                        Por favor ingresa el apellido paterno.
+                                    </div>
+                                </div>
+
+                                <div class="col-6 mb-3">
+                                    <label for="apellido_materno" class="form-label">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="apellido_materno"
+                                        name="apellido_materno" placeholder="Ingresa el apellido materno" required />
+                                    <div class="invalid-feedback">
+                                        Por favor ingresa el apellido materno.
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="mb-3">
+                                <label for="direccion" class="form-label">Dirección</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion"
+                                    placeholder="Ingresa la dirección" required />
+                                <div class="invalid-feedback">
+                                    Por favor ingresa la dirección.
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 mb-3">
+                                    <label for="rfc" class="form-label">RFC</label>
+                                    <input type="text" class="form-control" id="rfc" name="rfc"
+                                        placeholder="Ingresa el RFC" maxlength="13" pattern="[A-Za-z0-9]{13}"
+                                        required />
+                                    <div class="invalid-feedback">
+                                        Favor ingresa el RFC correctamente.
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12 col-md-6 mb-3">
+                                    <label for="curp" class="form-label">CURP</label>
+                                    <input type="text" class="form-control" id="curp" name="curp"
+                                        placeholder="Ingresa el CURP" required />
+                                    <div class="invalid-feedback">Por favor ingresa el CURP.</div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="correo" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="correo" name="correo"
+                                    placeholder="Ingresa el correo" required />
+                                <div class="invalid-feedback">
+                                    Por favor ingresa un correo electrónico válido.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control" id="telefono" name="telefono"
+                                    placeholder="Ingresa el teléfono" required />
+                                <div class="invalid-feedback">
+                                    Por favor ingresa el número de teléfono.
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Género</label><br />
+                                <div class="d-flex">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault1" value="Hombre" required />
+                                        <label class="form-check-label" for="flexRadioDefault1">Hombre</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="sexo" id="flexRadioDefault2" value="Mujer" required />
+                                        <label class="form-check-label" for="flexRadioDefault2">Mujer</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento"
+                                    required />
+                                <div class="invalid-feedback">
+                                    Por favor selecciona la fecha de nacimiento.
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <div class="avatar avatar-xxl">
+                                    <img id="previewImage"
+                                        src="https://i.pinimg.com/736x/21/20/b0/2120b058cb9946e36306778243eadae5.jpg"
+                                        alt="Imagen seleccionada" class="avatar-img rounded-circle mb-3" />
+                                </div>
+                                <input type="file" id="subirimagen" name="imagen" class="d-none" accept="image/*" />
+                                <button type="button" class="btn btn-primary btn-round w-80 ms-4"
+                                    onclick="document.getElementById('subirimagen').click()">
+                                    Subir imagen
+                                </button>
+                            </div>
+
+                            <div class="card-header"></div>
+
+                            <button type="submit" class="btn btn-primary w-50 d-block mx-auto mt-4">
+                                <span class="btn-label"><i class="fas fa-upload me-2"></i></span>
+                                Subir Datos
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-success" id="alert_demo_success">Mostrar Alerta</button>
+
+
+<!-- Script para extraer fecha de nacimiento del RFC -->
+<script>
+    document.getElementById("rfc").addEventListener("input", function () {
+        const rfc = this.value;
+
+        // Verificamos si el RFC tiene al menos 10 caracteres (para AAMMDD)
+        if (rfc.length >= 10) {
+            const year = rfc.substring(4, 6);
+            const month = rfc.substring(6, 8);
+            const day = rfc.substring(8, 10);
+
+            // Aquí asumimos que el año 00-99 es del 1900-1999, puedes ajustar si hay RFC de personas más jóvenes
+            const fullYear = parseInt(year) > 30 ? `19${year}` : `20${year}`;
+
+            // Formateamos la fecha de nacimiento
+            const fechaNacimiento = `${fullYear}-${month}-${day}`;
+
+            // Asignamos el valor al campo de fecha de nacimiento
+            document.getElementById("fecha_nacimiento").value = fechaNacimiento;
+        }
+    });
+</script>

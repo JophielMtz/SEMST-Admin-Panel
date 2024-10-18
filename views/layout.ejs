@@ -576,6 +576,10 @@
           
             <!-- Sweet Alert -->
             <script src="js/plugin/sweetalert/sweetalert.min.js"></script>
+			<!-- Incluye SweetAlert en tu página -->
+<script src="js/plugin/sweetalert/sweetalert.min.js"></script>
+
+
           
             <!-- Kaiadmin JS -->
             <script src="js/kaiadmin.min.js"></script>
@@ -627,5 +631,27 @@
 					});
 				});
 			</script>
+			<script>
+				document.addEventListener("DOMContentLoaded", function() {
+					// Función para mostrar la vista previa de la imagen seleccionada
+					function previewImage(event) {
+						const input = event.target;
+						const reader = new FileReader();
+			
+						reader.onload = function() {
+							const preview = document.getElementById('previewImage');
+							preview.src = reader.result;  // Actualiza la imagen de vista previa
+						};
+			
+						if (input.files && input.files[0]) {
+							reader.readAsDataURL(input.files[0]);  // Lee la imagen seleccionada
+						}
+					}
+			
+					// Vincular la función previewImage al input file
+					document.getElementById('subirimagen').addEventListener('change', previewImage);
+				});
+			</script>
+			
           </body>
           </html>
