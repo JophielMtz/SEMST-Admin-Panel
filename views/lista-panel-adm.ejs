@@ -4,8 +4,7 @@
       <div class="col-sm-12">
         <div class="card">
           <div
-            class="card-header d-flex justify-content-between align-items-center"
-          >
+            class="card-header d-flex justify-content-between align-items-center">
             <h4 class="card-title">Lista de personal</h4>
             <button
               type="button"
@@ -69,13 +68,12 @@
                       <div
                         class="d-flex align-items-center justify-content-center"
                       >
-                        <a
-                          class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center p-1 me-2"
-                          data-bs-toggle="tooltip"
-                          data-bs-placement="top"
-                          title="Editar"
-                          href="#"
-                        >
+                      <a
+                      href="#"
+                      class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center p-1 me-2 editar-btn"
+                      data-id="<%= persona.personal_id %>"
+                      title="Editar"
+                    >
                           <span class="btn-inner">
                             <svg
                               class="icon-12"
@@ -166,3 +164,106 @@
     </div>
   </div>
 </div>
+<!-- Modal para editar personal -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-lg"> <!-- Puedes ajustar el tamaño del modal -->
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="editarModalLabel">Editar Información</h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+       </div>
+       <div class="modal-body" id="editarModalBody">
+         <!-- Aquí se cargará el formulario de edición -->
+       </div>
+     </div>
+   </div>
+ </div>
+ 
+
+ <script>
+   document.addEventListener('DOMContentLoaded', function () {
+     // Seleccionar todos los botones de editar
+     const editButtons = document.querySelectorAll('.editar-btn');
+ 
+     editButtons.forEach(function (button) {
+       button.addEventListener('click', function (e) {
+         e.preventDefault(); // Prevenir el comportamiento por defecto del <a>
+ 
+         const personalId = this.getAttribute('data-id');
+ 
+         // Hacer una solicitud AJAX para obtener el formulario
+         fetch(`/editar-personal/${personalId}`, {
+           headers: {
+             'X-Requested-With': 'XMLHttpRequest', // Indicar que es una solicitud AJAX
+           },
+         })
+           .then((response) => {
+             if (!response.ok) {
+               throw new Error('Error en la respuesta de la red');
+             }
+             return response.text();
+           })
+           .then((html) => {
+             // Insertar el formulario en el modal
+             document.getElementById('editarModalBody').innerHTML = html;
+ 
+             // Mostrar el modal
+             const modalEditarPersonal = new bootstrap.Modal(document.getElementById('editarModal'));
+             modalEditarPersonal.show();
+ 
+             // Agregar listener al formulario para manejar el envío
+             const form = document.getElementById('formEditarPersonal');
+             form.addEventListener('submit', function (e) {
+               e.preventDefault(); // Prevenir el comportamiento por defecto
+ 
+               // Obtener los datos del formulario
+               const formData = new FormData(form);
+ 
+               // Convertir FormData a un objeto simple
+               const data = {};
+               formData.forEach((value, key) => {
+                 data[key] = value;
+               });
+ 
+               console.log('Datos a enviar:', data); // Para depuración
+ 
+               // Hacer una solicitud AJAX para enviar los datos en formato JSON
+               fetch(form.action, {
+                 method: 'POST',
+                 headers: {
+                   'Content-Type': 'application/json',
+                 },
+                 body: JSON.stringify(data),
+               })
+                 .then((response) => response.json())
+                 .then((data) => {
+                   if (data.success) {
+                     // Cerrar el modal
+                     modalEditarPersonal.hide();
+ 
+                     // Actualizar la tabla o notificar al usuario
+                     alert(data.message);
+                     location.reload(); // Recargar la página para ver los cambios
+                   } else {
+                     alert(data.message); // Mostrar el mensaje de error
+                   }
+                 })
+                 .catch((error) => {
+                   console.error('Error al enviar el formulario:', error);
+                   alert('Ocurrió un error al procesar la solicitud.');
+                 });
+             });
+           })
+           .catch((error) => {
+             console.error('Error al cargar el formulario de edición:', error);
+             alert('Ocurrió un error al cargar el formulario de edición.');
+           });
+       });
+     });
+   });
+ </script>
+ 
+ 
+ 
+ 
+   

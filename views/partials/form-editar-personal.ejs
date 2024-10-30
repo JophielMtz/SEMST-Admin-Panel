@@ -1,0 +1,142 @@
+<!-- Contenedor principal del formulario con pestañas -->
+<div class="container-fluid">
+    <!-- Navegación de pestañas -->
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-general-tab" data-bs-toggle="pill" data-bs-target="#pills-general" type="button" role="tab" aria-controls="pills-general" aria-selected="true">
+                General
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-laboral-tab" data-bs-toggle="pill" data-bs-target="#pills-laboral" type="button" role="tab" aria-controls="pills-laboral" aria-selected="false">
+                Laboral
+            </button>
+        </li>
+    </ul>
+
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content" id="pills-tabContent">
+        <!-- Sección General -->
+        <div class="tab-pane fade show active" id="pills-general" role="tabpanel" aria-labelledby="pills-general-tab">
+            <!-- Formulario - Información General -->
+            <form id="formEditarPersonal" action="/actualizar-personal/<%= personal.personal_id %>" method="POST" class="container-fluid">
+                <!-- Nombre -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="<%= personal.nombre %>" required>
+                </div>
+
+                <!-- Apellido Paterno y Apellido Materno en dos columnas -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
+                        <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno" value="<%= personal.apellido_paterno %>" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="apellido_materno" class="form-label">Apellido Materno</label>
+                        <input type="text" class="form-control" id="apellido_materno" name="apellido_materno" value="<%= personal.apellido_materno %>" required>
+                    </div>
+                </div>
+
+                <!-- RFC, CURP, Fecha de Nacimiento y Teléfono en una estructura similar -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="rfc" class="form-label">RFC</label>
+                        <input type="text" class="form-control" id="rfc" name="rfc" value="<%= personal.rfc %>">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="curp" class="form-label">CURP</label>
+                        <input type="text" class="form-control" id="curp" name="curp" value="<%= personal.curp %>">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" value="<%= personal.fecha_nacimiento %>">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control" id="telefono" name="telefono" value="<%= personal.telefono %>">
+                    </div>
+                </div>
+
+                <!-- Correo y Dirección en filas separadas -->
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="<%= personal.correo %>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" value="<%= personal.direccion %>">
+                </div>
+            </form>
+        </div>
+
+        <!-- Sección Laboral -->
+        <div class="tab-pane fade" id="pills-laboral" role="tabpanel" aria-labelledby="pills-laboral-tab">
+            <!-- Agrega aquí los inputs de prueba para la pestaña laboral -->
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="posicion" class="form-label">Posición</label>
+                    <input type="text" class="form-control" id="posicion" name="posicion">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="departamento" class="form-label">Departamento</label>
+                    <input type="text" class="form-control" id="departamento" name="departamento">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón Guardar Cambios fuera de las pestañas -->
+    <div class="mt-3">
+        <button type="submit" form="formEditarPersonal" class="btn btn-primary w-100">Guardar cambios</button>
+    </div>
+</div>
+
+
+<style>
+/* Estilo del formulario */
+#formEditarPersonal {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff; /* Fondo blanco */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para resaltar */
+}
+
+/* Ajuste de los campos */
+#formEditarPersonal .form-control {
+    border-radius: 5px;
+}
+
+/* Estilo para el label */
+#formEditarPersonal .form-label {
+    font-weight: bold;
+    color: #6c757d;
+}
+
+/* Botón */
+#formEditarPersonal .btn-primary {
+    background-color: #0056b3;
+    border: none;
+    padding: 10px;
+}
+</style>
+
+<script>
+    document.getElementById("miFormulario").addEventListener("submit", function(event) {
+      const inputs = this.querySelectorAll("input");
+      inputs.forEach(input => {
+        if (input.value === "") {
+          input.removeAttribute("name"); // Eliminar el atributo 'name' para no enviarlo
+        }
+      });
+    });
+  </script>
+  

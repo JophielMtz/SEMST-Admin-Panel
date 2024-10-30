@@ -1,4 +1,4 @@
-const express = require('express') 
+const express = require('express');
 const path = require('path');
 const multer = require('multer');
 
@@ -28,9 +28,19 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Middleware para procesar datos del formulario
 app.use(express.urlencoded({ extended: true }));
 
-const router = require('./routes/router')
+// Middleware para procesar datos JSON
+app.use(express.json());
+
+// No es necesario si no usas métodos PUT o DELETE
+// app.use(methodOverride('_method'));
+
+// Exportar 'upload' si lo necesitas en tus rutas
+module.exports = { app, upload };
+
+// Importar y usar las rutas
+const router = require('./routes/router');
 app.use(router);
 
 app.listen(3000, () => {
-    console.log('server up running in http://localhost:3000/')
+  console.log('server up running in http://localhost:3000/');
 });

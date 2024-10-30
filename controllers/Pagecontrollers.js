@@ -1,4 +1,4 @@
-const connection = require("../src/config/db");
+const pool = require("../src/config/db");
 
 const vistaPrincipal = (req, res) => {
   res.render("home");
@@ -56,77 +56,64 @@ const vistaApoyoLentes = (req, res) => {
   res.render("apoyo-lentes");
 };
 
-const vistaListaPanelAdm = (req, res) => {
-  connection.query(
-    `
-        SELECT 
-            p.personal_id, 
-            p.rfc, 
-            p.nombre, 
-            p.apellido_paterno, 
-            p.apellido_materno, 
-            p.edad, 
-            p.telefono, 
-            p.correo, 
-            p.imagen, /* Agregamos la columna imagen */
-            c.descripcion AS cargo
-        FROM 
-            personal p
-        LEFT JOIN 
-            detalle_laboral dl ON p.personal_id = dl.personal_id
-        LEFT JOIN 
-            cargos c ON dl.cargo_id = c.cargo_id
-    `,
-    (err, results) => {
-      if (err) {
-        console.error("Error al hacer la consulta:", err);
-        res.status(500).send("Error en la consulta de la base de datos");
-      } else {
-        // Renderizamos la vista 'lista-panel-adm' con los resultados obtenidos
-        res.render("lista-panel-adm", { personal: results });
-      }
-    }
-  );
+const vistaListaPanelAdm = async (req, res) => {
+  try {
+    const [results] = await pool.query(`
+      SELECT 
+        p.personal_id, 
+        p.rfc, 
+        p.nombre, 
+        p.apellido_paterno, 
+        p.apellido_materno, 
+        p.edad, 
+        p.telefono, 
+        p.correo, 
+        p.imagen,
+        c.descripcion AS cargo
+      FROM 
+        personal p
+      LEFT JOIN 
+        detalle_laboral dl ON p.personal_id = dl.personal_id
+      LEFT JOIN 
+        cargos c ON dl.cargo_id = c.cargo_id
+    `);
+    res.render("lista-panel-adm", { personal: results });
+  } catch (err) {
+    console.error("Error al hacer la consulta:", err);
+    res.status(500).send("Error en la consulta de la base de datos");
+  }
+};
+
+const vistaListaGeneral = async (req, res) => {
+  try {
+    const [results] = await pool.query(`
+      SELECT 
+        p.personal_id, 
+        p.rfc, 
+        p.nombre, 
+        p.apellido_paterno, 
+        p.apellido_materno, 
+        p.edad, 
+        p.telefono, 
+        p.correo, 
+        c.descripcion AS cargo
+      FROM 
+        personal p
+      LEFT JOIN 
+        detalle_laboral dl ON p.personal_id = dl.personal_id
+      LEFT JOIN 
+        cargos c ON dl.cargo_id = c.cargo_id
+    `);
+    res.render("lista-general", { personal: results });
+  } catch (err) {
+    console.error("Error al hacer la consulta:", err);
+    res.status(500).send("Error en la consulta de la base de datos");
+  }
 };
 
 
-
-const vistaListaGeneral = (req, res) => {
-  connection.query(
-    `
-        SELECT 
-            p.personal_id, 
-            p.rfc, 
-            p.nombre, 
-            p.apellido_paterno, 
-            p.apellido_materno, 
-            p.edad, 
-            p.telefono, 
-            p.correo, 
-            c.descripcion AS cargo
-        FROM 
-            personal p
-        LEFT JOIN 
-            detalle_laboral dl ON p.personal_id = dl.personal_id
-        LEFT JOIN 
-            cargos c ON dl.cargo_id = c.cargo_id
-    `,
-    (err, results) => {
-      if (err) {
-        console.error("Error al hacer la consulta:", err);
-        res.status(500).send("Error en la consulta de la base de datos");
-      } else {
-        // Aquí enviamos los datos como 'personal' a la vista
-        res.render("lista-general", { personal: results });
-      }
-    }
-  );
-};
-
-
-
-const vistaListaDocente = (req, res) => {
-  res.render("lista-docente");
+const vistaPerfil = (req, res) => {
+  res.render("perfil");
 };
 
 const vistaListaFederal = (req, res) => {
@@ -138,310 +125,269 @@ const vistaInfoPersonal = (req, res) => {
 };
 
 
-const vistaAgregarpersonal = (req, res) => {
-    const sectorId = req.body.sector_id || null; // Capturamos el sector_id, o null si no se ha seleccionado
+const vistaAgregarpersonal = async (req, res) => {
+    const sectorId = req.body.sector_id || null;
 
-    // Consulta para obtener los centros de trabajo
+    // Define las consultas
     const queryCCT = `
       SELECT c.cct_id, c.centro_clave_trabajo AS nombre, cc.clave_nomina 
       FROM ccts c 
       LEFT JOIN cct_claves cc ON c.cct_id = cc.cct_id
     `;
-
-    // Consulta para obtener los sectores ordenados por sector_id
     const querySector = `
       SELECT sector_id, sector_numero 
       FROM sector
       ORDER BY sector_id ASC
     `;
-
-    // Modificamos la consulta para obtener las zonas filtradas por sector_id
     const queryZona = sectorId
       ? `SELECT zona_id, numero_zona FROM zona WHERE sector_id = ? ORDER BY zona_id ASC`
-      : `SELECT zona_id, numero_zona FROM zona ORDER BY zona_id ASC`; // Si no hay sector, traemos todas las zonas
-
-    // Consulta para obtener comunidades
+      : `SELECT zona_id, numero_zona FROM zona ORDER BY zona_id ASC`;
     const queryComunidad = `
       SELECT comunidad_id, nombre FROM comunidad ORDER BY comunidad_id ASC;
     `;
-
-    // Consulta para obtener municipios (corrigiendo el nombre de la columna)
     const queryMunicipio = `
       SELECT municipio_id, nombre FROM municipio ORDER BY municipio_id ASC;
     `;
 
-    // Ejecutar la consulta de Centros de Trabajo
-    connection.query(queryCCT, (errCCT, resultsCCT) => {
-      if (errCCT) {
-        console.error("Error al hacer la consulta de CCT:", errCCT);
-        return res.status(500).send("Error en la consulta de Centros de Trabajo");
-      }
+    try {
+        // Ejecuta todas las consultas
+        const [resultsCCT] = await pool.query(queryCCT);
+        const [resultsSector] = await pool.query(querySector);
+        const [resultsZona] = await pool.query(queryZona, [sectorId]);
+        const [resultsComunidad] = await pool.query(queryComunidad);
+        const [resultsMunicipio] = await pool.query(queryMunicipio);
 
-      // Ejecutar la consulta de Sectores
-      connection.query(querySector, (errSector, resultsSector) => {
-        if (errSector) {
-          console.error("Error al hacer la consulta de Sectores:", errSector);
-          return res.status(500).send("Error en la consulta de Sectores");
-        }
-
-        // Ejecutar la consulta de Zonas
-        connection.query(queryZona, [sectorId], (errZona, resultsZona) => {
-          if (errZona) {
-            console.error("Error al hacer la consulta de Zonas:", errZona);
-            return res.status(500).send("Error en la consulta de Zonas");
-          }
-
-          // Ejecutar la consulta de Comunidades
-          connection.query(queryComunidad, (errComunidad, resultsComunidad) => {
-            if (errComunidad) {
-              console.error("Error al hacer la consulta de Comunidades:", errComunidad);
-              return res.status(500).send("Error en la consulta de Comunidades");
-            }
-
-            // Ejecutar la consulta de Municipios (ya corregido)
-            connection.query(queryMunicipio, (errMunicipio, resultsMunicipio) => {
-              if (errMunicipio) {
-                console.error("Error al hacer la consulta de Municipios:", errMunicipio);
-                return res.status(500).send("Error en la consulta de Municipios");
-              }
-
-              // Renderizar la vista pasando todos los conjuntos de datos
-              res.render("agregar-personal", { 
-                ccts: resultsCCT, 
-                sectores: resultsSector, 
-                zonas: resultsZona,
-                comunidades: resultsComunidad,
-                municipios: resultsMunicipio
-              });
-            });
-          });
+        // Renderiza la vista con todos los datos obtenidos
+        res.render("agregar-personal", {
+            ccts: resultsCCT,
+            sectores: resultsSector,
+            zonas: resultsZona,
+            comunidades: resultsComunidad,
+            municipios: resultsMunicipio
         });
-      });
-    });
+    } catch (error) {
+        console.error("Error al hacer una de las consultas:", error);
+        res.status(500).send("Error en una de las consultas de base de datos");
+    }
 };
 
-
 //Query agregar personal
-const agregarPersonal = (req, res) => {
-    
-    const {
+const agregarPersonal = async (req, res) => {
+  const {
+    rfc,
+    nombre,
+    apellido_paterno,
+    apellido_materno,
+    fecha_nacimiento,
+    sexo,
+    curp,
+    telefono,
+    correo,
+    direccion,
+    cargo_id,
+    tipo_organizacion_id,
+    fecha_ingreso,
+    fecha_nombramiento,
+    tipo_direccion_id,
+    plaza_id,
+    id_relacion,
+    activo,
+    pausa,
+  } = req.body;
+
+  const imagen = req.file ? req.file.filename : null;
+
+  try {
+    await pool.query('START TRANSACTION'); // Inicia la transacción
+
+    // Primer paso: Insertar en `personal`
+    const insertPersonal = `
+      INSERT INTO personal (rfc, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, sexo, curp, telefono, correo, direccion, imagen) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const [resultPersonal] = await pool.query(insertPersonal, [
       rfc,
       nombre,
       apellido_paterno,
       apellido_materno,
       fecha_nacimiento,
-      sexo, // Capturamos el campo 'sexo' desde el formulario
+      sexo,
       curp,
       telefono,
       correo,
       direccion,
+      imagen,
+    ]);
+
+    const personal_id = resultPersonal.insertId; // Obtener el `personal_id` generado
+
+    // Segundo paso: Insertar en `detalle_laboral`
+    const insertDetalleLaboral = `
+      INSERT INTO detalle_laboral (personal_id, cargo_id, id_relacion, tipo_organizacion_id, fecha_ingreso, fecha_nombramiento, tipo_direccion_id, plaza_id, activo, pausa) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    await pool.query(insertDetalleLaboral, [
+      personal_id,
       cargo_id,
+      id_relacion,
       tipo_organizacion_id,
       fecha_ingreso,
       fecha_nombramiento,
       tipo_direccion_id,
       plaza_id,
-      id_relacion, // Relacionar con la tabla ubic_ccts
-      activo, // Opcional, puedes mantener el valor por defecto
-      pausa, // Opcional, puedes mantener el valor por defecto
-    } = req.body;
-  
-    const imagen = req.file ? req.file.filename : null;
+      activo || 1,
+      pausa || 0,
+    ]);
 
-    // Añadimos los console.log para verificar los datos recibidos
-    console.log("Datos recibidos del formulario:", req.body); 
-    console.log("Imagen recibida:", req.file); 
-  
-    connection.beginTransaction((err) => {
-      if (err) {
-        return res.status(500).send("Error al iniciar la transacción");
-      }
-
-      // Primer paso: Insertar en la tabla `personal`
-      const insertPersonal =
-        "INSERT INTO personal (rfc, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, sexo, curp, telefono, correo, direccion, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      const personalData = [
-        rfc,
-        nombre,
-        apellido_paterno,
-        apellido_materno,
-        fecha_nacimiento,
-        sexo, // Asegúrate de que el campo 'sexo' no sea NULL
-        curp,
-        telefono,
-        correo,
-        direccion,
-        imagen,
-      ];
-  
-      connection.query(insertPersonal, personalData, (err, result) => {
-        if (err) {
-          console.error("Error al insertar datos en personal:", err);
-          return connection.rollback(() => {
-            res.status(500).send("Error al insertar datos en personal");
-          });
-        }
-
-        const personal_id = result.insertId; // Obtener el `personal_id` generado
-  
-        // Segundo paso: Insertar en la tabla `detalle_laboral`
-        const insertDetalleLaboral =
-          "INSERT INTO detalle_laboral (personal_id, cargo_id, id_relacion, tipo_organizacion_id, fecha_ingreso, fecha_nombramiento, tipo_direccion_id, plaza_id, activo, pausa) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        const detalleLaboralData = [
-          personal_id,
-          cargo_id,
-          id_relacion, // La relación con la tabla ubic_ccts
-          tipo_organizacion_id,
-          fecha_ingreso,
-          fecha_nombramiento,
-          tipo_direccion_id,
-          plaza_id,
-          activo || 1,
-          pausa || 0,
-        ];
-  
-        connection.query(insertDetalleLaboral, detalleLaboralData, (err, result) => {
-          if (err) {
-            console.error("Error al insertar datos en detalle laboral:", err);
-            return connection.rollback(() => {
-              res.status(500).send("Error al insertar datos en detalle laboral");
-            });
-          }
-  
-          // Confirmar la transacción si todo es exitoso
-          connection.commit((err) => {
-            if (err) {
-              console.error("Error al hacer commit de la transacción:", err);
-              return connection.rollback(() => {
-                res.status(500).send("Error al hacer commit de la transacción");
-              });
-            }
-            res.send("Datos recibidos correctamente"); // Enviar la respuesta
-          });
-        });
-      });
-    });
-};
-
-const actualizarPersonal = async (req, res) => {
-  const { id } = req.params;
-  const {
-    nombre,
-    apellido_paterno,
-    apellido_materno,
-    direccion,
-    correo,
-    rfc,
-    curp,
-    fecha_nacimiento,
-    telefono,
-    sexo,
-    sector_id,
-    zona_id,
-    municipio_id,
-    comunidad_id,
-    cct_id,
-    cargo_id,
-    tipo_direccion_id,
-    tipo_organizacion_id,
-    plaza_id,
-    esquema,
-    fecha_ingreso,
-    fecha_nombramiento,
-    activo
-  } = req.body;
-
-  // Verifica si hay una imagen nueva
-  const imagen = req.file ? req.file.filename : null;
-
-  // Construye la consulta de actualización
-  const queryPersonal = `
-    UPDATE personal SET
-      nombre = ?,
-      apellido_paterno = ?,
-      apellido_materno = ?,
-      direccion = ?,
-      correo = ?,
-      rfc = ?,
-      curp = ?,
-      fecha_nacimiento = ?,
-      telefono = ?,
-      sexo = ?,
-      imagen = COALESCE(?, imagen) -- Solo actualizar si hay una nueva imagen
-    WHERE personal_id = ?
-  `;
-
-  const personalData = [
-    nombre,
-    apellido_paterno,
-    apellido_materno,
-    direccion,
-    correo,
-    rfc,
-    curp,
-    fecha_nacimiento,
-    telefono,
-    sexo,
-    imagen,
-    id
-  ];
-
-  const queryDetalleLaboral = `
-    UPDATE detalle_laboral SET
-      sector_id = ?,
-      zona_id = ?,
-      municipio_id = ?,
-      comunidad_id = ?,
-      cct_id = ?,
-      cargo_id = ?,
-      tipo_direccion_id = ?,
-      tipo_organizacion_id = ?,
-      plaza_id = ?,
-      esquema = ?,
-      fecha_ingreso = ?,
-      fecha_nombramiento = ?,
-      activo = ?
-    WHERE personal_id = ?
-  `;
-
-  const detalleLaboralData = [
-    sector_id,
-    zona_id,
-    municipio_id,
-    comunidad_id,
-    cct_id,
-    cargo_id,
-    tipo_direccion_id,
-    tipo_organizacion_id,
-    plaza_id,
-    esquema,
-    fecha_ingreso,
-    fecha_nombramiento,
-    activo,
-    id
-  ];
-
-  try {
-    // Inicia una transacción
-    await pool.promise().beginTransaction();
-
-    // Actualiza los datos en la tabla `personal`
-    await pool.promise().query(queryPersonal, personalData);
-
-    // Actualiza los datos en la tabla `detalle_laboral`
-    await pool.promise().query(queryDetalleLaboral, detalleLaboralData);
-
-    // Confirma la transacción
-    await pool.promise().commit();
-    
-    res.send("Actualización exitosa");
+    await pool.query('COMMIT'); // Confirmar la transacción
+    res.send("Datos recibidos correctamente");
   } catch (error) {
-    // Revierte la transacción en caso de error
-    await pool.promise().rollback();
-    console.error("Error al actualizar los datos:", error);
-    res.status(500).send("Error al actualizar los datos");
+    await pool.query('ROLLBACK'); // Revertir la transacción en caso de error
+    console.error("Error al insertar datos en personal y detalle laboral:", error);
+    res.status(500).send("Error al insertar datos en personal y detalle laboral");
   }
 };
+
+
+const vistaEditarPersonal = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Consulta para obtener los datos del personal y detalle laboral
+    const [personalData] = await pool.query(
+      `SELECT 
+          p.personal_id,
+          p.nombre,
+          p.apellido_paterno,
+          p.apellido_materno,
+          p.direccion,
+          p.correo,
+          p.rfc,
+          p.curp,
+          p.fecha_nacimiento,
+          p.telefono,
+          p.sexo,
+          p.imagen,
+          dl.cargo_id,
+          dl.tipo_direccion_id,
+          dl.tipo_organizacion_id,
+          dl.plaza_id,
+          dl.fecha_ingreso,
+          dl.fecha_nombramiento,
+          dl.activo,
+          uc.zona_id,
+          uc.sector_id,
+          uc.municipio_id,
+          uc.comunidad_id,
+          uc.cct_id
+       FROM personal p
+       LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
+       LEFT JOIN ubic_ccts uc ON dl.id_relacion = uc.id_relacion
+       WHERE p.personal_id = ?
+      `,
+      [id]
+    );
+
+    // Verificar si se encontró el personal
+    if (personalData.length === 0) {
+      return res.status(404).send("Personal no encontrado");
+    }
+
+    // Detectar si la solicitud es AJAX
+    if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
+      // Renderizar solo el formulario parcial sin layout
+      return res.render("partials/form-editar-personal", { layout: false, personal: personalData[0] });
+    }
+
+    // Renderizar la vista completa con layout
+    return res.render("editar-personal", { personal: personalData[0] });
+  } catch (error) {
+    console.error("Error al obtener los datos del personal:", error);
+    res.status(500).send("Error al cargar la vista de edición");
+  }
+};
+
+
+
+
+const actualizarPersonal = async (req, res) => {
+  console.log('Datos recibidos en el servidor:', req.body);
+  const { id } = req.params; // ID del personal a actualizar
+  const datosActualizar = req.body;
+
+  // Dividimos los datos para actualizar en `personal`, `detalle_laboral` y `ubic_ccts`
+  const datosPersonal = {};
+  const datosDetalleLaboral = {};
+  const datosUbicacion = {};
+
+  // Separar los datos de acuerdo a las columnas de cada tabla
+  for (const campo in datosActualizar) {
+    const valor = datosActualizar[campo];
+    if (valor) { // Solo incluye si el valor no está vacío
+      if (["nombre", "apellido_paterno", "apellido_materno", "direccion", "correo", "rfc", "curp", "fecha_nacimiento", "telefono", "sexo", "imagen"].includes(campo)) {
+        datosPersonal[campo] = valor;
+      } else if (["cargo_id", "tipo_organizacion_id", "activo", "fecha_ingreso", "fecha_nombramiento", "tipo_direccion_id", "plaza_id", "id_relacion"].includes(campo)) {
+        datosDetalleLaboral[campo] = valor;
+      } else if (["zona_id", "sector_id", "comunidad_id", "municipio_id", "cct_id"].includes(campo)) {
+        datosUbicacion[campo] = valor;
+      }
+    }
+  }
+
+  let connection;
+
+  try {
+    connection = await pool.getConnection();
+    await connection.beginTransaction();
+
+    if (Object.keys(datosPersonal).length > 0) {
+      const camposPersonal = Object.keys(datosPersonal).map(campo => `${campo} = ?`).join(", ");
+      const valoresPersonal = [...Object.values(datosPersonal), id];
+      const queryPersonal = `UPDATE personal SET ${camposPersonal} WHERE personal_id = ?`;
+      await connection.query(queryPersonal, valoresPersonal);
+    }
+
+    // Paso 2: Buscar `ubic_ccts` existente
+    let idRelacion;
+    if (Object.keys(datosUbicacion).length > 0) {
+      // Verificamos si existe un registro en `ubic_ccts` que coincida con la ubicación proporcionada
+      const camposUbicacion = Object.keys(datosUbicacion).map(campo => `${campo} = ?`).join(" AND ");
+      const valoresUbicacion = Object.values(datosUbicacion);
+      const queryVerificarUbicacion = `SELECT id_relacion FROM ubic_ccts WHERE ${camposUbicacion} LIMIT 1`;
+      const [rowsUbicacion] = await connection.query(queryVerificarUbicacion, valoresUbicacion);
+
+      if (rowsUbicacion.length > 0) {
+        idRelacion = rowsUbicacion[0].id_relacion;
+      } else {
+        // Si no existe una ubicación que coincida, retornamos un error en JSON
+        return res.status(400).json({ success: false, message: "La combinación de zona, sector, comunidad, municipio y CCT especificada no existe." });
+      }
+    }
+
+    // Paso 3: Actualizar `detalle_laboral` con el `id_relacion` existente en `ubic_ccts`
+    if (Object.keys(datosDetalleLaboral).length > 0 || idRelacion) {
+      if (idRelacion) datosDetalleLaboral.id_relacion = idRelacion;
+      const camposDetalle = Object.keys(datosDetalleLaboral).map(campo => `${campo} = ?`).join(", ");
+      const valoresDetalle = [...Object.values(datosDetalleLaboral), id];
+      const queryDetalleLaboral = `UPDATE detalle_laboral SET ${camposDetalle} WHERE personal_id = ?`;
+      await connection.query(queryDetalleLaboral, valoresDetalle);
+    }
+
+    // Confirmar la transacción
+    await connection.commit();
+
+    // Enviar respuesta JSON indicando éxito
+    res.json({ success: true, message: "Actualización exitosa" });
+
+  } catch (error) {
+    if (connection) await connection.rollback();
+    console.error("Error al actualizar los datos:", error);
+    res.status(500).json({ success: false, message: "Error al actualizar los datos" });
+  } finally {
+    if (connection) connection.release();
+  }
+};
+
 
 
 
@@ -467,10 +413,11 @@ module.exports = {
   vistaApoyoLentes,
   vistaListaGeneral,
   vistaListaPanelAdm,
-  vistaListaDocente,
+  vistaPerfil,
   vistaListaFederal,
   vistaInfoPersonal,
   vistaAgregarpersonal,
-  agregarPersonal, // Exporta para manejar el POST de agregar personal
-  actualizarPersonal
+  agregarPersonal,
+  actualizarPersonal,
+  vistaEditarPersonal
 };

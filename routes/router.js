@@ -1,7 +1,7 @@
 const express = require('express');
-const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaListaDocente, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, agregarPersonal, actualizarPersonal  } = require('../controllers/Pagecontrollers');
+const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, agregarPersonal, actualizarPersonal, vistaEditarPersonal  } = require('../controllers/Pagecontrollers');
 const router = express.Router();
-const connection = require('../src/config/db'); //Ruta de db
+const pool = require('../src/config/db'); //Ruta de db
 
 const multer = require('multer');
 const path = require('path');
@@ -9,7 +9,7 @@ const path = require('path');
 // Configuración de Multer para el almacenamiento de archivos
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, '..', 'uploads')); // Carpeta donde se guardarán los archivos subidos
+      cb(null, path.join(__dirname, '..', 'uploads')); 
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname); // Nombre del archivo
@@ -35,14 +35,15 @@ router.get('/beca-comision', vistaBecaComision);
 router.get('/apoyo-lentes', vistaApoyoLentes);
 router.get('/lista-general', vistaListaGeneral);
 router.get('/lista-panel-adm', vistaListaPanelAdm);
-router.get('/lista-docente', vistaListaDocente);
+router.get('/perfil', vistaPerfil);
 router.get('/lista-federal', vistaListaFederal);
 router.get('/info-personal', vistaInfoPersonal);
 router.get('/agregar-personal', vistaAgregarpersonal);
+router.get('/editar-personal', vistaEditarPersonal);
 
 
 // Ruta para obtener zonas, comunidades, municipios y CCT basados en sector y filtros opcionales
-router.get('/obtener-datos-sector/:sectorId', (req, res) => {
+router.get('/obtener-datos-sector/:sectorId', async (req, res) => {
   const sectorId = req.params.sectorId;
   const { zonaId, comunidadId, municipioId } = req.query;
 
@@ -81,11 +82,8 @@ router.get('/obtener-datos-sector/:sectorId', (req, res) => {
     params.push(municipioId);
   }
 
-  connection.query(queryZonaCCT, params, (err, results) => {
-    if (err) {
-      console.error('Error al obtener los datos:', err);
-      return res.status(500).json({ error: 'Error al obtener los datos del sector' });
-    }
+  try {
+    const [results] = await pool.query(queryZonaCCT, params);
 
     const response = {
       zonas: [],
@@ -127,11 +125,15 @@ router.get('/obtener-datos-sector/:sectorId', (req, res) => {
     });
 
     res.json(response);
-  });
+  } catch (err) {
+    console.error('Error al obtener los datos:', err);
+    res.status(500).json({ error: 'Error al obtener los datos del sector' });
+  }
 });
 
+
 // Ruta para obtener comunidades y municipios por zona y sector
-router.get('/obtener-comunidad-municipio/:zonaId', (req, res) => {
+router.get('/obtener-comunidad-municipio/:zonaId', async (req, res) => {
   const zonaId = req.params.zonaId;
   const sectorId = req.query.sectorId;
 
@@ -155,11 +157,8 @@ router.get('/obtener-comunidad-municipio/:zonaId', (req, res) => {
     WHERE uc.zona_id = ? AND uc.sector_id = ?
   `;
 
-  connection.query(queryComunidadesMunicipiosCCT, [zonaId, sectorId], (err, results) => {
-    if (err) {
-      console.error('Error al ejecutar la consulta SQL:', err);
-      return res.status(500).json({ error: 'Error al obtener los datos de la zona.', details: err.message });
-    }
+  try {
+    const [results] = await pool.query(queryComunidadesMunicipiosCCT, [zonaId, sectorId]);
 
     const response = {
       comunidades: [],
@@ -194,11 +193,15 @@ router.get('/obtener-comunidad-municipio/:zonaId', (req, res) => {
     });
 
     res.json(response);
-  });
+  } catch (err) {
+    console.error('Error al ejecutar la consulta SQL:', err);
+    res.status(500).json({ error: 'Error al obtener los datos de la zona.', details: err.message });
+  }
 });
 
+
 // Ruta para obtener comunidades por municipio y sector
-router.get('/obtener-comunidades-por-municipio/:municipioId', (req, res) => {
+router.get('/obtener-comunidades-por-municipio/:municipioId', async (req, res) => {
   const municipioId = req.params.municipioId;
   const sectorId = req.query.sectorId;
 
@@ -216,23 +219,24 @@ router.get('/obtener-comunidades-por-municipio/:municipioId', (req, res) => {
     WHERE uc.municipio_id = ? AND uc.sector_id = ?
   `;
 
-  connection.query(queryComunidadesPorMunicipio, [municipioId, sectorId], (err, results) => {
-    if (err) {
-      console.error('Error al ejecutar la consulta SQL:', err);
-      return res.status(500).json({ error: 'Error al obtener las comunidades por municipio y sector.', details: err.message });
-    }
-
+  try {
+    // Ejecutar la consulta utilizando pool y await
+    const [results] = await pool.query(queryComunidadesPorMunicipio, [municipioId, sectorId]);
     const comunidades = results.map(row => ({
       comunidad_id: row.comunidad_id,
       nombre_comunidad: row.nombre_comunidad
     }));
 
     res.json({ comunidades });
-  });
+  } catch (err) {
+    console.error('Error al ejecutar la consulta SQL:', err);
+    res.status(500).json({ error: 'Error al obtener las comunidades por municipio y sector.', details: err.message });
+  }
 });
 
+
 // Ruta para obtener CCTs basadas en múltiples filtros
-router.get('/obtener-ccts', (req, res) => {
+router.get('/obtener-ccts', async (req, res) => {
   const { sectorId, zonaId, comunidadId, municipioId } = req.query;
 
   // Validar que todos los parámetros estén presentes
@@ -257,20 +261,19 @@ router.get('/obtener-ccts', (req, res) => {
 
   const params = [sectorId, zonaId, comunidadId, municipioId];
 
-  connection.query(queryCCT, params, (err, results) => {
-    if (err) {
-      console.error('Error al obtener las CCTs:', err);
-      return res.status(500).json({ error: 'Error al obtener las CCTs.', details: err.message });
-    }
-
+  try {
+    const [results] = await pool.query(queryCCT, params);
     const ccts = results.map(row => ({
       cct_id: row.cct_id,
       centro_clave_trabajo: row.centro_clave_trabajo
     }));
-
     res.json({ ccts });
-  });
+  } catch (err) {
+    console.error('Error al obtener las CCTs:', err);
+    res.status(500).json({ error: 'Error al obtener las CCTs.', details: err.message });
+  }
 });
+
 
 
 router.post('/personal/agregar', upload.single('imagen'), agregarPersonal);
@@ -287,7 +290,11 @@ router.get('/lista-general', (req, res) => {
     });
 });
 
-router.put("/personal/editar/:id", actualizarPersonal);
+// Ruta para acceder a la vista de edición del personal con un parámetro `id`
+router.get('/editar-personal/:id', vistaEditarPersonal);
+router.put('/editar-personal/:id', actualizarPersonal);
+router.post('/actualizar-personal/:id', actualizarPersonal);
+
 
 
 
@@ -296,18 +303,14 @@ router.delete('/personal/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-      // Si necesitas eliminar de detalle_laboral primero
-      await connection.promise().query('DELETE FROM detalle_laboral WHERE personal_id = ?', [id]);
+    await pool.query('DELETE FROM detalle_laboral WHERE personal_id = ?', [id]);
+    await pool.query('DELETE FROM personal WHERE personal_id = ?', [id]);
 
-      // Luego, eliminar de personal
-      await connection.promise().query('DELETE FROM personal WHERE personal_id = ?', [id]);
-
-      console.log('Personal eliminado correctamente');
-
-      res.status(200).json({ success: true, message: 'Registro eliminado correctamente' });
+    console.log('Personal eliminado correctamente');
+    res.status(200).json({ success: true, message: 'Registro eliminado correctamente' });
   } catch (error) {
-      console.error('Error al eliminar el registro:', error);
-      res.status(500).json({ success: false, message: 'Error al eliminar el registro' });
+    console.error('Error al eliminar el registro:', error);
+    res.status(500).json({ success: false, message: 'Error al eliminar el registro' });
   }
 });
 
