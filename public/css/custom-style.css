@@ -1,3 +1,32 @@
+.form-group.col-md-10 {
+  position: relative; /* Asegura que los elementos posicionados dentro se alineen correctamente */
+}
+
+
+
+.list-group-item {
+  white-space: nowrap; /* Asegura que el texto esté en una sola línea */
+  overflow: hidden; /* Oculta cualquier contenido que exceda el ancho */
+  text-overflow: ellipsis; /* Muestra "..." al final del texto desbordado */
+  padding: 8px 12px; /* Ajusta el padding para una mejor experiencia visual */
+  font-size: 14px; /* Tamaño de fuente legible */
+  line-height: 1.5; /* Mejora la legibilidad */
+}
+
+.list-group-item-action {
+  cursor: pointer; /* Añade un indicador visual de interactividad */
+  transition: background-color 0.2s ease; /* Transición suave al pasar el cursor */
+}
+
+.list-group-item-action:hover {
+  background-color: #f8f9fa; /* Cambia el fondo al pasar el cursor */
+}
+
+
+
+
+
+
 /* Cambia el color del switch cuando está en pausa */
 .form-check-input.bg-secondary {
     background-color: #6c757d;
@@ -10,3 +39,254 @@
     border-color: #0d6efd;
   }
   
+  .modal-header {
+    background-color: #0d6efd; /* Cambia el color de fondo */
+    color: white; /* Cambia el color del texto a blanco */
+}
+
+.modal-header .btn-close {
+    filter: invert(1); /* Cambia el color de la cruz a blanco */
+}
+
+
+  /* Fondo degradado */
+.gradient-bg {
+  background: linear-gradient(to bottom, #2c50c9, #2942a4);
+  padding: 20px;
+  position: relative;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Estilo de la imagen circular con borde blanco y sombra */
+/* Fondo degradado */
+.gradient-bg {
+  background: linear-gradient(to bottom, #2c50c9, #2942a4);
+  padding: 20px;
+  position: relative;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Estilo de la imagen circular centrada */
+.avatar-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  object-fit: cover; /* Asegura que la imagen se recorte sin distorsionarse */
+}
+
+.bg-image {
+  background-image: url('/images/dashboard/top-header.png'); /* Cambia la ruta a la ubicación de tu imagen */
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-position: center; /* Centra la imagen */
+  height: 300px; /* Ajusta según sea necesario */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Alinea los elementos hijos en el centro */
+  justify-content: center; /* Centra los elementos verticalmente */
+}
+
+.av-border {
+  border: 5px solid #fff;
+  box-shadow: 
+    2px 20px 100px rgb(0, 0, 0, 0.5), /* Sombra externa */
+    inset 0 0 10px rgba(0, 0, 0, 0.3); /* Sombra interna */
+}
+
+
+.card {
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 15px 1px rgba(52,40,104,.08);
+}
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e5e9f2;
+    border-radius: .2rem;
+}
+.card-header:first-child {
+    border-radius: calc(.2rem - 1px) calc(.2rem - 1px) 0 0;
+}
+
+.card-header {
+    border-bottom-width: 1px;
+}
+.card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    color: inherit;
+    background-color: #fff;
+    border-bottom: 1px solid #e5e9f2;
+}
+svg:not(:root).svg-inline--fa {
+    overflow: visible;
+}
+
+.svg-inline--fa.fa-fw {
+    width: 1.25em;
+}
+
+.svg-inline--fa.fa-w-16 {
+    width: 1em;
+}
+
+.profile-media {
+  padding: 0.3rem 0; /* Reducir espaciado */
+}
+.profile-media:nth-child(odd) {
+  background-color: #f8f9fa; /* Color claro para el estilo zebra */
+}
+.profile-media:nth-child(even) {
+  background-color: #ffffff; /* Color de fondo normal */
+}
+
+.badge-custom {
+  width: 100px; /* Ajusta el ancho según tus necesidades */
+  display: inline-block; /* Asegura que el ancho tenga efecto */
+  text-align: center; /* Centra el texto */
+  font-size: .8rem; /* Ajusta el tamaño de fuente según tus necesidades */
+  padding: 8px 1px;
+  border-radius: 10px;
+}
+
+/* Sobrescribe el fondo y los bordes del contenedor */
+.dataTables_wrapper {
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 8px; /* Redondea el contenedor general */
+  padding: 16px;
+}
+
+/* Cabecera de la tabla */
+table.dataTable {
+  border-collapse: separate; /* Permite que las celdas respeten el border-radius */
+  border-spacing: 0; /* Quita el espacio entre las celdas */
+  border-radius: 4px; /* Aplica el border-radius a la tabla */
+  overflow: hidden; /* Esconde cualquier contenido que sobresalga */
+}
+
+/* Redondea las esquinas superiores del encabezado */
+table.dataTable thead th:first-child {
+  border-top-left-radius: 12px; /* Esquina superior izquierda */
+}
+
+table.dataTable thead th:last-child {
+  border-top-right-radius: 12px; /* Esquina superior derecha */
+}
+
+/* Redondea las esquinas inferiores de la última fila */
+table.dataTable tfoot th:first-child,
+table.dataTable tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px; /* Esquina inferior izquierda */
+}
+
+table.dataTable tfoot th:last-child,
+table.dataTable tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px; /* Esquina inferior derecha */
+}
+
+/* Hover en filas */
+table.dataTable tbody tr:hover {
+  background-color: #cbdff2;
+  transition: background-color 0.3s ease;
+}
+
+/* Botones de paginación */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  background-color: #007bff;
+  color: white !important;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin: 2px;
+  transition: background-color 0.3s ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background-color: #0056b3;
+  color: white !important;
+}
+
+/* Cabecera de la tabla */
+table.dataTable thead th {
+  background: linear-gradient(to bottom, #2c50c9, #2942a4);
+  color: white;
+  font-weight: bold;
+}
+
+/* Estilo para la clase td.child */
+/* Estilo general para el contenedor de datos expandido */
+/* Estilo general para el contenedor de datos expandido */
+td.child {
+  padding: 15px; /* Espaciado interno más cómodo */
+  background-color: #f7f8fc; /* Fondo más suave para mejor contraste */
+  border: 1px solid #e2e2e2; /* Borde sutil */
+  border-radius: 8px; /* Bordes redondeados */
+  font-size: 14px; /* Tamaño de fuente legible */
+  color: #333; /* Color del texto */
+}
+
+/* Contenedor para cada fila de clave/valor (Diseño base en flex) */
+td.child div {
+  display: flex; /* Alineación en fila */
+  justify-content: space-evenly; /* Clave a la izquierda, valor a la derecha */
+  align-items: center; /* Alineación vertical centrada */
+  padding: 8px 0; /* Espaciado entre filas */
+  border-bottom: 1px dashed #ddd; /* Línea divisoria discreta */
+}
+
+/* Última fila sin borde */
+td.child div:last-child {
+  border-bottom: none;
+}
+
+/* Clave (lado izquierdo) */
+td.child div span:first-child {
+  font-weight: bold; /* Texto más destacado para las claves */
+  color: #4a4a4a; /* Color gris oscuro */
+  flex: 0 0 auto; /* Ocupa solo el espacio necesario */
+  text-align: left;
+  white-space: nowrap; /* Evita saltos de línea */
+}
+
+/* Valor (lado derecho) */
+td.child div span:last-child {
+  text-align: right; /* Alinea el valor a la derecha */
+  flex: 1; /* Ocupa el resto del espacio disponible */
+  color: #666; /* Color gris claro */
+  word-break: break-word; /* Ajusta texto largo */
+  white-space: normal; /* Permite saltos de línea */
+}
+
+/* RESPONSIVE: Diseño en columnas para pantallas pequeñas */
+@media (max-width: 768px) {
+  /* Cambiar el diseño a columnas */
+  td.child div {
+    display: block; /* Cambia de flex a block */
+    text-align: left; /* Texto alineado a la izquierda */
+    padding: 3px 0; /* Espaciado más amplio entre filas */
+  }
+
+  /* Clave y valor en líneas separadas */
+  td.child div span:first-child {
+    display: block; /* Clave en su propia línea */
+    margin-bottom: 5px; /* Espaciado con el valor */
+  }
+
+  td.child div span:last-child {
+    display: block; /* Valor en su propia línea */
+    text-align: left; /* Alineación izquierda */
+  }
+}

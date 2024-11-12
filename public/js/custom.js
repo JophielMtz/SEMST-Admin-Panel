@@ -278,3 +278,69 @@ async function confirmarEliminacion(id) {
       }
     }
   }
+
+
+  document.getElementById("btnMostrarConfirmacion").addEventListener("click", function() {
+    const formRegistro = document.querySelector("#formRegistro");
+    const seccionConfirmacion = document.getElementById("seccionConfirmacion");
+
+    // Añade la clase de fade-out al formulario
+    formRegistro.classList.add("fade-out");
+
+    // Espera a que termine la animación para ocultar el formulario
+    setTimeout(() => {
+        formRegistro.style.display = "none";  // Oculta el formulario
+        formRegistro.classList.remove("fade-out"); // Limpia la clase para reiniciar el estado
+
+        // Muestra la sección de confirmación con fade-in
+        seccionConfirmacion.classList.add("fade-in");
+        seccionConfirmacion.style.display = "block";
+    }, 1000);  // Tiempo de espera coincide con la duración de la animación (1s)
+
+    // Genera el resumen de datos
+    const datos = {
+      personal_id: document.getElementById("personal_id").value,
+      nombre_docente: document.getElementById("nombre_docente").value,
+      fecha: document.getElementById("fecha").value,
+      antiguedad: document.getElementById("antiguedad").value,
+      telefono: document.getElementById("telefono").value,
+      estatus: document.getElementById("estatus").value,
+      situacion: document.getElementById("situacion").value,
+      municipio_sale: document.getElementById("municipio_sale").value,
+      comunidad_sale: document.getElementById("comunidad_sale").value,
+      cct_sale: document.getElementById("cct_sale").value,
+      municipio_entra: document.getElementById("municipio_entra").options[document.getElementById("municipio_entra").selectedIndex].text,
+      comunidad_entra: document.getElementById("comunidad_entra").options[document.getElementById("comunidad_entra").selectedIndex].text,
+      cct_entra: document.getElementById("cct_entra").options[document.getElementById("cct_entra").selectedIndex].text,
+      estatus_cubierta: document.getElementById("estatus_cubierta").value,
+      observaciones: document.getElementById("observaciones").value
+    };
+
+    // Genera el HTML para el resumen de datos
+    let resumenHTML = '<ul class="list-group">';
+    for (const [clave, valor] of Object.entries(datos)) {
+      resumenHTML += `<li class="list-group-item"><strong>${clave.replace('_', ' ')}:</strong> ${valor}</li>`;
+    }
+    resumenHTML += '</ul>';
+
+    // Muestra el resumen en el modal
+    document.getElementById("resumenDatos").innerHTML = resumenHTML;
+});
+
+// Control para regresar al formulario de edición
+document.getElementById("btnEditar").addEventListener("click", function () {
+    const formRegistro = document.querySelector("#formRegistro");
+    const seccionConfirmacion = document.getElementById("seccionConfirmacion");
+
+    // Aplica fade-out a la confirmación antes de mostrar el formulario
+    seccionConfirmacion.classList.add("fade-out");
+
+    // Espera la animación para cambiar de vista
+    setTimeout(() => {
+        seccionConfirmacion.style.display = "none";
+        seccionConfirmacion.classList.remove("fade-out");
+        
+        formRegistro.style.display = "block";
+        formRegistro.classList.add("fade-in");
+    }, 1000);
+});

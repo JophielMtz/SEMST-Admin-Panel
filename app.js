@@ -12,6 +12,7 @@ const storage = multer.diskStorage({
   }
 });
 
+
 const upload = multer({ storage: storage });
 
 const expressLayouts = require('express-ejs-layouts');
@@ -31,8 +32,10 @@ app.use(express.urlencoded({ extended: true }));
 // Middleware para procesar datos JSON
 app.use(express.json());
 
-// No es necesario si no usas métodos PUT o DELETE
-// app.use(methodOverride('_method'));
+
+//apis
+const apiRoutes = require('./routes/router');
+app.use('/api', apiRoutes);
 
 // Exportar 'upload' si lo necesitas en tus rutas
 module.exports = { app, upload };

@@ -1,236 +1,199 @@
-<div class="col-md-12">
-    <div class="card">
-        <div class="card-header">
-            <div class="d-flex align-items-center">
-                <h4 class="card-title">Add Row</h4>
-                <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#addRowModal">
-                    <i class="fa fa-plus"></i>
-                    Add Row
-                </button>
-            </div>
-        </div>
-        <div class="card-body">
-            <!-- Modal -->
-            <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header border-0">
-                            <h5 class="modal-title">
-                                <span class="fw-mediumbold">
-                                New</span> 
-                                <span class="fw-light">
-                                    Row
-                                </span>
-                            </h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="small">Create a new row using this form, make sure you fill them all</p>
-                            <form>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group form-group-default">
-                                            <label>Name</label>
-                                            <input id="addName" type="text" class="form-control" placeholder="fill name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 pe-0">
-                                        <div class="form-group form-group-default">
-                                            <label>Position</label>
-                                            <input id="addPosition" type="text" class="form-control" placeholder="fill position">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group form-group-default">
-                                            <label>Office</label>
-                                            <input id="addOffice" type="text" class="form-control" placeholder="fill office">
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer border-0">
-                            <button type="button" id="addRowButton" class="btn btn-primary">Add</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
+<div class="container-fluid content-inner mt-n5 py-0">
+    <div class="row">
+       <div class="col-sm-12">
+          <div class="card">
+             <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                   <h4 class="h3 card-title ms-3 mt-2">Docentes Disponibles</h4>
                 </div>
-            </div>
-
-            <div class="table-responsive">
-                <table id="add-row" class="display table table-striped table-hover" >
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th style="width: 10%">Action</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Office</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>Edinburgh</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ashton Cox</td>
-                            <td>Junior Technical Author</td>
-                            <td>San Francisco</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Cedric Kelly</td>
-                            <td>Senior Javascript Developer</td>
-                            <td>Edinburgh</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Airi Satou</td>
-                            <td>Accountant</td>
-                            <td>Tokyo</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Brielle Williamson</td>
-                            <td>Integration Specialist</td>
-                            <td>New York</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Herrod Chandler</td>
-                            <td>Sales Assistant</td>
-                            <td>San Francisco</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Rhona Davidson</td>
-                            <td>Integration Specialist</td>
-                            <td>Tokyo</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Colleen Hurst</td>
-                            <td>Javascript Developer</td>
-                            <td>San Francisco</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Sonya Frost</td>
-                            <td>Software Engineer</td>
-                            <td>Edinburgh</td>
-                            <td>
-                                <div class="form-button-action">
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data-bs-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove">
-                                        <i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                <div class="btn-group mt-2" role="group" aria-label="Basic example">
+                   <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal">Nuevo</button>
+                   <button type="button" class="btn btn-primary ms-2 btn-sm rounded-pill">Editar</button>
+                   <button type="button" class="btn btn-primary ms-2 btn-sm rounded-pill">Borrar</button>
+                </div>
+             </div>
+             <div class="card-body">
+                <div class="table-responsive">
+                   <table id="datatable" class="table table-striped" data-toggle="data-table">
+                      <thead>
+                         <tr>
+                            <th>Np</th>
+                            <th>Fecha</th>
+                            <th>Estatus</th>
+                            <th>Nombre del docente</th>
+                            <th>Observaciones</th>
+                            <th>Situacion</th>
+                            <th>Antiguedad</th>
+                            <th>Observaciones conflictos</th>
+                            <th>Observaciones Secretaría General</th>
+                            <th>Cambio CCT</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+ 
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+          </div>
+       </div>
     </div>
-</div>
+ </div>
+ 
+ <div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"> <!-- Se usa modal-xl para más espacio -->
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="nuevoRegistroModalLabel">Nueva entrada</h5>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+             <div class="row">
+                <!-- Columna izquierda para el perfil -->
+                <div class="col-xl-3 col-lg-4 mb-3">
+                   <div class="card">
+                      <div class="card-header d-flex justify-content-between">
+                         <div class="header-title">
+                            <h4 class="card-title">Perfil</h4>
+                         </div>
+                      </div>
+                      <div class="card-body">
+                         <div class="form-group">
+                            <div class="profile-img-edit position-relative text-center">
+                               <img src="images/avatars/01.png" alt="profile-pic" class="profile-pic rounded-circle avatar-100 mb-3">
+                            </div>
+                            <div class="img-extension mt-3">
+                               <small class="text-muted text-center">Nombre del personal</small>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                <!-- Columna derecha para el formulario -->
+                <div class="col-xl-9 col-lg-8">
+                   <div class="card">
+                      <div class="card-header d-flex justify-content-between">
+                         <div class="header-title">
+                            <h4 class="card-title">Información del nuevo usuario</h4>
+                         </div>
+                      </div>
+                      <div class="card-body">
+ 
+                         <form id="formRegistro">
+                            <div class="row">
+                               <div class="row">
+                                  <div class="form-group col-md-2">
+                                     <label for="personalID" class="form-label">ID:</label>
+                                     <input type="text" class="form-control" id="personalID" name="personalID" placeholder="" autocomplete="off">
+                                  </div>
+                                  <div class="form-group col-md-10">
+                                     <label for="nombreDocente" class="form-label">Nombre del personal:</label>
+                                     <input type="text" class="form-control" id="nombreDocente" name="nombreDocente" placeholder="Escriba un nombre" autocomplete="off">
+                                  </div>
+                               </div>
+                               <div class="form-group col-md-6">
+                                  <label for="fecha" class="form-label">Fecha:</label>
+                                  <input type="date" class="form-control" id="fecha" name="fecha">
+                               </div>
+                               <div class="form-group col-md-6">
+                                  <label for="telefono" class="form-label">Antiguedad:</label>
+                                  <input type="text" class="form-control" id="telefono" name="telefono" placeholder="">
+                               </div>
+                               <div class="form-group col-md-6">
+                                  <label for="estatus" class="form-label">Estatus:</label>
+                                  <select class="form-select form-select-sm" id="estatus" name="estatus">
+                                     <option value="sin atender">Sin atender</option>
+                                     <option value="atendido">Atendido</option>
+                                     <option value="en proceso">En proceso</option>
+                                     <option value="terminado">Terminado</option>
+                                     <option value="no se atiende">No se atiende</option>
+                                     <option value="entregado a setel">Entregado a Setel</option>
+                                  </select>
+                               </div>
+                               <div class="form-group col-md-6">
+                                  <label for="situacion" class="form-label">Situacion:</label>
+                                  <select class="form-select form-select-sm" id="situacion" name="situacion">
+                                     <option value="a disposición">A disposición</option>
+                                     <option value="inseguridad">Inseguridad</option>
+                                     <option value="salud">Salud</option>
+                                     <option value="sin ctp">Sin CT</option>
+                                  </select>
+                               </div>
+ 
+                                 <!-- Sección de CCT Sale -->
+                               <div class="div">
+                                  <h2 class="h6 text-center mb-2 mt-2">CCt sale</h2>
+                               </div>
+                               <hr class="hr-horizontal mb-4">
+                               <div class="form-group col-md-4">
+                                  <label for="municipio" class="form-label">Municipio:</label>
+                                  <input type="text" class="form-control" id="municipio" name="municipio" placeholder="">
+                               </div>
+                               <div class="form-group col-md-4">
+                                  <label for="comunidad" class="form-label">Comunidad:</label>
+                                  <input type="text" class="form-control" id="comunidad" name="comunidad" placeholder="">
+                               </div>
+                               <div class="form-group col-md-4">
+                                  <label for="claveCCTSale" class="form-label">Clave CCT :</label>
+                                  <input type="text" class="form-control" id="claveCCTSale" name="claveCCTSale" placeholder="Clave CCT">
+                               </div>
+                               <!-- Sección de CCT Entra -->
+                               <div class="div">
+                                  <h2 class="h6 text-center mb-2 mt-2">CCt Entra</h2>
+                               </div>
+                               <hr class="hr-horizontal mb-4">
+                               <div class="form-group col-md-4">
+                                  <label for="municipio" class="form-label">Municipio:</label>
+                                  <input type="text" class="form-control" id="municipio" name="municipio" placeholder="Municipio">
+                               </div>
+                               <div class="form-group col-md-4">
+                                  <label for="comunidad" class="form-label">Comunidad:</label>
+                                  <input type="text" class="form-control" id="comunidad" name="comunidad" placeholder="Comunidad">
+                               </div>
+                               <div class="form-group col-md-4">
+                                  <label for="claveCCT" class="form-label">Clave CCT:</label>
+                                  <input type="text" class="form-control" id="claveCCT" name="claveCCT" placeholder="">
+                               </div>
+                              
+                              
+                               <div class="form-group col-md-6">
+                                  <label for="funcionDocente" class="form-label">Función del Docente:</label>
+                                  <select class="form-select form-select-sm" id="funcionDocente" name="funcionDocente">
+                                     <option value="docente">Docente</option>
+                                     <option value="director">Director</option>
+                                     <option value="administrativo">Administrativo</option>
+                                  </select>
+                               </div>
+                               <div class="form-group col-md-6">
+                                  <label for="cobertura" class="form-label">Cobertura:</label>
+                                  <select class="form-select form-select-sm" id="cobertura" name="cobertura">
+                                     <option selected disabled>Selecciona una opción</option>
+                                     <option value="cubierta">Cubierta</option>
+                                     <option value="sin cubrir">Sin cubrir</option>
+                                     <option value="no se justifica">No se justifica</option>
+                                  </select>
+                               </div>
+                               
+                               <div class="form-group col-md-12">
+                                  <label for="observaciones" class="form-label">Observaciones:</label>
+                                  <textarea class="form-control" id="observaciones" name="observaciones" placeholder="Escriba observaciones aquí"></textarea>
+                               </div>
+                               
+                               
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                         </form>
+                         
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <div class="modal-footer">
+             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+       </div>
+    </div>
+ </div>
+ 
+ 

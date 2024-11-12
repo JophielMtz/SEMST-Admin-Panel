@@ -1,5 +1,5 @@
 const express = require('express');
-const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, agregarPersonal, actualizarPersonal, vistaEditarPersonal  } = require('../controllers/Pagecontrollers');
+const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, vistaRoles, vistaEditarPersonal, agregarPersonal, actualizarPersonal,  obtenerPersonal, obtenerDetallePersonal  } = require('../controllers/Pagecontrollers');
 const router = express.Router();
 const pool = require('../src/config/db'); //Ruta de db
 
@@ -17,7 +17,6 @@ const storage = multer.diskStorage({
   });
   
   const upload = multer({ storage: storage });
-
 
 router.get('/', vistaPrincipal)
 router.get('/revisiones', vistaReviciones)
@@ -40,9 +39,11 @@ router.get('/lista-federal', vistaListaFederal);
 router.get('/info-personal', vistaInfoPersonal);
 router.get('/agregar-personal', vistaAgregarpersonal);
 router.get('/editar-personal', vistaEditarPersonal);
+router.get('/roles', vistaRoles);
 
-
-// Ruta para obtener zonas, comunidades, municipios y CCT basados en sector y filtros opcionales
+//gets
+router.get('/api/personal', obtenerPersonal);
+router.get('/api/personal/:personal_id',  obtenerDetallePersonal);
 router.get('/obtener-datos-sector/:sectorId', async (req, res) => {
   const sectorId = req.params.sectorId;
   const { zonaId, comunidadId, municipioId } = req.query;
@@ -131,8 +132,6 @@ router.get('/obtener-datos-sector/:sectorId', async (req, res) => {
   }
 });
 
-
-// Ruta para obtener comunidades y municipios por zona y sector
 router.get('/obtener-comunidad-municipio/:zonaId', async (req, res) => {
   const zonaId = req.params.zonaId;
   const sectorId = req.query.sectorId;
@@ -199,8 +198,6 @@ router.get('/obtener-comunidad-municipio/:zonaId', async (req, res) => {
   }
 });
 
-
-// Ruta para obtener comunidades por municipio y sector
 router.get('/obtener-comunidades-por-municipio/:municipioId', async (req, res) => {
   const municipioId = req.params.municipioId;
   const sectorId = req.query.sectorId;
@@ -234,8 +231,6 @@ router.get('/obtener-comunidades-por-municipio/:municipioId', async (req, res) =
   }
 });
 
-
-// Ruta para obtener CCTs basadas en múltiples filtros
 router.get('/obtener-ccts', async (req, res) => {
   const { sectorId, zonaId, comunidadId, municipioId } = req.query;
 
@@ -274,31 +269,273 @@ router.get('/obtener-ccts', async (req, res) => {
   }
 });
 
+// Endpoint para obtener los datos del personal
+router.get('/lista-general', async (req, res) => {
+  try {
+      // Consulta SQL para obtener los datos del personal
+      const [results] = await pool.query(`
+          SELECT 
+              p.personal_id, p.rfc, p.nombre, p.apellido_paterno, 
+              p.apellido_materno, p.edad, p.telefono, p.correo, 
+              c.descripcion AS cargo
+          FROM personal p
+          LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
+          LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id
+      `);
 
+      // Enviar los datos como JSON
+      res.json({ data: results }); // Devuelve los datos con la clave 'data'
 
-router.post('/personal/agregar', upload.single('imagen'), agregarPersonal);
-
-// Ruta para consultar los datos 
-router.get('/lista-general', (req, res) => {
-    connection.query('SELECT * FROM personal', (err, results) => {
-        if (err) {
-            console.error('Error al hacer la consulta:', err);
-            res.status(500).send('Error al consultar la base de datos');
-        } else {
-            res.json(results);
-        }
-    });
+  } catch (err) {
+      // Manejo de errores
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Error al consultar los datos' });
+  }
 });
 
-// Ruta para acceder a la vista de edición del personal con un parámetro `id`
+// Ednpoint para tabla doccentes_disponibles y solicitudes
+router.get('/editar-personal-nuevo/:id', vistaEditarPersonalNuevo);
+router.put('/editar-personal-nuevo/:id', actualizarDocentesDisponibles);
+router.put ('/editar-personal-nuevo/:id', actualizarSolicitudesDeCambio);
+
+
 router.get('/editar-personal/:id', vistaEditarPersonal);
+
+//post
 router.put('/editar-personal/:id', actualizarPersonal);
+router.post('/personal/agregar', upload.single('imagen'), agregarPersonal);
+
 router.post('/actualizar-personal/:id', actualizarPersonal);
 
 
+//Endpoints para obtener datos de ubic ccts
+router.get('/obtener-municipios', async (req, res) => {
+  try {
+    const [municipios] = await pool.query(`
+      SELECT municipio_id, nombre AS nombre_municipio
+      FROM municipio
+    `);
+    res.json(municipios);
+  } catch (error) {
+    console.error('Error al obtener municipios:', error);
+    res.status(500).json({ error: 'Error al obtener municipios.' });
+  }
+});
+
+router.get('/obtener-comunidades/:municipioId', async (req, res) => {
+  const { municipioId } = req.params;
+  try {
+    const [comunidades] = await pool.query(`
+      SELECT DISTINCT c.comunidad_id, c.nombre AS nombre_comunidad
+      FROM ubic_ccts uc
+      JOIN comunidad c ON uc.comunidad_id = c.comunidad_id
+      WHERE uc.municipio_id = ?
+    `, [municipioId]);
+    res.json(comunidades);
+  } catch (error) {
+    console.error('Error al obtener comunidades:', error);
+    res.status(500).json({ error: 'Error al obtener comunidades.' });
+  }
+});
+
+router.get('/obtener-ccts/:municipioId/:comunidadId', async (req, res) => {
+  const { municipioId, comunidadId } = req.params;
+  try {
+    const [ccts] = await pool.query(`
+      SELECT c.cct_id, c.centro_clave_trabajo
+      FROM ubic_ccts uc
+      JOIN ccts c ON uc.cct_id = c.cct_id
+      WHERE uc.municipio_id = ? AND uc.comunidad_id = ?
+    `, [municipioId, comunidadId]);
+    res.json(ccts);
+  } catch (error) {
+    console.error('Error al obtener claves CCT:', error);
+    res.status(500).json({ error: 'Error al obtener claves CCT.' });
+  }
+});
 
 
-// Ruta para eliminar un registro de personal
+//tablas docentes disponibles y solicitudes de cambio
+router.get('/buscarpersonal/:valor', async (req, res) => {
+  try {
+    const { valor } = req.params;
+    console.log('Parameter valor:', valor); 
+
+    let query = `
+      SELECT 
+          personal.personal_id,
+    personal.nombre AS nombre_personal,
+    personal.apellido_paterno,
+    personal.apellido_materno,
+    personal.telefono,
+    detalle_laboral.fecha_ingreso,
+    detalle_laboral.antiguedad,
+    ccts.centro_clave_trabajo AS clave_cct,
+    ubic_ccts.zona_id,
+    ubic_ccts.sector_id,
+    municipio.nombre AS nombre_municipio,
+    comunidad.nombre AS nombre_comunidad,
+    personal.imagen -- Campo que contiene el nombre del archivo de imagen
+FROM 
+    personal
+JOIN 
+    detalle_laboral ON personal.personal_id = detalle_laboral.personal_id
+JOIN 
+    ubic_ccts ON detalle_laboral.id_relacion = ubic_ccts.id_relacion
+LEFT JOIN 
+    municipio ON ubic_ccts.municipio_id = municipio.municipio_id
+LEFT JOIN 
+    comunidad ON ubic_ccts.comunidad_id = comunidad.comunidad_id
+LEFT JOIN 
+    ccts ON ubic_ccts.cct_id = ccts.cct_id
+    `;
+
+    const params = [];
+
+    if (/^\d+$/.test(valor)) {
+      query += 'WHERE personal.personal_id = ? OR ';
+      params.push(valor);
+    } else {
+      query += 'WHERE ';
+    }
+
+    query += 'LOWER(personal.nombre) LIKE LOWER(?)';
+    params.push(`%${valor}%`);
+
+    const [results] = await pool.query(query, params);
+    res.json(results); 
+  } catch (error) {
+    console.error('Unexpected error:', error);
+    res.status(500).json({ error: 'Unexpected error' });
+  }
+});
+
+router.post('/guardarRegistro', async (req, res) => {
+  console.log("Datos recibidos en req.body:", req.body);
+
+  const {
+    tabla,
+    personal_id,
+    nombre_docente,
+    fecha,
+    antiguedad,
+    telefono,
+    estatus,
+    situacion,
+    municipio_sale,
+    comunidad_sale,
+    cct_sale,
+    municipio_entra,
+    comunidad_entra,
+    cct_entra,
+    estatus_cubierta,
+    observaciones,
+    observaciones_conflictos,
+    zona_id,
+    sector_id
+  } = req.body;
+
+  // Validación básica de tabla
+  const tablasValidas = ['docentes_disponibles'];
+  if (!tabla || !tablasValidas.includes(tabla)) {
+    return res.status(400).send("Tabla no válida o no especificada.");
+  }
+
+  // Definir campos requeridos por tabla
+  const camposRequeridos = {
+    'docentes_disponibles': ['personal_id', 'nombre_docente', 'fecha', 'estatus', 'situacion', 'municipio_entra', 'comunidad_entra', 'cct_entra']
+  };
+
+  const faltanCampos = camposRequeridos[tabla].filter(campo => !req.body[campo]);
+  if (faltanCampos.length > 0) {
+    return res.status(400).send(`Faltan los siguientes campos necesarios: ${faltanCampos.join(', ')}`);
+  }
+
+  // Iniciar conexión y transacción
+  const connection = await pool.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    // Preparar inserción para docentes_disponibles
+    const insertQuery = `INSERT INTO docentes_disponibles (
+                        personal_id, nombre_docente, fecha, estatus, situacion, antiguedad, telefono,
+                        municipio_sale, comunidad_sale, cct_sale,
+                        municipio_entra, comunidad_entra, cct_entra,
+                        estatus_cubierta, observaciones
+                      ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?, ?, ?, ?, ?)`;
+
+    const insertValues = [
+      personal_id,          // personal_id
+      nombre_docente,       // nombre_docente
+      fecha,                // fecha
+      estatus,              // estatus
+      situacion,            // situacion
+      antiguedad || null,   // antiguedad
+      telefono || null,     // telefono
+      municipio_entra,      // municipio_entra
+      comunidad_entra,      // comunidad_entra
+      cct_entra,            // cct_entra
+      estatus_cubierta || null, // estatus_cubierta
+      observaciones || null    // observaciones
+    ];
+
+    // Ejecutar inserción en la tabla correspondiente
+    const [result] = await connection.query(insertQuery, insertValues);
+    const insertId = result.insertId;
+
+    // Confirmar transacción
+    await connection.commit();
+    res.status(201).json(`Registro creado exitosamente en la tabla ${tabla}. ID: ${insertId}`);
+  } catch (error) {
+    // Revertir transacción en caso de error
+    await connection.rollback();
+    console.error("Error en /guardarRegistro:", error);
+    res.status(500).send(`Error al crear el registro: ${error.message}`);
+  } finally {
+    // Liberar la conexión
+    connection.release();
+  }
+});
+
+//api de docentes
+router.get('/getDocentes', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        personal_id AS id, 
+        fecha, 
+        nombre_docente, 
+        estatus, 
+        observaciones,
+        situacion,
+        antiguedad,
+        municipio_sale, 
+        comunidad_sale, 
+        cct_sale, 
+        estatus_cubierta,
+        municipio_entra, 
+        comunidad_entra, 
+        cct_entra
+      FROM 
+        docentes_disponibles
+    `);
+
+    // Asegurarse de que fecha sea una cadena
+    const data = rows.map(row => ({
+      ...row,
+      fecha: row.fecha ? row.fecha.toISOString().split('T')[0] : 'N/A'
+    }));
+
+    res.json({ data: data }); // Devolver los datos envueltos en un objeto con clave 'data'
+  } catch (error) {
+    console.error('Error al obtener los docentes:', error);
+    res.status(500).json({ error: 'Error al obtener los datos' });
+  }
+});
+
+
+
+//delete  
 router.delete('/personal/:id', async (req, res) => {
   const { id } = req.params;
 

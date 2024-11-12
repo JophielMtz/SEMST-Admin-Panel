@@ -9,11 +9,7 @@
         </div>
         <div class="card-body">
           <div class="table-responsive">
-            <table
-              id="datatable"
-              class="table"
-              data-toggle="data-table"
-            >
+            <table id="personal" class="datatable table table-striped">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -28,20 +24,7 @@
                 </tr>
               </thead>
               <tbody>
-                <% personal.forEach(persona=> { %>
-                <!-- Aquí usamos 'persona' -->
-                <tr>
-                  <td><%= persona.personal_id %></td>
-                  <td><%= persona.rfc %></td>
-                  <td><%= persona.nombre %></td>
-                  <td><%= persona.apellido_paterno %></td>
-                  <td><%= persona.apellido_materno %></td>
-                  <td><%= persona.edad %></td>
-                  <td><%= persona.telefono %></td>
-                  <td><%= persona.correo %></td>
-                  <td><%= persona.cargo %></td>
-                </tr>
-                <% }) %>
+                <!-- Deja el cuerpo vacío -->
               </tbody>
             </table>
           </div>
