@@ -1,5 +1,5 @@
 const express = require('express');
-const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, vistaRoles, vistaEditarPersonal, agregarPersonal, actualizarPersonal,  obtenerPersonal, obtenerDetallePersonal  } = require('../controllers/Pagecontrollers');
+const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaEditarDocente, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, vistaRoles, vistaEditarPersonal, agregarPersonal, actualizarPersonal,  obtenerPersonal, obtenerDetallePersonal, buscarNombresDocentes  } = require('../controllers/Pagecontrollers');
 const router = express.Router();
 const pool = require('../src/config/db'); //Ruta de db
 
@@ -294,12 +294,9 @@ router.get('/lista-general', async (req, res) => {
 });
 
 // Ednpoint para tabla doccentes_disponibles y solicitudes
-router.get('/editar-personal-nuevo/:id', vistaEditarPersonalNuevo);
-router.put('/editar-personal-nuevo/:id', actualizarDocentesDisponibles);
-router.put ('/editar-personal-nuevo/:id', actualizarSolicitudesDeCambio);
-
-
+router.get('/editar-personal-nuevo/:id', vistaEditarDocente);
 router.get('/editar-personal/:id', vistaEditarPersonal);
+router.get('/buscar-nombres-docentes/:query', buscarNombresDocentes);
 
 //post
 router.put('/editar-personal/:id', actualizarPersonal);

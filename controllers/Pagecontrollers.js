@@ -22,6 +22,76 @@ const vistaDocentesDisponibles = async (req, res) => {
   }
 };
 
+const vistaEditarDocente = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [docenteData] = await pool.query(
+      `SELECT 
+          dd.personal_id,
+          dd.nombre_docente,
+          dd.fecha,
+          dd.estatus,
+          dd.situacion,
+          dd.antiguedad,
+          dd.municipio_sale,
+          dd.comunidad_sale,
+          dd.cct_sale,
+          dd.municipio_entra,
+          dd.comunidad_entra,
+          dd.cct_entra,
+          dd.estatus_cubierta,
+          dd.observaciones,
+          p.imagen
+       FROM docentes_disponibles dd
+       LEFT JOIN personal p ON dd.personal_id = p.personal_id
+       WHERE dd.personal_id = ?`,
+      [id]
+    );
+
+    if (docenteData.length === 0) {
+      return res.status(404).json({ error: "Docente no encontrado" });
+    }
+
+    // Verificar si la solicitud es JSON o si es desde un navegador
+    if (req.xhr || req.headers.accept.includes('json')) {
+      // Responder con JSON si es una solicitud AJAX o JSON
+      return res.json({ docente: docenteData[0] });
+    }
+
+    // Renderizar la vista completa con layout si es desde un navegador
+    return res.render("formViews/editar-docente", { docente: docenteData[0] });
+  } catch (error) {
+    console.error("Error al obtener los datos del docente:", error);
+    res.status(500).json({ error: "Error al cargar la vista de edición del docente" });
+  }
+};
+
+const buscarNombresDocentes = async (req, res) => {
+  const { query } = req.params; // El texto ingresado por el usuario
+
+  try {
+    const [docentes] = await pool.query(
+      `SELECT personal_id, nombre_docente 
+       FROM docentes_disponibles 
+       WHERE nombre_docente LIKE ? LIMIT 10`,
+      [`%${query}%`] // Buscamos coincidencias parciales
+    );
+
+    // Si no se encuentran resultados, enviamos un mensaje vacío
+    if (docentes.length === 0) {
+      return res.json([]);
+    }
+
+    // Enviamos los datos encontrados
+    res.json(docentes);
+  } catch (error) {
+    console.error("Error al buscar nombres de docentes:", error);
+    res.status(500).json({ error: "Error al buscar nombres de docentes" });
+  }
+};
+
+
 const vistaNombramientosDocentes = (req, res) => {
   res.render("nombramientos-docentes");
 };
@@ -512,6 +582,7 @@ module.exports = {
   vistaReviciones,
   vistaPendientes,
   vistaDocentesDisponibles,
+  vistaEditarDocente,
   vistaNombramientosDocentes,
   vistaLicenciasSinGoce,
   vistaIncidencias,
@@ -533,5 +604,6 @@ module.exports = {
   actualizarPersonal,
   vistaEditarPersonal,
   obtenerPersonal,
-  obtenerDetallePersonal
+  obtenerDetallePersonal,
+  buscarNombresDocentes
 };

@@ -3,6 +3,7 @@
 import { validateForm, showError, clearError } from './formValidatioon.js';
 import { cargarMunicipios, cargarComunidades, cargarCCTs, actualizarSelect, configurarAutocompletado, } from './cargaDeDatos.js';
 import { enviarDatos } from './dataSender.js';
+import { configurarBotonesAccion } from './modules/Configuraciones/Configs.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const municipioSelect = document.querySelector('#nuevoRegistroModal #municipio_entra');
@@ -31,6 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
         cargarCCTs(municipioSelect.value, this.value).then(data => {
             actualizarSelect('cct_entra', data, 'Seleccione Clave CCT', 'cct_id', 'centro_clave_trabajo');
         });
+    });
+
+    // Configurar botones de acciones
+    document.addEventListener("DOMContentLoaded", () => {
+        configurarBotonesAccion(); // Configura los botones para el form de los modales
     });
 
     // **Configurar autocompletado para el nombre del docente**

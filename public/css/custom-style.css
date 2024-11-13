@@ -158,7 +158,7 @@ svg:not(:root).svg-inline--fa {
   display: inline-block; /* Asegura que el ancho tenga efecto */
   text-align: center; /* Centra el texto */
   font-size: .8rem; /* Ajusta el tamaño de fuente según tus necesidades */
-  padding: 8px 1px;
+  padding: 7px 1px;
   border-radius: 10px;
 }
 
@@ -167,13 +167,11 @@ svg:not(:root).svg-inline--fa {
   background-color: #ffffff;
   border: 1px solid #ffffff;
   border-radius: 8px; /* Redondea el contenedor general */
-  padding: 16px;
+  padding: 1px;
 }
 
 /* Cabecera de la tabla */
 table.dataTable {
-  border-collapse: separate; /* Permite que las celdas respeten el border-radius */
-  border-spacing: 0; /* Quita el espacio entre las celdas */
   border-radius: 4px; /* Aplica el border-radius a la tabla */
   overflow: hidden; /* Esconde cualquier contenido que sobresalga */
 }
@@ -201,7 +199,7 @@ table.dataTable tbody tr:last-child td:last-child {
 /* Hover en filas */
 table.dataTable tbody tr:hover {
   background-color: #cbdff2;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.5s ease;
 }
 
 /* Botones de paginación */
@@ -226,13 +224,23 @@ table.dataTable thead th {
   font-weight: bold;
 }
 
+
+/* Tabla de datatable */
+
+table.dataTable td, table.dataTable th {
+  padding: 11px 10px; /* Reduce el padding (original era 16px 24px, ahora 4px 6px) */
+  font-size: 0.8em; /* Opcional: Ajustar el tamaño de la fuente para más espacio */
+}
+
+table.dataTable td:first-child {
+  padding: 2px 4px;
+}
 /* Estilo para la clase td.child */
-/* Estilo general para el contenedor de datos expandido */
-/* Estilo general para el contenedor de datos expandido */
+
 td.child {
   padding: 15px; /* Espaciado interno más cómodo */
   background-color: #f7f8fc; /* Fondo más suave para mejor contraste */
-  border: 1px solid #e2e2e2; /* Borde sutil */
+  border: 8px solid #e2e2e2; /* Borde sutil */
   border-radius: 8px; /* Bordes redondeados */
   font-size: 14px; /* Tamaño de fuente legible */
   color: #333; /* Color del texto */
@@ -263,30 +271,47 @@ td.child div span:first-child {
 
 /* Valor (lado derecho) */
 td.child div span:last-child {
-  text-align: right; /* Alinea el valor a la derecha */
-  flex: 1; /* Ocupa el resto del espacio disponible */
-  color: #666; /* Color gris claro */
+  text-align: center !important; /* Alinea el valor a la derecha */
+
+  color: #ffffff; /* Color gris claro */
   word-break: break-word; /* Ajusta texto largo */
   white-space: normal; /* Permite saltos de línea */
 }
 
 /* RESPONSIVE: Diseño en columnas para pantallas pequeñas */
 @media (max-width: 768px) {
-  /* Cambiar el diseño a columnas */
   td.child div {
-    display: block; /* Cambia de flex a block */
+    display: flex;
     text-align: left; /* Texto alineado a la izquierda */
-    padding: 3px 0; /* Espaciado más amplio entre filas */
+    padding: 3px 0; /* Espaciado más compacto */
   }
 
-  /* Clave y valor en líneas separadas */
   td.child div span:first-child {
     display: block; /* Clave en su propia línea */
-    margin-bottom: 5px; /* Espaciado con el valor */
+    margin-bottom: 5px; /* Espaciado entre clave y valor */
   }
 
   td.child div span:last-child {
     display: block; /* Valor en su propia línea */
     text-align: left; /* Alineación izquierda */
+  }
+
+  div.dataTables_wrapper div.dataTables_filter,
+  div.dataTables_wrapper div.dataTables_info {
+    text-align: left; /* Alinea el contenido a la izquierda */
+    border-radius: 8px; /* Bordes redondeados */
+    padding: 5px 10px; /* Espaciado interno adicional */
+  }
+  
+  div.dataTables_wrapper div.dataTables_length {
+    padding-bottom: 5px; /* Padding solo para el selector "Mostrar" */
+  }
+  
+  div.dataTables_wrapper div.dataTables_filter input {
+    padding: 0; /* Elimina cualquier padding extra del input "Buscar" */
+    border-radius: 8px; /* Opcional: Bordes redondeados para el input */
+    border: 1.3px solid #3b3b3b; /* Opcional: Bordes para el input */
+    background-color: #f0f0f0;
+
   }
 }

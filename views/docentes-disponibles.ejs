@@ -23,42 +23,36 @@
        <div class="card">
          <div class="card-header d-flex justify-content-between">
            <div class="header-title">
-             <h4 class="h3 card-title ms-3 mt-2">Docentes Disponibles</h4>
+             <h4 class="h3 card-title ms-3 mt-2 text-responsive">Docentes Disponibles</h4>
            </div>
-           <div class="btn-group mt-2" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal">Nuevo</button>
-            <button type="button" class="btn btn-primary ms-2 btn-sm rounded-pill d-none d-md-inline">Editar</button>
-            <button type="button" class="btn btn-primary ms-2 btn-sm rounded-pill d-none d-md-inline">Borrar</button>
-            <!-- Botón "Más" visible en pantallas pequeñas -->
-            <div class="btn-group d-inline-block d-md-none">
-              <button type="button" class="btn btn-primary btn-sm rounded-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Más</button>
-              <ul class="dropdown-menu">
-                <li><button class="dropdown-item" type="button">Editar</button></li>
-                <li><button class="dropdown-item" type="button">Borrar</button></li>
-              </ul>
-            </div>
-          </div>
+           <div class="btn-group mt-2" role="group" aria-label="Nuevo Registro">
+            <!-- Botón "Nuevo" responsivo -->
+            <button type="button" class="btn btn-primary btn-sm rounded-pill nuevo-btn ms-1" data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo">
+                Nuevo
+            </button>
+        </div>
+        
           
          </div>  
          <div class="card-body">
-            <table id="docentes" class="datatable table table-striped" style="width:100%;">
+            <table id="docentes" class="datatable table table-striped text-responsive" style="width:100%;">
                <thead class="table-dark">
                    <tr>
-                       <th></th>
-                       <th>ID</th>
-                       <th>Nombre del Docente</th>
-                       <th>Fecha</th>
-                       <th>Estatus</th>
-                       <th>Antigüedad</th>
-                       <th>Situación</th>
-                       <th>CCT Sale</th>
-                       <th>Municipio Sale</th>
-                       <th>Comunidad Sale</th>
-                       <th>Estatus Cubierta</th>
-                       <th>CCT Entra</th>
-                       <th>Municipio Entra</th>
-                       <th>Comunidad Entra</th>
-                       <th>Observaciones</th>
+                     <th>Acción</th>
+                     <th>Nombre del Docente</th>
+                     <th>ID</th>
+                     <th>Fecha</th>
+                     <th>Estatus</th>
+                     <th>Antigüedad</th>
+                     <th>Situación</th>
+                     <th>CCT Sale</th>
+                     <th>Municipio Sale</th>
+                     <th>Comunidad Sale</th>
+                     <th>Estatus Cubierta</th>
+                     <th>CCT Entra</th>
+                     <th>Municipio Entra</th>
+                     <th>Comunidad Entra</th>
+                     <th>Observaciones</th>
                    </tr>
                </thead>
                <tbody>
@@ -72,7 +66,7 @@
  </div>
 
  
- 
+ <!--Crear-->
  <div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl"> <!-- Se usa modal-xl para más espacio -->
        <div class="modal-content">
@@ -251,7 +245,5 @@
        </div>
     </div>
  </div>
- 
- 
- 
+
  
