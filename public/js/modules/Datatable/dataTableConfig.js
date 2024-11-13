@@ -5,7 +5,7 @@ export const dataTableConfig = {
   responsive: {
     details: {
       type: 'column',
-      target: 0,
+      target: 'td.dt-control', // Cambia el target para usar dt-control
       renderer: function (api, rowIdx, columns) {
         const data = $.map(columns, function (col) {
           return col.hidden
@@ -18,7 +18,7 @@ export const dataTableConfig = {
                   </div>
                 </div>
                 `
-            : '';
+            : ''; // Este estilo no se toca
         }).join('');
 
         return data;
@@ -43,6 +43,6 @@ export const dataTableConfig = {
     },
   ],
   language: {
-        url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-MX.json'
+    url: '//cdn.datatables.net/plug-ins/1.13.5/i18n/es-MX.json'
   },
 };

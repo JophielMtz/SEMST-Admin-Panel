@@ -17,6 +17,8 @@ async function buscarDocente(valor) {
     }
 }
 
+
+
 function llenarFormulario(docente) {
     console.log(`Llenando formulario con docente ID: ${docente.personal_id}`);
     document.getElementById("personal_id").value = docente.personal_id;
@@ -33,6 +35,25 @@ function llenarFormulario(docente) {
         console.log(`Actualizada imagen de perfil a: /uploads/${docente.imagen}`);
     }
 }
+
+
+async function cargarDatosDocente(id) {
+    console.log(`Cargando datos del docente con ID: ${id}`);
+    try {
+        const response = await fetch(`/editar-personal-nuevo/${id}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP! status: ${response.status}`);
+        }
+        const { docente } = await response.json();
+        if (!docente) {
+            throw new Error("No se encontraron datos del docente.");
+        }
+        llenarFormulario(docente);
+    } catch (error) {
+        console.error("Error al cargar los datos del docente:", error);
+    }
+}
+
 
 function configurarAutocompletado() {
     const nombreInput = document.getElementById("nombre_docente");

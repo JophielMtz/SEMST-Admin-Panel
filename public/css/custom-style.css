@@ -154,12 +154,13 @@ svg:not(:root).svg-inline--fa {
 }
 
 .badge-custom {
-  width: 100px; /* Ajusta el ancho según tus necesidades */
+  min-width: 80px;
+  max-width: 100px; /* Ajusta el ancho según tus necesidades */
   display: inline-block; /* Asegura que el ancho tenga efecto */
   text-align: center; /* Centra el texto */
   font-size: .8rem; /* Ajusta el tamaño de fuente según tus necesidades */
-  padding: 7px 1px;
-  border-radius: 10px;
+  padding: 3px 1px;
+  border-radius: 8px;
 }
 
 /* Sobrescribe el fondo y los bordes del contenedor */
@@ -227,20 +228,25 @@ table.dataTable thead th {
 
 /* Tabla de datatable */
 
+
 table.dataTable td, table.dataTable th {
-  padding: 11px 10px; /* Reduce el padding (original era 16px 24px, ahora 4px 6px) */
+  padding: 19px 3px; /* Reduce el padding (original era 16px 24px, ahora 4px 6px) */
   font-size: 0.8em; /* Opcional: Ajustar el tamaño de la fuente para más espacio */
 }
 
+table.dataTable td:nth-child(2) {
+  padding: 2px;
+}
+
 table.dataTable td:first-child {
-  padding: 2px 4px;
+  padding: 2px 16px;
 }
 /* Estilo para la clase td.child */
 
 td.child {
   padding: 15px; /* Espaciado interno más cómodo */
-  background-color: #f7f8fc; /* Fondo más suave para mejor contraste */
-  border: 8px solid #e2e2e2; /* Borde sutil */
+  background-color: #ffffff; /* Fondo más suave para mejor contraste */
+  border: 3px solid #e2e2e2; /* Borde sutil */
   border-radius: 8px; /* Bordes redondeados */
   font-size: 14px; /* Tamaño de fuente legible */
   color: #333; /* Color del texto */
@@ -277,6 +283,8 @@ td.child div span:last-child {
   word-break: break-word; /* Ajusta texto largo */
   white-space: normal; /* Permite saltos de línea */
 }
+
+
 
 /* RESPONSIVE: Diseño en columnas para pantallas pequeñas */
 @media (max-width: 768px) {
