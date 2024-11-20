@@ -34,9 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Configurar botones de acciones
-    document.addEventListener("DOMContentLoaded", () => {
-        configurarBotonesAccion(); // Configura los botones para el form de los modales
+
+    document.querySelectorAll('.editar-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const id = event.target.dataset.id;  // Obtener el ID del item desde el atributo data-id
+            cargarDatosFormulario(id);  // Llamar a la función para cargar los datos del formulario
+        });
     });
 
     // **Configurar autocompletado para el nombre del docente**
@@ -95,6 +98,40 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("No se pudo guardar el registro:", error); // Manejo de errores
         }
     });
+});
+
+
+// Configurar botones de acción, incluyendo borrado
+configurarBotonesAccion();
+
+// Evento delegado para manejo de botones borrar
+document.addEventListener("click", async (event) => {
+    const button = event.target.closest('.borrar-btn');
+    if (!button) return;
+
+    const id = button.dataset.id; // ID del registro a borrar
+    const endpoint = button.dataset.endpoint; // Endpoint para la tabla específica
+
+    if (confirm('¿Estás seguro de que deseas borrar este registro?')) {
+        try {
+            const response = await fetch(`${endpoint}/${id}`, { method: 'DELETE' });
+            const result = await response.json();
+
+            if (result.success) {
+                // Elimina la fila de la tabla si DataTable está inicializado
+                const table = $(button.closest('.datatable')).DataTable();
+                const row = $(button).closest('tr');
+                table.row(row).remove().draw();
+
+                alert('Registro eliminado correctamente');
+            } else {
+                alert(`Error al borrar: ${result.message}`);
+            }
+        } catch (error) {
+            console.error("Error al borrar el registro:", error);
+            alert("Ocurrió un error al intentar borrar el registro.");
+        }
+    }
 });
 
 

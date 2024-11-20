@@ -1,408 +1,636 @@
-<!-- <style>
-
-   
-    /* Reduce el tamaño de la fuente en los encabezados de la tabla */
-    table th {
-       font-size: calc(1em - 2px);
-    }
- 
-    /* Reduce el tamaño de la fuente en las celdas de la tabla */
-    table td {
-       font-size: calc(1em - 1px);
-    }
- 
-    /* Aplica un padding más compacto para las celdas de la tabla */
-    table th, table td {
-       padding: 4px 8px; /* Ajusta estos valores según lo necesites */
-    }
-</style> -->
-
 <div class="container-fluid content-inner mt-n5 py-0">
-   <div class="row">
-     <div class="col-sm-12">
-       <div class="card">
-         <div class="card-header d-flex justify-content-between">
-           <div class="header-title">
-             <h4 class="h3 card-title ms-3 mt-2 text-responsive">Docentes Disponibles</h4>
-           </div>
-           <div class="btn-group mt-2" role="group" aria-label="Nuevo Registro">
-            <!-- Botón "Nuevo" responsivo -->
-            <button type="button" class="btn btn-primary btn-sm rounded-pill nuevo-btn ms-1" data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo">
-                Nuevo
-            </button>
-        </div>
-        
-          
-         </div>  
-         <div class="card-body">
-            <table id="docentes" class="datatable table table-striped text-responsive" style="width:100%;">
-               <thead class="table-dark">
-                   <tr>
-                     <th></th>
-                     <th>Acción</th>
-                     <th>Nombre del Docente</th>
-                     <th>ID</th>
-                     <th>Fecha</th>
-                     <th>Estatus</th>
-                     <th>Antigüedad</th>
-                     <th>Situación</th>
-                     <th>CCT Sale</th>
-                     <th>Municipio Sale</th>
-                     <th>Comunidad Sale</th>
-                     <th>Estatus Cubierta</th>
-                     <th>CCT Entra</th>
-                     <th>Municipio Entra</th>
-                     <th>Comunidad Entra</th>
-                     <th>Observaciones</th>
-                   </tr>
-               </thead>
-               <tbody>
-                   <!-- Deja el tbody vacío cuando uses AJAX -->
-               </tbody>
-           </table>
-        </div>
-       </div>
-     </div>
-   </div>
- </div>
-
- 
- <!--Crear-->
- <div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl"> <!-- Se usa modal-xl para más espacio -->
-       <div class="modal-content">
-          <div class="modal-header">
-             <h5 class="modal-title" id="nuevoRegistroModalLabel">Nueva entrada</h5>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-             <div class="row">
-                <!-- Columna izquierda para el perfil -->
-                <div class="col-xl-3 col-lg-4 mb-3">
-                   <div class="card">
-                      <div class="card-header d-flex justify-content-between">
-                         <div class="header-title">
-                            <h4 class="card-title">Perfil</h4>
-                         </div>
-                      </div>
-                      <div class="card-body">
-                         <div class="form-group">
-                            <div class="profile-img-edit position-relative text-center">
-                               <img src="images/avatars/01.png" alt="profile-pic" class="profile-pic rounded-circle img-fluid w-100 mb-3">
-                            </div>
-                            <div class="img-extension mt-3">
-                               <small class="text-muted text-center">Datos adicionales</small>
-                            </div>
-                         </div>
-                      </div>
-                   </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="h3 card-title ms-3 mt-2 text-responsive">
+                            Docentes Disponibles
+                        </h4>
+                    </div>
+                    <div class="dropdown mt-2">
+                        <button class="btn btn-primary btn-sm dropdown-toggle rounded-pill" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Opciones
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li>
+                                <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo">
+                                    Nuevo
+                                </button>
+                            </li>
+                            <li>
+                                <button id="toggleEditMode" class="dropdown-item" type="button">
+                                    Activar Edición
+                                </button>
+                            </li>
+                            <li>
+                                <button id="deleteButton" class="dropdown-item text-danger" type="button" disabled>
+                                    <i class="fas fa-trash me-2"></i>Borrar
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <!-- Columna derecha para el formulario -->
-                <div class="col-xl-9 col-lg-8">
-                   <div class="card">
-                      <div class="card-header d-flex justify-content-between">
-                         <div class="header-title">
-                            <h4 class="card-title">Información del nuevo usuario</h4>
-                         </div>
-                      </div>
-                      <div class="card-body">
- 
-                        <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
-                           <input type="hidden" name="tabla" value="docentes_disponibles">
-                           <div class="row">
-                               <!-- Personal ID y Nombre del Docente -->
-                               <div class="row">
-                                   <div class="form-group col-md-2">
-                                       <label for="personal_id" class="form-label">ID:</label>
-                                       <input type="text" class="form-control" id="personal_id" name="personal_id" placeholder="" autocomplete="off">
-                                   </div>
-                                   <div class="form-group col-md-10">
-                                       <label for="nombre_docente" class="form-label">Nombre del personal:</label>
-                                       <input type="text" class="form-control" id="nombre_docente" name="nombre_docente" placeholder="Escriba un nombre" autocomplete="off">
-                                       <ul id="suggestionsList" class="list-group position-absolute w-100" style="z-index: 1000;"></ul> 
-                                   </div>
-                               </div>
-                       
-                               <!-- Fecha, Antigüedad y Teléfono -->
-                               <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                   <label for="fecha" class="form-label">Fecha:</label>
-                                   <input type="date" class="form-control" id="fecha" name="fecha">
-                               </div>
-                               <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                   <label for="antiguedad" class="form-label">Antigüedad:</label>
-                                   <input type="text" class="form-control" id="antiguedad" name="antiguedad" placeholder="">
-                               </div>
-                               <div class="form-group col-md-6 col-lg-6">
-                                   <label for="telefono" class="form-label">Teléfono:</label>
-                                   <input type="text" class="form-control" id="telefono" name="telefono" placeholder="">
-                               </div>
-                               
-                               <!-- Cobertura -->
-                              <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                 <label for="estatus_cubierta" class="form-label">Cobertura:</label>
-                                 <select class="form-select form-select-sm" id="estatus_cubierta" name="estatus_cubierta">
-                                     <option value="" selected disabled>Selecciona una opción</option>
-                                     <option value="cubierta">Cubierta</option>
-                                     <option value="sin cubrir">Sin cubrir</option>
-                                     <option value="no se justifica">No se justifica</option>
-                                 </select>
-                             </div>
-                       
-                               <!-- Estatus y Situación -->
-                               <div class="form-group col-md-6">
-                                 <label for="estatus" class="form-label">Estatus:</label>
-                                 <select class="form-select form-select-sm" id="estatus" name="estatus">
-                                     <option value="" selected disabled>Selecciona un estatus</option>
-                                     <option value="Atendido">Atendido</option>
-                                     <option value="En proceso">En proceso</option>
-                                     <option value="Sin atender">Sin atender</option>
-                                 </select>
-                             </div>
-                             <div class="form-group col-md-6">
-                                 <label for="situacion" class="form-label">Situación:</label>
-                                 <select class="form-select form-select-sm" id="situacion" name="situacion">
-                                     <option value="" selected disabled>Selecciona una opción</option>
-                                     <option value="Inseguridad">Inseguridad</option>
-                                     <option value="Salud">Salud</option>
-                                     <option value="Sin Ct">Sin CT</option>
-                                 </select>
-                             </div>
-                       
-                               <!-- Sección de CCT Sale -->
-                               <div class="div">
-                                   <h2 class="h6 mb-2 mt-2">CCT Sale</h2>
-                               </div>
-                               <hr class="hr-horizontal mb-4">
-                               <div class="form-group col-md-4">
-                                 <label for="municipio_sale" class="form-label">Municipio:</label>
-                                 <input type="text" class="form-control" id="municipio_sale" placeholder="" readonly>
-                              </div>
-                              <div class="form-group col-md-4">
-                                 <label for="comunidad_sale" class="form-label">Comunidad:</label>
-                                 <input type="text" class="form-control" id="comunidad_sale" placeholder="" readonly>
-                              </div>
-                              <div class="form-group col-md-4">
-                                 <label for="cct_sale" class="form-label">Clave CCT:</label>
-                                 <input type="text" class="form-control" id="cct_sale" placeholder="Clave CCT" readonly>
-                              </div>
-                              
-                       
-                              <div class="div">
-                                 <h2 class="h6 mb-2 mt-1">CCT Entra</h2>
-                             </div>
-                             <hr class="hr-horizontal mb-4">
-                               <!-- Sección de CCT Entra -->
-                               <div class="form-group col-md-4">
-                                 <label for="municipio_entra" class="form-label">Municipio:</label>
-                                 <select class="form-select" id="municipio_entra" name="municipio_entra">
-                                     <option value="" selected disabled>Seleccione Municipio</option>
-                                     <!-- Opciones dinámicas -->
-                                 </select>
-                             </div>
-                             <div class="form-group col-md-4">
-                                 <label for="comunidad_entra" class="form-label">Comunidad:</label>
-                                 <select class="form-select" id="comunidad_entra" name="comunidad_entra">
-                                     <option value="" selected disabled>Seleccione Comunidad</option>
-                                     <!-- Opciones dinámicas -->
-                                 </select>
-                             </div>
-                             <div class="form-group col-md-4">
-                                 <label for="cct_entra" class="form-label">Clave CCT:</label>
-                                 <select class="form-select" id="cct_entra" name="cct_entra">
-                                     <option value="" selected disabled>Seleccione Clave CCT</option>
-                                     <!-- Opciones dinámicas -->
-                                 </select>
-                             </div>
-                       
-                               <!-- Observaciones -->
-                               <div class="form-group col-md-12">
-                                   <label for="observaciones" class="form-label">Observaciones:</label>
-                                   <textarea class="form-control" id="observaciones" name="observaciones" placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
-                               </div>
-                           </div>
-                           <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">Guardar</button>
-                       </form>
-                       
-                       <div id="seccionConfirmacion" class="mt-4" style="display: none;">
-                        <h5>Confirmar Datos Ingresados</h5>
-                        <div class="card">
-                          <div class="card-body">
-                            <!-- Aquí mostraremos el resumen de los datos -->
-                            <div id="resumenDatos"></div>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-end mt-3">
-                           <button type="button" id="btnEditar" class="btn btn-secondary me-2">Editar</button>
-                           <button type="button" id="btnConfirmar" class="btn btn-success">Confirmar</button>
-                        </div>
-                      </div>
+                <div class="card-body">
+                    <div class="test-container">
+                        <div class="test-header d-flex align-items-center">
+                            <!-- Radio para 'Todos' -->
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
+                                <label for="all" class="form-check-label pl-2">Todos</label>
+                            </div>
                         
-                         
-                      </div>
-                   </div>
+                            <!-- Radio para 'CCTs sale y entra' -->
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
+                                <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
+                            </div>
+                        
+                            <!-- Botón de borrar (disabled) -->
+                            <div class="form-check form-check-inline">
+                                <i id="deleteIcon" class="fas fa-trash btn-secondary" style="font-size: 20px; cursor: pointer;" title="Eliminar"></i>
+                            </div>
+                        </div>
+                        <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
+                    </div>
                 </div>
-             </div>
-          </div>
-       </div>
-    </div>
- </div>
-
-<!--Editar-->
-<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg"> <!-- Se usa modal-xl para más espacio -->
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <div class="row justify-content-center">
-               <div class="col-lg-12">
-                  <div class="card text-center">
-                     <div class="card-header d-flex justify-content-center">
-                        <div class="header-title">
-                           <h4 class="card-title">Editar Información</h4>
-                        </div>
-                     </div>
-                     <div class="card-body">
-
-                        <form id="formEditar" action="/editar-personal-nuevo/:id" method="POST" class="small">
-                           <input type="hidden" id="id_editar" name="id_editar">
-                          <div class="row">
-                              <!-- Personal ID y Nombre del Docente -->
-                              <div class="row">
-                                  <div class="form-group col-md-2">
-                                      <label for="personal_id" class="form-label">ID:</label>
-                                      <input type="text" class="form-control" id="personal_id" name="personal_id" placeholder="" autocomplete="off">
-                                  </div>
-                                  <div class="form-group col-md-10">
-                                      <label for="nombre_docente" class="form-label">Nombre del personal:</label>
-                                      <input type="text" class="form-control" id="nombre_docente" name="nombre_docente" placeholder="Escriba un nombre" autocomplete="off">
-                                      <ul id="suggestionsList" class="list-group position-absolute w-100" style="z-index: 1000;"></ul> 
-                                  </div>
-                              </div>
-                      
-                              <!-- Fecha, Antigüedad y Teléfono -->
-                              <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                  <label for="fecha" class="form-label">Fecha:</label>
-                                  <input type="date" class="form-control" id="fecha" name="fecha">
-                              </div>
-                              <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                  <label for="antiguedad" class="form-label">Antigüedad:</label>
-                                  <input type="text" class="form-control" id="antiguedad" name="antiguedad" placeholder="">
-                              </div>
-                              <div class="form-group col-md-6 col-lg-6">
-                                  <label for="telefono" class="form-label">Teléfono:</label>
-                                  <input type="text" class="form-control" id="telefono" name="telefono" placeholder="">
-                              </div>
-                              
-                              <!-- Cobertura -->
-                             <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                <label for="estatus_cubierta" class="form-label">Cobertura:</label>
-                                <select class="form-select form-select-sm" id="estatus_cubierta" name="estatus_cubierta">
-                                    <option value="" selected disabled>Selecciona una opción</option>
-                                    <option value="cubierta">Cubierta</option>
-                                    <option value="sin cubrir">Sin cubrir</option>
-                                    <option value="no se justifica">No se justifica</option>
-                                </select>
-                            </div>
-                      
-                              <!-- Estatus y Situación -->
-                              <div class="form-group col-md-6">
-                                <label for="estatus" class="form-label">Estatus:</label>
-                                <select class="form-select form-select-sm" id="estatus" name="estatus">
-                                    <option value="" selected disabled>Selecciona un estatus</option>
-                                    <option value="Atendido">Atendido</option>
-                                    <option value="En proceso">En proceso</option>
-                                    <option value="Sin atender">Sin atender</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="situacion" class="form-label">Situación:</label>
-                                <select class="form-select form-select-sm" id="situacion" name="situacion">
-                                    <option value="" selected disabled>Selecciona una opción</option>
-                                    <option value="Inseguridad">Inseguridad</option>
-                                    <option value="Salud">Salud</option>
-                                    <option value="Sin Ct">Sin CT</option>
-                                </select>
-                            </div>
-                      
-                              <!-- Sección de CCT Sale -->
-                              <div class="div">
-                                  <h2 class="h6 mb-2 mt-2">CCT Sale</h2>
-                              </div>
-                              <hr class="hr-horizontal mb-4">
-                              <div class="form-group col-md-4">
-                                <label for="municipio_sale" class="form-label">Municipio:</label>
-                                <input type="text" class="form-control" id="municipio_sale" placeholder="" readonly>
-                             </div>
-                             <div class="form-group col-md-4">
-                                <label for="comunidad_sale" class="form-label">Comunidad:</label>
-                                <input type="text" class="form-control" id="comunidad_sale" placeholder="" readonly>
-                             </div>
-                             <div class="form-group col-md-4">
-                                <label for="cct_sale" class="form-label">Clave CCT:</label>
-                                <input type="text" class="form-control" id="cct_sale" placeholder="Clave CCT" readonly>
-                             </div>
-                             
-                      
-                             <div class="div">
-                                <h2 class="h6 mb-2 mt-1">CCT Entra</h2>
-                            </div>
-                            <hr class="hr-horizontal mb-4">
-                              <!-- Sección de CCT Entra -->
-                              <div class="form-group col-md-4">
-                                <label for="municipio_entra" class="form-label">Municipio:</label>
-                                <select class="form-select" id="municipio_entra" name="municipio_entra">
-                                    <option value="" selected disabled>Seleccione Municipio</option>
-                                    <!-- Opciones dinámicas -->
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
-                                <select class="form-select" id="comunidad_entra" name="comunidad_entra">
-                                    <option value="" selected disabled>Seleccione Comunidad</option>
-                                    <!-- Opciones dinámicas -->
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="cct_entra" class="form-label">Clave CCT:</label>
-                                <select class="form-select" id="cct_entra" name="cct_entra">
-                                    <option value="" selected disabled>Seleccione Clave CCT</option>
-                                    <!-- Opciones dinámicas -->
-                                </select>
-                            </div>
-                      
-                              <!-- Observaciones -->
-                              <div class="form-group col-md-12">
-                                  <label for="observaciones" class="form-label">Observaciones:</label>
-                                  <textarea class="form-control" id="observaciones" name="observaciones" placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
-                              </div>
-                          </div>
-                          <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">Guardar</button>
-                      </form>
-                      
-                      <div id="seccionConfirmacion" class="mt-4" style="display: none;">
-                       <h5>Confirmar Datos Ingresados</h5>
-                       <div class="card">
-                         <div class="card-body">
-                           <!-- Aquí mostraremos el resumen de los datos -->
-                           <div id="resumenDatos"></div>
-                         </div>
-                       </div>
-                       <div class="d-flex justify-content-end mt-3">
-                          <button type="button" id="btnEditar" class="btn btn-secondary me-2">Editar</button>
-                          <button type="button" id="btnConfirmar" class="btn btn-success">Confirmar</button>
-                       </div>
-                     </div>
-                       
-                        
-                     </div>
-                  </div>
-               </div>
             </div>
-         </div>
-      </div>
-   </div>
-</div>
+        </div>
+    </div>
+    <!--Crear-->
+    <div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <!-- Se usa modal-xl para más espacio -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevoRegistroModalLabel">
+                        Nueva entrada
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- Columna izquierda para el perfil -->
+                        <div class="col-xl-3 col-lg-4 mb-3">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="header-title">
+                                        <h4 class="card-title">Perfil</h4>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <div class="profile-img-edit position-relative text-center">
+                                            <img src="images/avatars/01.png" alt="profile-pic"
+                                                class="profile-pic rounded-circle img-fluid w-100 mb-3" />
+                                        </div>
+                                        <div class="img-extension mt-3">
+                                            <small class="text-muted text-center">Datos adicionales</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Columna derecha para el formulario -->
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="header-title">
+                                        <h4 class="card-title">Información del nuevo usuario</h4>
+                                    </div>
+                                </div>
 
- 
+                                <div class="card-body">
+                                    <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
+                                        <input type="hidden" name="tabla" value="docentes_disponibles" />
+                                        <div class="row">
+                                            <!-- Personal ID y Nombre del Docente -->
+                                            <div class="row">
+                                                <div class="form-group col-md-2">
+                                                    <label for="personal_id" class="form-label">ID:</label>
+                                                    <input type="text" class="form-control" id="personal_id"
+                                                        name="personal_id" placeholder="" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-10">
+                                                    <label for="nombre_docente" class="form-label">Nombre del
+                                                        personal:</label>
+                                                    <input type="text" class="form-control" id="nombre_docente"
+                                                        name="nombre_docente" placeholder="Escriba un nombre"
+                                                        autocomplete="off" />
+                                                    <ul id="suggestionsList" class="list-group position-absolute w-100"
+                                                        style="z-index: 1000"></ul>
+                                                </div>
+                                            </div>
+
+                                            <!-- Fecha, Antigüedad y Teléfono -->
+                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                                <label for="fecha" class="form-label">Fecha:</label>
+                                                <input type="date" class="form-control" id="fecha" name="fecha" />
+                                            </div>
+                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                                <label for="antiguedad" class="form-label">Antigüedad:</label>
+                                                <input type="text" class="form-control" id="antiguedad"
+                                                    name="antiguedad" placeholder="" />
+                                            </div>
+                                            <div class="form-group col-md-6 col-lg-6">
+                                                <label for="telefono" class="form-label">Teléfono:</label>
+                                                <input type="text" class="form-control" id="telefono" name="telefono"
+                                                    placeholder="" />
+                                            </div>
+
+                                            <!-- Cobertura -->
+                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                                <label for="estatus_cubierta" class="form-label">Cobertura:</label>
+                                                <select class="form-select form-select-sm" id="estatus_cubierta"
+                                                    name="estatus_cubierta">
+                                                    <option value="" selected disabled>
+                                                        Selecciona una opción
+                                                    </option>
+                                                    <option value="Cubierta">Cubierta</option>
+                                                    <option value="Sin cubrir">Sin cubrir</option>
+                                                    <option value="No se justifica">
+                                                        No se justifica
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Estatus y Situación -->
+                                            <div class="form-group col-md-6">
+                                                <label for="estatus" class="form-label">Estatus:</label>
+                                                <select class="form-select form-select-sm" id="estatus" name="estatus">
+                                                    <option value="" selected disabled>
+                                                        Selecciona un estatus
+                                                    </option>
+                                                    <option value="Atendido">Atendido</option>
+                                                    <option value="En proceso">En proceso</option>
+                                                    <option value="Sin atender">Sin atender</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="situacion" class="form-label">Situación:</label>
+                                                <select class="form-select form-select-sm" id="situacion"
+                                                    name="situacion">
+                                                    <option value="" selected disabled>
+                                                        Selecciona una opción
+                                                    </option>
+                                                    <option value="Inseguridad">Inseguridad</option>
+                                                    <option value="Salud">Salud</option>
+                                                    <option value="Sin CT">Sin CT</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Sección de CCT Sale -->
+                                            <div class="div">
+                                                <h2 class="h6 mb-2 mt-2">CCT Sale</h2>
+                                            </div>
+                                            <hr class="hr-horizontal mb-4" />
+                                            <div class="form-group col-md-4">
+                                                <label for="municipio_sale" class="form-label">Municipio:</label>
+                                                <input type="text" class="form-control" id="municipio_sale"
+                                                    placeholder="" readonly />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="comunidad_sale" class="form-label">Comunidad:</label>
+                                                <input type="text" class="form-control" id="comunidad_sale"
+                                                    placeholder="" readonly />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="cct_sale" class="form-label">Clave CCT:</label>
+                                                <input type="text" class="form-control" id="cct_sale"
+                                                    placeholder="Clave CCT" readonly />
+                                            </div>
+
+                                            <div class="div">
+                                                <h2 class="h6 mb-2 mt-1">CCT Entra</h2>
+                                            </div>
+                                            <hr class="hr-horizontal mb-4" />
+                                            <!-- Sección de CCT Entra -->
+                                            <div class="form-group col-md-4">
+                                                <label for="municipio_entra" class="form-label">Municipio:</label>
+                                                <select class="form-select" id="municipio_entra" name="municipio_entra">
+                                                    <option value="" selected disabled>
+                                                        Seleccione Municipio
+                                                    </option>
+                                                    <!-- Opciones dinámicas -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
+                                                <select class="form-select" id="comunidad_entra" name="comunidad_entra">
+                                                    <option value="" selected disabled>
+                                                        Seleccione Comunidad
+                                                    </option>
+                                                    <!-- Opciones dinámicas -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="cct_entra" class="form-label">Clave CCT:</label>
+                                                <select class="form-select" id="cct_entra" name="cct_entra">
+                                                    <option value="" selected disabled>
+                                                        Seleccione Clave CCT
+                                                    </option>
+                                                    <!-- Opciones dinámicas -->
+                                                </select>
+                                            </div>
+
+                                            <!-- Observaciones -->
+                                            <div class="form-group col-md-12">
+                                                <label for="observaciones" class="form-label">Observaciones:</label>
+                                                <textarea class="form-control" id="observaciones" name="observaciones"
+                                                    placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
+                                            </div>
+                                        </div>
+                                        <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
+                                            Guardar
+                                        </button>
+                                    </form>
+
+                                    <div id="seccionConfirmacion" class="mt-4" style="display: none">
+                                        <h5>Confirmar Datos Ingresados</h5>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <!-- Aquí mostraremos el resumen de los datos -->
+                                                <div id="resumenDatos"></div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button type="button" id="btnEditar" class="btn btn-secondary me-2">
+                                                Editar
+                                            </button>
+                                            <button type="button" id="btnConfirmar" class="btn btn-success">
+                                                Confirmar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { getStatusClass, dateFormatter } from "./js/AgGrid/config.js";
+        import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
+
+        let gridApi;
+        let editMode = false;
+
+        const statusRenderer = (params) => {
+            const span = document.createElement("span");
+            span.textContent = params.value;
+            span.classList.add("btn-status");
+
+            // Reemplaza espacios por guiones bajos para las clases CSS
+            const statusClass = getStatusClass(params.value).replace(/\s+/g, "_");
+            span.classList.add(statusClass);
+
+            return span;
+        };
+
+        const gridOptions = {
+            columnDefs: [
+                { field: "np", headerName: "NP", width: 70, editable: false },
+                {
+                    field: "fecha",
+                    headerName: "Fecha",
+                    editable: () => editMode, // Controla la edición dinámicamente
+                    width: 120,
+                    cellEditor: "agDateCellEditor",
+                    valueFormatter: (params) => {
+                        if (!params.value) return "";
+                        const date = new Date(params.value);
+                        return date.toLocaleDateString("es-MX", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                        });
+                    },
+                },
+                {
+                    field: "nombre_docente",
+                    headerName: "Nombre",
+                    filter: true,
+                    width: 220,
+                    editable: false,
+                },
+                {
+                    field: "estatus",
+                    headerName: "Estatus",
+                    cellRenderer: statusRenderer,
+                    editable: () => editMode,
+                    width: 120,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: {
+                        values: ["Atendido", "En proceso", "Sin atender"],
+                    },
+                    valueSetter: (params) => {
+                        const validValues = ["Atendido", "En proceso", "Sin atender"];
+                        const normalizedValue = params.newValue?.trim();
+                        if (validValues.includes(normalizedValue)) {
+                            params.data.estatus = normalizedValue;
+                            return true;
+                        } else {
+                            alert("Estatus inválido. Seleccione un valor de la lista.");
+                            return false;
+                        }
+                    },
+                },
+                {
+                    field: "observaciones",
+                    headerName: "Observaciones",
+                    minWidth: 250,
+                    wrapHeaderText: true,
+                    autoHeaderHeight: true,
+                    cellStyle: { "white-space": "normal", "line-height": "1.7" },
+                    autoHeight: true,
+                    editable: () => editMode, // Observaciones es editable
+                },
+                {
+                    field: "situacion",
+                    headerName: "Situación",
+                    cellRenderer: statusRenderer,
+                    editable: () => editMode,
+                    width: 110,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: {
+                        values: ["Inseguridad", "Salud", "Sin CT"],
+                    },
+                    valueSetter: (params) => {
+                        if (["Inseguridad", "Salud", "Sin CT"].includes(params.newValue)) {
+                            params.data.situacion = params.newValue;
+                            return true; // Actualización exitosa
+                        } else {
+                            alert("Situación inválida. Seleccione un valor de la lista.");
+                            return false;
+                        }
+                    },
+                },
+                {
+                    field: "antiguedad",
+                    headerName: "Antigüedad",
+                    width: 110,
+                    editable: () => false,
+                },
+                {
+                    field: "municipio_sale",
+                    headerName: "Municipio sale",
+                    editable: () => editMode,
+                    width: 150,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: (params) => ({
+                        values: params.context.municipios.map((m) => m.nombre_municipio),
+                    }),
+                    valueSetter: (params) => {
+                        const municipioObj = params.context.municipios.find(
+                            (m) => m.nombre_municipio === params.newValue
+                        );
+                        if (municipioObj) {
+                            params.data.municipio_id = municipioObj.municipio_id;
+                            params.data.municipio_sale = municipioObj.nombre_municipio;
+                            params.context.currentComunidades =
+                                municipioObj.comunidades || [];
+                            return true;
+                        }
+                        alert("Municipio inválido.");
+                        return false;
+                    },
+                },
+                {
+                    field: "comunidad_sale",
+                    headerName: "Comunidad Sale",
+                    editable: () => editMode,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: (params) => ({
+                        values: params.context.currentComunidades.map(
+                            (c) => c.nombre_comunidad
+                        ),
+                    }),
+                    valueSetter: async (params) => {
+                        const comunidadObj = params.context.currentComunidades.find(
+                            (c) => c.nombre_comunidad === params.newValue
+                        );
+                        if (comunidadObj) {
+                            params.data.comunidad_id = comunidadObj.comunidad_id;
+                            params.data.comunidad_sale = comunidadObj.nombre_comunidad;
+                            const ccts = await fetchCCTs(
+                                params.data.municipio_id,
+                                comunidadObj.comunidad_id
+                            );
+                            params.context.currentCCTs = ccts || [];
+                            return true;
+                        }
+                        alert("Comunidad inválida.");
+                        return false;
+                    },
+                },
+                {
+                    field: "cct_sale",
+                    headerName: "CCT sale",
+                    editable: () => editMode,
+                    width: 115,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: (params) => ({
+                        values: params.context.currentCCTs.map(
+                            (c) => c.centro_clave_trabajo
+                        ),
+                    }),
+                    valueSetter: (params) => {
+                        const cctObj = params.context.currentCCTs.find(
+                            (c) => c.centro_clave_trabajo === params.newValue
+                        );
+                        if (cctObj) {
+                            params.data.cct_id = cctObj.cct_id;
+                            params.data.cct_sale = cctObj.centro_clave_trabajo;
+                            return true;
+                        }
+                        alert("CCT inválido.");
+                        return false;
+                    },
+                },
+                {
+                    field: "estatus_cubierta",
+                    headerName: "Estatus Cubierta",
+                    cellRenderer: statusRenderer,
+                    editable: () => editMode,
+                    width: 150,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: {
+                        values: ["Cubierta", "Sin cubrir", "No se justifica"],
+                    },
+                    valueSetter: (params) => {
+                        const validValues = ["Cubierta", "Sin cubrir", "No se justifica"];
+                        if (validValues.includes(params.newValue)) {
+                            params.data.estatus_cubierta = params.newValue;
+                            if (params.newValue === "Cubierta") {
+                                params.data.estatus = "Atendido";
+                            } else if (params.newValue === "No se justifica") {
+                                params.data.estatus = "Sin atender";
+                            }
+                            return true;
+                        } else {
+                            alert("Valor inválido. Seleccione una opción válida.");
+                            return false;
+                        }
+                    },
+                },
+                {
+                    field: "municipio_entra",
+                    headerName: "Municipio Entra",
+                    width: 150,
+                    editable: () => editMode,
+                },
+                {
+                    field: "comunidad_entra",
+                    headerName: "Comunidad Entra",
+                    width: 150,
+                    editable: () => editMode,
+                },
+                {
+                    field: "cct_entra",
+                    headerName: "CCT Entra",
+                    width: 150,
+                    editable: () => editMode,
+                },
+            ],
+            
+            defaultColDef: {
+                editable: true,
+                resizable: true,
+            },
+            rowData: null,
+            // Implementación del evento `onCellValueChanged`
+            onCellValueChanged: async (event) => {
+                const { data, colDef, newValue, oldValue } = event;
+
+                if (newValue === oldValue) return; // No hacer nada si no hubo cambios
+
+                try {
+                    const response = await fetch("/editarPersonal", {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            personal_id: data.personal_id, // ID de la fila
+                            field: colDef.field, // Nombre de la columna
+                            value: newValue, // Nuevo valor
+                        }),
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        console.error(`Error: ${result.message}`);
+                        event.node.setDataValue(colDef.field, oldValue); // Revertir si hay error
+                    } else {
+                        console.log("Registro actualizado correctamente:", result.message);
+                    }
+                } catch (error) {
+                    console.error("Error al actualizar el registro:", error);
+                    alert("Error al actualizar el registro.");
+                    event.node.setDataValue(colDef.field, oldValue); // Revertir si hay error
+                }
+            },
+            rowHeight: 60,
+            domLayout: "autoHeight",
+            context: {
+                municipios: [],
+                comunidades: [],
+                ccts: [],
+                currentComunidades: [],
+                currentCCTs: [],
+            },
+            rowSelection: {
+                mode: "multiRow",
+            },
+            onSelectionChanged: handleSelectionChanged,
+        };
+
+        // Función para manejar la habilitación del botón "Borrar"
+        function handleSelectionChanged() {
+            const selectedRows = gridApi.getSelectedRows(); // Obtener filas seleccionadas
+            const deleteIcon = document.getElementById("deleteIcon");
+        
+            console.log("Filas seleccionadas:", selectedRows);
+        
+            if (selectedRows.length > 0) {
+                // Cambiar el color del ícono a `btn-primary`
+                deleteIcon.classList.remove("btn-secondary");
+                deleteIcon.classList.add("btn-primary");
+            } else {
+                // Cambiar el color del ícono a `btn-secondary`
+                deleteIcon.classList.remove("btn-primary");
+                deleteIcon.classList.add("btn-secondary");
+            }
+        }
+
+        // Función para manejar el cambio de filtro externo
+        window.externalFilterChanged = function (filterType) {
+            if (!gridApi) {
+                console.error("Grid API no está inicializado.");
+                return;
+            }
+            if (filterType === "cctsSaleEntra") {
+                // Lista de todas las columnas
+                const allColumns = gridOptions.columnDefs.map((colDef) => colDef.field);
+                // Columnas a mostrar
+                const columnsToShow = [
+                    "nombre_docente",   
+                    "fecha",
+                    "estatus",
+                    "municipio_sale",
+                    "cct_sale",
+                    "estatus_cubierta",
+                    "municipio_entra",
+                    "cct_entra",
+                ];
+                const columnsToHide = allColumns.filter(
+                    (col) => !columnsToShow.includes(col)
+                );
+                columnsToHide.forEach((col) => {
+                    gridApi.setColumnVisible(col, false);
+                });
+                columnsToShow.forEach((col) => {
+                    gridApi.setColumnVisible(col, true);
+                });
+            } else if (filterType === "all") {
+                gridOptions.columnDefs.forEach((colDef) => {
+                    gridApi.setColumnVisible(colDef.field, true);
+                });
+            }
+        };
+
+        const initializeGrid = async () => {
+            const gridDiv = document.querySelector("#myGrid");
+            gridApi = agGrid.createGrid(gridDiv, gridOptions);
+            try {
+                const municipios = await fetchMunicipios();
+                for (const municipio of municipios) {
+                    municipio.comunidades = await fetchComunidades(
+                        municipio.municipio_id
+                    );
+                }
+                gridOptions.context.municipios = municipios;
+
+                const data = await fetch("/getDocentesDisponibles").then((response) =>
+                    response.json()
+                );
+                gridApi.setGridOption("rowData", data);
+                externalFilterChanged("all");
+            } catch (error) {
+                console.error("Error inicializando la tabla:", error);
+            }
+        };
+
+        // Alternar el modo edición
+        document.querySelector("#toggleEditMode").addEventListener("click", () => {
+            editMode = !editMode; // Cambiar el estado del modo edición
+            const button = document.querySelector("#toggleEditMode");
+            button.textContent = editMode ? "Desactivar Edición" : "Activar Edición";
+            gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar el cambio
+        });
+
+        document.addEventListener("DOMContentLoaded", initializeGrid);
+    </script>

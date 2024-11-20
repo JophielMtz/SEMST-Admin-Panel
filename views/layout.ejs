@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en" dir="ltr">
-
+<html lang="es" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -25,11 +24,16 @@
     <link rel="stylesheet" href="css/rtl.min.css" />
     <!--Mis estilos personalizados-->
     <link rel="stylesheet" href="css/custom-style.css">
-    <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
-     -->
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ag-grid-community/styles/ag-grid.css" />
+    <link href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-quartz.min.css" rel="stylesheet"/>
 
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-alpine.css">
+    
+
+     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+     <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
 </head>
 
@@ -267,7 +271,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="#">
+                                <a class="nav-link " href="/licencias-sin-goce">
                                     <i class="icon">
                                         <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                             viewBox="0 0 24 24" fill="currentColor">
@@ -442,7 +446,7 @@
                         </a>
                         <ul class="sub-nav collapse" id="utilities-error" data-bs-parent="#sidebar-menu">
                             <li class="nav-item">
-                                <a class="nav-link " href="#">
+                                <a class="nav-link " href="/apoyo-lentes">
                                     <i class="icon">
                                         <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                             viewBox="0 0 24 24" fill="currentColor">
@@ -692,6 +696,8 @@
                             </a>
                         </li>
                     </ul>
+
+
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-form" role="button"
@@ -1506,33 +1512,29 @@
     </div>
     
 
+    <!--AG grid-->
+    <script src="js/AgGrid/main.js"></script>
+
+
     <!-- Library Bundle Script -->
     <script src="js/core/libs.min.js"></script>
     <!-- External Library Bundle Script -->
     <script src="js/core/external.min.js"></script>
-
     <!-- Widgetchart Script -->
     <script src="js/charts/widgetcharts.js"></script>
-
     <!-- mapchart Script -->
     <script src="js/charts/vectore-chart.js"></script>
     <script src="js/charts/dashboard.js"></script>
-
     <!-- fslightbox Script -->
     <script src="js/plugins/fslightbox.js"></script>
-
     <!-- Settings Script -->
     <script src="js/plugins/setting.js"></script>
-
     <!-- Slider-tab Script -->
     <script src="js/plugins/slider-tabs.js"></script>
-
     <!-- AOS Animation Plugin-->
     <script src="vendor/aos/dist/aos.js"></script>
-
     <!-- App Script -->
     <script src="js/hope-ui.js" defer></script>
-    
     <!-- Form Wizard Script -->
     <script src="js/plugins/form-wizard.js"></script>
 
@@ -1546,13 +1548,7 @@
     <script type="module" src="/js/cargaDeDatos.js"></script>
     <script type="module" src="/js/formValidatioon.js"></script>
     <script type="module" src="/js/modules/Datatable/dataTableInit.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-    
-
 
 
 </body>
-
 </html>

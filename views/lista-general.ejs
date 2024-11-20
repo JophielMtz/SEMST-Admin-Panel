@@ -8,29 +8,103 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="table-responsive">
-            <table id="personal" class="datatable table table-striped">
-              <thead>
-                <tr>
-                  <th>asdasdf</th>
-                  <th>ID</th>
-                  <th>Rfc</th>
-                  <th>Nombre</th>
-                  <th>Apellido Paterno</th>
-                  <th>Apellido Materno</th>
-                  <th>Edad</th>
-                  <th>Teléfono</th>
-                  <th>Correo</th>
-                  <th>Cargo</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Deja el cuerpo vacío -->
-              </tbody>
-            </table>
-          </div>
+          <div id="myGrid" class="ag-theme-quartz" style="height: 800px"></div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+// Grid API: Access to Grid API methods
+let gridApi;
+
+const dateFormatter = (params) => {
+  return new Date(params.value).toLocaleDateString("en-us", {
+    weekday: "long",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
+class PersonalRenderer {
+  eGui;
+
+  init(params) {
+    // Crear elemento para la imagen
+    let personalImage = document.createElement("img");
+
+    // Validar si la URL de la imagen está disponible
+    if (params.data.imagen) {
+      personalImage.src = `/uploads/${params.data.imagen}`; // Apunta a la ruta pública
+    } else {
+      // Imagen predeterminada si no hay una imagen proporcionada
+      personalImage.src = "/uploads/default.jpg"; // Asegúrate de tener un archivo default.jpg
+    }
+
+    personalImage.setAttribute(
+      "style",
+      "display: block; width: 25px; height: 25px; border-radius: 50%; margin-right: 12px;"
+    );
+
+    // Crear elemento para el nombre completo
+    let personalName = document.createElement("p");
+    personalName.textContent = `${params.data.nombre} ${params.data.apellido_paterno} ${params.data.apellido_materno}`;
+    personalName.setAttribute(
+      "style",
+      "text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin: 0;"
+    );
+
+    // Crear contenedor principal y agregar imagen y nombre
+    this.eGui = document.createElement("span");
+    this.eGui.setAttribute(
+      "style",
+      "display: flex; height: 100%; width: 100%; align-items: center;"
+    );
+    this.eGui.appendChild(personalImage);
+    this.eGui.appendChild(personalName);
+  }
+
+  // Retornar el elemento DOM del componente
+  getGui() {
+    return this.eGui;
+  }
+
+  // Indicar que no se necesita refrescar
+  refresh(params) {
+    return false;
+  }
+}
+
+// Grid Options: Contains all of the grid configurations
+const gridOptions = {
+
+  
+  // Data to be displayed
+  rowData: [],
+  // Columns to be displayed (Should match rowData properties)
+  columnDefs: [
+  { headerName: "Nombre", width: 300, 
+    cellRenderer: PersonalRenderer,
+  },
+  { field: "personal_id", headerName: "ID", filter: true, width: 80 },
+  { field: "rfc", headerName: "RFC" },
+  { field: "edad", headerName: "Edad", width: 70 },
+  { field: "telefono", headerName: "Telefono" },
+  { field: "correo", headerName: "Email" },
+  { field: "cargo", headerName: "cargo" },
+  ],
+};
+
+
+
+// Create Grid: Create new grid within the #myGrid div, using the Grid Options object
+gridApi = agGrid.createGrid(document.querySelector("#myGrid"), gridOptions);
+
+// Fetch Remote Data
+fetch("/api/listaGeneral")
+  .then((response) => response.json())
+  .then((data) => gridApi.setGridOption("rowData", data));
+</script>
+

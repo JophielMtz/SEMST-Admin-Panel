@@ -1,5 +1,5 @@
 const express = require('express');
-const { vistaPrincipal, vistaReviciones, vistaPendientes, vistaDocentesDisponibles, vistaEditarDocente, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, vistaRoles, vistaEditarPersonal, agregarPersonal, actualizarPersonal,  obtenerPersonal, obtenerDetallePersonal, buscarNombresDocentes  } = require('../controllers/Pagecontrollers');
+const { vistaPrincipal, vistaReviciones, vistaPendientes, postPendientes, vistaDocentesDisponibles, editarDocente, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, vistaRoles, vistaEditarPersonal, agregarPersonal, actualizarPersonal,  obtenerPersonal, obtenerDetallePersonal,obtenerListaGeneral, obtenerDocentesDisponibles  } = require('../controllers/Pagecontrollers');
 const router = express.Router();
 const pool = require('../src/config/db'); //Ruta de db
 
@@ -20,8 +20,14 @@ const storage = multer.diskStorage({
 
 router.get('/', vistaPrincipal)
 router.get('/revisiones', vistaReviciones)
+// Pendientes
 router.get('/pendientes', vistaPendientes)
+
+// Ednpoint para tabla doccentes_disponibles y solicitudes
 router.get('/docentes-disponibles', vistaDocentesDisponibles);
+router.get('/getDocentesDisponibles', obtenerDocentesDisponibles);
+router.get('/editar-personal/:id', vistaEditarPersonal);
+
 router.get('/nombramientos-docentes', vistaNombramientosDocentes);
 router.get('/licencias-sin-goce', vistaLicenciasSinGoce);
 router.get('/incidencias', vistaIncidencias);
@@ -33,6 +39,7 @@ router.get('/salud', vistaSalud);
 router.get('/beca-comision', vistaBecaComision);
 router.get('/apoyo-lentes', vistaApoyoLentes);
 router.get('/lista-general', vistaListaGeneral);
+router.get('/api/listaGeneral', obtenerListaGeneral);
 router.get('/lista-panel-adm', vistaListaPanelAdm);
 router.get('/perfil', vistaPerfil);
 router.get('/lista-federal', vistaListaFederal);
@@ -269,40 +276,15 @@ router.get('/obtener-ccts', async (req, res) => {
   }
 });
 
-// Endpoint para obtener los datos del personal
-router.get('/lista-general', async (req, res) => {
-  try {
-      // Consulta SQL para obtener los datos del personal
-      const [results] = await pool.query(`
-          SELECT 
-              p.personal_id, p.rfc, p.nombre, p.apellido_paterno, 
-              p.apellido_materno, p.edad, p.telefono, p.correo, 
-              c.descripcion AS cargo
-          FROM personal p
-          LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
-          LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id
-      `);
-
-      // Enviar los datos como JSON
-      res.json({ data: results }); // Devuelve los datos con la clave 'data'
-
-  } catch (err) {
-      // Manejo de errores
-      console.error('Error:', err);
-      res.status(500).json({ error: 'Error al consultar los datos' });
-  }
-});
-
 // Ednpoint para tabla doccentes_disponibles y solicitudes
-router.get('/editar-personal-nuevo/:id', vistaEditarDocente);
+router.put('/editarPersonal', editarDocente);
 router.get('/editar-personal/:id', vistaEditarPersonal);
-router.get('/buscar-nombres-docentes/:query', buscarNombresDocentes);
+
 
 //post
-router.put('/editar-personal/:id', actualizarPersonal);
 router.post('/personal/agregar', upload.single('imagen'), agregarPersonal);
 
-router.post('/actualizar-personal/:id', actualizarPersonal);
+
 
 
 //Endpoints para obtener datos de ubic ccts
@@ -533,21 +515,77 @@ router.get('/getDocentes', async (req, res) => {
 
 
 //delete  
-router.delete('/personal/:id', async (req, res) => {
-  const { id } = req.params;
+// router.delete('/personal/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const { tabla } = req.query;
+
+//   try {
+//       const tablasValidas = ['detalle_laboral', 'personal', 'docentes_disponibles'];
+//       if (!tablasValidas.includes(tabla)) {
+//           return res.status(400).json({ success: false, message: 'Tabla no válida' });
+//       }
+
+//       let columnaId;
+//       if (tabla === 'personal') {
+//           columnaId = 'personal_id';
+//       } else if (tabla === 'detalle_laboral') {
+//           columnaId = 'detalle_laboral_id';
+//       } else if (tabla === 'docentes_disponibles') {
+//           columnaId = 'np'; // Reemplaza 'id' por el nombre correcto de la columna primaria
+//       } else {
+//           return res.status(400).json({ success: false, message: 'Tabla no válida' });
+//       }
+
+//       const query = `DELETE FROM ${tabla} WHERE ${columnaId} = ?`;
+//       await pool.query(query, [id]);
+
+//       console.log(`Registro eliminado correctamente de la tabla ${tabla}`);
+//       res.status(200).json({ success: true, message: `Registro eliminado correctamente de ${tabla}` });
+//   } catch (error) {
+//       console.error('Error al eliminar el registro:', error.message);
+//       res.status(500).json({ success: false, message: 'Error al eliminar el registro' });
+//   }
+// });
+
+
+router.post('/deleteDocente', async (req, res) => {
+  const id = req.body.id;
+
+  if (!id) {
+    return res.json({ success: false, error: 'ID no proporcionado.' });
+  }
 
   try {
-    await pool.query('DELETE FROM detalle_laboral WHERE personal_id = ?', [id]);
-    await pool.query('DELETE FROM personal WHERE personal_id = ?', [id]);
+    const [result] = await pool.query('DELETE FROM docentes_disponibles WHERE np = ?', [id]);
 
-    console.log('Personal eliminado correctamente');
-    res.status(200).json({ success: true, message: 'Registro eliminado correctamente' });
-  } catch (error) {
-    console.error('Error al eliminar el registro:', error);
-    res.status(500).json({ success: false, message: 'Error al eliminar el registro' });
+    if (result.affectedRows > 0) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false, error: 'No se encontró el docente.' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.json({ success: false, error: 'Error al eliminar el docente.' });
   }
 });
 
+
+router.delete('/pendientes/:np', async (req, res) => {
+  const { np } = req.params;
+
+  try {
+    const [result] = await pool.query('DELETE FROM pendientes WHERE np = ?', [np]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Pendiente no encontrado' });
+    }
+
+    res.json({ success: true, message: 'Pendiente eliminado correctamente' });
+  } catch (error) {
+    console.error('Error al eliminar el pendiente:', error);
+    res.status(500).json({ success: false, message: 'Error al eliminar el pendiente' });
+  }
+});
 
 
 module.exports = router;

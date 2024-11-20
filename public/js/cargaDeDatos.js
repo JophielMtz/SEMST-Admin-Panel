@@ -36,6 +36,34 @@ function llenarFormulario(docente) {
     }
 }
 
+// Función para cargar los datos del formulario al abrir el modal
+function cargarDatosFormulario(id) {
+    // Realizamos la petición al endpoint pasando el ID
+    fetch(`/api/editar/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            // Rellenamos los campos del formulario con los datos recibidos
+            document.getElementById("id_editar").value = data.id; // Asumiendo que el ID es único y se debe setear en el hidden field
+            document.getElementById("personal_id").value = data.personal_id;
+            document.getElementById("nombre_docente").value = data.nombre_docente;
+            document.getElementById("fecha").value = data.fecha;
+            document.getElementById("antiguedad").value = data.antiguedad;
+            document.getElementById("telefono").value = data.telefono;
+            document.getElementById("estatus_cubierta").value = data.estatus_cubierta;
+            document.getElementById("estatus").value = data.estatus;
+            document.getElementById("situacion").value = data.situacion;
+            document.getElementById("municipio_sale").value = data.municipio_sale;
+            document.getElementById("comunidad_sale").value = data.comunidad_sale;
+            document.getElementById("cct_sale").value = data.cct_sale;
+            document.getElementById("municipio_entra").value = data.municipio_entra;
+            document.getElementById("comunidad_entra").value = data.comunidad_entra;
+            document.getElementById("cct_entra").value = data.cct_entra;
+            document.getElementById("observaciones").value = data.observaciones;
+        })
+        .catch(error => console.error('Error cargando los datos: ', error));
+}
+
+
 
 async function cargarDatosDocente(id) {
     console.log(`Cargando datos del docente con ID: ${id}`);
@@ -172,5 +200,6 @@ export {
     cargarCCTs, 
     actualizarSelect,
     configurarAutocompletado,
+    cargarDatosFormulario,
 
  };

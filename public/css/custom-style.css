@@ -163,163 +163,95 @@ svg:not(:root).svg-inline--fa {
   border-radius: 8px;
 }
 
-/* Sobrescribe el fondo y los bordes del contenedor */
-.dataTables_wrapper {
-  background-color: #ffffff;
-  border: 1px solid #ffffff;
-  border-radius: 8px; /* Redondea el contenedor general */
-  padding: 1px;
-}
+/*Tablas*/
 
-/* Cabecera de la tabla */
-table.dataTable {
-  border-radius: 4px; /* Aplica el border-radius a la tabla */
-  overflow: hidden; /* Esconde cualquier contenido que sobresalga */
-}
-
-/* Redondea las esquinas superiores del encabezado */
-table.dataTable thead th:first-child {
-  border-top-left-radius: 12px; /* Esquina superior izquierda */
-}
-
-table.dataTable thead th:last-child {
-  border-top-right-radius: 12px; /* Esquina superior derecha */
-}
-
-/* Redondea las esquinas inferiores de la última fila */
-table.dataTable tfoot th:first-child,
-table.dataTable tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 12px; /* Esquina inferior izquierda */
-}
-
-table.dataTable tfoot th:last-child,
-table.dataTable tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 12px; /* Esquina inferior derecha */
-}
-
-/* Hover en filas */
-table.dataTable tbody tr:hover {
-  background-color: #cbdff2;
-  transition: background-color 0.5s ease;
-}
-
-/* Botones de paginación */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-  background-color: #007bff;
-  color: white !important;
-  border-radius: 4px;
-  padding: 5px 10px;
-  margin: 2px;
-  transition: background-color 0.3s ease;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  background-color: #0056b3;
-  color: white !important;
-}
-
-/* Cabecera de la tabla */
-table.dataTable thead th {
-  background: linear-gradient(to bottom, #2c50c9, #2942a4);
-  color: white;
-  font-weight: bold;
+th:first-child, 
+td:first-child {
+  padding: auto;
+  margin: auto;
 }
 
 
-/* Tabla de datatable */
-
-
-table.dataTable td, table.dataTable th {
-  padding: 19px 3px; /* Reduce el padding (original era 16px 24px, ahora 4px 6px) */
-  font-size: 0.8em; /* Opcional: Ajustar el tamaño de la fuente para más espacio */
+/* Estilos comunes */
+.btn-status {
+  display: inline-block;
+  width: 75px;
+  height: 27px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 17px;
+  font-size: 11px;
+  padding: 0;
+  text-decoration: none;
+  border: 1px solid transparent;
 }
 
-table.dataTable td:nth-child(2) {
-  padding: 2px;
+.btn-atendido,
+.btn-cubierta {
+  color: #9eeac3;
+  border-color: #9eeac3;
 }
 
-table.dataTable td:first-child {
-  padding: 2px 16px;
-}
-/* Estilo para la clase td.child */
-
-td.child {
-  padding: 15px; /* Espaciado interno más cómodo */
-  background-color: #ffffff; /* Fondo más suave para mejor contraste */
-  border: 3px solid #e2e2e2; /* Borde sutil */
-  border-radius: 8px; /* Bordes redondeados */
-  font-size: 14px; /* Tamaño de fuente legible */
-  color: #333; /* Color del texto */
+.btn-en-proceso,
+.btn-sin-cubrir {
+  color: #58b0d8;
+  border-color: #58b0d8;
 }
 
-/* Contenedor para cada fila de clave/valor (Diseño base en flex) */
-td.child div {
-  display: flex; /* Alineación en fila */
-  justify-content: space-evenly; /* Clave a la izquierda, valor a la derecha */
-  align-items: center; /* Alineación vertical centrada */
-  padding: 8px 0; /* Espaciado entre filas */
-  border-bottom: 1px dashed #ddd; /* Línea divisoria discreta */
+.btn-sin-atender,
+.btn-no-se-justifica {
+  color: #ce4257;
+  border-color: #ce4257;
 }
 
-/* Última fila sin borde */
-td.child div:last-child {
-  border-bottom: none;
+.btn-salud{
+  color: #8aebb9;
+  border-color: #8aebb9;
 }
 
-/* Clave (lado izquierdo) */
-td.child div span:first-child {
-  font-weight: bold; /* Texto más destacado para las claves */
-  color: #4a4a4a; /* Color gris oscuro */
-  flex: 0 0 auto; /* Ocupa solo el espacio necesario */
-  text-align: left;
-  white-space: nowrap; /* Evita saltos de línea */
+.btn-sin-ct{
+  color: #1ae7c3;
+  border-color: #1ae7c3;
 }
 
-/* Valor (lado derecho) */
-td.child div span:last-child {
-  text-align: center !important; /* Alinea el valor a la derecha */
-
-  color: #ffffff; /* Color gris claro */
-  word-break: break-word; /* Ajusta texto largo */
-  white-space: normal; /* Permite saltos de línea */
+.btn-inseguridad{
+  color: #ce4257;
+  border-color: #ce4257;
 }
 
+.test-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
+.test-header {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 13px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid grey;
+  padding: 10px;
+  border-radius: 5px;
+}
 
-/* RESPONSIVE: Diseño en columnas para pantallas pequeñas */
-@media (max-width: 768px) {
-  td.child div {
-    display: flex;
-    text-align: left; /* Texto alineado a la izquierda */
-    padding: 3px 0; /* Espaciado más compacto */
-  }
+/* AG Grid  */
 
-  td.child div span:first-child {
-    display: block; /* Clave en su propia línea */
-    margin-bottom: 5px; /* Espaciado entre clave y valor */
-  }
+.ag-theme-quartz .ag-popup .ag-virtual-list-container {
+  max-height: 150px; /* Limita la altura del dropdown */
+  overflow-y: auto; /* Agrega un scroll vertical */
+}
 
-  td.child div span:last-child {
-    display: block; /* Valor en su propia línea */
-    text-align: left; /* Alineación izquierda */
-  }
+.ag-theme-quartz .ag-popup .ag-virtual-list-container::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar para Chrome/Edge */
+}
 
-  div.dataTables_wrapper div.dataTables_filter,
-  div.dataTables_wrapper div.dataTables_info {
-    text-align: left; /* Alinea el contenido a la izquierda */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 5px 10px; /* Espaciado interno adicional */
-  }
-  
-  div.dataTables_wrapper div.dataTables_length {
-    padding-bottom: 5px; /* Padding solo para el selector "Mostrar" */
-  }
-  
-  div.dataTables_wrapper div.dataTables_filter input {
-    padding: 0; /* Elimina cualquier padding extra del input "Buscar" */
-    border-radius: 8px; /* Opcional: Bordes redondeados para el input */
-    border: 1.3px solid #3b3b3b; /* Opcional: Bordes para el input */
-    background-color: #f0f0f0;
+.ag-theme-quartz .ag-popup .ag-virtual-list-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color del scrollbar */
+  border-radius: 4px; /* Bordes redondeados */
+}
 
-  }
+.ag-theme-quartz .ag-popup .ag-virtual-list-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color al pasar el mouse */
 }

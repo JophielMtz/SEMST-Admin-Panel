@@ -1,70 +1,68 @@
+// Configs.js
+
 export function configurarBotonesAccion() {
     const modalTitle = document.querySelector('#nuevoRegistroModal .modal-title');
     const form = document.querySelector('#nuevoRegistroModal #formRegistro');
 
-    // Selecciona todos los botones con la clase 'accion-btn'
-    document.querySelectorAll('.accion-btn').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const action = event.currentTarget.dataset.action; // Obtén la acción (nuevo o editar)
+    // Delegación de eventos para botones con clase 'accion-btn' o 'borrar-btn'
+    document.addEventListener('click', async (event) => {
+        const button = event.target.closest('.accion-btn, .borrar-btn'); // Verifica si es un botón válido
+        if (!button) return;
 
-            if (action === 'nuevo') {
-                configurarModalNuevo(modalTitle, form);
-            } else if (action === 'editar') {
-                configurarModalEditar(modalTitle, form);
+        const action = button.dataset.action; // Obtén la acción (nuevo, editar, borrar)
+        const registroId = button.dataset.id; // ID del registro (si aplica)
+        const endpoint = button.dataset.endpoint; // Endpoint (si aplica)
+
+        if (action === 'nuevo') {
+            configurarModalNuevo(modalTitle, form);
+        } else if (action === 'editar') {
+            configurarModalEditar(modalTitle, form, registroId, endpoint);
+        } else if (button.classList.contains('borrar-btn')) {
+            try {
+                const result = await manejarBorrado(button, registroId, endpoint);
+                if (result.success) {
+                    // Accede a la instancia de DataTable y elimina la fila
+                    const table = $(button).closest('.datatable').DataTable(); // Utiliza el selector correcto
+                    const row = $(button).closest('tr');
+                    table.row(row).remove().draw();
+
+                    alert('Registro eliminado correctamente');
+                } else {
+                    alert(`Error al borrar: ${result.message}`);
+                }
+            } catch (error) {
+                console.error("Error al borrar el registro:", error);
+                alert("Ocurrió un error al intentar borrar el registro.");
             }
-        });
-    });
-}
-
-// Configura el modal para la acción "Nuevo"
-function configurarModalNuevo(modalTitle, form) {
-    modalTitle.textContent = 'Nueva entradaa'; // Cambia el título del modal
-    form.reset(); // Limpia el formulario
-    form.querySelector('[name="action"]').value = 'nuevo'; // Define la acción en un campo oculto
-}
-
-
-// Configura el modal para la acción "Editar"
-function configurarModalEditar(modalTitle, form) {
-    modalTitle.textContent = 'Editar entrada'; // Cambia el título del modal
-    form.querySelector('[name="action"]').value = 'editar'; // Define la acción en un campo oculto
-
-    // Obtener el ID del registro que se va a editar
-    const id = form.dataset.id; // Asegúrate de que el ID esté almacenado en un atributo del formulario o en otro lugar
-    const isNuevo = form.querySelector('[name="action"]').value === 'nuevo'; // Verifica si es "nuevo"
-
-    if (id || isNuevo) {
-        // Definir la URL según sea "nuevo" o "editar"
-        const url = isNuevo
-            ? `/buscar-nuevo-docente/${id}` // Ruta para cargar datos de la tabla "nuevo-docente"
-            : `/editar-personal-nuevo/${id}`; // Ruta para cargar datos de la tabla "docentes_disponibles"
-
-        // Realizar solicitud AJAX para obtener los datos del registro
-        $.ajax({
-            url: url,
-            type: 'GET',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest', // Indica que es una solicitud AJAX
-            },
-            success: function (data) {
-                // Cargar los datos recibidos en el formulario
-                llenarFormulario(form, data.docente);
-            },
-            error: function (error) {
-                console.error('Error al cargar los datos del registro:', error);
-                alert('No se pudo cargar la información del registro.');
-            },
-        });
-    }
-}
-
-
-// Función para llenar el formulario con los datos del registro
-function llenarFormulario(form, datos) {
-    Object.keys(datos).forEach(key => {
-        const input = form.querySelector(`[name="${key}"]`);
-        if (input) {
-            input.value = datos[key]; // Asigna el valor al campo correspondiente
         }
     });
 }
+
+// Manejar el borrado de registros
+const manejarBorrado = async (button, registroId, endpoint) => {
+    console.log('registroId:', registroId);
+    console.log('endpoint:', endpoint);
+
+    const [baseEndpoint, queryString] = endpoint.split('?');
+    console.log('baseEndpoint:', baseEndpoint);
+    console.log('queryString:', queryString);
+
+    const url = `${baseEndpoint}/${registroId}${queryString ? `?${queryString}` : ''}`;
+    console.log(`Request URL: ${url}`); // Verificacta
+
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response text:', errorText);
+        throw new Error(`Error en la solicitud: ${response.status}`);
+    }
+
+    const result = await response.json(); // Debe ser JSON
+    return result;
+};

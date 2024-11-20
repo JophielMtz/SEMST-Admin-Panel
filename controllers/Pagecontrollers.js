@@ -8,26 +8,51 @@ const vistaReviciones = (req, res) => {
   res.render("revisiones");
 };
 
-const vistaPendientes = (req, res) => {
-  res.render("pendientes");
-};
-
-const vistaDocentesDisponibles = async (req, res) => {
+const vistaPendientes = async (req, res) => {
   try {
-    const [docentes] = await pool.query('SELECT * FROM docentes_disponibles');
-    res.render('docentes-disponibles', { docentes });
+    const [pendientes] = await pool.query(`
+      SELECT 
+        np, 
+        fecha, 
+        estatus, 
+        tramite, 
+        departamento AS titulo, 
+        observaciones_conflictos, 
+        observaciones_secretaria_general
+      FROM pendientes
+    `);
+
+    // Verifica si la solicitud es AJAX
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      // Enviar los datos como JSON
+      res.json({ data: pendientes });
+    } else {
+      // Renderiza la vista con los datos obtenidos
+      res.render('pendientes', { pendientes });
+    }
   } catch (error) {
-    console.error('Error al obtener docentes_disponibles:', error);
-    res.status(500).send('Error al obtener datos de docentes disponibles');
+    // Manejo de errores
+    console.error('Error al obtener datos de pendientes:', error);
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      res.status(500).json({ error: 'Error al obtener datos de pendientes' });
+    } else {
+      res.status(500).send('Error al obtener datos de pendientes');
+    }
   }
 };
 
-const vistaEditarDocente = async (req, res) => {
-  const { id } = req.params;
 
+const postPendientes = (req, res) => {
+};
+
+const vistaDocentesDisponibles = async (req, res) => {
+  res.render("docentes-disponibles");
+};
+const obtenerDocentesDisponibles = async (req, res) => {
   try {
-    const [docenteData] = await pool.query(
-      `SELECT 
+    const [results] = await pool.query(`
+    SELECT 
+          dd.np,
           dd.personal_id,
           dd.nombre_docente,
           dd.fecha,
@@ -41,64 +66,195 @@ const vistaEditarDocente = async (req, res) => {
           dd.comunidad_entra,
           dd.cct_entra,
           dd.estatus_cubierta,
-          dd.observaciones,
-          p.imagen
-       FROM docentes_disponibles dd
-       LEFT JOIN personal p ON dd.personal_id = p.personal_id
-       WHERE dd.personal_id = ?`,
-      [id]
-    );
-
-    if (docenteData.length === 0) {
-      return res.status(404).json({ error: "Docente no encontrado" });
-    }
-
-    // Verificar si la solicitud es JSON o si es desde un navegador
-    if (req.xhr || req.headers.accept.includes('json')) {
-      // Responder con JSON si es una solicitud AJAX o JSON
-      return res.json({ docente: docenteData[0] });
-    }
-
-    // Renderizar la vista completa con layout si es desde un navegador
-    return res.render("formViews/editar-docente", { docente: docenteData[0] });
+          dd.observaciones
+      FROM 
+        docentes_disponibles dd
+      LEFT JOIN personal p ON dd.personal_id = p.personal_id
+    `);
+    res.json(results);
   } catch (error) {
-    console.error("Error al obtener los datos del docente:", error);
-    res.status(500).json({ error: "Error al cargar la vista de edición del docente" });
+    console.error("Error al obtener el personal:", error);
+    res.status(500).json({ message: "Error al obtener la lista de personal" });
   }
 };
 
-const buscarNombresDocentes = async (req, res) => {
-  const { query } = req.params; // El texto ingresado por el usuario
+// const actualizarDocente = async (req, res) => {
+//   const { personal_id, field, value } = req.body;
+
+//   // Validar que los datos necesarios están presentes
+//   if (!personal_id || !field || value === undefined) {
+//     return res.status(400).json({ message: "Datos insuficientes." });
+//   }
+
+//   // Lista de campos válidos para evitar inyección SQL
+//   const validFields = [
+//     'nombre_docente', 'fecha', 'estatus', 'situacion',
+//     'antiguedad', 'municipio_sale', 'comunidad_sale',
+//     'cct_sale', 'estatus_cubierta', 'observaciones',
+//   ];
+
+//   if (!validFields.includes(field)) {
+//     return res.status(400).json({ message: "Campo inválido." });
+//   }
+
+//   try {
+//     // Construir la consulta de forma segura
+//     const query = `UPDATE docentes_disponibles SET ${field} = ? WHERE personal_id = ?`;
+//     const [result] = await pool.query(query, [value, personal_id]);
+
+//     if (result.affectedRows === 0) {
+//       return res.status(404).json({ message: "Registro no encontrado." });
+//     }
+
+//     res.json({ message: "Registro actualizado correctamente." });
+//   } catch (error) {
+//     console.error("Error al actualizar docente:", error);
+//     res.status(500).json({ message: "Error interno del servidor." });
+//   }
+// };
+
+const editarDocente = async (req, res) => {
+  const { personal_id, field, value } = req.body;
+
+  if (!personal_id || !field || value === undefined) {
+    return res.status(400).json({ message: "Datos insuficientes. Se requiere personal_id, field y value." });
+  }
+
+  // Lista de campos válidos para evitar inyección SQL
+  const validFields = [
+    'nombre_docente', 'fecha', 'estatus', 'situacion',
+    'antiguedad', 'municipio_sale', 'comunidad_sale',
+    'cct_sale', 'estatus_cubierta', 'observaciones',
+  ];
+
+  if (!validFields.includes(field)) {
+    return res.status(400).json({ message: "Campo inválido." });
+  }
 
   try {
-    const [docentes] = await pool.query(
-      `SELECT personal_id, nombre_docente 
-       FROM docentes_disponibles 
-       WHERE nombre_docente LIKE ? LIMIT 10`,
-      [`%${query}%`] // Buscamos coincidencias parciales
-    );
+    // Construcción dinámica de la consulta
+    const query = `UPDATE docentes_disponibles SET ?? = ? WHERE personal_id = ?`;
+    const [result] = await pool.query(query, [field, value, personal_id]);
 
-    // Si no se encuentran resultados, enviamos un mensaje vacío
-    if (docentes.length === 0) {
-      return res.json([]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Registro no encontrado." });
     }
 
-    // Enviamos los datos encontrados
-    res.json(docentes);
+    res.json({ message: "Registro actualizado correctamente." });
   } catch (error) {
-    console.error("Error al buscar nombres de docentes:", error);
-    res.status(500).json({ error: "Error al buscar nombres de docentes" });
+    console.error("Error al actualizar docente:", error);
+    res.status(500).json({ message: "Error interno del servidor." });
   }
 };
 
 
-const vistaNombramientosDocentes = (req, res) => {
-  res.render("nombramientos-docentes");
+
+
+
+const vistaNombramientosDocentes = async (req, res) => {
+  try {
+    // Realiza la consulta a la base de datos para obtener los datos directamente desde la tabla `nombramientos`
+    const [nombramientos] = await pool.query(`
+      SELECT 
+        np, 
+        fecha, 
+        nombre_docente, 
+        antiguedad, 
+        telefono, 
+        clave_cct, 
+        comunidad, 
+        municipio, 
+        zona, 
+        sector, 
+        organizacion, 
+        no_alumnos, 
+        grado_1, 
+        grado_2, 
+        grado_3, 
+        funcion_docente, 
+        tipo_nombramiento, 
+        inicio_movimiento, 
+        termino_movimiento, 
+        propuesta, 
+        subdireccion_academica, 
+        subdireccion_planeacion, 
+        subdireccion_administracion, 
+        usicamm, 
+        recursos_humanos, 
+        juridico, 
+        observaciones_conflictos, 
+        observaciones_secretaria_general, 
+        estatus_movimiento
+      FROM nombramientos
+    `);
+
+    // Verifica si la solicitud es AJAX
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      // Enviar los datos como JSON
+      res.json({ data: nombramientos });
+    } else {
+      // Renderiza la vista con los datos obtenidos
+      res.render('nombramientos-docentes', { nombramientos });
+    }
+  } catch (error) {
+    // Manejo de errores
+    console.error('Error al obtener datos de nombramientos:', error);
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      res.status(500).json({ error: 'Error al obtener datos de nombramientos' });
+    } else {
+      res.status(500).send('Error al obtener datos de nombramientos');
+    }
+  }
 };
 
-const vistaLicenciasSinGoce = (req, res) => {
-  res.render("licencias-sin-goce");
+
+const vistaLicenciasSinGoce = async (req, res) => {
+  try {
+    // Simulación de datos vacíos para preparar la lógica (puedes reemplazarlo más tarde)
+    const [licenciasSinGoce] = await pool.query(`
+      SELECT 
+        np, 
+        fecha_registro, 
+        fecha_documento,
+        nombre_docente, 
+        tipo_movimiento, 
+        cct, 
+        comunidad, 
+        municipio, 
+        organizacion, 
+        justifica, 
+        inicio_movimiento, 
+        termino_movimiento, 
+        diagnostico, 
+        aviso, 
+        vacante, 
+        observaciones, 
+        antiguedad, 
+        telefono, 
+        observaciones_conflictos,
+        observaciones_secretaria_general
+        FROM licencia_sin_goce
+    `);
+
+    // Verifica si la solicitud es AJAX
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      // Enviar los datos como JSON
+      res.json({ data: licenciasSinGoce });
+    } else {
+      // Renderiza la vista con los datos obtenidos
+      res.render('licencias-sin-goce', { licenciasSinGoce });
+    }
+  } catch (error) {
+    // Manejo de errores
+    console.error('Error al renderizar la vista de licencias sin goce:', error);
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      res.status(500).json({ error: 'Error al renderizar la vista de licencias sin goce' });
+    } else {
+      res.status(500).send('Error al renderizar la vista de licencias sin goce');
+    }
+  }
 };
+
 
 const vistaIncidencias = (req, res) => {
   res.render("incidencias");
@@ -134,7 +290,7 @@ const vistaApoyoLentes = (req, res) => {
 
 const vistaListaPanelAdm = async (req, res) => {
   try {
-    const [results] = await pool.query(`
+    const [personal] = await pool.query(`
       SELECT 
         p.personal_id, 
         p.rfc, 
@@ -153,44 +309,77 @@ const vistaListaPanelAdm = async (req, res) => {
       LEFT JOIN 
         cargos c ON dl.cargo_id = c.cargo_id
     `);
-    res.render("lista-panel-adm", { personal: results });
-  } catch (err) {
-    console.error("Error al hacer la consulta:", err);
-    res.status(500).send("Error en la consulta de la base de datos");
-  }
-};
 
-const vistaListaGeneral = async (req, res) => {
-  try {
-    // Realiza la consulta a la base de datos para obtener los datos del personal con sus cargos
-    const [personal] = await pool.query(`
-      SELECT 
-          p.personal_id, p.rfc, p.nombre, p.apellido_paterno, 
-          p.apellido_materno, p.edad, p.telefono, p.correo, 
-          c.descripcion AS cargo
-      FROM personal p
-      LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
-      LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id
-    `);
-
-    // Verifica si la solicitud es AJAX
     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      // Enviar los datos como JSON
       res.json({ data: personal });
     } else {
-      // Renderiza la vista "lista-general" con los datos obtenidos
-      res.render('lista-general', { personal });
+      res.render('lista-panel-adm', { personal });
     }
   } catch (error) {
-    // Manejo de errores
-    console.error('Error al obtener datos del personal:', error);
+    console.error('Error al obtener datos del panel de administración:', error);
     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      res.status(500).json({ error: 'Error al obtener datos de la lista general' });
+      res.status(500).json({ error: 'Error al obtener datos del panel de administración' });
     } else {
-      res.status(500).send('Error al obtener datos de la lista general');
+      res.status(500).send('Error al obtener datos del panel de administración');
     }
   }
 };
+
+
+const vistaListaGeneral = async (req, res) => {
+  res.render("lista-general");
+};
+//api de lista general
+const obtenerListaGeneral = async (req, res) => {
+  try {
+    const [results] = await pool.query(`
+    SELECT 
+    p.personal_id, 
+    p.rfc, 
+    p.nombre, 
+    p.apellido_paterno, 
+    p.apellido_materno, 
+    p.edad, 
+    p.telefono, 
+    p.correo, 
+    c.descripcion AS cargo, 
+    p.imagen
+FROM personal p
+LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
+LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id;
+    `);
+    res.json(results);
+  } catch (error) {
+    console.error("Error al obtener el personal:", error);
+    res.status(500).json({ message: "Error al obtener la lista de personal" });
+  }
+};
+
+// const vistaListaGeneral = async (req, res) => {
+//   try {
+//     const [personal] = await pool.query(`
+//       SELECT 
+//         p.personal_id, p.rfc, p.nombre, p.apellido_paterno, 
+//         p.apellido_materno, p.edad, p.telefono, p.correo, 
+//         c.descripcion AS cargo
+//       FROM personal p
+//       LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
+//       LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id
+//     `);
+
+//     // Verifica si la solicitud es AJAX (json)
+//     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+//       return res.json({ data: personal });
+//     }
+
+//     // Si no es AJAX, renderiza la vista "lista-general" con los datos
+//     res.render('lista-general', { personal });
+//   } catch (error) {
+//     console.error('Error al obtener datos del personal:', error);
+//     res.status(500).json({ error: 'Error al obtener datos de la lista general' });
+//   }
+// };
+
 
 const vistaPerfil = (req, res) => {
   res.render("perfil");
@@ -417,82 +606,7 @@ const vistaEditarPersonal = async (req, res) => {
   }
 };
 
-const actualizarPersonal = async (req, res) => {
-  console.log('Datos recibidos en el servidor:', req.body);
-  const { id } = req.params; 
-  const datosActualizar = req.body;
 
-  const datosPersonal = {};
-  const datosDetalleLaboral = {};
-  const datosUbicacion = {};
-
-  // Separar los datos de acuerdo a las columnas de cada tabla
-  for (const campo in datosActualizar) {
-    const valor = datosActualizar[campo];
-    if (valor) { // Solo incluye si el valor no está vacío
-      if (["nombre", "apellido_paterno", "apellido_materno", "direccion", "correo", "rfc", "curp", "fecha_nacimiento", "telefono", "sexo", "imagen"].includes(campo)) {
-        datosPersonal[campo] = valor;
-      } else if (["cargo_id", "tipo_organizacion_id", "activo", "fecha_ingreso", "fecha_nombramiento", "tipo_direccion_id", "plaza_id", "id_relacion"].includes(campo)) {
-        datosDetalleLaboral[campo] = valor;
-      } else if (["zona_id", "sector_id", "comunidad_id", "municipio_id", "cct_id"].includes(campo)) {
-        datosUbicacion[campo] = valor;
-      }
-    }
-  }
-
-  let connection;
-
-  try {
-    connection = await pool.getConnection();
-    await connection.beginTransaction();
-
-    if (Object.keys(datosPersonal).length > 0) {
-      const camposPersonal = Object.keys(datosPersonal).map(campo => `${campo} = ?`).join(", ");
-      const valoresPersonal = [...Object.values(datosPersonal), id];
-      const queryPersonal = `UPDATE personal SET ${camposPersonal} WHERE personal_id = ?`;
-      await connection.query(queryPersonal, valoresPersonal);
-    }
-
-    // Paso 2: Buscar `ubic_ccts` existente
-    let idRelacion;
-    if (Object.keys(datosUbicacion).length > 0) {
-      // Verificamos si existe un registro en `ubic_ccts` que coincida con la ubicación proporcionada
-      const camposUbicacion = Object.keys(datosUbicacion).map(campo => `${campo} = ?`).join(" AND ");
-      const valoresUbicacion = Object.values(datosUbicacion);
-      const queryVerificarUbicacion = `SELECT id_relacion FROM ubic_ccts WHERE ${camposUbicacion} LIMIT 1`;
-      const [rowsUbicacion] = await connection.query(queryVerificarUbicacion, valoresUbicacion);
-
-      if (rowsUbicacion.length > 0) {
-        idRelacion = rowsUbicacion[0].id_relacion;
-      } else {
-        // Si no existe una ubicación que coincida, retornamos un error en JSON
-        return res.status(400).json({ success: false, message: "La combinación de zona, sector, comunidad, municipio y CCT especificada no existe." });
-      }
-    }
-
-    // Paso 3: Actualizar `detalle_laboral` con el `id_relacion` existente en `ubic_ccts`
-    if (Object.keys(datosDetalleLaboral).length > 0 || idRelacion) {
-      if (idRelacion) datosDetalleLaboral.id_relacion = idRelacion;
-      const camposDetalle = Object.keys(datosDetalleLaboral).map(campo => `${campo} = ?`).join(", ");
-      const valoresDetalle = [...Object.values(datosDetalleLaboral), id];
-      const queryDetalleLaboral = `UPDATE detalle_laboral SET ${camposDetalle} WHERE personal_id = ?`;
-      await connection.query(queryDetalleLaboral, valoresDetalle);
-    }
-
-    // Confirmar la transacción
-    await connection.commit();
-
-    // Enviar respuesta JSON indicando éxito
-    res.json({ success: true, message: "Actualización exitosa" });
-
-  } catch (error) {
-    if (connection) await connection.rollback();
-    console.error("Error al actualizar los datos:", error);
-    res.status(500).json({ success: false, message: "Error al actualizar los datos" });
-  } finally {
-    if (connection) connection.release();
-  }
-};
 
 // Función para obtener la lista de empleados
 const obtenerPersonal = async (req, res) => {
@@ -582,7 +696,7 @@ module.exports = {
   vistaReviciones,
   vistaPendientes,
   vistaDocentesDisponibles,
-  vistaEditarDocente,
+  editarDocente,
   vistaNombramientosDocentes,
   vistaLicenciasSinGoce,
   vistaIncidencias,
@@ -601,9 +715,10 @@ module.exports = {
   vistaAgregarpersonal,
   vistaRoles,
   agregarPersonal,
-  actualizarPersonal,
   vistaEditarPersonal,
   obtenerPersonal,
   obtenerDetallePersonal,
-  buscarNombresDocentes
+  obtenerListaGeneral,
+  obtenerDocentesDisponibles
+
 };
