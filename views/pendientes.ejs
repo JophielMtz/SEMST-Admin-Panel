@@ -1,123 +1,395 @@
 <div class="container-fluid content-inner mt-n5 py-0">
-   <div class="row">
-      <div class="col-sm-12">
-         <div class="card">
-            <div class="card-header d-flex justify-content-between">
-               <div class="header-title">
-                  <h4 class="h3 card-title ms-3 mt-2">Pendientes</h4>
-               </div>
-               <div class="btn-group mt-2" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal">Nuevo</button>
-                  <button type="button" class="btn btn-primary ms-2 btn-sm rounded-pill">Editar</button>
-                  <button type="button" class="btn btn-primary ms-2 btn-sm rounded-pill">Borrar</button>
-               </div>
-            </div>
-            <div class="card-body">
-               
-               
-
-            </div>
-         </div>
-      </div>
-   </div>
-</div>
-
-<div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel" aria-hidden="true">
-   <div class="modal-dialog modal-lg"> <!-- Se usa modal-xl para más espacio -->
-      <div class="modal-content">
-         <div class="modal-header">
-            <h5 class="modal-title" id="nuevoRegistroModalLabel">Nueva entrada</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-         </div>
-         <div class="modal-body">
-            <div class="row">
-               <div class="col">
-                  <div class="card">
-                     <div class="card-header d-flex justify-content-between">
-                        <div class="header-title">
-                           <h4 class="card-title">Agregar Información</h4>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="container text-center">
+                    <h4 class="text-responsive mb-3 mt-3">Pendientes</h4>
+                    <div class="row justify-content-center gx-2">
+                        <!-- Botón Nuevo -->
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary rounded-pill w-auto"
+                                data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                                style="padding: 4px 12px; font-size: 12px;"
+                                class="btn-sm">
+                                Nuevo
+                            </button>
                         </div>
-                     </div>
-                     <div class="card-body">
-
-                        <form id="formRegistro" action="/postPendientes" method="POST" class="small"></form>
-                           <input type="hidden" name="tabla" value="pendientes">
-                           <div class="row">
-                              <div class="form-group col-md-2">
-                                 <label for="npID" class="form-label">NP:</label>
-                                 <input type="text" class="form-control" id="npID" name="npID" placeholder="" autocomplete="off">
-                              </div>
-                              <div class="form-group col-md-6">
-                                 <label for="fecha" class="form-label">Fecha:</label>
-                                 <input type="date" class="form-control" id="fecha" name="fecha">
-                              </div>
-                              <div class="form-group col-md-12">
-                                 <label for="tramite" class="form-label">Trámite:</label>
-                                 <input type="text" class="form-control" id="tramite" name="tramite" placeholder="">
-                              </div>
-                              <div class="form-group col-md-4">
-                                 <label for="estatus" class="form-label">Estatus:</label>
-                                 <select class="form-select form-select-sm" id="estatus" name="estatus">
-                                    <option selected disabled>Seleccionar una opción</option>
-                                    <option value="atendido">Atendido</option>
-                                    <option value="en proceso">En proceso</option>
-                                    <option value="no se atiende">No se atiende</option>
-                                 </select>
-                              </div>
-                              <div class="form-group col-md-4">
-                                 <label for="situacion" class="form-label">Situación:</label>
-                                 <select class="form-select form-select-sm" id="situacion" name="situacion">
-                                    <option selected disabled>Seleccionar una opción</option>
-                                    <option value="a disposición">A disposición</option>
-                                    <option value="inseguridad">Inseguridad</option>
-                                    <option value="salud">Salud</option>
-                                    <option value="sin ctp">Sin CT</option>
-                                 </select>
-                              </div>
-                              <div class="form-group col-md-4">
-                                 <label for="funcionDocente" class="form-label">Función del Docente:</label>
-                                 <select class="form-select form-select-sm" id="funcionDocente" name="funcionDocente">
-                                    <option selected disabled>Seleccionar una opción</option>
-                                    <option value="docente">Docente</option>
-                                    <option value="director">Director</option>
-                                    <option value="administrativo">Administrativo</option>
-                                 </select>
-                              </div>
-                              <div class="form-group col-md-6">
-                                 <label for="cobertura" class="form-label">Cobertura:</label>
-                                 <select class="form-select form-select-sm" id="cobertura" name="cobertura">
-                                    <option selected disabled>Seleccionar una opción</option>
-                                    <option value="subdireccion_de_planeacion">Subdirección de Planeación</option>
-                                    <option value="subdireccion_de_administracion">Subdirección de Administración</option>
-                                    <option value="recursos_humanos">Recursos Humanos</option>
-                                    <option value="usicamm">Usicamm</option>
-                                    <option value="operacion_escolar">Operación Escolar</option>
-                                    <option value="juridico">Jurídico</option>
-                                    <option value="sin_definir">Sin Definir</option>
-                                    <option value="semst">Semst</option>
-                                 </select>
-                              </div>
-                              <div class="form-group col-md-12">
-                                 <label for="observaciones" class="form-label">Observaciones:</label>
-                                 <textarea class="form-control" id="observaciones" name="observaciones" placeholder="Escriba observaciones aquí"></textarea>
-                              </div>
-                           </div>
-                           <div class="d-flex justify-content-center">
-                              <button type="submit" class="btn btn-primary mt-3 col-3">Guardar</button>
-                           </div>
-                        </form>
-                     </div>
-                  </div>
-               </div>
+                
+                        <!-- Botón Activar Edición -->
+                        <div class="col-auto">
+                            <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                                style="padding: 4px 12px; font-size: 12px;">
+                                <i class="fas fa-edit me-1"></i> Activar Edición
+                            </button>
+                        </div>
+                
+                        <!-- Botón Borrar -->
+                        <div class="col-auto">
+                            <button id="deleteButton" class="btn btn-danger rounded-pill w-auto" 
+                                style="padding: 4px 12px; font-size: 12px;" disabled>
+                                <i class="fas fa-trash-alt me-1"></i> Borrar
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="test-container">
+                        <div class="test-header d-flex align-items-center">
+                            <!-- Radio para 'Todos' -->
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
+                                <label for="all" class="form-check-label pl-2">Todos</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
+                                <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
+                            </div>
+                            
+                        </div>
+                        <div id="pendientesGrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
+                    </div>
+                </div>
             </div>
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-         </div>
-      </div>
-   </div>
+        </div>
+    </div>
+</div>
+    <!--Crear-->
+<div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <!-- Se usa modal-xl para más espacio -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevoRegistroModalLabel">
+                        Nueva entrada
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- Columna izquierda para el perfil -->
+                        <div class="col-xl-3 col-lg-4 mb-3">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="header-title">
+                                        <h4 class="card-title">Perfil</h4>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <div class="profile-img-edit position-relative text-center">
+                                            <img src="images/avatars/01.png" alt="profile-pic"
+                                                class="profile-pic rounded-circle img-fluid w-100 mb-3" />
+                                        </div>
+                                        <div class="img-extension mt-3">
+                                            <small class="text-muted text-center">Datos adicionales</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Columna derecha para el formulario -->
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="header-title">
+                                        <h4 class="card-title">Información del nuevo usuario</h4>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
+                                        <input type="hidden" name="tabla" value="docentes_disponibles" />
+                                        <div class="row">
+                                            <!-- Personal ID y Nombre del Docente -->
+                                            <div class="row">
+                                                <div class="form-group col-md-2">
+                                                    <label for="personal_id" class="form-label">ID:</label>
+                                                    <input type="text" class="form-control" id="personal_id"
+                                                        name="personal_id" placeholder="" autocomplete="off" />
+                                                </div>
+                                                <div class="form-group col-md-10">
+                                                    <label for="nombre_docente" class="form-label">Nombre del
+                                                        personal:</label>
+                                                    <input type="text" class="form-control" id="nombre_docente"
+                                                        name="nombre_docente" placeholder="Escriba un nombre"
+                                                        autocomplete="off" />
+                                                    <ul id="suggestionsList" class="list-group position-absolute w-100"
+                                                        style="z-index: 1000"></ul>
+                                                </div>
+                                            </div>
+
+                                            <!-- Fecha, Antigüedad y Teléfono -->
+                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                                <label for="fecha" class="form-label">Fecha:</label>
+                                                <input type="date" class="form-control" id="fecha" name="fecha" />
+                                            </div>
+                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                                <label for="antiguedad" class="form-label">Antigüedad:</label>
+                                                <input type="text" class="form-control" id="antiguedad"
+                                                    name="antiguedad" placeholder="" />
+                                            </div>
+                                            <div class="form-group col-md-6 col-lg-6">
+                                                <label for="telefono" class="form-label">Teléfono:</label>
+                                                <input type="text" class="form-control" id="telefono" name="telefono"
+                                                    placeholder="" />
+                                            </div>
+
+                                            <!-- Cobertura -->
+                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                                <label for="estatus_cubierta" class="form-label">Cobertura:</label>
+                                                <select class="form-select form-select-sm" id="estatus_cubierta"
+                                                    name="estatus_cubierta">
+                                                    <option value="" selected disabled>
+                                                        Selecciona una opción
+                                                    </option>
+                                                    <option value="Cubierta">Cubierta</option>
+                                                    <option value="Sin cubrir">Sin cubrir</option>
+                                                    <option value="No se justifica">
+                                                        No se justifica
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Estatus y Situación -->
+                                            <div class="form-group col-md-6">
+                                                <label for="estatus" class="form-label">Estatus:</label>
+                                                <select class="form-select form-select-sm" id="estatus" name="estatus">
+                                                    <option value="" selected disabled>
+                                                        Selecciona un estatus
+                                                    </option>
+                                                    <option value="Atendido">Atendido</option>
+                                                    <option value="En proceso">En proceso</option>
+                                                    <option value="Sin atender">Sin atender</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="situacion" class="form-label">Situación:</label>
+                                                <select class="form-select form-select-sm" id="situacion"
+                                                    name="situacion">
+                                                    <option value="" selected disabled>
+                                                        Selecciona una opción
+                                                    </option>
+                                                    <option value="Inseguridad">Inseguridad</option>
+                                                    <option value="Salud">Salud</option>
+                                                    <option value="Sin CT">Sin CT</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Sección de CCT Sale -->
+                                            <div class="div">
+                                                <h2 class="h6 mb-2 mt-2">CCT Sale</h2>
+                                            </div>
+                                            <hr class="hr-horizontal mb-4" />
+                                            <div class="form-group col-md-4">
+                                                <label for="municipio_sale" class="form-label">Municipio:</label>
+                                                <input type="text" class="form-control" id="municipio_sale"
+                                                    placeholder="" readonly />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="comunidad_sale" class="form-label">Comunidad:</label>
+                                                <input type="text" class="form-control" id="comunidad_sale"
+                                                    placeholder="" readonly />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="cct_sale" class="form-label">Clave CCT:</label>
+                                                <input type="text" class="form-control" id="cct_sale"
+                                                    placeholder="Clave CCT" readonly />
+                                            </div>
+
+                                            <div class="div">
+                                                <h2 class="h6 mb-2 mt-1">CCT Entra</h2>
+                                            </div>
+                                            <hr class="hr-horizontal mb-4" />
+                                            <!-- Sección de CCT Entra -->
+                                            <div class="form-group col-md-4">
+                                                <label for="municipio_entra" class="form-label">Municipio:</label>
+                                                <select class="form-select" id="municipio_entra" name="municipio_entra">
+                                                    <option value="" selected disabled>
+                                                        Seleccione Municipio
+                                                    </option>
+                                                    <!-- Opciones dinámicas -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
+                                                <select class="form-select" id="comunidad_entra" name="comunidad_entra">
+                                                    <option value="" selected disabled>
+                                                        Seleccione Comunidad
+                                                    </option>
+                                                    <!-- Opciones dinámicas -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="cct_entra" class="form-label">Clave CCT:</label>
+                                                <select class="form-select" id="cct_entra" name="cct_entra">
+                                                    <option value="" selected disabled>
+                                                        Seleccione Clave CCT
+                                                    </option>
+                                                    <!-- Opciones dinámicas -->
+                                                </select>
+                                            </div>
+
+                                            <!-- Observaciones -->
+                                            <div class="form-group col-md-12">
+                                                <label for="observaciones" class="form-label">Observaciones:</label>
+                                                <textarea class="form-control" id="observaciones" name="observaciones"
+                                                    placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
+                                            </div>
+                                        </div>
+                                        <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
+                                            Guardar
+                                        </button>
+                                    </form>
+
+                                    <div id="seccionConfirmacion" class="mt-4" style="display: none">
+                                        <h5>Confirmar Datos Ingresados</h5>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <!-- Aquí mostraremos el resumen de los datos -->
+                                                <div id="resumenDatos"></div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button type="button" id="btnEditar" class="btn btn-secondary me-2">
+                                                Editar
+                                            </button>
+                                            <button type="button" id="btnConfirmar" class="btn btn-success">
+                                                Confirmar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 
+<script type="module">
+   import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
+
+
+   let gridApi;
+   let editMode = false;
+
+   const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
+   
+   const gridOptions = {
+      columnDefs: [
+      { field: "np", headerName: "NP", width: 70, editable: false },
+        colFecha(editMode),
+        {
+            headerName: "Estatus",
+            field: "estatus",
+            editable: () => editMode, // La columna será editable si editMode es true
+            resizable: true,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: {
+                values: ["TERMINADO", "EN PROCESO", "NO SE ATIENDE"], // Opciones del select
+            },
+        },
+    {
+        headerName: "Trámite",
+        field: "tramite",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Departamento",
+        field: "departamento",
+        editable: () => editMode, // La columna será editable si editMode es true
+        resizable: true,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: {
+            values: [
+                "SUBDIRECCION ACADEMICA",
+                "SUBDIRECCION DE PLANEACION",
+                "SUBDIRECCION DE ADMINISTRACION",
+                "RECURSOS HUMANOS",
+                "USICAMM",
+                "OPERACION ESCOLAR",
+                "JURIDICO",
+                "SIN DEFINIR",
+                "SEMST"
+            ], // Opciones del select
+        },
+    },
+    {
+        headerName: "Observaciones Conflictos",
+        field: "observaciones_conflictos",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Observaciones Secretaría General",
+        field: "observaciones_secretaria_general",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    borrarColumna('/api/deleteRecord'),
+   
+      ],
+       defaultColDef: {editable: true,resizable: true,},
+       rowData: null,
+       rowHeight: 60,
+       domLayout: "autoHeight",
+       context: {
+           endpoint: "/editarPendientes",
+       },
+       rowSelection: {mode: "multiRow",},
+       onCellValueChanged: editarCelda,
+   };
+
+   
+
+   const initializeGrid = async () => {
+    const gridDiv = document.querySelector("#pendientesGrid");
+    gridApi = agGrid.createGrid(gridDiv, gridOptions);
+
+    try {
+        // Obtén los datos desde el backend
+        const data = await fetch("/getPendientes").then((response) => response.json());
+
+        // Agrega el campo `tabla` dinámicamente
+        const rowData = data.map((row) => ({
+            ...row,
+            tabla: "pendientes", // Nombre de la tabla
+        }));
+
+        // Asigna los datos al grid
+        gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
+    } catch (error) {
+        console.error("Error inicializando la tabla:", error);
+    }
+};
+
+
+   // Alternar el modo edición
+   document.querySelector("#toggleEditMode").addEventListener("click", async () => {
+       if (editMode) {
+           if (confirm("¿Estás seguro de los cambios?")) {
+               editMode = false;
+               const button = document.querySelector("#toggleEditMode");
+               button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
+               gridApi.refreshCells({ force: true }); // Refrescar las celdas
+   
+               // Recargar datos desde el servidor
+               await reloadData();
+           }
+       } else {
+           editMode = true;
+           const button = document.querySelector("#toggleEditMode");
+           button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
+           gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
+       }
+   });
+
+   document.addEventListener("DOMContentLoaded", initializeGrid);
+</script>
 
 
 

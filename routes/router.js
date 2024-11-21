@@ -1,5 +1,5 @@
 const express = require('express');
-const { vistaPrincipal, vistaReviciones, vistaPendientes, postPendientes, vistaDocentesDisponibles, editarDocente, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, vistaRoles, vistaEditarPersonal, agregarPersonal, actualizarPersonal,  obtenerPersonal, obtenerDetallePersonal,obtenerListaGeneral, obtenerDocentesDisponibles  } = require('../controllers/Pagecontrollers');
+const { vistasController, vistaPrincipal, vistaReviciones, vistaPendientes, postPendientes, vistaEditarPersonal, vistaDocentesDisponibles, editarDocente, editarPendientes, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, vistaRoles,  agregarPersonal, actualizarPersonal,  obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, borrarFila  } = require('../controllers/Pagecontrollers');
 const router = express.Router();
 const pool = require('../src/config/db'); //Ruta de db
 
@@ -18,39 +18,42 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage });
 
-router.get('/', vistaPrincipal)
-router.get('/revisiones', vistaReviciones)
-// Pendientes
-router.get('/pendientes', vistaPendientes)
+router.get('/', vistasController.vistaPrincipal);
+router.get('/revisiones', vistasController.vistaReviciones);
+router.get('/cambio', vistasController.vistaCambio);
+router.get('/pendientes', vistasController.vistaPendientes);
+router.get('/docentes-disponibles', vistasController.vistaDocentesDisponibles);
+router.get('/lista-general', vistasController.vistaListaGeneral);
+router.get('/beca-comision', vistasController.vistaBecaComision);
+router.get('/apoyo-lentes', vistasController.vistaApoyoLentes);
+router.get('/nombramientos-docentes', vistasController.vistaNombramientosDocentes);
+router.get('/licencias-sin-goce', vistasController.vistaLicenciasSinGoce);
+router.get('/incidencias', vistasController.vistaIncidencias);
+router.get('/calendario', vistasController.vistaCalendario);
+router.get('/solicitudes-generales', vistasController.vistaSolicitudesGenerales);
+router.get('/solicitudes-personal', vistasController.vistaSolicitudesPersonal);
+router.get('/salud', vistasController.vistaSalud);
+router.get('/lista-panel-adm', vistasController.vistaListaPanelAdm);
+router.get('/perfil', vistasController.vistaPerfil);
+router.get('/roles', vistasController.vistaRoles);
 
-// Ednpoint para tabla doccentes_disponibles y solicitudes
-router.get('/docentes-disponibles', vistaDocentesDisponibles);
-router.get('/getDocentesDisponibles', obtenerDocentesDisponibles);
-router.get('/editar-personal/:id', vistaEditarPersonal);
 
-router.get('/nombramientos-docentes', vistaNombramientosDocentes);
-router.get('/licencias-sin-goce', vistaLicenciasSinGoce);
-router.get('/incidencias', vistaIncidencias);
-router.get('/calendario', vistaCalendario);
-router.get('/solicitudes-generales', vistaSolicitudesGenerales);
-router.get('/cambio', vistaCambio);
-router.get('/solicitudes-personal', vistaSolicitudesPersonal);
-router.get('/salud', vistaSalud);
-router.get('/beca-comision', vistaBecaComision);
-router.get('/apoyo-lentes', vistaApoyoLentes);
-router.get('/lista-general', vistaListaGeneral);
 router.get('/api/listaGeneral', obtenerListaGeneral);
-router.get('/lista-panel-adm', vistaListaPanelAdm);
-router.get('/perfil', vistaPerfil);
+
+
 router.get('/lista-federal', vistaListaFederal);
 router.get('/info-personal', vistaInfoPersonal);
 router.get('/agregar-personal', vistaAgregarpersonal);
 router.get('/editar-personal', vistaEditarPersonal);
-router.get('/roles', vistaRoles);
 
-//gets
+
+//========== Endpoints para Apis =============//
+router.get('/getPendientes', obtenerPendientes);
+router.get('/getDocentesDisponibles', obtenerDocentesDisponibles);
 router.get('/api/personal', obtenerPersonal);
 router.get('/api/personal/:personal_id',  obtenerDetallePersonal);
+
+
 router.get('/obtener-datos-sector/:sectorId', async (req, res) => {
   const sectorId = req.params.sectorId;
   const { zonaId, comunidadId, municipioId } = req.query;
@@ -276,14 +279,17 @@ router.get('/obtener-ccts', async (req, res) => {
   }
 });
 
-// Ednpoint para tabla doccentes_disponibles y solicitudes
+///========Ruta Endpoints funcion Editar==========//
 router.put('/editarPersonal', editarDocente);
-router.get('/editar-personal/:id', vistaEditarPersonal);
+router.put('/editarPendientes', editarPendientes)
+
 
 
 //post
 router.post('/personal/agregar', upload.single('imagen'), agregarPersonal);
 
+//delete
+router.delete('/deleteRecord', borrarFila);
 
 
 
@@ -514,38 +520,6 @@ router.get('/getDocentes', async (req, res) => {
 
 
 
-//delete  
-// router.delete('/personal/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const { tabla } = req.query;
-
-//   try {
-//       const tablasValidas = ['detalle_laboral', 'personal', 'docentes_disponibles'];
-//       if (!tablasValidas.includes(tabla)) {
-//           return res.status(400).json({ success: false, message: 'Tabla no válida' });
-//       }
-
-//       let columnaId;
-//       if (tabla === 'personal') {
-//           columnaId = 'personal_id';
-//       } else if (tabla === 'detalle_laboral') {
-//           columnaId = 'detalle_laboral_id';
-//       } else if (tabla === 'docentes_disponibles') {
-//           columnaId = 'np'; // Reemplaza 'id' por el nombre correcto de la columna primaria
-//       } else {
-//           return res.status(400).json({ success: false, message: 'Tabla no válida' });
-//       }
-
-//       const query = `DELETE FROM ${tabla} WHERE ${columnaId} = ?`;
-//       await pool.query(query, [id]);
-
-//       console.log(`Registro eliminado correctamente de la tabla ${tabla}`);
-//       res.status(200).json({ success: true, message: `Registro eliminado correctamente de ${tabla}` });
-//   } catch (error) {
-//       console.error('Error al eliminar el registro:', error.message);
-//       res.status(500).json({ success: false, message: 'Error al eliminar el registro' });
-//   }
-// });
 
 
 router.post('/deleteDocente', async (req, res) => {
@@ -570,22 +544,6 @@ router.post('/deleteDocente', async (req, res) => {
 });
 
 
-router.delete('/pendientes/:np', async (req, res) => {
-  const { np } = req.params;
-
-  try {
-    const [result] = await pool.query('DELETE FROM pendientes WHERE np = ?', [np]);
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ success: false, message: 'Pendiente no encontrado' });
-    }
-
-    res.json({ success: true, message: 'Pendiente eliminado correctamente' });
-  } catch (error) {
-    console.error('Error al eliminar el pendiente:', error);
-    res.status(500).json({ success: false, message: 'Error al eliminar el pendiente' });
-  }
-});
 
 
 module.exports = router;

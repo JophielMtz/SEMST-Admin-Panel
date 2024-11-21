@@ -2,33 +2,35 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
-                <div class="card-header d-flex justify-content-between">
-                    <div class="header-title">
-                        <h4 class="h3 card-title ms-3 mt-2 text-responsive">
-                            Docentes Disponibles
-                        </h4>
-                    </div>
-                    <div class="dropdown mt-2">
-                        <button class="btn btn-primary btn-sm dropdown-toggle rounded-pill" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Opciones
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li>
-                                <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo">
-                                    Nuevo
-                                </button>
-                            </li>
-                            <li>
-                                <button id="toggleEditMode" class="dropdown-item" type="button">
-                                    Activar Edición
-                                </button>
-                            </li>
-                            <li>
-                                <button id="deleteButton" class="dropdown-item text-danger" type="button" disabled>
-                                    <i class="fas fa-trash me-2"></i>Borrar
-                                </button>
-                            </li>
-                        </ul>
+                <div class="container text-center">
+                    <h4 class="text-responsive mb-3 mt-3">Docentes Disponibles</h4>
+                    <div class="row justify-content-center gx-2">
+                        <!-- Botón Nuevo -->
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary rounded-pill w-auto"
+                                data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                                style="padding: 4px 12px; font-size: 12px;"
+                                class="btn-sm">
+                                Nuevo
+                            </button>
+                        </div>
+                
+                        <!-- Botón Activar Edición -->
+                        <div class="col-auto">
+                            <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                                style="padding: 4px 12px; font-size: 12px;">
+                                <i class="fas fa-edit me-1"></i> Activar Edición
+                            </button>
+                        </div>
+                
+                        <!-- Botón Borrar -->
+                        <div class="col-auto">
+                            <button id="deleteButton" class="btn btn-danger rounded-pill w-auto" 
+                                style="padding: 4px 12px; font-size: 12px;" disabled>
+                                <i class="fas fa-trash-alt me-1"></i> Borrar
+                            </button>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="card-body">
@@ -39,26 +41,21 @@
                                 <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
                                 <label for="all" class="form-check-label pl-2">Todos</label>
                             </div>
-                        
-                            <!-- Radio para 'CCTs sale y entra' -->
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
                                 <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
                             </div>
-                        
-                            <!-- Botón de borrar (disabled) -->
-                            <div class="form-check form-check-inline">
-                                <i id="deleteIcon" class="fas fa-trash btn-secondary" style="font-size: 20px; cursor: pointer;" title="Eliminar"></i>
-                            </div>
+                            
                         </div>
-                        <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
+                        <div id="myGrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <!--Crear-->
-    <div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
+<div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <!-- Se usa modal-xl para más espacio -->
@@ -270,46 +267,23 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
 
     <script type="module">
-        import { getStatusClass, dateFormatter } from "./js/AgGrid/config.js";
+        import { getStatusClass,statusRenderer, colFecha, funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
         import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
 
         let gridApi;
         let editMode = false;
-
-        const statusRenderer = (params) => {
-            const span = document.createElement("span");
-            span.textContent = params.value;
-            span.classList.add("btn-status");
-
-            // Reemplaza espacios por guiones bajos para las clases CSS
-            const statusClass = getStatusClass(params.value).replace(/\s+/g, "_");
-            span.classList.add(statusClass);
-
-            return span;
-        };
-
+        
+        const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
+        
         const gridOptions = {
             columnDefs: [
                 { field: "np", headerName: "NP", width: 70, editable: false },
-                {
-                    field: "fecha",
-                    headerName: "Fecha",
-                    editable: () => editMode, // Controla la edición dinámicamente
-                    width: 120,
-                    cellEditor: "agDateCellEditor",
-                    valueFormatter: (params) => {
-                        if (!params.value) return "";
-                        const date = new Date(params.value);
-                        return date.toLocaleDateString("es-MX", {
-                            day: "2-digit",
-                            month: "short",
-                            year: "numeric",
-                        });
-                    },
-                },
+
+                    colFecha(editMode),
+                    
                 {
                     field: "nombre_docente",
                     headerName: "Nombre",
@@ -320,25 +294,10 @@
                 {
                     field: "estatus",
                     headerName: "Estatus",
-                    cellRenderer: statusRenderer,
                     editable: () => editMode,
                     width: 120,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: {
-                        values: ["Atendido", "En proceso", "Sin atender"],
-                    },
-                    valueSetter: (params) => {
-                        const validValues = ["Atendido", "En proceso", "Sin atender"];
-                        const normalizedValue = params.newValue?.trim();
-                        if (validValues.includes(normalizedValue)) {
-                            params.data.estatus = normalizedValue;
-                            return true;
-                        } else {
-                            alert("Estatus inválido. Seleccione un valor de la lista.");
-                            return false;
-                        }
-                    },
-                },
+                    ...createSelectColumnProps(estatusValidValues), // Agrega la configuración modularizada
+                  },
                 {
                     field: "observaciones",
                     headerName: "Observaciones",
@@ -352,23 +311,15 @@
                 {
                     field: "situacion",
                     headerName: "Situación",
-                    cellRenderer: statusRenderer,
+                    cellRenderer: statusRenderer, // Assuming you imported this
                     editable: () => editMode,
                     width: 110,
                     cellEditor: "agSelectCellEditor",
                     cellEditorParams: {
-                        values: ["Inseguridad", "Salud", "Sin CT"],
+                      values: ["Inseguridad", "Salud", "Sin CT"], // Valid values
                     },
-                    valueSetter: (params) => {
-                        if (["Inseguridad", "Salud", "Sin CT"].includes(params.newValue)) {
-                            params.data.situacion = params.newValue;
-                            return true; // Actualización exitosa
-                        } else {
-                            alert("Situación inválida. Seleccione un valor de la lista.");
-                            return false;
-                        }
-                    },
-                },
+                    valueSetter: createValidatedValueSetter(["Inseguridad", "Salud", "Sin CT"]), // Modularized setter
+                  },
                 {
                     field: "antiguedad",
                     headerName: "Antigüedad",
@@ -495,76 +446,27 @@
                     width: 150,
                     editable: () => editMode,
                 },
+                borrarColumna('/api/deleteRecord'),
             ],
             
-            defaultColDef: {
-                editable: true,
-                resizable: true,
-            },
+            defaultColDef: {editable: true,resizable: true,},
             rowData: null,
-            // Implementación del evento `onCellValueChanged`
-            onCellValueChanged: async (event) => {
-                const { data, colDef, newValue, oldValue } = event;
-
-                if (newValue === oldValue) return; // No hacer nada si no hubo cambios
-
-                try {
-                    const response = await fetch("/editarPersonal", {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            personal_id: data.personal_id, // ID de la fila
-                            field: colDef.field, // Nombre de la columna
-                            value: newValue, // Nuevo valor
-                        }),
-                    });
-
-                    const result = await response.json();
-
-                    if (!response.ok) {
-                        console.error(`Error: ${result.message}`);
-                        event.node.setDataValue(colDef.field, oldValue); // Revertir si hay error
-                    } else {
-                        console.log("Registro actualizado correctamente:", result.message);
-                    }
-                } catch (error) {
-                    console.error("Error al actualizar el registro:", error);
-                    alert("Error al actualizar el registro.");
-                    event.node.setDataValue(colDef.field, oldValue); // Revertir si hay error
-                }
-            },
+            pagination: true,
+            paginationPageSize: 20,
+            cacheBlockSize: 10,
             rowHeight: 60,
             domLayout: "autoHeight",
             context: {
+                endpoint: "/editarPersonal", //Funcion post
                 municipios: [],
                 comunidades: [],
                 ccts: [],
                 currentComunidades: [],
                 currentCCTs: [],
             },
-            rowSelection: {
-                mode: "multiRow",
-            },
-            onSelectionChanged: handleSelectionChanged,
+            rowSelection: {mode: "multiRow",},
+            onCellValueChanged: editarCelda,
         };
-
-        // Función para manejar la habilitación del botón "Borrar"
-        function handleSelectionChanged() {
-            const selectedRows = gridApi.getSelectedRows(); // Obtener filas seleccionadas
-            const deleteIcon = document.getElementById("deleteIcon");
-        
-            console.log("Filas seleccionadas:", selectedRows);
-        
-            if (selectedRows.length > 0) {
-                // Cambiar el color del ícono a `btn-primary`
-                deleteIcon.classList.remove("btn-secondary");
-                deleteIcon.classList.add("btn-primary");
-            } else {
-                // Cambiar el color del ícono a `btn-secondary`
-                deleteIcon.classList.remove("btn-primary");
-                deleteIcon.classList.add("btn-secondary");
-            }
-        }
 
         // Función para manejar el cambio de filtro externo
         window.externalFilterChanged = function (filterType) {
@@ -605,31 +507,53 @@
         const initializeGrid = async () => {
             const gridDiv = document.querySelector("#myGrid");
             gridApi = agGrid.createGrid(gridDiv, gridOptions);
+        
             try {
                 const municipios = await fetchMunicipios();
                 for (const municipio of municipios) {
-                    municipio.comunidades = await fetchComunidades(
-                        municipio.municipio_id
-                    );
+                    municipio.comunidades = await fetchComunidades(municipio.municipio_id);
                 }
                 gridOptions.context.municipios = municipios;
-
+        
+                // Obtén los datos desde el backend
                 const data = await fetch("/getDocentesDisponibles").then((response) =>
                     response.json()
                 );
-                gridApi.setGridOption("rowData", data);
+        
+                // Agrega el campo `tabla` dinámicamente
+                const rowData = data.map((row) => ({
+                    ...row,
+                    tabla: "docentes_disponibles", // Nombre de la tabla a la que pertenece esta fila
+                }));
+        
+                // Establece los datos en la tabla
+                gridApi.setGridOption("rowData", rowData);
+        
+                // Aplica el filtro inicial (opcional)
                 externalFilterChanged("all");
             } catch (error) {
                 console.error("Error inicializando la tabla:", error);
             }
         };
-
+        
         // Alternar el modo edición
-        document.querySelector("#toggleEditMode").addEventListener("click", () => {
-            editMode = !editMode; // Cambiar el estado del modo edición
-            const button = document.querySelector("#toggleEditMode");
-            button.textContent = editMode ? "Desactivar Edición" : "Activar Edición";
-            gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar el cambio
+        document.querySelector("#toggleEditMode").addEventListener("click", async () => {
+            if (editMode) {
+                if (confirm("¿Estás seguro de los cambios?")) {
+                    editMode = false;
+                    const button = document.querySelector("#toggleEditMode");
+                    button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
+                    gridApi.refreshCells({ force: true }); // Refrescar las celdas
+        
+                    // Recargar datos desde el servidor
+                    await reloadData();
+                }
+            } else {
+                editMode = true;
+                const button = document.querySelector("#toggleEditMode");
+                button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
+                gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
+            }
         });
 
         document.addEventListener("DOMContentLoaded", initializeGrid);

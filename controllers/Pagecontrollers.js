@@ -1,53 +1,90 @@
 const pool = require("../src/config/db");
 
-const vistaPrincipal = (req, res) => {
-  res.render("home");
-};
 
-const vistaReviciones = (req, res) => {
-  res.render("revisiones");
+//========== Vistas Renders  ======================//
+//========== Vistas Controller =============//
+const vistasController = {
+    vistaPrincipal: (req, res) => {
+      res.render("home");
+    },
+    vistaReviciones: (req, res) => {
+      res.render("revisiones");
+    },
+  vistaCambio: async (req, res) => {
+    res.render("cambio");
+  },
+  vistaPendientes: async (req, res) => {
+    res.render("pendientes");
+  },
+  vistaDocentesDisponibles: async (req, res) => {
+    res.render("docentes-disponibles");
+  },
+  vistaListaGeneral: async (req, res) => {
+    res.render("lista-general");
+  },
+  vistaBecaComision: (req, res) => {
+    res.render("beca-comision");
+  },
+  vistaApoyoLentes: (req, res) => {
+    res.render("apoyo-lentes");
+  },
+  vistaNombramientosDocentes: (req, res) => {
+    res.render("nombramientos-docentes");
+  },
+  vistaLicenciasSinGoce: (req, res) => {
+    res.render("licencias-sin-goce");
+  },
+  vistaIncidencias: (req, res) => {
+    res.render("incidencias");
+  },
+  vistaCalendario: (req, res) => {
+    res.render("calendario");
+  },
+  vistaSolicitudesGenerales: (req, res) => {
+    res.render("solicitudes-generales");
+  },
+  vistaSolicitudesPersonal: (req, res) => {
+    res.render("solicitudes-personal");
+  },
+  vistaSalud: (req, res) => {
+    res.render("salud");
+  },
+  vistaListaPanelAdm: (req, res) => {
+    res.render("lista-panel-adm");
+  },
+  vistaPerfil: (req, res) => {
+    res.render("perfil");
+  },
+  vistaRoles: (req, res) => {
+    res.render("roles");
+  },
 };
+//=====================================//
 
-const vistaPendientes = async (req, res) => {
+
+
+
+//=========Gets de las APIS==========//
+const obtenerPendientes = async (req, res) => {
   try {
-    const [pendientes] = await pool.query(`
+    const [results] = await pool.query(`
       SELECT 
         np, 
         fecha, 
         estatus, 
         tramite, 
-        departamento AS titulo, 
+        departamento,
         observaciones_conflictos, 
         observaciones_secretaria_general
       FROM pendientes
     `);
-
-    // Verifica si la solicitud es AJAX
-    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      // Enviar los datos como JSON
-      res.json({ data: pendientes });
-    } else {
-      // Renderiza la vista con los datos obtenidos
-      res.render('pendientes', { pendientes });
-    }
+    res.json(results);
   } catch (error) {
-    // Manejo de errores
-    console.error('Error al obtener datos de pendientes:', error);
-    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      res.status(500).json({ error: 'Error al obtener datos de pendientes' });
-    } else {
-      res.status(500).send('Error al obtener datos de pendientes');
-    }
+    console.error("Error al obtener lista pendientes:", error);
+    res.status(500).json({ message: "Error al obtener lista pendientes" });
   }
 };
 
-
-const postPendientes = (req, res) => {
-};
-
-const vistaDocentesDisponibles = async (req, res) => {
-  res.render("docentes-disponibles");
-};
 const obtenerDocentesDisponibles = async (req, res) => {
   try {
     const [results] = await pool.query(`
@@ -78,74 +115,101 @@ const obtenerDocentesDisponibles = async (req, res) => {
   }
 };
 
-// const actualizarDocente = async (req, res) => {
-//   const { personal_id, field, value } = req.body;
-
-//   // Validar que los datos necesarios están presentes
-//   if (!personal_id || !field || value === undefined) {
-//     return res.status(400).json({ message: "Datos insuficientes." });
-//   }
-
-//   // Lista de campos válidos para evitar inyección SQL
-//   const validFields = [
-//     'nombre_docente', 'fecha', 'estatus', 'situacion',
-//     'antiguedad', 'municipio_sale', 'comunidad_sale',
-//     'cct_sale', 'estatus_cubierta', 'observaciones',
-//   ];
-
-//   if (!validFields.includes(field)) {
-//     return res.status(400).json({ message: "Campo inválido." });
-//   }
-
-//   try {
-//     // Construir la consulta de forma segura
-//     const query = `UPDATE docentes_disponibles SET ${field} = ? WHERE personal_id = ?`;
-//     const [result] = await pool.query(query, [value, personal_id]);
-
-//     if (result.affectedRows === 0) {
-//       return res.status(404).json({ message: "Registro no encontrado." });
-//     }
-
-//     res.json({ message: "Registro actualizado correctamente." });
-//   } catch (error) {
-//     console.error("Error al actualizar docente:", error);
-//     res.status(500).json({ message: "Error interno del servidor." });
-//   }
-// };
-
-const editarDocente = async (req, res) => {
-  const { personal_id, field, value } = req.body;
-
-  if (!personal_id || !field || value === undefined) {
-    return res.status(400).json({ message: "Datos insuficientes. Se requiere personal_id, field y value." });
+const obtenerListaGeneral = async (req, res) => {
+  try {
+    const [results] = await pool.query(`
+    SELECT 
+    p.personal_id, 
+    p.rfc, 
+    p.nombre, 
+    p.apellido_paterno, 
+    p.apellido_materno, 
+    p.edad, 
+    p.telefono, 
+    p.correo, 
+    c.descripcion AS cargo, 
+    p.imagen
+FROM personal p
+LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
+LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id;
+    `);
+    res.json(results);
+  } catch (error) {
+    console.error("Error al obtener el personal:", error);
+    res.status(500).json({ message: "Error al obtener la lista de personal" });
   }
+};
 
-  // Lista de campos válidos para evitar inyección SQL
-  const validFields = [
-    'nombre_docente', 'fecha', 'estatus', 'situacion',
-    'antiguedad', 'municipio_sale', 'comunidad_sale',
-    'cct_sale', 'estatus_cubierta', 'observaciones',
-  ];
+//=================================================//
+
+//============Modulo para actualizar registros de tablas en la db =============//
+const actualizarRegistro = async (tabla, idCampo, idValor, field, value, validFields, res) => {
+  if (!idValor || !field || value === undefined) {
+    return res.status(400).json({ message: "Datos insuficientes. Se requieren los valores necesarios." });
+  }
 
   if (!validFields.includes(field)) {
     return res.status(400).json({ message: "Campo inválido." });
   }
 
   try {
-    // Construcción dinámica de la consulta
-    const query = `UPDATE docentes_disponibles SET ?? = ? WHERE personal_id = ?`;
-    const [result] = await pool.query(query, [field, value, personal_id]);
+    const query = `UPDATE ?? SET ?? = ? WHERE ?? = ?`;
+    const [result] = await pool.query(query, [tabla, field, value, idCampo, idValor]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Registro no encontrado." });
     }
 
-    res.json({ message: "Registro actualizado correctamente." });
+    return res.json({ message: "Registro actualizado correctamente." });
   } catch (error) {
-    console.error("Error al actualizar docente:", error);
-    res.status(500).json({ message: "Error interno del servidor." });
+    console.error(`Error al actualizar registro en la tabla ${tabla}:`, error);
+    return res.status(500).json({ message: "Error interno del servidor." });
   }
 };
+//=================================================//
+
+//=========Puts para las tablas AG Grid funciona con el modulo actualizarRegistro =============//
+
+const editarPendientes = async (req, res) => {
+  // Log para verificar los datos recibidos en el cuerpo de la solicitud
+  console.log("Datos recibidos en editarPendientes:", req.body);
+
+  const { np, field, value } = req.body;
+
+  const validFields = [
+    'np', 
+    'fecha', 
+    'estatus', 
+    'tramite', 
+    'departamento', 
+    'observaciones_conflictos',
+    'observaciones_secretaria_general',
+  ];
+
+  // Validación previa para asegurar que los datos clave estén presentes
+  if (!np || !field || value === undefined) {
+    console.log("Error: Datos insuficientes. Se requieren 'np', 'field' y 'value'.");
+    return res.status(400).json({ message: "Datos insuficientes. Se requieren 'np', 'field' y 'value'." });
+  }
+
+  // Llamada a la función actualizarRegistro
+  return actualizarRegistro("pendientes", "np", np, field, value, validFields, res);
+};
+
+
+const editarDocente = async (req, res) => {
+  const { personal_id, field, value } = req.body;
+
+  const validFields = [
+    'nombre_docente', 'fecha', 'estatus', 'situacion',
+    'antiguedad', 'municipio_sale', 'comunidad_sale',
+    'cct_sale', 'estatus_cubierta', 'observaciones',
+  ];
+
+  return actualizarRegistro("docentes_disponibles", "personal_id", personal_id, field, value, validFields, res);
+};
+
+//=================================================//
 
 
 
@@ -207,7 +271,6 @@ const vistaNombramientosDocentes = async (req, res) => {
   }
 };
 
-
 const vistaLicenciasSinGoce = async (req, res) => {
   try {
     // Simulación de datos vacíos para preparar la lógica (puedes reemplazarlo más tarde)
@@ -256,37 +319,12 @@ const vistaLicenciasSinGoce = async (req, res) => {
 };
 
 
-const vistaIncidencias = (req, res) => {
-  res.render("incidencias");
-};
 
-const vistaCalendario = (req, res) => {
-  res.render("calendario");
-};
 
-const vistaSolicitudesGenerales = (req, res) => {
-  res.render("solicitudes-generales");
-};
 
-const vistaCambio = (req, res) => {
-  res.render("cambio");
-};
 
-const vistaSolicitudesPersonal = (req, res) => {
-  res.render("solicitudes-personal");
-};
 
-const vistaSalud = (req, res) => {
-  res.render("salud");
-};
 
-const vistaBecaComision = (req, res) => {
-  res.render("beca-comision");
-};
-
-const vistaApoyoLentes = (req, res) => {
-  res.render("apoyo-lentes");
-};
 
 const vistaListaPanelAdm = async (req, res) => {
   try {
@@ -326,60 +364,7 @@ const vistaListaPanelAdm = async (req, res) => {
 };
 
 
-const vistaListaGeneral = async (req, res) => {
-  res.render("lista-general");
-};
 //api de lista general
-const obtenerListaGeneral = async (req, res) => {
-  try {
-    const [results] = await pool.query(`
-    SELECT 
-    p.personal_id, 
-    p.rfc, 
-    p.nombre, 
-    p.apellido_paterno, 
-    p.apellido_materno, 
-    p.edad, 
-    p.telefono, 
-    p.correo, 
-    c.descripcion AS cargo, 
-    p.imagen
-FROM personal p
-LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
-LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id;
-    `);
-    res.json(results);
-  } catch (error) {
-    console.error("Error al obtener el personal:", error);
-    res.status(500).json({ message: "Error al obtener la lista de personal" });
-  }
-};
-
-// const vistaListaGeneral = async (req, res) => {
-//   try {
-//     const [personal] = await pool.query(`
-//       SELECT 
-//         p.personal_id, p.rfc, p.nombre, p.apellido_paterno, 
-//         p.apellido_materno, p.edad, p.telefono, p.correo, 
-//         c.descripcion AS cargo
-//       FROM personal p
-//       LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
-//       LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id
-//     `);
-
-//     // Verifica si la solicitud es AJAX (json)
-//     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-//       return res.json({ data: personal });
-//     }
-
-//     // Si no es AJAX, renderiza la vista "lista-general" con los datos
-//     res.render('lista-general', { personal });
-//   } catch (error) {
-//     console.error('Error al obtener datos del personal:', error);
-//     res.status(500).json({ error: 'Error al obtener datos de la lista general' });
-//   }
-// };
-
 
 const vistaPerfil = (req, res) => {
   res.render("perfil");
@@ -605,6 +590,55 @@ const vistaEditarPersonal = async (req, res) => {
     res.status(500).send("Error al cargar la vista de edición");
   }
 };
+// Función para borrar fila
+// Lista de tablas permitidas para prevenir inyecciones SQL
+
+
+const borrarFila = async (req, res) => {
+  console.log('Solicitud recibida:', req.body);
+
+  const { np, tabla } = req.body; // Extraemos los parámetros
+
+  if (!np || !tabla) {
+    console.error('Faltan parámetros: np y/o tabla.');
+    return res.status(400).json({ message: 'El identificador y la tabla son obligatorios.' });
+  }
+
+  const tablasPermitidas = ['docentes_disponibles', 'pendientes'];
+
+  if (!tablasPermitidas.includes(tabla)) {
+    console.error(`Tabla no permitida: ${tabla}`);
+    return res.status(400).json({ message: 'La tabla especificada no está permitida.' });
+  }
+
+  try {
+    const querySeleccion = `SELECT * FROM ${tabla} WHERE np = ?`;
+    console.log(`Consulta SQL: ${querySeleccion}, Valores: [${np}]`);
+
+    const [records] = await pool.query(querySeleccion, [np]);
+
+    if (!records || records.length === 0) {
+      console.log('No se encontró el registro.');
+      return res.status(404).json({ message: 'El registro no existe.' });
+    }
+
+    const queryEliminacion = `DELETE FROM ${tabla} WHERE np = ?`;
+    console.log(`Consulta SQL de eliminación: ${queryEliminacion}, Valores: [${np}]`);
+
+    await pool.query(queryEliminacion, [np]);
+
+    console.log('Registro eliminado exitosamente.');
+    res.status(200).json({ message: 'Registro eliminado exitosamente.' });
+  } catch (error) {
+    console.error('Error al eliminar el registro:', error);
+    res.status(500).json({ message: 'Error al intentar eliminar el registro.' });
+  }
+};
+
+
+
+
+
 
 
 
@@ -692,33 +726,20 @@ const obtenerDetallePersonal  = async (req, res) => {
 };
 
 module.exports = {
-  vistaPrincipal,
-  vistaReviciones,
-  vistaPendientes,
-  vistaDocentesDisponibles,
+  vistasController,
   editarDocente,
-  vistaNombramientosDocentes,
-  vistaLicenciasSinGoce,
-  vistaIncidencias,
-  vistaCalendario,
-  vistaSolicitudesGenerales,
-  vistaCambio,
-  vistaSolicitudesPersonal,
-  vistaSalud,
-  vistaBecaComision,
-  vistaApoyoLentes,
-  vistaListaGeneral,
-  vistaListaPanelAdm,
-  vistaPerfil,
+  editarPendientes,
   vistaListaFederal,
   vistaInfoPersonal,
   vistaAgregarpersonal,
-  vistaRoles,
   agregarPersonal,
   vistaEditarPersonal,
   obtenerPersonal,
+  obtenerPendientes,
   obtenerDetallePersonal,
   obtenerListaGeneral,
-  obtenerDocentesDisponibles
+  obtenerDocentesDisponibles,
+  borrarFila,
+  actualizarRegistro
 
 };
