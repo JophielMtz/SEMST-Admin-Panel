@@ -3,7 +3,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="container text-center">
-                    <h4 class="text-responsive mb-3 mt-3">Pendientes</h4>
+                    <h4 class="text-responsive mb-3 mt-3">Apoyo lentes</h4>
                     <div class="row justify-content-center gx-2">
                         <!-- Botón Nuevo -->
                         <div class="col-auto">
@@ -47,7 +47,7 @@
                             </div>
                             
                         </div>
-                        <div id="pendientesGrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
+                        <div id="mygrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
@@ -280,7 +280,7 @@
    
    const gridOptions = {
       columnDefs: [
-      { field: "np", headerName: "NP", width: 70, editable: false },
+      { field: "apoyo_id", headerName: "ID", width: 70, editable: false },
         colFecha(editMode),
         {
             headerName: "Estatus",
@@ -340,13 +340,14 @@
        context: {
            endpoint: "/editarPendientes",
        },
+       rowSelection: {mode: "multiRow",},
        onCellValueChanged: editarCelda,
    };
 
    
 
    const initializeGrid = async () => {
-    const gridDiv = document.querySelector("#pendientesGrid");
+    const gridDiv = document.querySelector("#mygrid");
     gridApi = agGrid.createGrid(gridDiv, gridOptions);
 
     try {

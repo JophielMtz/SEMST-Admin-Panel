@@ -3,7 +3,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="container text-center">
-                    <h4 class="text-responsive mb-3 mt-3">Pendientes</h4>
+                    <h4 class="text-responsive mb-3 mt-3">Beca Comisión</h4>
                     <div class="row justify-content-center gx-2">
                         <!-- Botón Nuevo -->
                         <div class="col-auto">
@@ -47,7 +47,7 @@
                             </div>
                             
                         </div>
-                        <div id="pendientesGrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
+                        <div id="mygrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
@@ -269,54 +269,79 @@
         </div>
 </div>
 
-<script type="module">
-   import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
-
+<!-- <script type="module">
+    import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
 
    let gridApi;
    let editMode = false;
-
-   const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
+   let inputRow = {}; // Fila vacía inicial para capturar datos
+   
+   function setRowData(newData) {
+    rowData = newData;
+    gridOptions.api.setRowData(rowData);
+  }
+  
+  function setInputRow(newData) {
+    inputRow = newData;
+    gridOptions.api.setPinnedTopRowData([inputRow]);
+  }
    
    const gridOptions = {
       columnDefs: [
+      
       { field: "np", headerName: "NP", width: 70, editable: false },
-        colFecha(editMode),
-        {
-            headerName: "Estatus",
-            field: "estatus",
-            editable: () => editMode, // La columna será editable si editMode es true
-            resizable: true,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-                values: ["TERMINADO", "EN PROCESO", "NO SE ATIENDE"], // Opciones del select
-            },
-        },
+      colFecha(editMode),
+      {
+        headerName: "Nombre del Docente",
+        field: "nombre_docente",
+        editable: false,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
     {
-        headerName: "Trámite",
-        field: "tramite",
+        headerName: "CCT",
+        field: "cct",
         editable: () => editMode,  // Esta columna será editable si editMode es true
         resizable: true,
     },
     {
-        headerName: "Departamento",
-        field: "departamento",
-        editable: () => editMode, // La columna será editable si editMode es true
+        headerName: "Comunidad",
+        field: "comunidad",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Municipio",
+        field: "municipio",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Vacante",
+        field: "vacante",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
         resizable: true,
         cellEditor: "agSelectCellEditor",
         cellEditorParams: {
-            values: [
-                "SUBDIRECCION ACADEMICA",
-                "SUBDIRECCION DE PLANEACION",
-                "SUBDIRECCION DE ADMINISTRACION",
-                "RECURSOS HUMANOS",
-                "USICAMM",
-                "OPERACION ESCOLAR",
-                "JURIDICO",
-                "SIN DEFINIR",
-                "SEMST"
-            ], // Opciones del select
+            values: ["CUBIERTA", "SIN CUBRIR", "SIN VALIDAR"], // Opciones del select
         },
+    },
+    {
+        headerName: "Cubre",
+        field: "cubre",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Antigüedad",
+        field: "antiguedad",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Teléfono",
+        field: "telefono",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
     },
     {
         headerName: "Observaciones Conflictos",
@@ -331,32 +356,64 @@
         resizable: true,
     },
     borrarColumna('/api/deleteRecord'),
-   
-      ],
-       defaultColDef: {editable: true,resizable: true,},
-       rowData: null,
-       rowHeight: 60,
-       domLayout: "autoHeight",
-       context: {
-           endpoint: "/editarPendientes",
-       },
-       onCellValueChanged: editarCelda,
-   };
 
-   
+    ],
+      
+      defaultColDef: {
+        flex: 1,
+        editable: true,
+        resizable: true,
+        valueFormatter: (params) =>
+        isEmptyPinnedCell(params)
+        ? createPinnedCellPlaceholder(params)
+        : undefined,
+  },
+ 
+      pinnedTopRowData: [inputRow], // Fila fijada
+      rowHeight: 60,
+      domLayout: "autoHeight",
+      getRowStyle: ({ node }) =>
+      node.rowPinned ? { 'font-weight': 'bold', 'font-style': 'italic' } : 0, // Diseño de fila fijada
+
+      onCellEditingStopped: (params) => {
+        if (params.node.rowPinned === "top" && isPinnedRowDataCompleted(inputRow)) {
+            addNewRowToGrid(inputRow); // Agregar la nueva fila
+            resetPinnedRow();          // Reiniciar la fila fijada
+        }
+    },
+      context: {endpoint: "/editarBecas",},
+      onCellValueChanged: editarCelda,
+  };
+
+  function isEmptyPinnedCell({ node, value }) {
+    return (
+      (node.rowPinned === 'top' && value == null) ||
+      (node.rowPinned === 'top' && value == '')
+    );
+  }
+  
+  function createPinnedCellPlaceholder({ colDef }) {
+    return colDef.field[0].toUpperCase() + colDef.field.slice(1) + '...';
+  }
+  
+  function isPinnedRowDataCompleted(params) {
+    if (params.rowPinned !== 'top') return;
+    return columnDefs.every((def) => inputRow[def.field]);
+  }
+
 
    const initializeGrid = async () => {
-    const gridDiv = document.querySelector("#pendientesGrid");
+    const gridDiv = document.querySelector("#mygrid");
     gridApi = agGrid.createGrid(gridDiv, gridOptions);
 
     try {
         // Obtén los datos desde el backend
-        const data = await fetch("/getPendientes").then((response) => response.json());
+        const data = await fetch("/getbecas").then((response) => response.json());
 
         // Agrega el campo `tabla` dinámicamente
         const rowData = data.map((row) => ({
             ...row,
-            tabla: "pendientes", // Nombre de la tabla
+            tabla: "beca-comision", // Nombre de la tabla
         }));
 
         // Asigna los datos al grid
@@ -388,7 +445,144 @@
    });
 
    document.addEventListener("DOMContentLoaded", initializeGrid);
-</script>
+</script> -->
 
 
 
+<script type="module">
+    import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
+ 
+ 
+    let gridApi;
+    let editMode = false;
+ 
+    
+    const gridOptions = {
+       columnDefs: [
+       { field: "np", headerName: "NP", width: 60, editable: false },
+       {
+        headerName: "Nombre del Docente",
+        field: "nombre_docente",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "CCT",
+        field: "cct",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Comunidad",
+        field: "comunidad",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Municipio",
+        field: "municipio",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Vacante",
+        field: "vacante",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+        cellEditor: "agSelectCellEditor",
+        cellEditorParams: {
+            values: ["CUBIERTA", "SIN CUBRIR", "SIN VALIDAR"], // Opciones del select
+        },
+    },
+    {
+        headerName: "Cubre",
+        field: "cubre",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Antigüedad",
+        field: "antiguedad",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Teléfono",
+        field: "telefono",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Observaciones Conflictos",
+        field: "observaciones_conflictos",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    {
+        headerName: "Observaciones Secretaría General",
+        field: "observaciones_secretaria_general",
+        editable: () => editMode,  // Esta columna será editable si editMode es true
+        resizable: true,
+    },
+    borrarColumna('/api/deleteRecord'),
+
+    ],
+    
+        defaultColDef: {editable: true,resizable: true,},
+        rowData: null,
+        rowHeight: 60,
+        domLayout: "autoHeight",
+        context: {
+            endpoint: "/editarBecas",
+        },
+
+        onCellValueChanged: editarCelda,
+    };
+ 
+    
+ 
+    const initializeGrid = async () => {
+     const gridDiv = document.querySelector("#mygrid");
+     gridApi = agGrid.createGrid(gridDiv, gridOptions);
+ 
+     try {
+         // Obtén los datos desde el backend
+         const data = await fetch("/getBecas").then((response) => response.json());
+ 
+         // Agrega el campo `tabla` dinámicamente
+         const rowData = data.map((row) => ({
+             ...row,
+             tabla: "becas_comision", // Nombre de la tabla
+         }));
+ 
+         // Asigna los datos al grid
+         gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
+     } catch (error) {
+         console.error("Error inicializando la tabla:", error);
+     }
+ };
+ 
+ 
+    // Alternar el modo edición
+    document.querySelector("#toggleEditMode").addEventListener("click", async () => {
+        if (editMode) {
+            if (confirm("¿Estás seguro de los cambios?")) {
+                editMode = false;
+                const button = document.querySelector("#toggleEditMode");
+                button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
+                gridApi.refreshCells({ force: true }); // Refrescar las celdas
+    
+                // Recargar datos desde el servidor
+                await reloadData();
+            }
+        } else {
+            editMode = true;
+            const button = document.querySelector("#toggleEditMode");
+            button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
+            gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
+        }
+    });
+ 
+    document.addEventListener("DOMContentLoaded", initializeGrid);
+ </script>
+ 

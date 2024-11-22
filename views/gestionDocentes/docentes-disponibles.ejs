@@ -269,7 +269,7 @@
         </div>
 </div>
 
-    <script type="module">
+<script type="module">
         import { getStatusClass,statusRenderer, colFecha, funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
         import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
 
@@ -430,21 +430,79 @@
                 },
                 {
                     field: "municipio_entra",
-                    headerName: "Municipio Entra",
-                    width: 150,
+                    headerName: "Municipio entra",
                     editable: () => editMode,
+                    width: 150,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: (params) => ({
+                        values: params.context.municipios.map((m) => m.nombre_municipio),
+                    }),
+                    valueSetter: (params) => {
+                        const municipioObj = params.context.municipios.find(
+                            (m) => m.nombre_municipio === params.newValue
+                        );
+                        if (municipioObj) {
+                            params.data.municipio_id = municipioObj.municipio_id;
+                            params.data.municipio_sale = municipioObj.nombre_municipio;
+                            params.context.currentComunidades =
+                                municipioObj.comunidades || [];
+                            return true;
+                        }
+                        alert("Municipio inválido.");
+                        return false;
+                    },
                 },
                 {
                     field: "comunidad_entra",
-                    headerName: "Comunidad Entra",
-                    width: 150,
+                    headerName: "Comunidad entra",
                     editable: () => editMode,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: (params) => ({
+                        values: params.context.currentComunidades.map(
+                            (c) => c.nombre_comunidad
+                        ),
+                    }),
+                    valueSetter: async (params) => {
+                        const comunidadObj = params.context.currentComunidades.find(
+                            (c) => c.nombre_comunidad === params.newValue
+                        );
+                        if (comunidadObj) {
+                            params.data.comunidad_id = comunidadObj.comunidad_id;
+                            params.data.comunidad_sale = comunidadObj.nombre_comunidad;
+                            const ccts = await fetchCCTs(
+                                params.data.municipio_id,
+                                comunidadObj.comunidad_id
+                            );
+                            params.context.currentCCTs = ccts || [];
+                            return true;
+                        }
+                        alert("Comunidad inválida.");
+                        return false;
+                    },
                 },
                 {
                     field: "cct_entra",
-                    headerName: "CCT Entra",
-                    width: 150,
+                    headerName: "CCT eentra",
                     editable: () => editMode,
+                    width: 115,
+                    cellEditor: "agSelectCellEditor",
+                    cellEditorParams: (params) => ({
+                        values: params.context.currentCCTs.map(
+                            (c) => c.centro_clave_trabajo
+                        ),
+                    }),
+                    valueSetter: (params) => {
+                        const cctObj = params.context.currentCCTs.find(
+                            (c) => c.centro_clave_trabajo === params.newValue
+                        );
+                        if (cctObj) {
+                            params.data.cct_id = cctObj.cct_id;
+                            params.data.cct_sale = cctObj.centro_clave_trabajo;
+                            return true;
+                        }
+                        alert("CCT inválido.");
+                        return false;
+                    },
                 },
                 borrarColumna('/api/deleteRecord'),
             ],
@@ -557,4 +615,4 @@
         });
 
         document.addEventListener("DOMContentLoaded", initializeGrid);
-    </script>
+</script>

@@ -3,7 +3,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="container text-center">
-                    <h4 class="text-responsive mb-3 mt-3">Pendientes</h4>
+                    <h4 class="text-responsive mb-3 mt-3">Incidencias</h4>
                     <div class="row justify-content-center gx-2">
                         <!-- Botón Nuevo -->
                         <div class="col-auto">
@@ -47,15 +47,15 @@
                             </div>
                             
                         </div>
-                        <div id="pendientesGrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
+                        <div id="mygrid" class="ag-theme-quartz" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+ </div>
     <!--Crear-->
-<div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
+ <div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <!-- Se usa modal-xl para más espacio -->
@@ -97,7 +97,7 @@
                                         <h4 class="card-title">Información del nuevo usuario</h4>
                                     </div>
                                 </div>
-
+ 
                                 <div class="card-body">
                                     <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
                                         <input type="hidden" name="tabla" value="docentes_disponibles" />
@@ -119,7 +119,7 @@
                                                         style="z-index: 1000"></ul>
                                                 </div>
                                             </div>
-
+ 
                                             <!-- Fecha, Antigüedad y Teléfono -->
                                             <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                                 <label for="fecha" class="form-label">Fecha:</label>
@@ -135,7 +135,7 @@
                                                 <input type="text" class="form-control" id="telefono" name="telefono"
                                                     placeholder="" />
                                             </div>
-
+ 
                                             <!-- Cobertura -->
                                             <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                                 <label for="estatus_cubierta" class="form-label">Cobertura:</label>
@@ -151,7 +151,7 @@
                                                     </option>
                                                 </select>
                                             </div>
-
+ 
                                             <!-- Estatus y Situación -->
                                             <div class="form-group col-md-6">
                                                 <label for="estatus" class="form-label">Estatus:</label>
@@ -176,7 +176,7 @@
                                                     <option value="Sin CT">Sin CT</option>
                                                 </select>
                                             </div>
-
+ 
                                             <!-- Sección de CCT Sale -->
                                             <div class="div">
                                                 <h2 class="h6 mb-2 mt-2">CCT Sale</h2>
@@ -197,7 +197,7 @@
                                                 <input type="text" class="form-control" id="cct_sale"
                                                     placeholder="Clave CCT" readonly />
                                             </div>
-
+ 
                                             <div class="div">
                                                 <h2 class="h6 mb-2 mt-1">CCT Entra</h2>
                                             </div>
@@ -230,7 +230,7 @@
                                                     <!-- Opciones dinámicas -->
                                                 </select>
                                             </div>
-
+ 
                                             <!-- Observaciones -->
                                             <div class="form-group col-md-12">
                                                 <label for="observaciones" class="form-label">Observaciones:</label>
@@ -242,7 +242,7 @@
                                             Guardar
                                         </button>
                                     </form>
-
+ 
                                     <div id="seccionConfirmacion" class="mt-4" style="display: none">
                                         <h5>Confirmar Datos Ingresados</h5>
                                         <div class="card">
@@ -267,128 +267,99 @@
                 </div>
             </div>
         </div>
-</div>
-
-<script type="module">
-   import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
-
-
-   let gridApi;
-   let editMode = false;
-
-   const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
-   
-   const gridOptions = {
-      columnDefs: [
-      { field: "np", headerName: "NP", width: 70, editable: false },
-        colFecha(editMode),
-        {
-            headerName: "Estatus",
-            field: "estatus",
-            editable: () => editMode, // La columna será editable si editMode es true
-            resizable: true,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-                values: ["TERMINADO", "EN PROCESO", "NO SE ATIENDE"], // Opciones del select
-            },
-        },
-    {
-        headerName: "Trámite",
-        field: "tramite",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Departamento",
-        field: "departamento",
-        editable: () => editMode, // La columna será editable si editMode es true
-        resizable: true,
-        cellEditor: "agSelectCellEditor",
-        cellEditorParams: {
-            values: [
-                "SUBDIRECCION ACADEMICA",
-                "SUBDIRECCION DE PLANEACION",
-                "SUBDIRECCION DE ADMINISTRACION",
-                "RECURSOS HUMANOS",
-                "USICAMM",
-                "OPERACION ESCOLAR",
-                "JURIDICO",
-                "SIN DEFINIR",
-                "SEMST"
-            ], // Opciones del select
-        },
-    },
-    {
-        headerName: "Observaciones Conflictos",
-        field: "observaciones_conflictos",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Observaciones Secretaría General",
-        field: "observaciones_secretaria_general",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    borrarColumna('/api/deleteRecord'),
-   
-      ],
-       defaultColDef: {editable: true,resizable: true,},
-       rowData: null,
-       rowHeight: 60,
-       domLayout: "autoHeight",
-       context: {
-           endpoint: "/editarPendientes",
-       },
-       onCellValueChanged: editarCelda,
-   };
-
-   
-
-   const initializeGrid = async () => {
-    const gridDiv = document.querySelector("#pendientesGrid");
-    gridApi = agGrid.createGrid(gridDiv, gridOptions);
-
-    try {
-        // Obtén los datos desde el backend
-        const data = await fetch("/getPendientes").then((response) => response.json());
-
-        // Agrega el campo `tabla` dinámicamente
-        const rowData = data.map((row) => ({
-            ...row,
-            tabla: "pendientes", // Nombre de la tabla
-        }));
-
-        // Asigna los datos al grid
-        gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
-    } catch (error) {
-        console.error("Error inicializando la tabla:", error);
-    }
-};
-
-
-   // Alternar el modo edición
-   document.querySelector("#toggleEditMode").addEventListener("click", async () => {
-       if (editMode) {
-           if (confirm("¿Estás seguro de los cambios?")) {
-               editMode = false;
-               const button = document.querySelector("#toggleEditMode");
-               button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
-               gridApi.refreshCells({ force: true }); // Refrescar las celdas
-   
-               // Recargar datos desde el servidor
-               await reloadData();
-           }
-       } else {
-           editMode = true;
-           const button = document.querySelector("#toggleEditMode");
-           button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
-           gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
-       }
-   });
-
-   document.addEventListener("DOMContentLoaded", initializeGrid);
-</script>
-
-
-
+ </div>
+ 
+ <script type="module">
+    import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
+ 
+    let gridApi;
+    let editMode = false;
+ 
+    const gridOptions = {
+       columnDefs: [
+       { field: "np", headerName: "NP", width: 52, editable: false },
+       colFecha(editMode),
+       { headerName: "Nombre del Docente", field: "nombre_del_docente", editable: () => editMode, width: 220 },
+       { headerName: "Antigüedad", field: "antiguedad", editable: () => editMode, resizable: true, width: 109 },
+       { headerName: "Teléfono", field: "telefono", editable: () => editMode, resizable: true, width: 115 },
+       { headerName: "Clave CCT", field: "centro_clave_trabajo", editable: () => editMode, resizable: true, width: 115 },
+       { headerName: "Comunidad", field: "comunidad", editable: () => editMode, resizable: true },
+       { headerName: "Municipio", field: "municipio", editable: () => editMode, resizable: true },
+       { headerName: "Zona", field: "zona_id", editable: () => editMode, resizable: true, width: 70 },
+       { headerName: "Sector", field: "sector_id", editable: () => editMode, resizable: true, width: 80  },
+       { headerName: "Org", field: "org", editable: () => editMode, resizable: true },
+       { headerName: "No de Alumnos", field: "no_alumnos", editable: () => editMode, resizable: true },
+       { headerName: "1° Grado", field: "grado_1", editable: () => editMode, resizable: true },
+       { headerName: "2° Grado", field: "grado_2", editable: () => editMode, resizable: true },
+       { headerName: "3° Grado", field: "grado_3", editable: () => editMode, resizable: true },
+       { headerName: "Función del Docente", field: "funcion_docente", editable: () => editMode, resizable: true },
+       { headerName: "Tipo de Nombramiento", field: "tipo_nombramiento", editable: () => editMode, resizable: true },
+       { headerName: "Inicio del Movimiento", field: "inicio_movimiento", editable: () => editMode, resizable: true },
+       { headerName: "Término del Movimiento", field: "termino_movimiento", editable: () => editMode, resizable: true },
+       { headerName: "Propuesta", field: "propuesta", editable: () => editMode, resizable: true },
+       { headerName: "Subdirección Académica", field: "subdireccion_academica", editable: () => editMode, resizable: true },
+       { headerName: "Subdirección de Planeación", field: "subdireccion_planeacion", editable: () => editMode, resizable: true },
+       { headerName: "Subdirección de Administración", field: "subdireccion_administracion", editable: () => editMode, resizable: true },
+       { headerName: "USICAMM", field: "usicamm", editable: () => editMode, resizable: true },
+       { headerName: "Recursos Humanos", field: "recursos_humanos", editable: () => editMode, resizable: true },
+       { headerName: "Jurídico", field: "juridico", editable: () => editMode, resizable: true },
+       { headerName: "Observaciones Conflictos", field: "observaciones_conflictos", editable: () => editMode, resizable: true },
+       { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode, resizable: true },
+       { headerName: "Estatus del Movimiento", field: "estatus_movimiento", editable: () => editMode, resizable: true },
+       borrarColumna('/api/deleteRecord'),
+       ],
+    
+        defaultColDef: {editable: true,resizable: true,},
+        rowData: null,
+        pagination: true,
+        paginationPageSize: 20,
+        cacheBlockSize: 10,
+        rowHeight: 60,
+        domLayout: "autoHeight",
+        context: { endpoint: "/editarIncidencias",},
+        onCellValueChanged: editarCelda,
+       };
+ 
+    const initializeGrid = async () => {
+     const gridDiv = document.querySelector("#mygrid");
+     gridApi = agGrid.createGrid(gridDiv, gridOptions);
+ 
+     try {
+         // Obtén los datos desde el backend
+         const data = await fetch("/getIncidencias").then((response) => response.json());
+ 
+         // Agrega el campo `tabla` dinámicamente
+         const rowData = data.map((row) => ({
+             ...row,
+             tabla: "incidencias", // Nombre de la tabla
+         }));
+ 
+         // Asigna los datos al grid
+         gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
+     } catch (error) {
+         console.error("Error inicializando la tabla:", error);
+     }
+ };
+    // Alternar el modo edición
+    document.querySelector("#toggleEditMode").addEventListener("click", async () => {
+        if (editMode) {
+            if (confirm("¿Estás seguro de los cambios?")) {
+                editMode = false;
+                const button = document.querySelector("#toggleEditMode");
+                button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
+                gridApi.refreshCells({ force: true }); // Refrescar las celdas
+    
+                // Recargar datos desde el servidor
+                await reloadData();
+            }
+        } else {
+            editMode = true;
+            const button = document.querySelector("#toggleEditMode");
+            button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
+            gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
+        }
+    });
+ 
+    document.addEventListener("DOMContentLoaded", initializeGrid);
+ </script>
+ 

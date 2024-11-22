@@ -1,5 +1,9 @@
 const express = require('express');
-const { vistasController, vistaPrincipal, vistaReviciones, vistaPendientes, postPendientes, vistaEditarPersonal, vistaDocentesDisponibles, editarDocente, editarPendientes, vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil, vistaListaFederal, vistaInfoPersonal, vistaAgregarpersonal, vistaRoles,  agregarPersonal, actualizarPersonal,  obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, borrarFila  } = require('../controllers/Pagecontrollers');
+const { 
+  vistasController, vistaPrincipal, vistaReviciones, vistaPendientes, postPendientes, vistaEditarPersonal, vistaDocentesDisponibles,  vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil,  vistaInfoPersonal, vistaAgregarpersonal, vistaRoles,
+  agregarPersonal, actualizarPersonal,
+  editarDocente, editarPendientes, editarBecas, editarSalud, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos,
+  obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos, obtenerPersonalTotal, borrarFila  } = require('../controllers/Pagecontrollers');
 const router = express.Router();
 const pool = require('../src/config/db'); //Ruta de db
 
@@ -36,22 +40,50 @@ router.get('/salud', vistasController.vistaSalud);
 router.get('/lista-panel-adm', vistasController.vistaListaPanelAdm);
 router.get('/perfil', vistasController.vistaPerfil);
 router.get('/roles', vistasController.vistaRoles);
+router.get('/info-personal', vistasController.vistaInfoPersonal);
+
 
 
 router.get('/api/listaGeneral', obtenerListaGeneral);
 
 
-router.get('/lista-federal', vistaListaFederal);
-router.get('/info-personal', vistaInfoPersonal);
+
+
 router.get('/agregar-personal', vistaAgregarpersonal);
 router.get('/editar-personal', vistaEditarPersonal);
 
 
 //========== Endpoints para Apis =============//
+router.get('/api/personal/:personal_id',  obtenerDetallePersonal);
 router.get('/getPendientes', obtenerPendientes);
 router.get('/getDocentesDisponibles', obtenerDocentesDisponibles);
 router.get('/api/personal', obtenerPersonal);
-router.get('/api/personal/:personal_id',  obtenerDetallePersonal);
+router.get('/getBecas', obtenerBecas);
+router.get('/getSalud', obtenerSalud);
+router.get('/getSolicitudesPersonal', obtenerSolicitudesPersonal);
+router.get('/getIncidencias', obtenerIncidencias);
+router.get('/getLicenciaSinGoce', obtenerLicenciaSinGoce);
+router.get('/getEscuelasDisponibles', obtenerEscuelasDisponibles);
+router.get('/getNombramientosDocentes', obtenerNombramientosDocentes);
+router.get('/getSolicitudes', obtenerSolicitudes);
+router.get('/getInternos', obtenerInternos);
+router.get('/getContadorPersonal', obtenerPersonalTotal);
+
+
+///========Ruta Endpoints funcion Editar==========//
+router.put('/editarPersonal', editarDocente);
+router.put('/editarPendientes', editarPendientes)
+router.put('/editarBecas', editarBecas)
+router.put('/editarSalud', editarSalud)
+router.put('/editarSolicitudesPersonal', editarSolicitudesPersonal);
+router.put('/editarIncidencias', editarIncidencias);
+router.put('/editarLicenciaSinGoce', editarLicenciaSinGoce);
+router.put('/editarEscuelasDisponibles', editarEscuelasDisponibles);
+router.put('/editarNombramientosDocentes', editarNombramientosDocentes);
+router.put('/editarSolicitudes', editarSolicitudes);
+router.put('/editarInternos', editarInternos);
+
+
 
 
 router.get('/obtener-datos-sector/:sectorId', async (req, res) => {
@@ -279,12 +311,6 @@ router.get('/obtener-ccts', async (req, res) => {
   }
 });
 
-///========Ruta Endpoints funcion Editar==========//
-router.put('/editarPersonal', editarDocente);
-router.put('/editarPendientes', editarPendientes)
-
-
-
 //post
 router.post('/personal/agregar', upload.single('imagen'), agregarPersonal);
 
@@ -395,6 +421,7 @@ LEFT JOIN
   }
 });
 
+//Ingresar datos en docentes disponibles tabla
 router.post('/guardarRegistro', async (req, res) => {
   console.log("Datos recibidos en req.body:", req.body);
 

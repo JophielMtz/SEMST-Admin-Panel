@@ -73,6 +73,9 @@ export const colFecha = (editMode) => ({
 });
 
 
+
+
+
 /**
  * Función genérica para hacer una petición POST o PUT al servidor.
  * @param {string} endpoint - Endpoint del servidor.
@@ -83,18 +86,26 @@ export const colFecha = (editMode) => ({
  */
 export const funcionPost = async (endpoint, personal_id, np, field, value) => {
   try {
-    // Construir el cuerpo dinámicamente con ambos identificadores
-    const body = JSON.stringify({
-      personal_id: personal_id || null, // Enviar null si no está definido
-      np: np || null,                  // Enviar null si no está definido
+    // Construir el cuerpo dinámicamente sin campos innecesarios
+    const bodyData = {
       field,
       value,
-    });
+    };
+
+    // Solo incluir `personal_id` si está definido
+    if (personal_id) {
+      bodyData.personal_id = personal_id;
+    }
+
+    // Solo incluir `np` si está definido
+    if (np) {
+      bodyData.np = np;
+    }
 
     const response = await fetch(endpoint, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: body,
+      body: JSON.stringify(bodyData),
     });
 
     const result = await response.json();
@@ -111,7 +122,6 @@ export const funcionPost = async (endpoint, personal_id, np, field, value) => {
     return { success: false, message: "Error al actualizar la celda." };
   }
 };
-
 
 
 /**
@@ -150,6 +160,97 @@ export const editarCelda = async (event) => {
   }
 };
 
+// Módulo para configurar cellEditorParams y lógica relacionada
+export const municipioCellEditorParams = (params) => {
+  const values = params.context.municipios.map((m) => m.nombre_municipio);
+
+  const valueSetter = (params) => {
+      console.log("[FRONTEND] Municipio seleccionado:", params.newValue);
+
+      const municipioObj = params.context.municipios.find(
+          (m) => m.nombre_municipio === params.newValue
+      );
+
+      if (municipioObj) {
+          console.log("[FRONTEND] Municipio encontrado:", municipioObj);
+
+          params.data.municipio_id = municipioObj.municipio_id;
+          params.data.municipio_sale = municipioObj.nombre_municipio;
+
+          // Actualizamos las comunidades disponibles
+          params.context.currentComunidades = municipioObj.comunidades || [];
+          params.context.currentCCTs = [];
+          console.log("[FRONTEND] Comunidades actualizadas:", params.context.currentComunidades);
+
+          return true;
+      }
+
+      console.error("[FRONTEND] Municipio inválido:", params.newValue);
+      return false;
+  };
+
+  return { values, valueSetter };
+};
+
+export const comunidadCellEditorParams = (params) => {
+  const values = params.context.currentComunidades.map((c) => c.nombre_comunidad);
+
+  const valueSetter = async (params) => {
+      console.log("[FRONTEND] Comunidad seleccionada:", params.newValue);
+
+      const comunidadObj = params.context.currentComunidades.find(
+          (c) => c.nombre_comunidad === params.newValue
+      );
+
+      if (comunidadObj) {
+          console.log("[FRONTEND] Comunidad encontrada:", comunidadObj);
+
+          params.data.comunidad_id = comunidadObj.comunidad_id;
+          params.data.comunidad_sale = comunidadObj.nombre_comunidad;
+
+          try {
+              const ccts = await fetchCCTs(params.data.municipio_id, comunidadObj.comunidad_id);
+              console.log("[FRONTEND] CCTs recibidos:", ccts);
+
+              params.context.currentCCTs = ccts || [];
+              return true;
+          } catch (error) {
+              console.error("[FRONTEND] Error al cargar CCTs:", error);
+              return false;
+          }
+      }
+
+      console.error("[FRONTEND] Comunidad inválida:", params.newValue);
+      return false;
+  };
+
+  return { values, valueSetter };
+};
+
+export const cctCellEditorParams = (params) => {
+  const values = params.context.currentCCTs.map((c) => c.centro_clave_trabajo);
+
+  const valueSetter = (params) => {
+      console.log("[FRONTEND] CCT seleccionado:", params.newValue);
+
+      const cctObj = params.context.currentCCTs.find(
+          (c) => c.centro_clave_trabajo === params.newValue
+      );
+
+      if (cctObj) {
+          console.log("[FRONTEND] CCT encontrado:", cctObj);
+
+          params.data.cct_id = cctObj.cct_id;
+          params.data.cct_sale = cctObj.centro_clave_trabajo;
+          return true;
+      }
+
+      console.error("[FRONTEND] CCT inválido:", params.newValue);
+      return false;
+  };
+
+  return { values, valueSetter };
+};
 
 
 // Funcion borrar
