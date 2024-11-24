@@ -277,242 +277,203 @@
         let editMode = false;
         
         const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
-        
-        const gridOptions = {
-            columnDefs: [
-                { field: "np", headerName: "NP", width: 70, editable: false },
-
-                    colFecha(editMode),
-                    
-                {
-                    field: "nombre_docente",
-                    headerName: "Nombre",
-                    filter: true,
-                    width: 220,
-                    editable: false,
-                },
-                {
-                    field: "estatus",
-                    headerName: "Estatus",
-                    editable: () => editMode,
-                    width: 120,
-                    ...createSelectColumnProps(estatusValidValues), // Agrega la configuración modularizada
-                  },
-                {
-                    field: "observaciones",
-                    headerName: "Observaciones",
-                    minWidth: 250,
-                    wrapHeaderText: true,
-                    autoHeaderHeight: true,
-                    cellStyle: { "white-space": "normal", "line-height": "1.7" },
-                    autoHeight: true,
-                    editable: () => editMode, // Observaciones es editable
-                },
-                {
-                    field: "situacion",
-                    headerName: "Situación",
-                    cellRenderer: statusRenderer, // Assuming you imported this
-                    editable: () => editMode,
-                    width: 110,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: {
-                      values: ["Inseguridad", "Salud", "Sin CT"], // Valid values
-                    },
-                    valueSetter: createValidatedValueSetter(["Inseguridad", "Salud", "Sin CT"]), // Modularized setter
-                  },
-                {
-                    field: "antiguedad",
-                    headerName: "Antigüedad",
-                    width: 110,
-                    editable: () => false,
-                },
-                {
-                    field: "municipio_sale",
-                    headerName: "Municipio sale",
-                    editable: () => editMode,
-                    width: 150,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: (params) => ({
-                        values: params.context.municipios.map((m) => m.nombre_municipio),
-                    }),
-                    valueSetter: (params) => {
-                        const municipioObj = params.context.municipios.find(
-                            (m) => m.nombre_municipio === params.newValue
-                        );
-                        if (municipioObj) {
-                            params.data.municipio_id = municipioObj.municipio_id;
-                            params.data.municipio_sale = municipioObj.nombre_municipio;
-                            params.context.currentComunidades =
-                                municipioObj.comunidades || [];
-                            return true;
-                        }
-                        alert("Municipio inválido.");
-                        return false;
-                    },
-                },
-                {
-                    field: "comunidad_sale",
-                    headerName: "Comunidad Sale",
-                    editable: () => editMode,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: (params) => ({
-                        values: params.context.currentComunidades.map(
-                            (c) => c.nombre_comunidad
-                        ),
-                    }),
-                    valueSetter: async (params) => {
-                        const comunidadObj = params.context.currentComunidades.find(
-                            (c) => c.nombre_comunidad === params.newValue
-                        );
-                        if (comunidadObj) {
-                            params.data.comunidad_id = comunidadObj.comunidad_id;
-                            params.data.comunidad_sale = comunidadObj.nombre_comunidad;
-                            const ccts = await fetchCCTs(
-                                params.data.municipio_id,
-                                comunidadObj.comunidad_id
-                            );
-                            params.context.currentCCTs = ccts || [];
-                            return true;
-                        }
-                        alert("Comunidad inválida.");
-                        return false;
-                    },
-                },
-                {
-                    field: "cct_sale",
-                    headerName: "CCT sale",
-                    editable: () => editMode,
-                    width: 115,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: (params) => ({
-                        values: params.context.currentCCTs.map(
-                            (c) => c.centro_clave_trabajo
-                        ),
-                    }),
-                    valueSetter: (params) => {
-                        const cctObj = params.context.currentCCTs.find(
-                            (c) => c.centro_clave_trabajo === params.newValue
-                        );
-                        if (cctObj) {
-                            params.data.cct_id = cctObj.cct_id;
-                            params.data.cct_sale = cctObj.centro_clave_trabajo;
-                            return true;
-                        }
-                        alert("CCT inválido.");
-                        return false;
-                    },
-                },
-                {
-                    field: "estatus_cubierta",
-                    headerName: "Estatus Cubierta",
-                    cellRenderer: statusRenderer,
-                    editable: () => editMode,
-                    width: 150,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: {
-                        values: ["Cubierta", "Sin cubrir", "No se justifica"],
-                    },
-                    valueSetter: (params) => {
-                        const validValues = ["Cubierta", "Sin cubrir", "No se justifica"];
-                        if (validValues.includes(params.newValue)) {
-                            params.data.estatus_cubierta = params.newValue;
-                            if (params.newValue === "Cubierta") {
-                                params.data.estatus = "Atendido";
-                            } else if (params.newValue === "No se justifica") {
-                                params.data.estatus = "Sin atender";
-                            }
-                            return true;
-                        } else {
-                            alert("Valor inválido. Seleccione una opción válida.");
-                            return false;
-                        }
-                    },
-                },
-                {
-                    field: "municipio_entra",
-                    headerName: "Municipio entra",
-                    editable: () => editMode,
-                    width: 150,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: (params) => ({
-                        // Lista de nombres de municipios del contexto
-                        values: params.context.municipios.map((m) => m.nombre_municipio),
-                    }),
-                    valueSetter: (params) => {
-                    
-                        const municipioObj = params.context.municipios.find(
-                            (m) => m.nombre_municipio === params.newValue
-                        );
-                    
-                        if (municipioObj) {
-                            console.log("Municipio encontrado:", municipioObj);
-                    
-                            params.data.municipio_entra_id = municipioObj.municipio_id;
-                            params.data.municipio_entra = municipioObj.nombre_municipio;
-                            params.context.currentComunidadesEntra = municipioObj.comunidades || [];
-                            params.context.currentCCTsEntra = []; // Reiniciar dependencias
-                            console.log("Comunidades actualizadas para municipio entra:", params.context.currentComunidadesEntra);
-                    
-                            return true;
-                        }
-                    
-                        console.error("Error: Municipio inválido. Valor ingresado:", params.newValue);
-                        alert("Municipio inválido.");
-                        return false;
-                    },
-                },
-                
-                {
-                    field: "comunidad_entra",
-                    headerName: "Comunidad entra",
-                    editable: () => editMode,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: (params) => ({
-                        values: params.context.currentComunidadesEntra.map((c) => c.nombre_comunidad),
-                    }),
-                    valueSetter: async (params) => {
-                        const comunidadObj = params.context.currentComunidadesEntra.find(
-                            (c) => c.nombre_comunidad === params.newValue
-                        );
-                        if (comunidadObj) {
-                            params.data.comunidad_entra_id = comunidadObj.comunidad_id;
-                            params.data.comunidad_entra = comunidadObj.nombre_comunidad;
-                            const ccts = await fetchCCTs(
-                                params.data.municipio_entra_id,
-                                comunidadObj.comunidad_id
-                            );
-                            params.context.currentCCTsEntra = ccts || [];
-                            return true;
-                        }
-                        alert("Comunidad inválida.");
-                        return false;
-                    },
-                },
-                {
-                    field: "cct_entra",
-                    headerName: "CCT entra",
-                    editable: () => editMode,
-                    width: 115,
-                    cellEditor: "agSelectCellEditor",
-                    cellEditorParams: (params) => ({
-                        values: params.context.currentCCTsEntra.map((c) => c.centro_clave_trabajo),
-                    }),
-                    valueSetter: (params) => {
-                        const cctObj = params.context.currentCCTsEntra.find(
-                            (c) => c.centro_clave_trabajo === params.newValue
-                        );
-                        if (cctObj) {
-                            params.data.cct_entra_id = cctObj.cct_id;
-                            params.data.cct_entra = cctObj.centro_clave_trabajo;
-                            return true;
-                        }
-                        alert("CCT inválido.");
-                        return false;
-                    },
-                },
-                borrarColumna('/api/deleteRecord'),
-            ],
+        const datos = [
+        { field: "np", headerName: "NP", width: 70, editable: false },
+        colFecha(editMode),
+        { field: "nombre_docente", headerName: "Nombre", filter: true, width: 220, editable: false },
+        {field: "estatus",headerName: "Estatus", editable: () => editMode, width: 120,
+            ...createSelectColumnProps(estatusValidValues),},
+        { field: "observaciones", headerName: "Observaciones", minWidth: 250, wrapHeaderText: true, 
+          autoHeaderHeight: true,    cellStyle: { "white-space": "normal", "line-height": "1.7" }, autoHeight: true, 
+          editable: () => editMode },
+        {field: "situacion",headerName: "Situación",cellRenderer: statusRenderer,editable: () => editMode,width: 110,
+         cellEditor: "agSelectCellEditor", cellEditorParams: {values: ["Inseguridad", "Salud", "Sin CT"],},
+         valueSetter: createValidatedValueSetter(["Inseguridad", "Salud", "Sin CT"]), },
+        { field: "antiguedad", headerName: "Antigüedad", width: 110, editable: () => false,},
+        { field: "municipio_sale", headerName: "Municipio sale", editable: () => editMode, width: 150, cellEditor: "agSelectCellEditor",
+            cellEditorParams: (params) => ({
+                values: params.context.municipios.map((m) => m.nombre_municipio),
+            }),
+            valueSetter: (params) => {
+                const municipioObj = params.context.municipios.find(
+                    (m) => m.nombre_municipio === params.newValue
+                );
+                if (municipioObj) {
+                    params.data.municipio_id = municipioObj.municipio_id;
+                    params.data.municipio_sale = municipioObj.nombre_municipio;
+                    params.context.currentComunidades =
+                        municipioObj.comunidades || [];
+                    return true;
+                }
+                alert("Municipio inválido.");
+                return false;
+            },
+        },
+        {
+            field: "comunidad_sale",
+            headerName: "Comunidad Sale",
+            editable: () => editMode,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: (params) => ({
+                values: params.context.currentComunidades.map(
+                    (c) => c.nombre_comunidad
+                ),
+            }),
+            valueSetter: async (params) => {
+                const comunidadObj = params.context.currentComunidades.find(
+                    (c) => c.nombre_comunidad === params.newValue
+                );
+                if (comunidadObj) {
+                    params.data.comunidad_id = comunidadObj.comunidad_id;
+                    params.data.comunidad_sale = comunidadObj.nombre_comunidad;
+                    const ccts = await fetchCCTs(
+                        params.data.municipio_id,
+                        comunidadObj.comunidad_id
+                    );
+                    params.context.currentCCTs = ccts || [];
+                    return true;
+                }
+                alert("Comunidad inválida.");
+                return false;
+            },
+        },
+        {
+            field: "cct_sale",
+            headerName: "CCT sale",
+            editable: () => editMode,
+            width: 115,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: (params) => ({
+                values: params.context.currentCCTs.map(
+                    (c) => c.centro_clave_trabajo
+                ),
+            }),
+            valueSetter: (params) => {
+                const cctObj = params.context.currentCCTs.find(
+                    (c) => c.centro_clave_trabajo === params.newValue
+                );
+                if (cctObj) {
+                    params.data.cct_id = cctObj.cct_id;
+                    params.data.cct_sale = cctObj.centro_clave_trabajo;
+                    return true;
+                }
+                alert("CCT inválido.");
+                return false;
+            },
+        },
+        {
+            field: "estatus_cubierta",
+            headerName: "Estatus Cubierta",
+            cellRenderer: statusRenderer,
+            editable: () => editMode,
+            width: 150,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: {
+                values: ["Cubierta", "Sin cubrir", "No se justifica"],
+            },
+            valueSetter: (params) => {
+                const validValues = ["Cubierta", "Sin cubrir", "No se justifica"];
+                if (validValues.includes(params.newValue)) {
+                    params.data.estatus_cubierta = params.newValue;
+                    if (params.newValue === "Cubierta") {
+                        params.data.estatus = "Atendido";
+                    } else if (params.newValue === "No se justifica") {
+                        params.data.estatus = "Sin atender";
+                    }
+                    return true;
+                } else {
+                    alert("Valor inválido. Seleccione una opción válida.");
+                    return false;
+                }
+            },
+        },
+        {
+            field: "municipio_entra",
+            headerName: "Municipio entra",
+            editable: () => editMode,
+            width: 150,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: (params) => ({
+                // Lista de nombres de municipios del contexto
+                values: params.context.municipios.map((m) => m.nombre_municipio),
+            }),
+            valueSetter: (params) => {
             
+                const municipioObj = params.context.municipios.find(
+                    (m) => m.nombre_municipio === params.newValue
+                );
+            
+                if (municipioObj) {
+                    console.log("Municipio encontrado:", municipioObj);
+            
+                    params.data.municipio_entra_id = municipioObj.municipio_id;
+                    params.data.municipio_entra = municipioObj.nombre_municipio;
+                    params.context.currentComunidadesEntra = municipioObj.comunidades || [];
+                    params.context.currentCCTsEntra = []; // Reiniciar dependencias
+                    console.log("Comunidades actualizadas para municipio entras:", params.context.currentComunidadesEntra);
+            
+                    return true;
+                }
+            
+                console.error("Error: Municipio inválido. Valor ingresado:", params.newValue);
+                alert("Municipio inválido.");
+                return false;
+            },
+        },
+        
+        {
+            field: "comunidad_entra",
+            headerName: "Comunidad entra",
+            editable: () => editMode,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: (params) => ({
+                values: params.context.currentComunidadesEntra.map((c) => c.nombre_comunidad),
+            }),
+            valueSetter: async (params) => {
+                const comunidadObj = params.context.currentComunidadesEntra.find(
+                    (c) => c.nombre_comunidad === params.newValue
+                );
+                if (comunidadObj) {
+                    params.data.comunidad_entra_id = comunidadObj.comunidad_id;
+                    params.data.comunidad_entra = comunidadObj.nombre_comunidad;
+                    const ccts = await fetchCCTs(
+                        params.data.municipio_entra_id,
+                        comunidadObj.comunidad_id
+                    );
+                    params.context.currentCCTsEntra = ccts || [];
+                    return true;
+                }
+                alert("Comunidad inválida.");
+                return false;
+            },
+        },
+        {
+            field: "cct_entra",
+            headerName: "CCT entra",
+            editable: () => editMode,
+            width: 115,
+            cellEditor: "agSelectCellEditor",
+            cellEditorParams: (params) => ({
+                values: params.context.currentCCTsEntra.map((c) => c.centro_clave_trabajo),
+            }),
+            valueSetter: (params) => {
+                const cctObj = params.context.currentCCTsEntra.find(
+                    (c) => c.centro_clave_trabajo === params.newValue
+                );
+                if (cctObj) {
+                    params.data.cct_entra_id = cctObj.cct_id;
+                    params.data.cct_entra = cctObj.centro_clave_trabajo;
+                    return true;
+                }
+                alert("CCT inválido.");
+                return false;
+            },
+        },
+        borrarColumna('/api/deleteRecord'),
+    ]
+
+        const gridOptions = {
+            columnDefs: datos,
             defaultColDef: {editable: true,resizable: true,},
             rowData: [],
             pagination: true,

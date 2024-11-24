@@ -54,6 +54,8 @@
       </div>
   </div>
 </div>
+
+
   <!--Crear-->
 <div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
       aria-hidden="true">
@@ -102,6 +104,7 @@
                                   <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
                                       <input type="hidden" name="tabla" value="licencia_sin_goce" />
                                       <div class="row">
+                                        
                                           <!-- Personal ID y Nombre del Docente -->
                                           <div class="row">
                                               <div class="form-group col-md-2">
@@ -120,10 +123,12 @@
                                             </div>
                                           </div>
 
+                                          
+
                                           <!-- Fecha, Antigüedad y Teléfono -->
                                           <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                               <label for="fecha" class="form-label">Fecha:</label>
-                                              <input type="date" class="form-control" id="fecha" name="fecha" />
+                                              <input type="date" class="form-control" id="fecha" name="fecha" placeholder="" />
                                           </div>
                                           <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                               <label for="antiguedad" class="form-label">Antigüedad:</label>
@@ -151,17 +156,19 @@
 
                                           <!-- Estatus y Situación -->
                                           <div class="form-group col-md-6">
-                                              <label for="estatus" class="form-label">Organización:</label>
-                                              <select class="form-select form-select-sm" id="tipo_organizacion_id" name="tipo_organizacion_id">
-                                                  <option value="" selected disabled>
-                                                      Selecciona un estatus
-                                                  </option>
-                                                  <option value="unitaria">Unitaria</option>
-                                                  <option value="bidocente">Bidocente</option>
-                                                  <option value="tridocente">Tridcoente</option>
-                                                  <option value="completa">Organización completa</option>
-                                              </select>
-                                          </div>
+                                            <label for="estatus" class="form-label">Organización:</label>
+                                            <select class="form-select form-select-sm" id="tipo_organizacion" name="tipo_organizacion">
+                                                <option value="" selected disabled>
+                                                    Selecciona un estatus
+                                                </option>
+                                                <option value="Unitaria">Unitaria</option>
+        <option value="Bidocente">Bidocente</option>
+        <option value="Tridocente">Tridocente</option>
+        <option value="Tetradocente">Tetradocente</option>
+        <option value="Organización completa">Organización completa</option>
+                                            </select>
+                                        </div>
+                                        
                                           <div class="form-group col-md-6">
                                               <label for="situacion" class="form-label">Justifica:</label>
                                               <select class="form-select form-select-sm" id="justifica" name="justifica">
@@ -246,22 +253,41 @@
                                   </form>
 
                                   <div id="seccionConfirmacion" class="mt-4" style="display: none">
-                                      <h5>Confirmar Datos Ingresados</h5>
-                                      <div class="card">
-                                          <div class="card-body">
-                                              <!-- Aquí mostraremos el resumen de los datos -->
-                                              <div id="resumenDatos"></div>
-                                          </div>
-                                      </div>
-                                      <div class="d-flex justify-content-end mt-3">
-                                          <button type="button" id="btnEditar" class="btn btn-secondary me-2">
-                                              Editar
-                                          </button>
-                                          <button type="button" id="btnConfirmar" class="btn btn-success">
-                                              Confirmar
-                                          </button>
-                                      </div>
-                                  </div>
+                                    <h5>Confirmar Datos Ingresados</h5>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <!-- Aquí mostraremos el resumen de los datos -->
+                                            <div id="resumenDatos"></div>
+                                        </div>
+                                    </div>
+<div id="hiddenFields" style="display: none;">
+                                        <div>
+                                            <div>
+                                                <label for="municipio_entra" class="form-label">Municipio:</label>
+                                                <input type="text" id="municipio_entra" name="municipio_entra" disabled>
+                                            </div>
+                                        
+                                            <div>
+                                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
+                                                <input type="text" id="comunidad_entra" name="comunidad_entra" disabled>
+                                            </div>
+                                        
+                                            <div>
+                                                <label for="cct_entra" class="form-label">Clave CCT:</label>
+                                                <input type="text" id="cct_entra" name="cct_entra" disabled>
+                                            </div>
+                                        </div>
+                                        
+</div>
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <button type="button" id="btnEditar" class="btn btn-secondary me-2">
+                                            Editar
+                                        </button>
+                                        <button type="button" id="btnConfirmar" class="btn btn-success">
+                                            Confirmar
+                                        </button>
+                                    </div>
+                                </div>
                               </div>
                           </div>
                       </div>
@@ -280,85 +306,30 @@
   const gridOptions = {
      columnDefs: [
      { field: "np", headerName: "NP", width: 60, editable: false },
-         colFecha(editMode),
+     colFecha(editMode),
      { field: "fecha_registro", headerName: "Fecha Registro", width: 60, editable: false },
      { field: "fecha_documento", headerName: "Fecha Documento", width: 60, editable: false },
-     { headerName: "Nombre del Docente", field: "NOMBRE DEL DOCENTE", editable: () => editMode, resizable: true },
+     { headerName: "Nombre del Docente", field: "NOMBRE DEL DOCENTE", editable: false, resizable: true },
      { headerName: "Tipo de Movimiento", field: "TIPO DE MOVIMIENTO", editable: () => editMode, resizable: true },
-     { headerName: "CCT", field: "CCT", editable: () => editMode, resizable: true },
-     { headerName: "Comunidad", field: "COMUNIDAD", editable: () => editMode, resizable: true },
-  {
-      headerName: "Municipio",
-      field: "MUNICIPIO",
-      editable: () => editMode, // Esta columna será editable si editMode es true
-      resizable: true,
-  },
-  {
-      headerName: "Organización",
-      field: "ORGANIZACION",
-      editable: () => editMode, // Esta columna será editable si editMode es true
-      resizable: true,
-  },
-  {
-      headerName: "Justifica",
-      field: "JUSTIFICA",
-      editable: () => editMode, // Esta columna será editable si editMode es true
-      resizable: true,
-  },
-  {
-    headerName: "Inicio del Movimiento",
-    field: "INICIO DEL MOVIMIENTO",
-    editable: () => editMode, // Esta columna será editable si editMode es true
-    resizable: true,
-},
-{
-    headerName: "Término del Movimiento",
-    field: "TÉRMINO DEL MOVIMIENTO",
-    editable: () => editMode, // Esta columna será editable si editMode es true
-    resizable: true,
-},
-{
-    headerName: "Diagnóstico",
-    field: "DIAGNOSTICO",
-    editable: () => editMode, // Esta columna será editable si editMode es true
-    resizable: true,
-},
-{
-    headerName: "Aviso",
-    field: "AVISO",
-    editable: () => editMode, // Esta columna será editable si editMode es true
-    resizable: true,
-},
-{
-    headerName: "Vacante",
-    field: "VACANTE",
-    editable: () => editMode, // Esta columna será editable si editMode es true
-    resizable: true,
-},
-{
-    headerName: "Observaciones",
-    field: "OBSERVACIONES",
-    editable: () => editMode, // Esta columna será editable si editMode es true
-    resizable: true,
-},
-{
-    headerName: "Antigüedad",
-    field: "ANTIGUEDAD",
-    editable: () => editMode, // Esta columna será editable si editMode es true
-    resizable: true,
-},
-{
-    headerName: "Teléfono",
-    field: "TELEFONO",
-    editable: () => editMode, // Esta columna será editable si editMode es true
-    resizable: true,
-},
+     { headerName: "CCT", field: "CCT", editable: false, resizable: true },
+     { headerName: "Comunidad", field: "COMUNIDAD", editable: false, resizable: true },
+     { headerName: "Municipio", field: "MUNICIPIO", editable: false, resizable: true },
+     { headerName: "Organización", field: "ORGANIZACION", editable: () => editMode, resizable: true },
+     { headerName: "Justifica", field: "JUSTIFICA", editable: () => editMode, resizable: true },
+     { headerName: "Inicio del Movimiento", field: "INICIO DEL MOVIMIENTO", editable: () => editMode, resizable: true },
+     { headerName: "Término del Movimiento", field: "TÉRMINO DEL MOVIMIENTO", editable: () => editMode, resizable: true },
+     { headerName: "Diagnóstico", field: "DIAGNOSTICO", editable: () => editMode, resizable: true },
+     { headerName: "Aviso", field: "AVISO", editable: () => editMode, resizable: true },
+     { headerName: "Vacante", field: "VACANTE", editable: () => editMode, resizable: true },
+     { headerName: "Observaciones", field: "OBSERVACIONES", editable: () => editMode, resizable: true },
+     { headerName: "Antigüedad", field: "ANTIGUEDAD", editable: () => editMode, resizable: true },
+     { headerName: "Teléfono", field: "TELEFONO", editable: () => editMode, resizable: true },
+     { headerName: "Observaciones Conflictos", field: "OBSERVACIONES CONFLICTOS", editable: () => editMode, resizable: true },
+     { headerName: "Observaciones Secretaría General", field: "OBSERVACIONES SECRETARIA GENERAL", editable: () => editMode, resizable: true },
+     borrarColumna('/api/deleteRecord'),
+   
+      ],
 
-     
-  
-  borrarColumna('/api/deleteRecord'),
-
-  ],
   
       defaultColDef: {editable: true,resizable: true,},
       rowData: null,

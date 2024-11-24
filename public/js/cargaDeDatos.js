@@ -52,27 +52,6 @@ function llenarFormulario(docente) {
 
 
 // Función para cargar los datos del formulario al abrir el modal
-function cargarDatosFormulario(id) {
-    fetch(`/api/editar/${id}`)
-        .then(response => response.json())
-        .then(data => {
-            const campos = [
-                "id_editar", "personal_id", "nombre_docente", "fecha",
-                "antiguedad", "telefono", "estatus_cubierta", "estatus",
-                "situacion", "municipio_sale", "comunidad_sale", "cct_sale",
-                "municipio_entra", "comunidad_entra", "cct_entra", "observaciones"
-            ];
-
-            // Iterar sobre los campos y actualizar los que existan en el DOM
-            campos.forEach(campo => {
-                const input = document.getElementById(campo);
-                if (input && data[campo] !== undefined) {
-                    input.value = data[campo];
-                }
-            });
-        })
-        .catch(error => console.error('Error cargando los datos: ', error));
-}
 
 
 
@@ -269,9 +248,9 @@ export {
     cargarCCTs, 
     actualizarSelect,
     configurarAutocompletado,
-    cargarDatosFormulario,
+
     configurarBloqueCCT,
     cargarSectores,
-    cargarZonas
+    cargarZonas,
 
  };

@@ -371,16 +371,16 @@ const obtenerIncidencias = async (req, res) => {
 const obtenerLicenciaSinGoce = async (req, res) => {
   try {
     const [results] = await pool.query(`
-      SELECT 
+     SELECT 
   np,
-  lsg.fecha_registro,
+  lsg.fecha,
   lsg.fecha_documento,
   CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS "NOMBRE DEL DOCENTE",
   lsg.tipo_movimiento AS "TIPO DE MOVIMIENTO",
   ccts.centro_clave_trabajo AS "CCT",
   com.nombre AS "COMUNIDAD",
   mun.nombre AS "MUNICIPIO",
-  tor.descripcion AS "ORGANIZACION",
+  lsg.tipo_organizacion AS "ORGANIZACION",  -- Utiliza el valor ENUM directamente
   lsg.justifica AS "JUSTIFICA",
   lsg.inicio_movimiento AS "INICIO DEL MOVIMIENTO",
   lsg.termino_movimiento AS "TÉRMINO DEL MOVIMIENTO",
@@ -405,9 +405,9 @@ LEFT JOIN
 LEFT JOIN 
   municipio mun ON uc.municipio_id = mun.municipio_id
 LEFT JOIN 
-  tipo_organizacion tor ON lsg.tipo_organizacion_id = tor.tipo_organizacion_id
-LEFT JOIN 
   detalle_laboral dl ON lsg.personal_id = dl.personal_id;
+
+
 
     `);
     res.json(results);
@@ -602,13 +602,13 @@ const obtenerPersonalTotal = async () => {
   try {
     const [results] = await pool.query(`
       SELECT 
-        (SELECT COUNT(*) FROM personal) AS total_personal,
-        COUNT(DISTINCT CASE WHEN detalle_laboral.cargo_id = 1 THEN detalle_laboral.personal_id ELSE NULL END) AS total_directores,
-        COUNT(DISTINCT CASE WHEN detalle_laboral.cargo_id = 3 THEN detalle_laboral.personal_id ELSE NULL END) AS total_docentes,
-        COUNT(DISTINCT CASE WHEN detalle_laboral.cargo_id = 4 THEN detalle_laboral.personal_id ELSE NULL END) AS total_auxiliares
-      FROM detalle_laboral
-      JOIN personal ON detalle_laboral.personal_id = personal.personal_id
-      WHERE detalle_laboral.cargo_id IN (1, 3, 4);
+    COUNT(*) AS total_personal,
+    COUNT(CASE WHEN detalle_laboral.cargo_id = 1 THEN 1 END) AS total_directores,
+    COUNT(CASE WHEN detalle_laboral.cargo_id = 3 THEN 1 END) AS total_docentes,
+    COUNT(CASE WHEN detalle_laboral.cargo_id = 4 THEN 1 END) AS total_auxiliares
+FROM detalle_laboral
+WHERE detalle_laboral.cargo_id IN (1, 3, 4);
+
     `);
     return results[0]; // Devuelve el objeto con los totales
   } catch (error) {

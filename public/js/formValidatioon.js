@@ -41,9 +41,9 @@ const validationRules = [
     { id: 'vacante', required: true, message: 'Debe seleccionar si existe una vacante.' },
     { id: 'estatus', required: true, message: 'Debe seleccionar un estatus.' },
     { id: 'situacion', required: true, message: 'Debe seleccionar una situación.' },
-    { id: 'municipio_entra', required: true, message: 'Debe seleccionar un municipio.' },
-    { id: 'comunidad_entra', required: true, message: 'Debe seleccionar una comunidad.' },
-    { id: 'cct_entra', required: true, message: 'Debe seleccionar un CCT.' },
+    { id: 'municipio_entra', message: 'Debe seleccionar un municipio.' },
+    { id: 'comunidad_entra',  message: 'Debe seleccionar una comunidad.' },
+    { id: 'cct_entra',  message: 'Debe seleccionar un CCT.' },
     { id: 'estatus_cubierta', required: true, message: 'Debe seleccionar un estatus de cubierta.' },
     { id: 'tramite', required: true, message: 'Debe proporcionar un trámite válido.' },
     { id: 'departamento', required: true, message: 'Debe seleccionar un departamento.' },
@@ -68,18 +68,28 @@ console.log("Validación de IDs completada.");
 function validateForm() {
     let isValid = true;
 
+    console.log("Iniciando validación del formulario...");
+    console.log("Campos esperados:", validationRules.map(rule => rule.id)); // Lista todos los IDs esperados
+
     // Iterar sobre las reglas de validación
     validationRules.forEach(({ id, regex, required, message }) => {
         const input = document.querySelector(`#nuevoRegistroModal #${id}`);
+        
         if (!input) {
-            // Si el campo no existe, simplemente lo ignoramos
+            console.warn(`⚠️ Campo '${id}' no encontrado en el DOM.`);
             return;
         }
+
+        // Mostrar información sobre el campo
+        console.log(`Validando campo '${id}':`);
+        console.log(`- Visible: ${input.offsetParent !== null}`);
+        console.log(`- Valor actual: '${input.value.trim()}'`);
 
         const value = input.value.trim();
 
         // Validar si el campo es requerido y está vacío
         if (required && !value) {
+            console.error(`❌ Error: El campo '${id}' es obligatorio pero está vacío.`);
             showError(input, message);
             isValid = false;
             return;
@@ -87,15 +97,19 @@ function validateForm() {
 
         // Validar usando regex si se proporciona
         if (regex && !regex.test(value)) {
+            console.error(`❌ Error: El campo '${id}' no cumple con el patrón de validación.`);
             showError(input, message);
             isValid = false;
         } else {
+            console.log(`✅ Campo '${id}' válido.`);
             clearError(input);
         }
     });
 
+    console.log(`Resultado final de la validación: ${isValid ? 'Éxito' : 'Fallido'}`);
     return isValid;
 }
+
 
 // Exportamos las funciones para ser utilizadas en otros módulos
 export { showError, clearError, validateForm };
