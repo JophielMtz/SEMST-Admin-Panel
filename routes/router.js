@@ -2,8 +2,8 @@ const express = require('express');
 const { 
   vistasController, vistaPrincipal, vistaReviciones, vistaPendientes, postPendientes, vistaEditarPersonal, vistaDocentesDisponibles,  vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil,  vistaInfoPersonal, vistaAgregarpersonal, vistaRoles,
   agregarPersonal, actualizarPersonal,
-  editarDocente, editarPendientes, editarBecas, editarSalud, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos,
-  obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos, obtenerPersonalTotal, borrarFila  } = require('../controllers/Pagecontrollers');
+  editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio,
+   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos, obtenerPersonalTotal, obtenerSolicitudesGenerales, obtenerUbicCCTs, borrarFila  } = require('../controllers/Pagecontrollers');
 const router = express.Router();
 const pool = require('../src/config/db'); //Ruta de db
 
@@ -19,8 +19,8 @@ const storage = multer.diskStorage({
       cb(null, Date.now() + '-' + file.originalname); // Nombre del archivo
     }
   });
-  
-  const upload = multer({ storage: storage });
+
+ const upload = multer({ storage: storage });
 
 router.get('/', vistasController.vistaPrincipal);
 router.get('/revisiones', vistasController.vistaReviciones);
@@ -42,17 +42,6 @@ router.get('/perfil', vistasController.vistaPerfil);
 router.get('/roles', vistasController.vistaRoles);
 router.get('/info-personal', vistasController.vistaInfoPersonal);
 
-
-
-router.get('/api/listaGeneral', obtenerListaGeneral);
-
-
-
-
-router.get('/agregar-personal', vistaAgregarpersonal);
-router.get('/editar-personal', vistaEditarPersonal);
-
-
 //========== Endpoints para Apis =============//
 router.get('/api/personal/:personal_id',  obtenerDetallePersonal);
 router.get('/getPendientes', obtenerPendientes);
@@ -61,6 +50,8 @@ router.get('/api/personal', obtenerPersonal);
 router.get('/getBecas', obtenerBecas);
 router.get('/getSalud', obtenerSalud);
 router.get('/getSolicitudesPersonal', obtenerSolicitudesPersonal);
+router.get('/getSolicitudesGenerales', obtenerSolicitudesGenerales);
+router.get('/getSolicitudesDeCambio', obtenerSolicitudesDeCambio);
 router.get('/getIncidencias', obtenerIncidencias);
 router.get('/getLicenciaSinGoce', obtenerLicenciaSinGoce);
 router.get('/getEscuelasDisponibles', obtenerEscuelasDisponibles);
@@ -68,14 +59,18 @@ router.get('/getNombramientosDocentes', obtenerNombramientosDocentes);
 router.get('/getSolicitudes', obtenerSolicitudes);
 router.get('/getInternos', obtenerInternos);
 router.get('/getContadorPersonal', obtenerPersonalTotal);
+router.get ('/getUbicCCTs', obtenerUbicCCTs);
 
 
 ///========Ruta Endpoints funcion Editar==========//
-router.put('/editarPersonal', editarDocente);
+router.put('/editarDocente', editarDocente);
+router.post('/editarCCTS', editarCCTS);
 router.put('/editarPendientes', editarPendientes)
 router.put('/editarBecas', editarBecas)
 router.put('/editarSalud', editarSalud)
 router.put('/editarSolicitudesPersonal', editarSolicitudesPersonal);
+router.put('/editarSolicitudesGenerales', editarSolicitudesGenerales);
+router.put('/editarSolicitudesDeCambio', editarSolicitudesDeCambio);
 router.put('/editarIncidencias', editarIncidencias);
 router.put('/editarLicenciaSinGoce', editarLicenciaSinGoce);
 router.put('/editarEscuelasDisponibles', editarEscuelasDisponibles);
@@ -83,6 +78,11 @@ router.put('/editarNombramientosDocentes', editarNombramientosDocentes);
 router.put('/editarSolicitudes', editarSolicitudes);
 router.put('/editarInternos', editarInternos);
 
+
+
+router.get('/api/listaGeneral', obtenerListaGeneral);
+router.get('/agregar-personal', vistaAgregarpersonal);
+router.get('/editar-personal', vistaEditarPersonal);
 
 
 
@@ -320,6 +320,34 @@ router.delete('/deleteRecord', borrarFila);
 
 
 //Endpoints para obtener datos de ubic ccts
+router.get('/obtener-zonas/:sectorId', async (req, res) => {
+  const { sectorId } = req.params;
+
+  try {
+    const [zonas] = await pool.query(`
+      SELECT DISTINCT 
+        z.zona_id, 
+        z.numero_zona AS nombre_zona
+      FROM 
+        zona z
+      INNER JOIN 
+        ubic_ccts uc
+      ON 
+        z.zona_id = uc.zona_id
+      WHERE 
+        uc.sector_id = ?
+    `, [sectorId]);
+
+    res.status(200).json(zonas);
+  } catch (error) {
+    console.error('Error al obtener zonas:', error);
+    res.status(500).json({ error: 'Error al obtener zonas.' });
+  }
+});
+
+
+
+
 router.get('/obtener-municipios', async (req, res) => {
   try {
     const [municipios] = await pool.query(`
@@ -425,89 +453,74 @@ LEFT JOIN
 router.post('/guardarRegistro', async (req, res) => {
   console.log("Datos recibidos en req.body:", req.body);
 
-  const {
-    tabla,
-    personal_id,
-    nombre_docente,
-    fecha,
-    antiguedad,
-    telefono,
-    estatus,
-    situacion,
-    municipio_sale,
-    comunidad_sale,
-    cct_sale,
-    municipio_entra,
-    comunidad_entra,
-    cct_entra,
-    estatus_cubierta,
-    observaciones,
-    observaciones_conflictos,
-    zona_id,
-    sector_id
-  } = req.body;
+  const { tabla, ...data } = req.body;
 
-  // Validación básica de tabla
-  const tablasValidas = ['docentes_disponibles'];
-  if (!tabla || !tablasValidas.includes(tabla)) {
-    return res.status(400).send("Tabla no válida o no especificada.");
+  // Validar si la tabla está permitida
+  const tablasPermitidas = ['docentes_disponibles', 'solicitudes_de_cambio', 'pendientes', 'nombramientos', 'licencia_sin_goce'];
+  if (!tabla || !tablasPermitidas.includes(tabla)) {
+      return res.status(400).send("Tabla no válida o no especificada.");
   }
 
-  // Definir campos requeridos por tabla
-  const camposRequeridos = {
-    'docentes_disponibles': ['personal_id', 'nombre_docente', 'fecha', 'estatus', 'situacion', 'municipio_entra', 'comunidad_entra', 'cct_entra']
-  };
-
-  const faltanCampos = camposRequeridos[tabla].filter(campo => !req.body[campo]);
-  if (faltanCampos.length > 0) {
-    return res.status(400).send(`Faltan los siguientes campos necesarios: ${faltanCampos.join(', ')}`);
-  }
-
-  // Iniciar conexión y transacción
   const connection = await pool.getConnection();
   try {
-    await connection.beginTransaction();
+      // Calcular `detalle_laboral_id` si la tabla es `solicitudes_de_cambio`
+      if (tabla === 'solicitudes_de_cambio') {
+          if (!data.personal_id) {
+              return res.status(400).send("Falta el campo `personal_id` para calcular `detalle_laboral_id`.");
+          }
 
-    // Preparar inserción para docentes_disponibles
-    const insertQuery = `INSERT INTO docentes_disponibles (
-                        personal_id, nombre_docente, fecha, estatus, situacion, antiguedad, telefono,
-                        municipio_sale, comunidad_sale, cct_sale,
-                        municipio_entra, comunidad_entra, cct_entra,
-                        estatus_cubierta, observaciones
-                      ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?, ?, ?, ?, ?)`;
+          // Obtener `detalle_laboral_id` dinámicamente usando `personal_id`
+          const [result] = await connection.query(
+              `SELECT detalle_laboral_id FROM detalle_laboral WHERE personal_id = ? LIMIT 1`,
+              [data.personal_id]
+          );
 
-    const insertValues = [
-      personal_id,          // personal_id
-      nombre_docente,       // nombre_docente
-      fecha,                // fecha
-      estatus,              // estatus
-      situacion,            // situacion
-      antiguedad || null,   // antiguedad
-      telefono || null,     // telefono
-      municipio_entra,      // municipio_entra
-      comunidad_entra,      // comunidad_entra
-      cct_entra,            // cct_entra
-      estatus_cubierta || null, // estatus_cubierta
-      observaciones || null    // observaciones
-    ];
+          if (result.length === 0) {
+              return res.status(400).send("No se encontró un `detalle_laboral_id` para el `personal_id` proporcionado.");
+          }
 
-    // Ejecutar inserción en la tabla correspondiente
-    const [result] = await connection.query(insertQuery, insertValues);
-    const insertId = result.insertId;
+          data.detalle_laboral_id = result[0].detalle_laboral_id; // Asignar el valor dinámicamente
+      }
 
-    // Confirmar transacción
-    await connection.commit();
-    res.status(201).json(`Registro creado exitosamente en la tabla ${tabla}. ID: ${insertId}`);
+      // Obtener columnas de la tabla
+      const [columns] = await connection.query(`DESCRIBE ${tabla}`);
+      const columnasValidas = columns.map(col => col.Field);
+
+      // Filtrar los datos para incluir sólo los que coincidan con las columnas de la tabla
+      const datosInsertar = Object.keys(data)
+          .filter(key => columnasValidas.includes(key))
+          .reduce((obj, key) => {
+              obj[key] = data[key];
+              return obj;
+          }, {});
+
+      // Verificar si faltan columnas requeridas
+      const columnasRequeridas = columns
+          .filter(col => col.Null === 'NO' && col.Default === null && col.Extra !== 'auto_increment')
+          .map(col => col.Field);
+
+      const camposFaltantes = columnasRequeridas.filter(col => !(col in datosInsertar));
+      if (camposFaltantes.length > 0) {
+          return res.status(400).send(`Faltan los siguientes campos requeridos: ${camposFaltantes.join(', ')}`);
+      }
+
+      // Construir la consulta de inserción
+      const campos = Object.keys(datosInsertar);
+      const valores = Object.values(datosInsertar);
+      const placeholders = campos.map(() => '?').join(', ');
+
+      const insertQuery = `INSERT INTO ${tabla} (${campos.join(', ')}) VALUES (${placeholders})`;
+      const [result] = await connection.query(insertQuery, valores);
+
+      res.status(201).json({ message: `Registro creado exitosamente en la tabla ${tabla}.`, id: result.insertId });
   } catch (error) {
-    // Revertir transacción en caso de error
-    await connection.rollback();
-    console.error("Error en /guardarRegistro:", error);
-    res.status(500).send(`Error al crear el registro: ${error.message}`);
+      console.error("Error al guardar registro:", error);
+      res.status(500).send(`Error al crear el registro: ${error.message}`);
   } finally {
-    // Liberar la conexión
-    connection.release();
+      connection.release();
   }
 });
+
 
 //api de docentes
 router.get('/getDocentes', async (req, res) => {

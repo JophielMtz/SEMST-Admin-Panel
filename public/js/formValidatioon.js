@@ -1,5 +1,3 @@
-// formValidation.js
-
 // **Expresiones Regulares para Validación**
 const onlyLettersAndSpacesRegex = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/;
 const onlyNumbersRegex = /^\d+$/;
@@ -24,56 +22,75 @@ function clearError(input) {
     input.classList.remove('is-invalid');
 }
 
+// **Validación Dinámica**
+const validationRules = [
+    { id: 'nombre_docente', regex: onlyLettersAndSpacesRegex, message: 'El nombre solo debe contener letras y espacios.' },
+    { id: 'fecha', required: true, message: 'Debe seleccionar un fecha.' },
+    { id: 'antiguedad', regex: onlyNumbersRegex, message: 'La antigüedad debe ser un número.' },
+    { id: 'telefono', regex: onlyNumbersRegex, message: 'El teléfono debe contener solo números.' },
+    { id: 'tipo_movimiento', required: true, message: 'Debe seleccionar un tipo de movimiento.' },
+    { id: 'tipo_organizacion_id', required: true, message: 'Debe seleccionar un tipo de organización.' },
+    { id: 'justifica', required: true, message: 'Debe proporcionar una justificación.' },
+    { id: 'municipio_sale', required: true, message: 'Debe seleccionar un municipio de salida.' },
+    { id: 'comunidad_sale', required: true, message: 'Debe seleccionar una comunidad de salida.' },
+    { id: 'cct_sale', required: true, message: 'Debe seleccionar un CCT de salida.' },
+    { id: 'inicio_movimiento', required: true, message: 'Debe proporcionar una fecha de inicio del movimiento.' },
+    { id: 'termino_movimiento', required: true, message: 'Debe proporcionar una fecha de término del movimiento.' },
+    { id: 'diagnostico', required: true, message: 'Debe proporcionar un diagnóstico.' },
+    { id: 'aviso', required: true, message: 'Debe proporcionar un aviso.' },
+    { id: 'vacante', required: true, message: 'Debe seleccionar si existe una vacante.' },
+    { id: 'estatus', required: true, message: 'Debe seleccionar un estatus.' },
+    { id: 'situacion', required: true, message: 'Debe seleccionar una situación.' },
+    { id: 'municipio_entra', required: true, message: 'Debe seleccionar un municipio.' },
+    { id: 'comunidad_entra', required: true, message: 'Debe seleccionar una comunidad.' },
+    { id: 'cct_entra', required: true, message: 'Debe seleccionar un CCT.' },
+    { id: 'estatus_cubierta', required: true, message: 'Debe seleccionar un estatus de cubierta.' },
+    { id: 'tramite', required: true, message: 'Debe proporcionar un trámite válido.' },
+    { id: 'departamento', required: true, message: 'Debe seleccionar un departamento.' },
+    { id: 'observaciones_conflictos', required: true, message: 'Debe agregar observaciones de conflictos.' },
+    { id: 'observaciones_secretaria_general', required: true, message: 'Debe agregar observaciones para la secretaría general.' }
+];
+// Verificar si los campos definidos en validationRules existen en el DOM
+console.log("Iniciando validación de IDs en validationRules...");
+
+validationRules.forEach(({ id }) => {
+    const element = document.querySelector(`#nuevoRegistroModal #${id}`);
+    if (element) {
+        console.log(`✔️ Campo con id '${id}' encontrado en el DOM.`);
+    } else {
+        console.warn(`⚠️ Campo con id '${id}' no encontrado en el DOM.`);
+    }
+});
+
+console.log("Validación de IDs completada.");
+
+
 function validateForm() {
     let isValid = true;
 
-    // Elementos del formulario a validar
-    const nombreDocente = document.querySelector('#nuevoRegistroModal #nombre_docente');
-    const antiguedad = document.querySelector('#nuevoRegistroModal #antiguedad');
-    const telefono = document.querySelector('#nuevoRegistroModal #telefono');
-    const fecha = document.querySelector('#nuevoRegistroModal #fecha');
-    const estatus = document.querySelector('#nuevoRegistroModal #estatus');
-    const situacion = document.querySelector('#nuevoRegistroModal #situacion');
-    const municipioEntra = document.querySelector('#nuevoRegistroModal #municipio_entra');
-    const comunidadEntra = document.querySelector('#nuevoRegistroModal #comunidad_entra');
-    const cctEntra = document.querySelector('#nuevoRegistroModal #cct_entra');
-    const estatusCubierta = document.querySelector('#nuevoRegistroModal #estatus_cubierta');
+    // Iterar sobre las reglas de validación
+    validationRules.forEach(({ id, regex, required, message }) => {
+        const input = document.querySelector(`#nuevoRegistroModal #${id}`);
+        if (!input) {
+            // Si el campo no existe, simplemente lo ignoramos
+            return;
+        }
 
-    if (!onlyLettersAndSpacesRegex.test(nombreDocente.value.trim())) {
-        showError(nombreDocente, 'El nombre solo debe contener letras y espacios.');
-        isValid = false;
-    } else {
-        clearError(nombreDocente);
-    }
+        const value = input.value.trim();
 
-    // if (!onlyNumbersRegex.test(antiguedad.value.trim())) {
-    //     showError(antiguedad, 'La antigüedad debe ser un número.');
-    //     isValid = false;
-    // } else {
-    //     clearError(antiguedad);
-    // }
+        // Validar si el campo es requerido y está vacío
+        if (required && !value) {
+            showError(input, message);
+            isValid = false;
+            return;
+        }
 
-    if (!onlyNumbersRegex.test(telefono.value.trim())) {
-        showError(telefono, 'El teléfono debe contener solo números.');
-        isValid = false;
-    } else {
-        clearError(telefono);
-    }
-
-    if (!fecha.value) {
-        showError(fecha, 'Debe seleccionar una fecha.');
-        isValid = false;
-    } else {
-        clearError(fecha);
-    }
-
-    const selectsToValidate = [estatus, situacion, municipioEntra, comunidadEntra, cctEntra, estatusCubierta];
-    selectsToValidate.forEach(select => {
-        if (!select.value) {
-            showError(select, `Debe seleccionar una opción en ${select.id}.`);
+        // Validar usando regex si se proporciona
+        if (regex && !regex.test(value)) {
+            showError(input, message);
             isValid = false;
         } else {
-            clearError(select);
+            clearError(input);
         }
     });
 

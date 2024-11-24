@@ -18,17 +18,30 @@ async function buscarDocente(valor) {
 }
 
 
-
 function llenarFormulario(docente) {
     console.log(`Llenando formulario con docente ID: ${docente.personal_id}`);
-    document.getElementById("personal_id").value = docente.personal_id;
-    document.getElementById("nombre_docente").value = `${docente.nombre_personal} ${docente.apellido_paterno} ${docente.apellido_materno}`;
-    document.getElementById("antiguedad").value = docente.antiguedad;
-    document.getElementById("telefono").value = docente.telefono;
-    document.getElementById("cct_sale").value = docente.clave_cct || '';
-    document.getElementById("municipio_sale").value = docente.nombre_municipio || '';
-    document.getElementById("comunidad_sale").value = docente.nombre_comunidad || '';
 
+    // Mapear datos a los campos del formulario
+    const campos = {
+        personal_id: docente.personal_id,
+        nombre_docente: `${docente.nombre_personal} ${docente.apellido_paterno} ${docente.apellido_materno}`,
+        antiguedad: docente.antiguedad,
+        telefono: docente.telefono,
+        cct_sale: docente.clave_cct || '',
+        municipio_sale: docente.nombre_municipio || '',
+        comunidad_sale: docente.nombre_comunidad || '',
+        municipio_entra: docente.municipio_entra || '', // Opcional
+        comunidad_entra: docente.comunidad_entra || '', // Opcional
+        cct_entra: docente.cct_entra || '' // Opcional
+    };
+
+    // Rellenar solo los campos existentes
+    for (const [id, value] of Object.entries(campos)) {
+        const input = document.getElementById(id);
+        if (input) input.value = value; // Solo asigna el valor si el campo existe
+    }
+
+    // Actualizar imagen de perfil si existe
     const profileImage = document.querySelector(".profile-pic");
     if (profileImage && docente.imagen) {
         profileImage.src = `/uploads/${docente.imagen}`;
@@ -36,29 +49,27 @@ function llenarFormulario(docente) {
     }
 }
 
+
+
 // Función para cargar los datos del formulario al abrir el modal
 function cargarDatosFormulario(id) {
-    // Realizamos la petición al endpoint pasando el ID
     fetch(`/api/editar/${id}`)
         .then(response => response.json())
         .then(data => {
-            // Rellenamos los campos del formulario con los datos recibidos
-            document.getElementById("id_editar").value = data.id; // Asumiendo que el ID es único y se debe setear en el hidden field
-            document.getElementById("personal_id").value = data.personal_id;
-            document.getElementById("nombre_docente").value = data.nombre_docente;
-            document.getElementById("fecha").value = data.fecha;
-            document.getElementById("antiguedad").value = data.antiguedad;
-            document.getElementById("telefono").value = data.telefono;
-            document.getElementById("estatus_cubierta").value = data.estatus_cubierta;
-            document.getElementById("estatus").value = data.estatus;
-            document.getElementById("situacion").value = data.situacion;
-            document.getElementById("municipio_sale").value = data.municipio_sale;
-            document.getElementById("comunidad_sale").value = data.comunidad_sale;
-            document.getElementById("cct_sale").value = data.cct_sale;
-            document.getElementById("municipio_entra").value = data.municipio_entra;
-            document.getElementById("comunidad_entra").value = data.comunidad_entra;
-            document.getElementById("cct_entra").value = data.cct_entra;
-            document.getElementById("observaciones").value = data.observaciones;
+            const campos = [
+                "id_editar", "personal_id", "nombre_docente", "fecha",
+                "antiguedad", "telefono", "estatus_cubierta", "estatus",
+                "situacion", "municipio_sale", "comunidad_sale", "cct_sale",
+                "municipio_entra", "comunidad_entra", "cct_entra", "observaciones"
+            ];
+
+            // Iterar sobre los campos y actualizar los que existan en el DOM
+            campos.forEach(campo => {
+                const input = document.getElementById(campo);
+                if (input && data[campo] !== undefined) {
+                    input.value = data[campo];
+                }
+            });
         })
         .catch(error => console.error('Error cargando los datos: ', error));
 }
@@ -86,6 +97,12 @@ async function cargarDatosDocente(id) {
 function configurarAutocompletado() {
     const nombreInput = document.getElementById("nombre_docente");
     const suggestionsList = document.getElementById("suggestionsList");
+
+    if (!nombreInput) {
+        console.warn("El campo 'nombre_docente' no está en el formulario.");
+        return;
+    }
+
     let debounceTimer;
 
     nombreInput.addEventListener("input", function () {
@@ -94,14 +111,43 @@ function configurarAutocompletado() {
         if (valor.length >= 2) {
             debounceTimer = setTimeout(async () => {
                 const docentes = await buscarDocente(valor);
-                mostrarSugerencias(docentes, suggestionsList);
-                ajustarPosicionSugerencias(nombreInput, suggestionsList); // Ajusta posición
+
+                if (suggestionsList) {
+                    mostrarSugerencias(docentes, suggestionsList);
+                    ajustarPosicionSugerencias(nombreInput, suggestionsList); // Ajusta posición
+                } else {
+                    console.warn("La lista de sugerencias no está definida.");
+                }
             }, 300);
-        } else {
+        } else if (suggestionsList) {
             suggestionsList.innerHTML = "";
         }
     });
 }
+
+function configurarBloqueCCT() {
+    const municipioSelect = document.querySelector('#nuevoRegistroModal #municipio_entra');
+    const comunidadSelect = document.querySelector('#nuevoRegistroModal #comunidad_entra');
+    const cctSelect = document.querySelector('#nuevoRegistroModal #cct_entra');
+
+    if (municipioSelect) {
+        municipioSelect.addEventListener("change", function () {
+            cargarComunidades(this.value).then(data => {
+                actualizarSelect('comunidad_entra', data, 'Seleccione Comunidad', 'comunidad_id', 'nombre_comunidad');
+            });
+        });
+    }
+
+    if (comunidadSelect) {
+        comunidadSelect.addEventListener("change", function () {
+            cargarCCTs(municipioSelect?.value || '', this.value).then(data => {
+                actualizarSelect('cct_entra', data, 'Seleccione Clave CCT', 'cct_id', 'centro_clave_trabajo');
+            });
+        });
+    }
+}
+
+
 
 function mostrarSugerencias(docentes, suggestionsList) {
     // Limpiar lista de sugerencias
@@ -167,6 +213,29 @@ function actualizarSelect(selectId, items, defaultText, valueKey, textKey) {
     select.disabled = items.length === 0;
 }
 
+
+
+
+function cargarSectores() {
+    return fetch("/obtener-sectores")
+        .then(response => response.json())
+        .catch(error => {
+            console.error("Error al cargar sectores:", error);
+            return [];
+        });
+}
+
+function cargarZonas(sectorId) {
+    return fetch(`/obtener-zonas/${sectorId}`)
+        .then(response => response.json())
+        .catch(error => {
+            console.error(`Error al cargar zonas para el sector ${sectorId}:`, error);
+            return [];
+        });
+}
+
+
+
 // **Funciones para Actualizar Datos Basados en Selecciones**
 
 function updateZonas(sectorId) {
@@ -201,5 +270,8 @@ export {
     actualizarSelect,
     configurarAutocompletado,
     cargarDatosFormulario,
+    configurarBloqueCCT,
+    cargarSectores,
+    cargarZonas
 
  };

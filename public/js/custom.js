@@ -299,22 +299,24 @@ async function confirmarEliminacion(id) {
 
     // Genera el resumen de datos
     const datos = {
-      personal_id: document.getElementById("personal_id").value,
-      nombre_docente: document.getElementById("nombre_docente").value,
-      fecha: document.getElementById("fecha").value,
-      antiguedad: document.getElementById("antiguedad").value,
-      telefono: document.getElementById("telefono").value,
-      estatus: document.getElementById("estatus").value,
-      situacion: document.getElementById("situacion").value,
-      municipio_sale: document.getElementById("municipio_sale").value,
-      comunidad_sale: document.getElementById("comunidad_sale").value,
-      cct_sale: document.getElementById("cct_sale").value,
-      municipio_entra: document.getElementById("municipio_entra").options[document.getElementById("municipio_entra").selectedIndex].text,
-      comunidad_entra: document.getElementById("comunidad_entra").options[document.getElementById("comunidad_entra").selectedIndex].text,
-      cct_entra: document.getElementById("cct_entra").options[document.getElementById("cct_entra").selectedIndex].text,
-      estatus_cubierta: document.getElementById("estatus_cubierta").value,
-      observaciones: document.getElementById("observaciones").value
-    };
+      personal_id: document.getElementById("personal_id")?.value || "No encontrado",
+      nombre_docente: document.getElementById("nombre_docente")?.value || "No encontrado",
+      fecha: document.getElementById("fecha")?.value || "No encontrado",
+      antiguedad: document.getElementById("antiguedad")?.value || "No encontrado",
+      telefono: document.getElementById("telefono")?.value || "No encontrado",
+      estatus: document.getElementById("estatus")?.value || "No encontrado",
+      situacion: document.getElementById("situacion")?.value || "No encontrado",
+      municipio_sale: document.getElementById("municipio_sale")?.value || "No encontrado",
+      comunidad_sale: document.getElementById("comunidad_sale")?.value || "No encontrado",
+      cct_sale: document.getElementById("cct_sale")?.value || "No encontrado",
+      municipio_entra: document.getElementById("municipio_entra")?.options[document.getElementById("municipio_entra")?.selectedIndex]?.text || "No encontrado",
+      comunidad_entra: document.getElementById("comunidad_entra")?.options[document.getElementById("comunidad_entra")?.selectedIndex]?.text || "No encontrado",
+      cct_entra: document.getElementById("cct_entra")?.options[document.getElementById("cct_entra")?.selectedIndex]?.text || "No encontrado",
+      estatus_cubierta: document.getElementById("estatus_cubierta")?.value || "No encontrado",
+      observaciones: document.getElementById("observaciones")?.value || "No encontrado",
+  };
+  
+  console.log("Datos generados:", datos);
 
     // Genera el HTML para el resumen de datos
     let resumenHTML = '<ul class="list-group">';

@@ -100,7 +100,7 @@
 
                               <div class="card-body">
                                   <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
-                                      <input type="hidden" name="tabla" value="docentes_disponibles" />
+                                      <input type="hidden" name="tabla" value="licencia_sin_goce" />
                                       <div class="row">
                                           <!-- Personal ID y Nombre del Docente -->
                                           <div class="row">
@@ -110,14 +110,14 @@
                                                       name="personal_id" placeholder="" autocomplete="off" />
                                               </div>
                                               <div class="form-group col-md-10">
-                                                  <label for="nombre_docente" class="form-label">Nombre del
-                                                      personal:</label>
-                                                  <input type="text" class="form-control" id="nombre_docente"
-                                                      name="nombre_docente" placeholder="Escriba un nombre"
-                                                      autocomplete="off" />
-                                                  <ul id="suggestionsList" class="list-group position-absolute w-100"
-                                                      style="z-index: 1000"></ul>
-                                              </div>
+                                                <label for="nombre_docente" class="form-label">Nombre del
+                                                    personal:</label>
+                                                <input type="text" class="form-control" id="nombre_docente"
+                                                    name="nombre_docente" placeholder="Escriba un nombre"
+                                                    autocomplete="off" />
+                                                <ul id="suggestionsList" class="list-group position-absolute w-100"
+                                                    style="z-index: 1000"></ul>
+                                            </div>
                                           </div>
 
                                           <!-- Fecha, Antigüedad y Teléfono -->
@@ -138,48 +138,44 @@
 
                                           <!-- Cobertura -->
                                           <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                              <label for="estatus_cubierta" class="form-label">Cobertura:</label>
-                                              <select class="form-select form-select-sm" id="estatus_cubierta"
-                                                  name="estatus_cubierta">
+                                              <label for="estatus_cubierta" class="form-label">Tipo de movimiento:</label>
+                                              <select class="form-select form-select-sm" id="tipo_movimiento"
+                                                  name="tipo_movimiento">
                                                   <option value="" selected disabled>
                                                       Selecciona una opción
                                                   </option>
-                                                  <option value="Cubierta">Cubierta</option>
-                                                  <option value="Sin cubrir">Sin cubrir</option>
-                                                  <option value="No se justifica">
-                                                      No se justifica
-                                                  </option>
+                                                  <option value="LSG">LSG</option>
+                                                  <option value="Incapacidad">Incapacidad</option>
                                               </select>
                                           </div>
 
                                           <!-- Estatus y Situación -->
                                           <div class="form-group col-md-6">
-                                              <label for="estatus" class="form-label">Estatus:</label>
-                                              <select class="form-select form-select-sm" id="estatus" name="estatus">
+                                              <label for="estatus" class="form-label">Organización:</label>
+                                              <select class="form-select form-select-sm" id="tipo_organizacion_id" name="tipo_organizacion_id">
                                                   <option value="" selected disabled>
                                                       Selecciona un estatus
                                                   </option>
-                                                  <option value="Atendido">Atendido</option>
-                                                  <option value="En proceso">En proceso</option>
-                                                  <option value="Sin atender">Sin atender</option>
+                                                  <option value="unitaria">Unitaria</option>
+                                                  <option value="bidocente">Bidocente</option>
+                                                  <option value="tridocente">Tridcoente</option>
+                                                  <option value="completa">Organización completa</option>
                                               </select>
                                           </div>
                                           <div class="form-group col-md-6">
-                                              <label for="situacion" class="form-label">Situación:</label>
-                                              <select class="form-select form-select-sm" id="situacion"
-                                                  name="situacion">
+                                              <label for="situacion" class="form-label">Justifica:</label>
+                                              <select class="form-select form-select-sm" id="justifica" name="justifica">
                                                   <option value="" selected disabled>
                                                       Selecciona una opción
                                                   </option>
-                                                  <option value="Inseguridad">Inseguridad</option>
-                                                  <option value="Salud">Salud</option>
-                                                  <option value="Sin CT">Sin CT</option>
+                                                  <option value="si">Si</option>
+                                                  <option value="no">No</option>
                                               </select>
                                           </div>
 
                                           <!-- Sección de CCT Sale -->
                                           <div class="div">
-                                              <h2 class="h6 mb-2 mt-2">CCT Sale</h2>
+                                              <h2 class="h6 mb-2 mt-2">CCT </h2>
                                           </div>
                                           <hr class="hr-horizontal mb-4" />
                                           <div class="form-group col-md-4">
@@ -198,38 +194,44 @@
                                                   placeholder="Clave CCT" readonly />
                                           </div>
 
-                                          <div class="div">
-                                              <h2 class="h6 mb-2 mt-1">CCT Entra</h2>
-                                          </div>
+                                
                                           <hr class="hr-horizontal mb-4" />
+
+
                                           <!-- Sección de CCT Entra -->
-                                          <div class="form-group col-md-4">
-                                              <label for="municipio_entra" class="form-label">Municipio:</label>
-                                              <select class="form-select" id="municipio_entra" name="municipio_entra">
-                                                  <option value="" selected disabled>
-                                                      Seleccione Municipio
-                                                  </option>
-                                                  <!-- Opciones dinámicas -->
-                                              </select>
-                                          </div>
-                                          <div class="form-group col-md-4">
-                                              <label for="comunidad_entra" class="form-label">Comunidad:</label>
-                                              <select class="form-select" id="comunidad_entra" name="comunidad_entra">
-                                                  <option value="" selected disabled>
-                                                      Seleccione Comunidad
-                                                  </option>
-                                                  <!-- Opciones dinámicas -->
-                                              </select>
-                                          </div>
-                                          <div class="form-group col-md-4">
-                                              <label for="cct_entra" class="form-label">Clave CCT:</label>
-                                              <select class="form-select" id="cct_entra" name="cct_entra">
-                                                  <option value="" selected disabled>
-                                                      Seleccione Clave CCT
-                                                  </option>
-                                                  <!-- Opciones dinámicas -->
-                                              </select>
-                                          </div>
+                                          <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="inicio_movimiento" class="form-label">Inicio del Movimiento:</label>
+                                            <input type="date" class="form-control" id="inicio_movimiento" name="inicio_movimiento" />
+                                        </div>
+                                        
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="termino_movimiento" class="form-label">Término del Movimiento:</label>
+                                            <input type="date" class="form-control" id="termino_movimiento" name="termino_movimiento" />
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6">
+                                            <label for="diagnostico" class="form-label">Diagnóstico:</label>
+                                            <textarea class="form-control" id="diagnostico" name="diagnostico"
+                                                placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-6">
+                                            <label for="aviso" class="form-label">Aviso:</label>
+                                            <textarea class="form-control" id="aviso" name="aviso"
+                                                placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
+                                        </div>
+                                        
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="vacante" class="form-label">Vacante:</label>
+                                            <select class="form-select form-select-sm" id="vacante" name="vacante">
+                                                <option value="" selected disabled>Selecciona una opción</option>
+                                                <option value="Cubierta">Cubierta</option>
+                                                <option value="Sin cubrir">Sin cubrir</option>
+                                                <option value="Sin validar">Sin validar</option>
+                                            </select>
+                                        </div>
+                                        
+
 
                                           <!-- Observaciones -->
                                           <div class="form-group col-md-12">
@@ -239,8 +241,8 @@
                                           </div>
                                       </div>
                                       <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
-                                          Guardar
-                                      </button>
+                                        Guardar
+                                    </button>
                                   </form>
 
                                   <div id="seccionConfirmacion" class="mt-4" style="display: none">
@@ -278,32 +280,13 @@
   const gridOptions = {
      columnDefs: [
      { field: "np", headerName: "NP", width: 60, editable: false },
-     colFecha(editMode),
-
-     {
-      headerName: "Nombre del Docente",
-      field: "NOMBRE DEL DOCENTE",
-      editable: () => editMode, // Esta columna será editable si editMode es true
-      resizable: true,
-  },
-  {
-      headerName: "Tipo de Movimiento",
-      field: "TIPO DE MOVIMIENTO",
-      editable: () => editMode, // Esta columna será editable si editMode es true
-      resizable: true,
-  },
-  {
-      headerName: "CCT",
-      field: "CCT",
-      editable: () => editMode, // Esta columna será editable si editMode es true
-      resizable: true,
-  },
-  {
-      headerName: "Comunidad",
-      field: "COMUNIDAD",
-      editable: () => editMode, // Esta columna será editable si editMode es true
-      resizable: true,
-  },
+         colFecha(editMode),
+     { field: "fecha_registro", headerName: "Fecha Registro", width: 60, editable: false },
+     { field: "fecha_documento", headerName: "Fecha Documento", width: 60, editable: false },
+     { headerName: "Nombre del Docente", field: "NOMBRE DEL DOCENTE", editable: () => editMode, resizable: true },
+     { headerName: "Tipo de Movimiento", field: "TIPO DE MOVIMIENTO", editable: () => editMode, resizable: true },
+     { headerName: "CCT", field: "CCT", editable: () => editMode, resizable: true },
+     { headerName: "Comunidad", field: "COMUNIDAD", editable: () => editMode, resizable: true },
   {
       headerName: "Municipio",
       field: "MUNICIPIO",
