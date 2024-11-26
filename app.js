@@ -2,15 +2,14 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer');
 const expressLayouts = require('express-ejs-layouts');
-const db = require('./src/config/db');  // Importar la conexión a la base de datos
+const db = require('./src/config/db'); 
 
-// Configuración de Multer para el almacenamiento de archivos
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, 'uploads')); // Carpeta donde se guardarán los archivos subidos
+    cb(null, path.join(__dirname, 'uploads')); 
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Nombre del archivo
+    cb(null, Date.now() + '-' + file.originalname); 
   }
 });
 
@@ -34,14 +33,16 @@ app.use('/api', apiRoutes);
 app.use(express.static(path.join(__dirname, 'public'))); 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Exportar 'upload' si lo necesitas en tus rutas
+app.get('/', (req, res) => {
+  res.redirect('/login'); 
+});
+
+
 module.exports = { app, upload };
 
-// Importar y usar las rutas generales (si es necesario)
 const router = require('./routes/router');
 app.use(router);
 
-// Iniciar el servidor
 app.listen(3000, () => {
   console.log('server up running in http://localhost:3000/');
 });

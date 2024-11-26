@@ -89,6 +89,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- Columna derecha para el formulario -->
                         <div class="col-xl-9 col-lg-8">
                             <div class="card">
@@ -100,8 +101,9 @@
 
                                 <div class="card-body">
                                     <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
-                                        <input type="hidden" name="tabla" value="docentes_disponibles" />
+                                        <input type="hidden" name="tabla" value="becas_comision" />
                                         <div class="row">
+                                
                                             <!-- Personal ID y Nombre del Docente -->
                                             <div class="row">
                                                 <div class="form-group col-md-2">
@@ -121,36 +123,56 @@
                                             </div>
 
                                             <!-- Fecha, Antigüedad y Teléfono -->
-                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                                <label for="fecha" class="form-label">Fecha:</label>
-                                                <input type="date" class="form-control" id="fecha" name="fecha" />
+                                          
+                                            <div class="form-group col-md-6 col-lg-6">
+                                                <label for="telefono" class="form-label">Teléfono:</label>
+                                                <input type="text" class="form-control" id="telefono" name="telefono"
+                                                    placeholder="" />
                                             </div>
                                             <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                                 <label for="antiguedad" class="form-label">Antigüedad:</label>
                                                 <input type="text" class="form-control" id="antiguedad"
                                                     name="antiguedad" placeholder="" />
                                             </div>
-                                            <div class="form-group col-md-6 col-lg-6">
-                                                <label for="telefono" class="form-label">Teléfono:</label>
-                                                <input type="text" class="form-control" id="telefono" name="telefono"
-                                                    placeholder="" />
+                                            
+                                            
+                                            <hr class="hr-horizontal mb-4" />
+                                            <div class="form-group col-md-4">
+                                                <label for="municipio_sale" class="form-label">Municipio:</label>
+                                                <input type="text" class="form-control" id="municipio_sale"
+                                                    placeholder="" readonly />
                                             </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="comunidad_sale" class="form-label">Comunidad:</label>
+                                                <input type="text" class="form-control" id="comunidad_sale"
+                                                    placeholder="" readonly />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="cct_sale" class="form-label">Clave CCT:</label>
+                                                <input type="text" class="form-control" id="cct_sale"
+                                                    placeholder="Clave CCT" readonly />
+                                            </div>
+                                            <hr class="hr-horizontal mb-4" />
 
-                                            <!-- Cobertura -->
+                                     <!------------------------ Fin Datos por default------------------------------->       
+                                            
+                                     <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                        <label for="fecha" class="form-label">Fecha:</label>
+                                        <input type="date" class="form-control" id="fecha" name="fecha" />
+                                    </div>
+                                     
+                                                <!-- Cobertura -->
                                             <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                                <label for="estatus_cubierta" class="form-label">Cobertura:</label>
-                                                <select class="form-select form-select-sm" id="estatus_cubierta"
-                                                    name="estatus_cubierta">
-                                                    <option value="" selected disabled>
-                                                        Selecciona una opción
-                                                    </option>
+                                                <label for="vacante" class="form-label">Vacante:</label>
+                                                <select class="form-select form-select-sm" id="vacante" name="vacante">
+                                                    <option value="" selected disabled>Selecciona una opción</option>
                                                     <option value="Cubierta">Cubierta</option>
                                                     <option value="Sin cubrir">Sin cubrir</option>
-                                                    <option value="No se justifica">
-                                                        No se justifica
-                                                    </option>
+                                                    <option value="Sin validar">Sin validar</option>
                                                 </select>
                                             </div>
+                                            
+                                            
 
                                             <!-- Estatus y Situación -->
                                             <div class="form-group col-md-6">
@@ -177,59 +199,14 @@
                                                 </select>
                                             </div>
 
-                                            <!-- Sección de CCT Sale -->
-                                            <div class="div">
-                                                <h2 class="h6 mb-2 mt-2">CCT Sale</h2>
+                                            <div class="form-group col-md-12">
+                                                <label for="cubre" class="form-label">Cubre:</label>
+                                                <textarea class="form-control" id="cubre" name="cubre"
+                                                    placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
                                             </div>
+                                            
                                             <hr class="hr-horizontal mb-4" />
-                                            <div class="form-group col-md-4">
-                                                <label for="municipio_sale" class="form-label">Municipio:</label>
-                                                <input type="text" class="form-control" id="municipio_sale"
-                                                    placeholder="" readonly />
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="comunidad_sale" class="form-label">Comunidad:</label>
-                                                <input type="text" class="form-control" id="comunidad_sale"
-                                                    placeholder="" readonly />
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="cct_sale" class="form-label">Clave CCT:</label>
-                                                <input type="text" class="form-control" id="cct_sale"
-                                                    placeholder="Clave CCT" readonly />
-                                            </div>
-
-                                            <div class="div">
-                                                <h2 class="h6 mb-2 mt-1">CCT Entra</h2>
-                                            </div>
-                                            <hr class="hr-horizontal mb-4" />
-                                            <!-- Sección de CCT Entra -->
-                                            <div class="form-group col-md-4">
-                                                <label for="municipio_entra" class="form-label">Municipio:</label>
-                                                <select class="form-select" id="municipio_entra" name="municipio_entra">
-                                                    <option value="" selected disabled>
-                                                        Seleccione Municipio
-                                                    </option>
-                                                    <!-- Opciones dinámicas -->
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
-                                                <select class="form-select" id="comunidad_entra" name="comunidad_entra">
-                                                    <option value="" selected disabled>
-                                                        Seleccione Comunidad
-                                                    </option>
-                                                    <!-- Opciones dinámicas -->
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="cct_entra" class="form-label">Clave CCT:</label>
-                                                <select class="form-select" id="cct_entra" name="cct_entra">
-                                                    <option value="" selected disabled>
-                                                        Seleccione Clave CCT
-                                                    </option>
-                                                    <!-- Opciones dinámicas -->
-                                                </select>
-                                            </div>
+                                            
 
                                             <!-- Observaciones -->
                                             <div class="form-group col-md-12">
@@ -251,6 +228,28 @@
                                                 <div id="resumenDatos"></div>
                                             </div>
                                         </div>
+    
+                                       <!--Campo entra para que no se joda el sistema--> 
+                                        <div id="hiddenFields" style="display: none;">
+                                            <div>
+                                                <div>
+                                                    <label for="municipio_entra" class="form-label">Municipio:</label>
+                                                    <input type="text" id="municipio_entra" name="municipio_entra" disabled>
+                                                </div>
+                                            
+                                                <div>
+                                                    <label for="comunidad_entra" class="form-label">Comunidad:</label>
+                                                    <input type="text" id="comunidad_entra" name="comunidad_entra" disabled>
+                                                </div>
+                                            
+                                                <div>
+                                                    <label for="cct_entra" class="form-label">Clave CCT:</label>
+                                                    <input type="text" id="cct_entra" name="cct_entra" disabled>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                       <!---Acaba campo pendejo para que no se joda el sistema-->
                                         <div class="d-flex justify-content-end mt-3">
                                             <button type="button" id="btnEditar" class="btn btn-secondary me-2">
                                                 Editar
@@ -269,184 +268,6 @@
         </div>
 </div>
 
-<!-- <script type="module">
-    import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
-
-   let gridApi;
-   let editMode = false;
-   let inputRow = {}; // Fila vacía inicial para capturar datos
-   
-   function setRowData(newData) {
-    rowData = newData;
-    gridOptions.api.setRowData(rowData);
-  }
-  
-  function setInputRow(newData) {
-    inputRow = newData;
-    gridOptions.api.setPinnedTopRowData([inputRow]);
-  }
-   
-   const gridOptions = {
-      columnDefs: [
-      
-      { field: "np", headerName: "NP", width: 70, editable: false },
-      colFecha(editMode),
-      {
-        headerName: "Nombre del Docente",
-        field: "nombre_docente",
-        editable: false,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "CCT",
-        field: "cct",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Comunidad",
-        field: "comunidad",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Municipio",
-        field: "municipio",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Vacante",
-        field: "vacante",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-        cellEditor: "agSelectCellEditor",
-        cellEditorParams: {
-            values: ["CUBIERTA", "SIN CUBRIR", "SIN VALIDAR"], // Opciones del select
-        },
-    },
-    {
-        headerName: "Cubre",
-        field: "cubre",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Antigüedad",
-        field: "antiguedad",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Teléfono",
-        field: "telefono",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Observaciones Conflictos",
-        field: "observaciones_conflictos",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Observaciones Secretaría General",
-        field: "observaciones_secretaria_general",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    borrarColumna('/api/deleteRecord'),
-
-    ],
-      
-      defaultColDef: {
-        flex: 1,
-        editable: true,
-        resizable: true,
-        valueFormatter: (params) =>
-        isEmptyPinnedCell(params)
-        ? createPinnedCellPlaceholder(params)
-        : undefined,
-  },
- 
-      pinnedTopRowData: [inputRow], // Fila fijada
-      rowHeight: 60,
-      domLayout: "autoHeight",
-      getRowStyle: ({ node }) =>
-      node.rowPinned ? { 'font-weight': 'bold', 'font-style': 'italic' } : 0, // Diseño de fila fijada
-
-      onCellEditingStopped: (params) => {
-        if (params.node.rowPinned === "top" && isPinnedRowDataCompleted(inputRow)) {
-            addNewRowToGrid(inputRow); // Agregar la nueva fila
-            resetPinnedRow();          // Reiniciar la fila fijada
-        }
-    },
-      context: {endpoint: "/editarBecas",},
-      onCellValueChanged: editarCelda,
-  };
-
-  function isEmptyPinnedCell({ node, value }) {
-    return (
-      (node.rowPinned === 'top' && value == null) ||
-      (node.rowPinned === 'top' && value == '')
-    );
-  }
-  
-  function createPinnedCellPlaceholder({ colDef }) {
-    return colDef.field[0].toUpperCase() + colDef.field.slice(1) + '...';
-  }
-  
-  function isPinnedRowDataCompleted(params) {
-    if (params.rowPinned !== 'top') return;
-    return columnDefs.every((def) => inputRow[def.field]);
-  }
-
-
-   const initializeGrid = async () => {
-    const gridDiv = document.querySelector("#mygrid");
-    gridApi = agGrid.createGrid(gridDiv, gridOptions);
-
-    try {
-        // Obtén los datos desde el backend
-        const data = await fetch("/getbecas").then((response) => response.json());
-
-        // Agrega el campo `tabla` dinámicamente
-        const rowData = data.map((row) => ({
-            ...row,
-            tabla: "beca-comision", // Nombre de la tabla
-        }));
-
-        // Asigna los datos al grid
-        gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
-    } catch (error) {
-        console.error("Error inicializando la tabla:", error);
-    }
-};
-
-
-   // Alternar el modo edición
-   document.querySelector("#toggleEditMode").addEventListener("click", async () => {
-       if (editMode) {
-           if (confirm("¿Estás seguro de los cambios?")) {
-               editMode = false;
-               const button = document.querySelector("#toggleEditMode");
-               button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
-               gridApi.refreshCells({ force: true }); // Refrescar las celdas
-   
-               // Recargar datos desde el servidor
-               await reloadData();
-           }
-       } else {
-           editMode = true;
-           const button = document.querySelector("#toggleEditMode");
-           button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
-           gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
-       }
-   });
-
-   document.addEventListener("DOMContentLoaded", initializeGrid);
-</script> -->
-
 
 
 <script type="module">
@@ -459,28 +280,24 @@
     
     const gridOptions = {
        columnDefs: [
-       { field: "np", headerName: "NP", width: 60, editable: false },
-       {
-        headerName: "Nombre del Docente",
-        field: "nombre_docente",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
+       { field: "np", headerName: "NP", width: 70, editable: false },
+       colFecha(editMode),
+       { field: "nombre_docente", headerName: "Nombre", filter: true, width: 220, editable: false },
     {
         headerName: "CCT",
-        field: "cct",
+        field: "cct_sale",
         editable: () => editMode,  // Esta columna será editable si editMode es true
         resizable: true,
     },
     {
         headerName: "Comunidad",
-        field: "comunidad",
+        field: "comunidad_sale",
         editable: () => editMode,  // Esta columna será editable si editMode es true
         resizable: true,
     },
     {
         headerName: "Municipio",
-        field: "municipio",
+        field: "municipio_sale",
         editable: () => editMode,  // Esta columna será editable si editMode es true
         resizable: true,
     },
@@ -512,12 +329,9 @@
         editable: () => editMode,  // Esta columna será editable si editMode es true
         resizable: true,
     },
-    {
-        headerName: "Observaciones Conflictos",
-        field: "observaciones_conflictos",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
+    { field: "observaciones", headerName: "Observaciones", minWidth: 250, wrapHeaderText: true, 
+    autoHeaderHeight: true,    cellStyle: { "white-space": "normal", "line-height": "1.7" }, autoHeight: true, 
+    editable: () => editMode },
     {
         headerName: "Observaciones Secretaría General",
         field: "observaciones_secretaria_general",

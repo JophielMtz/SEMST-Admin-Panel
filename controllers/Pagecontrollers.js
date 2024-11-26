@@ -1,14 +1,113 @@
 const pool = require("../src/config/db");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+//========== Registro de usuarios =============//
+const usuarios = {
+  registroUsuario: async (req, res) => {
+      const { usuario, email, contraseña, rol } = req.body;
+
+      try {
+          // Validación básica
+          if (!usuario || !email || !contraseña) {
+              return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+          }
+
+          // Encriptar la contraseña
+          const saltRounds = 10;
+          const contraseñaHasheada = await bcrypt.hash(contraseña, saltRounds);
+
+          // Guardar en la base de datos
+          const query = `INSERT INTO usuarios (usuario, email, contraseña, rol) VALUES (?, ?, ?, ?)`;
+          await pool.query(query, [usuario, email, contraseñaHasheada, rol || 'usuario']);
+
+          // Responder al cliente
+          res.status(201).json({ message: 'Usuario registrado correctamente' });
+      } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Error al registrar el usuario' });
+      }
+      
+  },
+
+  iniciarSesion: async (req, res) => {
+    const { email, contraseña } = req.body;
+
+    try {
+        if (!email || !contraseña) {
+            return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+        }
+
+        const query = `SELECT * FROM usuarios WHERE email = ?`;
+        const [result] = await pool.query(query, [email]);
+
+        if (result.length === 0) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        const usuario = result[0];
+
+        const contraseñaValida = await bcrypt.compare(contraseña, usuario.contraseña);
+        if (!contraseñaValida) {
+            return res.status(401).json({ error: 'Contraseña incorrecta' });
+        }
+
+        const token = jwt.sign(
+            { id: usuario.id, usuario: usuario.usuario, rol: usuario.rol },
+            'clave_secreta_segura',
+            { expiresIn: '1h' }
+        );
+
+        // Enviar respuesta exitosa con el token
+        return res.status(200).json({
+            message: 'Inicio de sesión exitoso',
+            token
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al iniciar sesión' });
+    }
+},
+
+
+  autenticarToken: (req, res) => {
+      const authHeader = req.headers['authorization'];
+      const token = authHeader && authHeader.split(' ')[1]; // Extraer el token del header
+
+      if (!token) {
+          return res.status(401).json({ error: 'Acceso denegado. Token no proporcionado.' });
+      }
+
+      try {
+          const usuario = jwt.verify(token, 'clave_secreta_segura'); // Cambia 'clave_secreta_segura' por tu clave real
+          res.json({ usuario }); // Devolver los datos del usuario
+      } catch (error) {
+          res.status(403).json({ error: 'Token no válido.' });
+      }
+  },
+
+
+};
 
 
 //========== Vistas Controller =============//
 const vistasController = {
+  vistaLogin: async (req, res) => {
+    res.render('auth/login', { 
+        title: 'Inicio-de-Sesión',
+        layout: 'auth/loginLayout' 
+    }); 
+},
+vistaSignUp: async (req, res) => {
+  res.render('auth/sign-up', {
+      title: 'Registrarse', 
+      layout: 'auth/loginLayout' 
+  }); 
+},
+
   vistaPrincipal: async (req, res) => {
     try {
-      // Obtén los totales de personal por tipo de cargo
       const { total_personal, total_directores, total_docentes, total_auxiliares } = await obtenerPersonalTotal();
-  
-      // Renderiza la vista y pasa los totales como datos del objeto
       res.render("home", { 
         totalPersonal: total_personal, 
         totalDirectores: total_directores, 
@@ -16,7 +115,7 @@ const vistasController = {
         totalAuxiliares: total_auxiliares 
       });
     } catch (error) {
-      console.error("Error al cargar la vista principal:", error); // Registro del error
+      console.error("Error al cargar la vista principal:", error); 
       res.status(500).send("Error al cargar la página");
     }
   },
@@ -83,14 +182,8 @@ const obtenerPendientes = async (req, res) => {
   try {
     const [results] = await pool.query(`
       SELECT 
-        np, 
-        fecha, 
-        estatus, 
-        tramite, 
-        departamento,
-        observaciones_conflictos, 
-        observaciones_secretaria_general
-      FROM pendientes
+        np, fecha, estatus, tramite, departamento,
+        observaciones_conflictos, observaciones_secretaria_general FROM pendientes
     `);
     res.json(results);
   } catch (error) {
@@ -184,19 +277,10 @@ const obtenerListaGeneral = async (req, res) => {
   try {
     const [results] = await pool.query(`
     SELECT 
-    p.personal_id, 
-    p.rfc, 
-    p.nombre, 
-    p.apellido_paterno, 
-    p.apellido_materno, 
-    p.edad, 
-    p.telefono, 
-    p.correo, 
-    c.descripcion AS cargo, 
-    p.imagen
-FROM personal p
-LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
-LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id;
+    p.personal_id, p.rfc, p.nombre, p.apellido_paterno, p.apellido_materno, p.edad, p.telefono, p.correo, c.descripcion AS cargo, p.imagen
+    FROM personal p
+    LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
+    LEFT JOIN cargos c ON dl.cargo_id = c.cargo_id;
     `);
     res.json(results);
   } catch (error) {
@@ -210,17 +294,17 @@ const obtenerBecas = async (req, res) => {
     const [results] = await pool.query(`
     SELECT 
     np,
-  fecha_registro AS fecha,
+fecha,
   personal_id,
   nombre_docente,
-  cct,
-  comunidad,
-  municipio,
+  cct_sale,
+  comunidad_sale,
+  municipio_sale,
   vacante,
   cubre,
   antiguedad,
   telefono,
-  observaciones_conflictos,
+  observaciones,
   observaciones_secretaria_general
 FROM becas_comision;
     `);
@@ -234,15 +318,35 @@ FROM becas_comision;
 const obtenerSalud = async (req, res) => {
   try {
     const [results] = await pool.query(`
-      SELECT 
-        np, 
-        fecha, 
-        estatus, 
-        tramite, 
-        departamento,
-        observaciones_conflictos, 
-        observaciones_secretaria_general
-      FROM salud
+ SELECT
+    si.np,
+    si.personal_id,
+    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
+    si.fecha,
+    si.estatus,
+    si.situacion,
+    si.diagnostico,
+    si.fecha_inicio,
+    si.fecha_termino,
+    si.antiguedad,
+    si.observaciones,
+    si.municipio_sale,
+    si.comunidad_sale,
+    si.cct_sale,
+    si.funcion_docente,
+    si.municipio_entra,
+    si.comunidad_entra,
+    si.cct_entra,
+    si.estatus_cubierta,
+    si.telefono,
+    si.observaciones_conflictos
+FROM
+    salud_inseguridad si
+JOIN
+    personal p ON si.personal_id = p.personal_id;
+
+
+
     `);
     res.json(results);
   } catch (error) {
@@ -519,23 +623,14 @@ const obtenerSolicitudes = async (req, res) => {
 
 const obtenerInternos = async (req, res) => {
   try {
-    const [results] = await pool.query(`
-      SELECT 
-        np, 
-        fecha, 
-        estatus, 
-        tramite, 
-        departamento,
-        observaciones_conflictos, 
-        observaciones_secretaria_general
-      FROM internos
-    `);
+    const [results] = await pool.query(`SELECT np, fecha, estatus, tramite, departamento, observaciones_conflictos, observaciones_secretaria_general FROM internos`);
     res.json(results);
   } catch (error) {
     console.error("Error al obtener lista internos:", error);
     res.status(500).json({ message: "Error al obtener lista internos" });
   }
 };
+
 
 const obtenerSolicitudesGenerales = async (req, res) => {
   try {
@@ -610,7 +705,7 @@ FROM detalle_laboral
 WHERE detalle_laboral.cargo_id IN (1, 3, 4);
 
     `);
-    return results[0]; // Devuelve el objeto con los totales
+    return results[0]; 
   } catch (error) {
     console.error("Error al obtener totales de personal por cargo:", error); // Registro del error
     throw new Error("Error al obtener totales de personal por cargo");
@@ -842,11 +937,14 @@ const editarBecas = async (req, res) => {
 };
 const editarSalud = async (req, res) => {
   const { np, field, value } = req.body;
-  const validFields = [ 'np', 'fecha', 'nombre_docente', 'cct', 'comunidad', 'municipio', 'vacante', 'cubre', 'antiguedad', 'telefono', 'observaciones_conflictos', 'observaciones_secretaria_general' ];
+  const validFields = [ 'nombre_docente', 'fecha', 'estatus', 'situacion',
+    'antiguedad', 'municipio_sale', 'comunidad_sale', 'municipio_entra',
+    'comunidad_entra', 'cct_entra', 'cct_sale', 'estatus_cubierta',
+    'observaciones', ];
   if (!np || !field || value === undefined) {
     return res.status(400).json({ message: "Datos insuficientes. Se requieren 'np', 'field' y 'value'." });
   }
-  return actualizarRegistro("salud", "np", np, field, value, validFields, res);
+  return actualizarRegistro("salud_inseguridad", "np", np, field, value, validFields, res);
 };
 
 const editarSolicitudesDeCambio = async (req, res) => {
@@ -960,7 +1058,7 @@ const borrarFila = async (req, res) => {
     return res.status(400).json({ message: 'El identificador y la tabla son obligatorios.' });
   }
 
-  const tablasPermitidas = ['docentes_disponibles', 'pendientes', 'becas_comision', 'solicitudes_de_personal', 'licencia_sin_goce', 'nombramientos', 'incidencias', 'solicitudes_generales', 'solicitudes_de_cambio',];
+  const tablasPermitidas = ['docentes_disponibles', 'pendientes', 'becas_comision', 'solicitudes_de_personal', 'licencia_sin_goce', 'nombramientos', 'incidencias', 'solicitudes_generales', 'solicitudes_de_cambio', 'salud_inseguridad',];
 
   if (!tablasPermitidas.includes(tabla)) {
     console.error(`Tabla no permitida: ${tabla}`);
@@ -1402,7 +1500,7 @@ const obtenerDetallePersonal  = async (req, res) => {
 
 module.exports = {
   vistasController,
-
+  usuarios,
   editarCCTS,
   editarPendientes,
   editarBecas,  
@@ -1443,6 +1541,7 @@ module.exports = {
   obtenerUbicCCTs,
 
   borrarFila,
-  actualizarRegistro
+  actualizarRegistro,
+ 
 
 };

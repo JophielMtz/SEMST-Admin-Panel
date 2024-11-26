@@ -10,7 +10,7 @@ const STATUS_CLASSES = {
   "Cubierta": "btn-cubierta",
   "Sin cubrir": "btn-sin-cubrir",
   "No se justifica": "btn-no-se-justifica",
-  "default": "btn-secondary", // Clase por defecto para valores desconocidos
+  "default": "btn-secondary",
 };
 
 export const getStatusClass = (status) => {

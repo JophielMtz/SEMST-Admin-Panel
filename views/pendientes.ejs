@@ -56,109 +56,152 @@
 </div>
     <!--Crear-->
 <div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <!-- Se usa modal-xl para más espacio -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="nuevoRegistroModalLabel">
-                        Nueva entrada
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                    
-                
-                        <!-- Columna derecha para el formulario -->
-                        <div class="col-xl col-lg">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="header-title">
-                                        <h4 class="card-title">Información del nuevo usuario</h4>
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <!-- Se usa modal-xl para más espacio -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nuevoRegistroModalLabel">
+                    Nueva entrada
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Columna izquierda para el perfil -->
+                    <div class="col-xl-3 col-lg-4 mb-3">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Perfil</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="profile-img-edit position-relative text-center">
+                                        <img src="images/avatars/01.png" alt="profile-pic"
+                                            class="profile-pic rounded-circle img-fluid w-100 mb-3" />
+                                    </div>
+                                    <div class="img-extension mt-3">
+                                        <small class="text-muted text-center">Datos adicionales</small>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                <div class="card-body">
-                                    <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
-                                        <input type="hidden" name="tabla" value="pendientes" />
-                                        <div class="row">
-                                            <!-- Fecha -->
-                                            <div class="form-group col-md-6 col-lg-6">
-                                                <label for="fecha" class="form-label">Fecha:</label>
-                                                <input type="date" class="form-control" id="fecha" name="fecha" />
-                                            </div>
-                                
-                                            <!-- Estatus -->
-                                            <div class="form-group col-md-6 col-lg-6">
-                                                <label for="estatus" class="form-label">Estatus:</label>
-                                                <select class="form-select form-select-sm" id="estatus" name="estatus">
-                                                    <option value="" selected disabled>Selecciona un estatus</option>
-                                                    <option value="En proceso">En proceso</option>
-                                                    <option value="Terminado">Terminado</option>
-                                                    <option value="No se atiende">No se atiende</option>
-                                                </select>
-                                            </div>
-                                
-                                            <!-- Trámite -->
-                                            <div class="form-group col-md-12">
-                                                <label for="tramite" class="form-label">Trámite:</label>
-                                                <input type="text" class="form-control" id="tramite" name="tramite" placeholder="Escribe el trámite" />
-                                            </div>
-                                
-                                            <!-- Departamento -->
-                                            <div class="form-group col-md-12">
-                                                <label for="departamento" class="form-label">Departamento:</label>
-                                                <select class="form-control" id="departamento" name="departamento">
-                                                    <option value="Subdireccion De Planeacion">Subdireccion De Planeacion</option>
-                                                    <option value="Subdireccion De Administracion">Subdireccion De Administracion</option>
-                                                    <option value="Recursos Humanos">Recursos Humanos</option>
-                                                    <option value="Usicamm">Usicamm</option>
-                                                    <option value="Operacion Escolar">Operacion Escolar</option>
-                                                    <option value="Juridico">Juridico</option>
-                                                    <option value="Sin Definir">Sin Definir</option>
-                                                    <option value="Semst">Semst</option>
-                                                </select>
-                                            </div>
-                                            
-                                
-                                            <!-- Observaciones Conflictos -->
-                                            <div class="form-group col-md-12">
-                                                <label for="observaciones_conflictos" class="form-label">Observaciones Conflictos:</label>
-                                                <textarea class="form-control" id="observaciones" name="observaciones_conflictos" placeholder="Escribe las observaciones de conflictos"></textarea>
-                                            </div>
-                                
-                                            <!-- Observaciones Secretaría General -->
-                                            <div class="form-group col-md-12">
-                                                <label for="observaciones_secretaria_general" class="form-label">Observaciones Secretaría General:</label>
-                                                <textarea class="form-control" id="observaciones_secretaria_general" name="observaciones_secretaria_general" placeholder="Escribe las observaciones para la secretaría general"></textarea>
-                                            </div>
+                    <!-- Columna derecha para el formulario -->
+                    <div class="col-xl-9 col-lg-8">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Información del nuevo usuario</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
+                                    <input type="hidden" name="tabla" value="pendientes" />
+                                    <div class="row">
+                                        <!-- Fecha -->
+                                        <div class="form-group col-md-6 col-lg-6">
+                                            <label for="fecha" class="form-label">Fecha:</label>
+                                            <input type="date" class="form-control" id="fecha" name="fecha" />
                                         </div>
-                                
-                                        <button type="submit" class="btn btn-primary mt-3">Guardar</button>
-                                    </form>
-                                
-                                    <div id="seccionConfirmacion" class="mt-4" style="display: none">
-                                        <h5>Confirmar Datos Ingresados</h5>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <!-- Aquí mostraremos el resumen de los datos -->
-                                                <div id="resumenDatos"></div>
-                                            </div>
+                                    
+                                        <!-- Estatus -->
+                                        <div class="form-group col-md-6 col-lg-6">
+                                            <label for="estatus" class="form-label">Estatus:</label>
+                                            <select class="form-select form-select-sm" id="estatus" name="estatus">
+                                                <option value="" selected disabled>Selecciona un estatus</option>
+                                                <option value="En proceso">En proceso</option>
+                                                <option value="Terminado">Terminado</option>
+                                                <option value="No se atiende">No se atiende</option>
+                                            </select>
                                         </div>
-                                        <div class="d-flex justify-content-end mt-3">
-                                            <button type="button" id="btnEditar" class="btn btn-secondary me-2">Editar</button>
-                                            <button type="button" id="btnConfirmar" class="btn btn-success">Confirmar</button>
+                                    
+                                        <!-- Trámite -->
+                                        <div class="form-group col-md-12">
+                                            <label for="tramite" class="form-label">Trámite:</label>
+                                            <input type="text" class="form-control" id="tramite" name="tramite" placeholder="Escribe el trámite" />
+                                        </div>
+                                    
+                                        <!-- Departamento -->
+                                        <div class="form-group col-md-12">
+                                            <label for="departamento" class="form-label">Departamento:</label>
+                                            <select class="form-control" id="departamento" name="departamento">
+                                                <option value="Subdireccion De Planeacion">Subdireccion De Planeacion</option>
+                                                <option value="Subdireccion De Administracion">Subdireccion De Administracion</option>
+                                                <option value="Recursos Humanos">Recursos Humanos</option>
+                                                <option value="Usicamm">Usicamm</option>
+                                                <option value="Operacion Escolar">Operacion Escolar</option>
+                                                <option value="Juridico">Juridico</option>
+                                                <option value="Sin Definir">Sin Definir</option>
+                                                <option value="Semst">Semst</option>
+                                            </select>
+                                        </div>
+                                    
+                                        <!-- Observaciones Conflictos -->
+                                        <div class="form-group col-md-12">
+                                            <label for="observaciones_conflictos" class="form-label">Observaciones Conflictos:</label>
+                                            <textarea class="form-control" id="observaciones" name="observaciones_conflictos" placeholder="Escribe las observaciones de conflictos"></textarea>
+                                        </div>
+                                    
+                                        <!-- Observaciones Secretaría General -->
+                                        <div class="form-group col-md-12">
+                                            <label for="observaciones_secretaria_general" class="form-label">Observaciones Secretaría General:</label>
+                                            <textarea class="form-control" id="observaciones_secretaria_general" name="observaciones_secretaria_general" placeholder="Escribe las observaciones para la secretaría general"></textarea>
                                         </div>
                                     </div>
+                                    
+                                    <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
+                                        Guardar
+                                    </button>
+                                </form>
+
+                                <div id="seccionConfirmacion" class="mt-4" style="display: none">
+                                    <h5>Confirmar Datos Ingresados</h5>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <!-- Aquí mostraremos el resumen de los datos -->
+                                            <div id="resumenDatos"></div>
+                                        </div>
+                                    </div>
+
+                                   <!--Campo entra para que no se joda el sistema--> 
+                                    <div id="hiddenFields" style="display: none;">
+                                        <div>
+                                            <div>
+                                                <label for="municipio_entra" class="form-label">Municipio:</label>
+                                                <input type="text" id="municipio_entra" name="municipio_entra" disabled>
+                                            </div>
+                                        
+                                            <div>
+                                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
+                                                <input type="text" id="comunidad_entra" name="comunidad_entra" disabled>
+                                            </div>
+                                        
+                                            <div>
+                                                <label for="cct_entra" class="form-label">Clave CCT:</label>
+                                                <input type="text" id="cct_entra" name="cct_entra" disabled>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                    
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <button type="button" id="btnEditar" class="btn btn-secondary me-2"> Editar </button>
+                                        <button type="button" id="btnConfirmar" class="btn btn-success"> Confirmar </button>
+                                    </div>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 <script type="module">
@@ -174,29 +217,11 @@
    const datos = [
    { field: "np", headerName: "NP", width: 70, editable: false },
         colFecha(editMode),
-        {
-            headerName: "Estatus",
-            field: "estatus",
-            editable: () => editMode, // La columna será editable si editMode es true
-            resizable: true,
-            cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-                values: ["TERMINADO", "EN PROCESO", "NO SE ATIENDE"], // Opciones del select
-            },
-        },
-    {
-        headerName: "Trámite",
-        field: "tramite",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Departamento",
-        field: "departamento",
-        editable: () => editMode, // La columna será editable si editMode es true
-        resizable: true,
-        cellEditor: "agSelectCellEditor",
-        cellEditorParams: {
+   { headerName: "Estatus", field: "estatus", editable: () => editMode, 
+     cellEditor: "agSelectCellEditor",
+     cellEditorParams: {values: ["Terminado", "En proceso", "No se atiende"],},},
+    { headerName: "Trámite", field: "tramite", editable: () => editMode,   resizable: true,},
+    { headerName: "Departamento", field: "departamento", editable: () => editMode,  resizable: true, cellEditor: "agSelectCellEditor", cellEditorParams: {
             values: [
                 "SUBDIRECCION ACADEMICA",
                 "SUBDIRECCION DE PLANEACION",
@@ -207,20 +232,13 @@
                 "JURIDICO",
                 "SIN DEFINIR",
                 "SEMST"
-            ], // Opciones del select
+            ], 
         },
     },
-    {
-        headerName: "Observaciones Conflictos",
-        field: "observaciones_conflictos",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Observaciones Secretaría General",
-        field: "observaciones_secretaria_general",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
+    { field: "observaciones_conflictos", headerName: "Observaciones", minWidth: 380, wrapHeaderText: true, 
+    autoHeaderHeight: true,    cellStyle: { "white-space": "normal", "line-height": "1.7" }, autoHeight: true, 
+    editable: () => editMode },
+    { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode,   resizable: true,
     },
     borrarColumna('/api/deleteRecord'),
  ];
@@ -228,7 +246,6 @@
    const gridOptions = {
        columnDefs: datos,
        defaultColDef: {editable: true,resizable: true,},
-       
        rowData: null,
        rowHeight: 60,
        domLayout: "autoHeight",
@@ -237,8 +254,6 @@
        },
        onCellValueChanged: editarCelda,
    };
-
-   
 
    const initializeGrid = async () => {
     const gridDiv = document.querySelector("#pendientesGrid");
@@ -261,8 +276,6 @@
     }
 };
 
-
-   // Alternar el modo edición
    document.querySelector("#toggleEditMode").addEventListener("click", async () => {
        if (editMode) {
            if (confirm("¿Estás seguro de los cambios?")) {

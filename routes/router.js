@@ -1,16 +1,15 @@
 const express = require('express');
 const { 
-  vistasController, vistaPrincipal, vistaReviciones, vistaPendientes, postPendientes, vistaEditarPersonal, vistaDocentesDisponibles,  vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil,  vistaInfoPersonal, vistaAgregarpersonal, vistaRoles,
+  vistasController, vistaPrincipal, vistaReviciones, vistaPendientes, postPendientes, vistaEditarPersonal, vistaDocentesDisponibles,  vistaNombramientosDocentes, vistaLicenciasSinGoce, vistaIncidencias, vistaCalendario, vistaSolicitudesGenerales, vistaCambio, vistaSolicitudesPersonal, vistaSalud, vistaBecaComision, vistaApoyoLentes, vistaListaGeneral, vistaListaPanelAdm, vistaPerfil,  vistaInfoPersonal, vistaAgregarpersonal, vistaRoles,vistaLogin,vistaSignUp,
   agregarPersonal, actualizarPersonal,
   editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio,
-   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos, obtenerPersonalTotal, obtenerSolicitudesGenerales, obtenerUbicCCTs, borrarFila  } = require('../controllers/Pagecontrollers');
+   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos, obtenerPersonalTotal, obtenerSolicitudesGenerales, obtenerUbicCCTs, borrarFila, usuarios,iniciarSesion } = require('../controllers/Pagecontrollers');
 const router = express.Router();
-const pool = require('../src/config/db'); //Ruta de db
+const pool = require('../src/config/db'); 
 
 const multer = require('multer');
 const path = require('path');
 
-// Configuración de Multer para el almacenamiento de archivos
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, path.join(__dirname, '..', 'uploads')); 
@@ -20,9 +19,18 @@ const storage = multer.diskStorage({
     }
   });
 
- const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
-router.get('/', vistasController.vistaPrincipal);
+//=======Ruta para registros de usuarios===========//
+router.post('/registrar', usuarios.registroUsuario); 
+router.post('/loginUser', usuarios.iniciarSesion);
+router.get('/pruebaToken', usuarios.autenticarToken);
+
+
+//=======Ruta para vistas===========//
+router.get('/login', vistasController.vistaLogin);
+router.get('/sign-up', vistasController.vistaSignUp);
+router.get('/home', vistasController.vistaPrincipal);
 router.get('/revisiones', vistasController.vistaReviciones);
 router.get('/cambio', vistasController.vistaCambio);
 router.get('/pendientes', vistasController.vistaPendientes);
@@ -83,6 +91,80 @@ router.put('/editarInternos', editarInternos);
 router.get('/api/listaGeneral', obtenerListaGeneral);
 router.get('/agregar-personal', vistaAgregarpersonal);
 router.get('/editar-personal', vistaEditarPersonal);
+
+
+
+
+//=======Endpoint para guardar registros en tablas===========//
+router.post('/guardarRegistro', async (req, res) => {
+  console.log("Datos recibidos en req.body:", req.body);
+
+  const { tabla, ...data } = req.body;
+
+  const tablasPermitidas = ['docentes_disponibles', 'solicitudes_de_cambio', 'pendientes', 'nombramientos', 'licencia_sin_goce', 'salud_inseguridad', 'incidencias', 'becas_comision', 'incidencias'];
+  if (!tabla || !tablasPermitidas.includes(tabla)) {
+      return res.status(400).send("Tabla no válida o no especificada.");
+  }
+
+  const connection = await pool.getConnection();
+  try {
+      // Calcular `detalle_laboral_id` si la tabla es `solicitudes_de_cambio`
+      if (tabla === 'solicitudes_de_cambio') {
+          if (!data.personal_id) {
+              return res.status(400).send("Falta el campo `personal_id` para calcular `detalle_laboral_id`.");
+          }
+
+          // Obtener `detalle_laboral_id` dinámicamente usando `personal_id`
+          const [result] = await connection.query(
+              `SELECT detalle_laboral_id FROM detalle_laboral WHERE personal_id = ? LIMIT 1`,
+              [data.personal_id]
+          );
+
+          if (result.length === 0) {
+              return res.status(400).send("No se encontró un `detalle_laboral_id` para el `personal_id` proporcionado.");
+          }
+
+          data.detalle_laboral_id = result[0].detalle_laboral_id; // Asignar el valor dinámicamente
+      }
+
+      // Obtener columnas de la tabla
+      const [columns] = await connection.query(`DESCRIBE ${tabla}`);
+      const columnasValidas = columns.map(col => col.Field);
+
+      // Filtrar los datos para incluir sólo los que coincidan con las columnas de la tabla
+      const datosInsertar = Object.keys(data)
+          .filter(key => columnasValidas.includes(key))
+          .reduce((obj, key) => {
+              obj[key] = data[key];
+              return obj;
+          }, {});
+
+      // Verificar si faltan columnas requeridas
+      const columnasRequeridas = columns
+          .filter(col => col.Null === 'NO' && col.Default === null && col.Extra !== 'auto_increment')
+          .map(col => col.Field);
+
+      const camposFaltantes = columnasRequeridas.filter(col => !(col in datosInsertar));
+      if (camposFaltantes.length > 0) {
+          return res.status(400).send(`Faltan los siguientes campos requeridos: ${camposFaltantes.join(', ')}`);
+      }
+
+      // Construir la consulta de inserción
+      const campos = Object.keys(datosInsertar);
+      const valores = Object.values(datosInsertar);
+      const placeholders = campos.map(() => '?').join(', ');
+
+      const insertQuery = `INSERT INTO ${tabla} (${campos.join(', ')}) VALUES (${placeholders})`;
+      const [result] = await connection.query(insertQuery, valores);
+
+      res.status(201).json({ message: `Registro creado exitosamente en la tabla ${tabla}.`, id: result.insertId });
+  } catch (error) {
+      console.error("Error al guardar registro:", error);
+      res.status(500).send(`Error al crear el registro: ${error.message}`);
+  } finally {
+      connection.release();
+  }
+});
 
 
 
@@ -449,114 +531,109 @@ LEFT JOIN
   }
 });
 
-//Ingresar datos en docentes disponibles tabla
-router.post('/guardarRegistro', async (req, res) => {
-  console.log("Datos recibidos en req.body:", req.body);
-
-  const { tabla, ...data } = req.body;
-
-  // Validar si la tabla está permitida
-  const tablasPermitidas = ['docentes_disponibles', 'solicitudes_de_cambio', 'pendientes', 'nombramientos', 'licencia_sin_goce'];
-  if (!tabla || !tablasPermitidas.includes(tabla)) {
-      return res.status(400).send("Tabla no válida o no especificada.");
-  }
-
-  const connection = await pool.getConnection();
-  try {
-      // Calcular `detalle_laboral_id` si la tabla es `solicitudes_de_cambio`
-      if (tabla === 'solicitudes_de_cambio') {
-          if (!data.personal_id) {
-              return res.status(400).send("Falta el campo `personal_id` para calcular `detalle_laboral_id`.");
-          }
-
-          // Obtener `detalle_laboral_id` dinámicamente usando `personal_id`
-          const [result] = await connection.query(
-              `SELECT detalle_laboral_id FROM detalle_laboral WHERE personal_id = ? LIMIT 1`,
-              [data.personal_id]
-          );
-
-          if (result.length === 0) {
-              return res.status(400).send("No se encontró un `detalle_laboral_id` para el `personal_id` proporcionado.");
-          }
-
-          data.detalle_laboral_id = result[0].detalle_laboral_id; // Asignar el valor dinámicamente
-      }
-
-      // Obtener columnas de la tabla
-      const [columns] = await connection.query(`DESCRIBE ${tabla}`);
-      const columnasValidas = columns.map(col => col.Field);
-
-      // Filtrar los datos para incluir sólo los que coincidan con las columnas de la tabla
-      const datosInsertar = Object.keys(data)
-          .filter(key => columnasValidas.includes(key))
-          .reduce((obj, key) => {
-              obj[key] = data[key];
-              return obj;
-          }, {});
-
-      // Verificar si faltan columnas requeridas
-      const columnasRequeridas = columns
-          .filter(col => col.Null === 'NO' && col.Default === null && col.Extra !== 'auto_increment')
-          .map(col => col.Field);
-
-      const camposFaltantes = columnasRequeridas.filter(col => !(col in datosInsertar));
-      if (camposFaltantes.length > 0) {
-          return res.status(400).send(`Faltan los siguientes campos requeridos: ${camposFaltantes.join(', ')}`);
-      }
-
-      // Construir la consulta de inserción
-      const campos = Object.keys(datosInsertar);
-      const valores = Object.values(datosInsertar);
-      const placeholders = campos.map(() => '?').join(', ');
-
-      const insertQuery = `INSERT INTO ${tabla} (${campos.join(', ')}) VALUES (${placeholders})`;
-      const [result] = await connection.query(insertQuery, valores);
-
-      res.status(201).json({ message: `Registro creado exitosamente en la tabla ${tabla}.`, id: result.insertId });
-  } catch (error) {
-      console.error("Error al guardar registro:", error);
-      res.status(500).send(`Error al crear el registro: ${error.message}`);
-  } finally {
-      connection.release();
-  }
-});
 
 
 //api de docentes
-router.get('/getDocentes', async (req, res) => {
-  try {
-    const [rows] = await pool.query(`
-      SELECT 
-        personal_id AS id, 
-        fecha, 
-        nombre_docente, 
-        estatus, 
-        observaciones,
-        situacion,
-        antiguedad,
-        municipio_sale, 
-        comunidad_sale, 
-        cct_sale, 
-        estatus_cubierta,
-        municipio_entra, 
-        comunidad_entra, 
-        cct_entra
-      FROM 
-        docentes_disponibles
-    `);
+router.post('/guardarRegistro', async (req, res) => {
+    console.log("Datos recibidos en req.body:", req.body);
 
-    // Asegurarse de que fecha sea una cadena
-    const data = rows.map(row => ({
-      ...row,
-      fecha: row.fecha ? row.fecha.toISOString().split('T')[0] : 'N/A'
-    }));
+    const { tabla, cct_entra, municipio_entra, comunidad_entra, ...data } = req.body;
 
-    res.json({ data: data }); // Devolver los datos envueltos en un objeto con clave 'data'
-  } catch (error) {
-    console.error('Error al obtener los docentes:', error);
-    res.status(500).json({ error: 'Error al obtener los datos' });
-  }
+    console.log("Tabla solicitada:", tabla);
+    console.log("Datos restantes:", data);
+    console.log("Datos de entrada - cct_entra:", cct_entra, "municipio_entra:", municipio_entra, "comunidad_entra:", comunidad_entra);
+
+    const tablasPermitidas = ['docentes_disponibles', 'solicitudes_de_cambio', 'pendientes', 'nombramientos', 'licencia_sin_goce', 'salud_inseguridad'];
+    if (!tabla || !tablasPermitidas.includes(tabla)) {
+        console.error("Tabla no válida:", tabla);
+        return res.status(400).send("Tabla no válida o no especificada.");
+    }
+
+    const connection = await pool.getConnection();
+    try {
+        // Si se proporcionan datos para "entra", procesar la lógica correspondiente
+        if (cct_entra && municipio_entra && comunidad_entra) {
+            console.log("Buscando id_relacion para los datos proporcionados...");
+            const [nuevoIdRelacion] = await connection.query(
+                `
+                SELECT id_relacion
+                FROM ubic_ccts
+                WHERE cct_id = (SELECT cct_id FROM ccts WHERE centro_clave_trabajo = ?)
+                  AND municipio_id = (SELECT municipio_id FROM municipio WHERE nombre = ?)
+                  AND comunidad_id = (SELECT comunidad_id FROM comunidad WHERE nombre = ?)
+                LIMIT 1
+                `,
+                [cct_entra, municipio_entra, comunidad_entra]
+            );
+
+            console.log("Resultado de id_relacion:", nuevoIdRelacion);
+
+            if (!nuevoIdRelacion.length) {
+                console.error("No se encontró id_relacion para los datos:", { cct_entra, municipio_entra, comunidad_entra });
+                return res.status(404).send("Ubicación no encontrada para los datos proporcionados.");
+            }
+
+            const idRelacion = nuevoIdRelacion[0].id_relacion;
+            console.log("id_relacion encontrado:", idRelacion);
+
+            // Actualizar detalle_laboral con el nuevo id_relacion
+            console.log(`Actualizando detalle_laboral para personal_id: ${data.personal_id} con id_relacion: ${idRelacion}`);
+            await connection.query(
+                `UPDATE detalle_laboral SET id_relacion = ? WHERE personal_id = ?`,
+                [idRelacion, data.personal_id]
+            );
+
+            // Registrar en historial_movimientos
+            console.log(`Registrando en historial_movimientos para personal_id: ${data.personal_id}, id_relacion: ${idRelacion}`);
+            await connection.query(
+                `
+                INSERT INTO historial_movimientos (personal_id, detalle_laboral_id, ubic_ccts_id, fecha_movimiento, tipo_movimiento, observaciones)
+                VALUES (?, (SELECT detalle_laboral_id FROM detalle_laboral WHERE personal_id = ?), ?, CURDATE(), 'Cambio de CCT', ?)
+                `,
+                [data.personal_id, data.personal_id, idRelacion, `CCT actualizado a ${cct_entra}`]
+            );
+        }
+
+        // Continuar con la lógica de inserción en la tabla seleccionada
+        console.log("Obteniendo columnas válidas de la tabla:", tabla);
+        const [columns] = await connection.query(`DESCRIBE ${tabla}`);
+        const columnasValidas = columns.map(col => col.Field);
+
+        console.log("Columnas válidas obtenidas:", columnasValidas);
+
+        const datosInsertar = Object.keys(data)
+            .filter(key => columnasValidas.includes(key))
+            .reduce((obj, key) => {
+                obj[key] = data[key];
+                return obj;
+            }, {});
+
+        console.log("Datos para insertar:", datosInsertar);
+
+        const campos = Object.keys(datosInsertar);
+        const valores = Object.values(datosInsertar);
+        const placeholders = campos.map(() => '?').join(', ');
+
+        console.log("Campos a insertar:", campos);
+        console.log("Valores a insertar:", valores);
+
+        const insertQuery = `INSERT INTO ${tabla} (${campos.join(', ')}) VALUES (${placeholders})`;
+        console.log("Consulta de inserción generada:", insertQuery);
+
+        const [result] = await connection.query(insertQuery, valores);
+
+        console.log("Resultado de la inserción:", result);
+
+        res.status(201).json({ message: `Registro creado exitosamente en la tabla ${tabla}.`, id: result.insertId });
+    } catch (error) {
+        console.error("Error al guardar registro:", error);
+        res.status(500).send(`Error al crear el registro: ${error.message}`);
+    } finally {
+        connection.release();
+        console.log("Conexión liberada.");
+    }
 });
+
 
 
 
