@@ -21,15 +21,6 @@
                                 <i class="fas fa-edit me-1"></i> Activar Edición
                             </button>
                         </div>
-
-                        <!-- Botón Borrar -->
-                        <div class="col-auto">
-                            <button id="deleteButton" class="btn btn-danger rounded-pill w-auto"
-                                style="padding: 4px 12px; font-size: 12px;" disabled>
-                                <i class="fas fa-trash-alt me-1"></i> Borrar
-                            </button>
-                        </div>
-
                     </div>
                 </div>
                 <div class="card-body">
@@ -94,15 +85,19 @@
 
                                     <!-- Fecha, Antigüedad y Teléfono -->
 
-                                    <div class="form-group col-md-6 col-lg-6">
+                                    <div class="form-group col-md-6 col-lg-4">
                                         <label for="telefono" class="form-label">Teléfono:</label>
                                         <input type="text" class="form-control" id="telefono" name="telefono"
                                             placeholder="" />
                                     </div>
-                                    <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                    <div class="form-group col-sm-6 col-md-6 col-lg-4">
                                         <label for="antiguedad" class="form-label">Antigüedad:</label>
                                         <input type="text" class="form-control" id="antiguedad" name="antiguedad"
                                             placeholder="" />
+                                    </div>
+                                    <div class="form-group col-sm-6 col-md-6 col-lg-4">
+                                        <label for="fecha" class="form-label">Fecha:</label>
+                                        <input type="date" class="form-control" id="fecha" name="fecha" />
                                     </div>
 
 
@@ -168,14 +163,15 @@
         <label for="tipo_organizacion_id" class="form-label">ORG:</label>
     </div>
     <div class="col-md-4">
-        <select class="form-select" id="tipo_organizacion_id" name="tipo_organizacion_id">
+        <select class="form-select" id="tipo_organizacion" name="tipo_organizacion" required>
             <option value="" selected disabled>Selecciona una opción</option>
-            <option value="1">Unitaria</option>
-            <option value="2">Bidocente</option>
-            <option value="3">Tridocente</option>
-            <option value="4">Tetradocente</option>
-            <option value="5">Completa</option>
+            <option value="Unitaria">Unitaria</option>
+            <option value="Bidocente">Bidocente</option>
+            <option value="Tridocente">Tridocente</option>
+            <option value="Tetradocente">Tetradocente</option>
+            <option value="Completa">Completa</option>
         </select>
+        
     </div>
     <div class="col-md-2 mt-3">
         <label for="no_alumnos" class="form-label">NO DE ALUMNOS:</label>
@@ -346,13 +342,17 @@
             { headerName: "Clave CCT", field: "centro_clave_trabajo", editable: () => editMode, resizable: true, width: 115 },
             { headerName: "Comunidad", field: "comunidad", editable: () => editMode, resizable: true },
             { headerName: "Municipio", field: "municipio", editable: () => editMode, resizable: true },
+            { headerName: "situacion", field: "situacion", editable: () => editMode, resizable: true },
+            { field: "observaciones", headerName: "Observaciones", minWidth: 250, wrapHeaderText: true, 
+            autoHeaderHeight: true,    cellStyle: { "white-space": "normal", "line-height": "1.7" }, autoHeight: true, 
+            editable: () => editMode },
             { headerName: "Zona", field: "zona_id", editable: () => editMode, resizable: true, width: 70 },
             { headerName: "Sector", field: "sector_id", editable: () => editMode, resizable: true, width: 80 },
-            { headerName: "Org", field: "org", editable: () => editMode, resizable: true },
-            { headerName: "No de Alumnos", field: "no_alumnos", editable: () => editMode, resizable: true },
-            { headerName: "1° Grado", field: "grado_1", editable: () => editMode, resizable: true },
-            { headerName: "2° Grado", field: "grado_2", editable: () => editMode, resizable: true },
-            { headerName: "3° Grado", field: "grado_3", editable: () => editMode, resizable: true },
+            { headerName: "Org", field: "tipo_organizacion", editable: () => editMode, width: 85,resizable: true },
+            { headerName: "No de Alumnos", field: "no_alumnos", editable: () => editMode, width: 100, resizable: true },
+            { headerName: "1° Grado", field: "grado_1", editable: () => editMode, width: 55, resizable: true },
+            { headerName: "2° Grado", field: "grado_2", editable: () => editMode, width: 55, resizable: true },
+            { headerName: "3° Grado", field: "grado_3", editable: () => editMode, width: 55, resizable: true },
             { headerName: "Función del Docente", field: "funcion_docente", editable: () => editMode, resizable: true },
             { headerName: "Tipo de Nombramiento", field: "tipo_nombramiento", editable: () => editMode, resizable: true },
             { headerName: "Inicio del Movimiento", field: "inicio_movimiento", editable: () => editMode, resizable: true },
@@ -369,7 +369,6 @@
             { headerName: "Estatus del Movimiento", field: "estatus_movimiento", editable: () => editMode, resizable: true },
             borrarColumna('/api/deleteRecord'),
         ],
-
         defaultColDef: { editable: true, resizable: true, },
         rowData: null,
         pagination: true,
@@ -380,6 +379,8 @@
         context: { endpoint: "/editarIncidencias", },
         onCellValueChanged: editarCelda,
     };
+
+
 
     const initializeGrid = async () => {
         const gridDiv = document.querySelector("#mygrid");

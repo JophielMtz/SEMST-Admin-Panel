@@ -213,42 +213,12 @@ function cargarZonas(sectorId) {
         });
 }
 
-
-
-// **Funciones para Actualizar Datos Basados en Selecciones**
-
-function updateZonas(sectorId) {
-    // Lógica para actualizar zonas basadas en el sector seleccionado
-    // ...
-}
-
-function actualizarComunidadesPorMunicipio(municipioId) {
-    // Lógica para actualizar comunidades basadas en el municipio seleccionado
-    // ...
-}
-
-function updateMunicipiosComunidadesCCT(zonaId) {
-    // Lógica para actualizar municipios, comunidades y CCTs basadas en la zona seleccionada
-    // ...
-}
-
-function actualizarCCTs() {
-    // Lógica para actualizar CCTs basadas en las selecciones actuales
-    // ...
-}
-
-//Cargar datos lista-general
-
-
-
-// Exportamos las funciones para ser utilizadas en otros módulos
 export { 
     cargarMunicipios, 
     cargarComunidades, 
     cargarCCTs, 
     actualizarSelect,
     configurarAutocompletado,
-
     configurarBloqueCCT,
     cargarSectores,
     cargarZonas,

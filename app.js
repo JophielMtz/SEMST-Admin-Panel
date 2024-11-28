@@ -33,9 +33,8 @@ app.use('/api', apiRoutes);
 app.use(express.static(path.join(__dirname, 'public'))); 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-app.get('/', (req, res) => {
-  res.redirect('/login'); 
-});
+
+app.get('/', (req, res) => {res.redirect('/login'); });
 
 
 module.exports = { app, upload };

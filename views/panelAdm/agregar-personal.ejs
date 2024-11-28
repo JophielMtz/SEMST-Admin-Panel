@@ -1,582 +1,764 @@
-<div class="container-fluid content-inner mt-n5 py-0">
+<div class="conatiner-fluid content-inner mt-n5 py-0">
   <div>
     <div class="row">
-      <div class="col-sm-12 col-lg-8 mx-auto">
+      <div class="col-xl-8 col-lg-12 mx-auto">
         <div class="card">
-          <div class="card-header d-flex justify-content-between">
-            <div class="header-title text-center w-100">
-              <h4 class="card-title">Agregar personal</h4>
+          <div class="card-header ">
+            <div class="header-title ">
+              <h4 class="card-title text-center mt-3">Información Personal</h4>
             </div>
           </div>
-          <div class="ms-3 card-body">
-            <!--Form-->
-            <form id="form-wizard1" method="POST" action="/personal/agregar" enctype="multipart/form-data"
-              class="needs-validation mt-3 text-center" novalidate>
-              <ul id="top-tab-list" class="p-0 row list-inline justify-content-center">
-                <li class="mb-2 col-lg-3 col-md-6 text-center active" id="account">
-                  <a href="javascript:void();">
-                    <div class="iq-icon me-3">
-                      <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M11.997 15.1746C7.684 15.1746 4 15.8546 4 18.5746C4 21.2956 7.661 21.9996 11.997 21.9996C16.31 21.9996 19.994 21.3206 19.994 18.5996C19.994 15.8786 16.334 15.1746 11.997 15.1746Z"
-                          fill="currentColor"></path>
-                        <path opacity="0.4"
-                          d="M11.9971 12.5838C14.9351 12.5838 17.2891 10.2288 17.2891 7.29176C17.2891 4.35476 14.9351 1.99976 11.9971 1.99976C9.06008 1.99976 6.70508 4.35476 6.70508 7.29176C6.70508 10.2288 9.06008 12.5838 11.9971 12.5838Z"
-                          fill="currentColor"></path>
-                      </svg>
-                    </div>
-                    <span class="dark-wizard">General</span>
-                  </a>
-                </li>
-                <li id="personal" class="mb-2 col-lg-3 col-md-6 text-center">
-                  <a href="javascript:void();">
-                    <div class="iq-icon me-3">
-                      <svg width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path opacity="0.4"
-                          d="M16.8843 5.11485H13.9413C13.2081 5.11969 12.512 4.79355 12.0474 4.22751L11.0782 2.88762C10.6214 2.31661 9.9253 1.98894 9.19321 2.00028H7.11261C3.37819 2.00028 2.00001 4.19201 2.00001 7.91884V11.9474C1.99536 12.3904 21.9956 12.3898 21.9969 11.9474V10.7761C22.0147 7.04924 20.6721 5.11485 16.8843 5.11485Z"
-                          fill="currentColor"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                          d="M20.8321 6.54353C21.1521 6.91761 21.3993 7.34793 21.5612 7.81243C21.8798 8.76711 22.0273 9.77037 21.9969 10.7761V16.0292C21.9956 16.4717 21.963 16.9135 21.8991 17.3513C21.7775 18.1241 21.5057 18.8656 21.0989 19.5342C20.9119 19.8571 20.6849 20.1553 20.4231 20.4215C19.2383 21.5089 17.665 22.0749 16.0574 21.9921H7.93061C6.32049 22.0743 4.74462 21.5086 3.55601 20.4215C3.2974 20.1547 3.07337 19.8566 2.88915 19.5342C2.48475 18.8661 2.21869 18.1238 2.1067 17.3513C2.03549 16.9142 1.99981 16.4721 2 16.0292V10.7761C1.99983 10.3374 2.02357 9.89902 2.07113 9.46288C2.08113 9.38636 2.09614 9.31109 2.11098 9.23659C2.13573 9.11241 2.16005 8.99038 2.16005 8.86836C2.25031 8.34204 2.41496 7.83116 2.64908 7.35101C3.34261 5.86916 4.76525 5.11492 7.09481 5.11492H16.8754C18.1802 5.01401 19.4753 5.4068 20.5032 6.21522C20.6215 6.3156 20.7316 6.4254 20.8321 6.54353ZM6.97033 15.5412H17.0355H17.0533C17.2741 15.5507 17.4896 15.4717 17.6517 15.3217C17.8137 15.1716 17.9088 14.963 17.9157 14.7425C17.9282 14.5487 17.8644 14.3577 17.7379 14.2101C17.5924 14.0118 17.3618 13.8935 17.1155 13.8907H6.97033C6.51365 13.8907 6.14343 14.2602 6.14343 14.7159C6.14343 15.1717 6.51365 15.5412 6.97033 15.5412Z"
-                          fill="currentColor"></path>
-                      </svg>
-                    </div>
-                    <span class="dark-wizard">laboral</span>
-                  </a>
-                </li>
-                <li id="confirm" class="mb-2 col-lg-3 col-md-6 text-center">
-                  <a href="javascript:void();">
-                    <div class="iq-icon me-3">
-                      <svg class="svg-icon icon-20" xmlns="http://www.w3.org/2000/svg" width="20" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <span class="dark-wizard">Finalizar</span>
-                  </a>
-                </li>
-              </ul>
-
-              <!-- Paso 1: Información General -->
-              <fieldset>
-                <div class="form-card text-start">
-                  <div class="row">
-                    <div class="col-7">
-                      <h3 class="mb-4">Información General:</h3>
-                    </div>
-                    <div class="col-5">
-                      <h2 class="steps">Paso 1 - 3</h2>
+          <div class="card-body">
+            <!--Form personal-->
+            <form id="form-personal" method="POST"  action="/personal/agregar" enctype="multipart/form-data">
+              <div class="container">
+                <div class="row">
+                  <!--Imagen de perfil-->
+                  <div class="form-group col-md-12">
+                    <div class="profile-img-edit position-relative d-flex align-items-center">
+                      <!-- Imagen previa -->
+                      <img src="/images/avatars/01.png" alt="profile-pic" class="theme-color-default-img profile-pic rounded avatar-100 me-3">
+                      
+                      <!-- Botón de subir imagen -->
+                      <label class="btn btn-primary btn-sm rounded-pill d-flex align-items-center" for="file-upload">
+                        <i class="fas fa-upload me-2"></i> Subir Imagen
+                        <input class="file-upload d-none" type="file" accept="image/*" id="file-upload" name="imagen">
+                      </label>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre"
-                          placeholder="Ingresa el nombre" required />
-                        <div class="invalid-feedback">
-                          Por favor ingresa el nombre.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="apellido_paterno" class="form-label">Apellido Paterno</label>
-                        <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno"
-                          placeholder="Ingresa el apellido paterno" required />
-                        <div class="invalid-feedback">
-                          Por favor ingresa el apellido paterno.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="apellido_materno" class="form-label">Apellido Materno</label>
-                        <input type="text" class="form-control" id="apellido_materno" name="apellido_materno"
-                          placeholder="Ingresa el apellido materno" required />
-                        <div class="invalid-feedback">
-                          Por favor ingresa el apellido materno.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-7">
-                      <div class="form-group">
-                        <label for="direccion" class="form-label">Dirección</label>
-                        <input type="text" class="form-control" id="direccion" name="direccion"
-                          placeholder="Ingresa la dirección" required />
-                        <div class="invalid-feedback">
-                          Por favor ingresa la dirección.
-                        </div>
-                      </div>
-                    </div>
+                  
 
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="curp" class="form-label">Correo</label>
-                        <input type="text" class="form-control" id="correo" name="correo"
-                          placeholder="Ingresa el correo" required />
-                        <div class="invalid-feedback">
-                          Por favor ingresa el CURP.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="rfc" class="form-label">RFC</label>
-                        <input type="text" class="form-control" id="rfc" name="rfc" placeholder="Ingresa el RFC"
-                          maxlength="13" pattern="[A-Za-z0-9]{13}" required />
-                        <div class="invalid-feedback">
-                          Favor ingresa el RFC correctamente.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="curp" class="form-label">CURP</label>
-                      <input type="text" class="form-control" id="curp" name="curp" placeholder="Ingresa el CURP"
-                        required pattern="[A-Z0-9]{18}" />
-                      <div class="invalid-feedback">
-                        El CURP debe contener exactamente 18 caracteres
-                        alfanuméricos.
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 mt-3">
-                      <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-                      <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required />
-                      <div class="invalid-feedback">
-                        Por favor selecciona la fecha de nacimiento.
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 mt-3">
-                      <div class="form-group">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="text" class="form-control" id="telefono" name="telefono"
-                          placeholder="Ingresa el teléfono" required />
-                        <div class="invalid-feedback">
-                          Por favor ingresa el número de teléfono.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group mt-3 text-start">
-                            <label class="form-label">Género</label><br />
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="sexo" id="genero_hombre" value="H"
-                                required />
-                              <label class="form-check-label" for="genero_hombre">Hombre</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="radio" name="sexo" id="genero_mujer" value="M"
-                                required />
-                              <label class="form-check-label" for="genero_mujer">Mujer</label>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="row mt-4">
-                        <div class="col-md-12 d-flex flex-column flex-md-row align-items-center">
-                          <div class="avatar mb-3 mb-md-0">
-                            <img id="previewImage" src="images/avatars/01.png" alt="Imagen seleccionada"
-                              class="avatar-img rounded-circle border" style="
-                                width: 200px;
-                                height: 200px;
-                                object-fit: cover;
-                                object-position: center;
-                              " />
-                          </div>
-                          <div class="ms-md-3">
-                            <input type="file" id="subirimagen" name="imagen" class="d-none" accept="image/*" />
-                            <button type="button" class="btn btn-primary btn-round"
-                              onclick="document.getElementById('subirimagen').click()">
-                              Subir imagen
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <!-- Primera fila de datos personales -->
+                  <div class="form-group col-md-6">
+                    <label class="form-label" for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
                   </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label" for="apellido">Apellidos:</label>
+                    <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Apellidos">
+                  </div>
+                  <!--Direccion-->
+                  <div class="form-group col-md-12">
+                    <label class="form-label" for="direccion">Dirección:</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="">
+                  </div>
+
+                  <!-- Género -->
+                  <div class="form-group col-md-5">
+                    <label class="form-label">Género:</label>
+                    <select name="sexo" class="selectpicker form-control" data-style="py-0">
+                      <option>Seleccione Género</option>
+                      <option>Masculino</option>
+                      <option>Femenino</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-7">
+                    <label class="form-label" for="correo">Correo:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="">
+                  </div>
+
+                  <!-- RFC y CURP -->
+                  <div class="form-group col-md-6">
+                    <label class="form-label" for="rfc">RFC:</label>
+                    <input type="text" class="form-control" id="rfc" name="rfc" placeholder="">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label" for="curp">CURP:</label>
+                    <input type="text" class="form-control" id="curp" name="curp" placeholder="">
+                  </div>
+
+                  <!-- Fecha de nacimiento y Teléfono -->
+                  <div class="form-group col-md-6">
+                    <label class="form-label" for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label class="form-label" for="telefono">Teléfono:</label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Teléfono">
+                  </div>
+
+                  
+                  
                 </div>
-                <button type="button" id="nextBtn" class="btn btn-primary next action-button float-end mt-2"
-                  value="Next">
-                  Siguiente
-                </button>
-              </fieldset>
-
-              <!-- Paso 2: Información de Contacto -->
-              <fieldset>
-                <div class="form-card text-start">
-                  <div class="row">
-                    <div class="col-7">
-                      <h3 class="mb-4">Información Laboral:</h3>
-                    </div>
-                    <div class="col-5">
-                      <h2 class="steps">Paso 2 - 2</h2>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-12">
-                      <h4 class="text-center mt-3 mb-5 text-gray">
-                        Selecciona los Detalles del Centro de Trabajo Sección y
-                        Zona
-                      </h4>
-                    </div>
-
-                    <!-- Campo Sector -->
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="sector_id" class="form-label">Sector</label>
-                        <select class="form-select" id="sector_id" name="sector_id" required>
-                          <option value="">Selecciona un sector</option>
-                          <% sectores.forEach(function(sector) { %>
-                            <option value="<%= sector.sector_id %>"><%= sector.sector_numero %></option><% }); %>
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona el sector.
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Campo Zona -->
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="zona_id" class="form-label">Zona</label>
-                        <select class="form-select mb-3 shadow-none" id="zona_id" name="zona_id" required disabled>
-                          <option value="">Selecciona una zona</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona la zona.
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Campo Municipio -->
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="municipio_id" class="form-label">Municipio</label>
-                        <select class="form-select mb-3 shadow-none" id="municipio_id" name="municipio_id" required
-                          disabled>
-                          <option value="">Selecciona un municipio</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona el municipio.
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Campo Comunidad -->
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="comunidad_id" class="form-label">Comunidad</label>
-                        <select class="form-select mb-3 shadow-none" id="comunidad_id" name="comunidad_id" required
-                          disabled>
-                          <option value="">Selecciona una comunidad</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona la comunidad.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="cct_id" class="form-label">Centro de Trabajo</label>
-                        <select class="form-select mb-3 shadow-none" id="cct_id" name="cct_id" required>
-                          <option value="">Clave CCT</option>
-                          <!-- Opciones dinámicas -->
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona el centro de trabajo.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-12">
-                      <h4 class="text-center mt-3 mb-5 text-gray">
-                        Selecciona Cargo y Tipo de Organización
-                      </h4>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="cargo_id" class="form-label">Cargo</label>
-                        <select class="form-select mb-3 shadow-none" id="cargo_id" name="cargo_id"
-                          style="max-height: 300px; overflow-y: auto" required>
-                          <option value="">Selecciona el cargo</option>
-                          <option value="1">Director</option>
-                          <option value="2">Subdirector</option>
-                          <option value="3">Docente</option>
-                          <option value="4">Auxiliar Administrativo</option>
-                          <option value="5">Auxiliar de Servicios</option>
-                          <option value="6">Docente de apoyo</option>
-                          <option value="7">Docente/ATP</option>
-                          <option value="8">Velador</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona el cargo.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="tipo_direccion_id" class="form-label">Tipo de Dirección</label>
-                        <select class="form-select mb-3 shadow-none" id="tipo_direccion_id" name="tipo_direccion_id">
-                          <option value="">
-                            Selecciona el tipo de dirección
-                          </option>
-                          <option value="1">D/comisionado</option>
-                          <option value="2">D/frente a grupo</option>
-                          <option value="3">D/técnico</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona el tipo de dirección.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label for="tipo_organizacion_id" class="form-label">Tipo de Organización</label>
-                        <select class="form-select mb-3 shadow-none" id="tipo_organizacion_id"
-                          name="tipo_organizacion_id" required>
-                          <option value="">
-                            Selecciona el tipo de organización
-                          </option>
-                          <option value="1">Unitaria</option>
-                          <option value="2">Bidocente</option>
-                          <option value="3">Tridocente</option>
-                          <option value="4">Tetradocente</option>
-                          <option value="5">Completa</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona el tipo de organización.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="plaza_id" class="form-label">Plaza</label>
-                        <select class="form-select mb-3 shadow-none" id="plaza_id" name="plaza_id" required>
-                          <option value="">Selecciona la Plaza</option>
-                          <option value="1">071040</option>
-                        </select>
-                        <div class="invalid-feedback">
-                          Por favor selecciona la Plaza.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label for="esquema" class="form-label">Esquema</label>
-                        <input type="text" class="form-control mb-3 shadow-none" id="esquema" name="esquema"
-                          placeholder="Escribe el Esquema" required pattern=".{14,14}" />
-                        <div class="invalid-feedback">
-                          Por favor ingresa el Esquema con exactamente 14
-                          caracteres.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="w-100"></div>
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
-                        <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required />
-                        <div class="invalid-feedback">
-                          Por favor ingresa la fecha de ingreso.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="fecha_nombramiento" class="form-label">Fecha de Nombramiento</label>
-                        <input type="date" class="form-control" id="fecha_nombramiento" name="fecha_nombramiento" />
-                        <div class="invalid-feedback">
-                          Por favor ingresa la fecha de nombramiento.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6">
-                      <!-- Título Estado -->
-                      <label for="flexSwitchCheckChecked" class="form-label">Estado</label>
-                      <!-- Switch Activo/Pausa -->
-                      <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked"
-                          onchange="updateSwitchLabel(this)" checked />
-                        <label class="form-check-label" for="flexSwitchCheckChecked" id="switch-label">Activo</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <button type="submit" name="next" class="btn btn-primary next action-button float-end" value="Next">
-                  Siguiente
-                </button>
-                <button type="button" name="previous"
-                  class="btn btn-dark previous action-button-previous float-end me-1" value="Previous">
-                  Anterior
-                </button>
-              </fieldset>
-
-              <!-- Paso 3: Documentos -->
-
-              <!-- Paso 4: Finalizar -->
-              <fieldset>
-                <div class="form-card">
-                  <div class="row">
-                    <div class="col-7">
-                      <h3 class="mb-4 text-left">Finalizar:</h3>
-                    </div>
-                    <div class="col-5">
-                      <h2 class="steps">Paso 4 - 4</h2>
-                    </div>
-                  </div>
-                  <br /><br />
-                  <h2 class="text-center text-success">
-                    <strong>¡Exito!</strong>
-                  </h2>
-                  <br />
-                  <div class="row justify-content-center">
-                    <div class="col-3">
-                      <img src="images/pages/img-success.png" class="img-fluid" alt="fit-image" />
-                    </div>
-                  </div>
-                  <br /><br />
-                  <div class="row justify-content-center">
-                    <div class="text-center col-7">
-                      <h5 class="text-center purple-text">
-                        Ha registrado al personal exitosamente
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
+              </div>
             </form>
+
           </div>
         </div>
+      </div>
+      <div class="col-xl-8 col-lg-8 mx-auto">
+        <div class="card">
+          <div class="card-header ">
+            <div class="header-title">
+              <h4 class="card-title text-center mt-3">Información Laboral</h4>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="new-user-info">
+
+              <form id="form-laboral" action="/personal/agregar" method="POST" enctype="multipart/form-data">
+              <div class="row">
+                <div class="col-12">
+                  <h4 class="text-center mt-3 mb-5 text-gray">
+                    Selecciona los Detalles del Centro de Trabajo Sección y
+                    Zona
+                  </h4>
+                </div>
+                <!-- Campo Sector -->
+                <div class="d-flex justify-content-center">
+                  <!-- Contenedor de los campos Sector y Zona centrados -->
+                  <div class="form-group col-md-4">
+                    <label for="sector_id" class="form-label">Sector</label>
+                    <select class="form-select" id="sector_id" name="sector_id" required>
+                      <option value="">Selecciona un sector</option>
+                      <% sectores.forEach(function(sector) { %>
+                        <option value="<%= sector.sector_id %>">
+                          <%= sector.sector_numero %>
+                        </option>
+                      <% }); %>
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona el sector.
+                    </div>
+                  </div>
+                
+                  <div class="form-group col-md-4 ms-3">
+                    <label for="zona_id" class="form-label">Zona</label>
+                    <select class="form-select mb-3 shadow-none" id="zona_id" name="zona_id" required disabled>
+                      <option value="">Selecciona una zona</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona la zona.
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="w-100"></div>
+                <!-- Campo Municipio -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="municipio_id" class="form-label">Municipio</label>
+                    <select class="form-select mb-3 shadow-none" id="municipio_id" name="municipio_id" required
+                      disabled>
+                      <option value="">Selecciona un municipio</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona el municipio.
+                    </div>
+                  </div>
+                </div>
+                <!-- Campo Comunidad -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="comunidad_id" class="form-label">Comunidad</label>
+                    <select class="form-select mb-3 shadow-none" id="comunidad_id" name="comunidad_id" required
+                      disabled>
+                      <option value="">Selecciona una comunidad</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona la comunidad.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="cct_id" class="form-label">Centro de Trabajo</label>
+                    <select class="form-select mb-3 shadow-none" id="cct_id" name="cct_id" required>
+                      <option value="">Clave CCT</option>
+                      <!-- Opciones dinámicas -->
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona el centro de trabajo.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-MD-4">
+                  <h4 class="text-center mt-3 mb-5 text-gray">
+                    Selecciona Cargo y Tipo de Organización
+                  </h4>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="cargo_id" class="form-label">Cargo</label>
+                    <select class="form-select mb-3 shadow-none" id="cargo_id" name="cargo_id"
+                      style="max-height: 300px; overflow-y: auto" required>
+                      <option value="">Selecciona el cargo</option>
+                      <option value="1">Director</option>
+                      <option value="2">Subdirector</option>
+                      <option value="3">Docente</option>
+                      <option value="4">Auxiliar Administrativo</option>
+                      <option value="5">Auxiliar de Servicios</option>
+                      <option value="6">Docente de apoyo</option>
+                      <option value="7">Docente/ATP</option>
+                      <option value="8">Velador</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona el cargo.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="tipo_direccion_id" class="form-label">Tipo de Dirección</label>
+                    <select class="form-select mb-3 shadow-none" id="tipo_direccion_id" name="tipo_direccion_id">
+                      <option value="">
+                        Selecciona el tipo de dirección
+                      </option>
+                      <option value="1">D/comisionado</option>
+                      <option value="2">D/frente a grupo</option>
+                      <option value="3">D/técnico</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona el tipo de dirección.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="tipo_organizacion_id" class="form-label">Tipo de Organización</label>
+                    <select class="form-select mb-3 shadow-none" id="tipo_organizacion_id" name="tipo_organizacion_id"
+                      required>
+                      <option value="">
+                        Selecciona el tipo de organización
+                      </option>
+                      <option value="1">Unitaria</option>
+                      <option value="2">Bidocente</option>
+                      <option value="3">Tridocente</option>
+                      <option value="4">Tetradocente</option>
+                      <option value="5">Completa</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona el tipo de organización.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mx-auto mt-2">
+                  <div class="form-group">
+                    <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
+                    <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required />
+                    <div class="invalid-feedback">
+                      Por favor ingresa la fecha de ingreso.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mx-auto mt-2">
+                  <div class="form-group">
+                    <label for="fecha_nombramiento" class="form-label">Fecha de Nombramiento</label>
+                    <input type="date" class="form-control" id="fecha_nombramiento" name="fecha_nombramiento" />
+                    <div class="invalid-feedback">
+                      Por favor ingresa la fecha de nombramiento.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mx-auto">
+                  <div class="form-group">
+                    <label for="plaza_id" class="form-label">Plaza</label>
+                    <select class="form-select mb-3 shadow-none" id="plaza_id" name="plaza_id" required>
+                      <option value="">Selecciona la Plaza</option>
+                      <option value="1">071040</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Por favor selecciona la Plaza.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mx-auto">
+                  <div class="form-group">
+                    <label for="esquema" class="form-label">Esquema</label>
+                    <input type="text" class="form-control mb-3 shadow-none" id="esquema" name="esquema"
+                      placeholder="Escribe el Esquema" required pattern=".{14,14}" />
+                    <div class="invalid-feedback">
+                      Por favor ingresa el Esquema con exactamente 14
+                      caracteres.
+                    </div>
+                  </div>
+                </div>
+                <div class="w-100"></div>
+
+
+                <hr>
+                <h5 class="mb-3">Security</h5>
+
+                <div class="checkbox">
+                  <label class="form-label"><input class="form-check-input me-2" type="checkbox" value=""
+                      id="flexCheckChecked">Enable Two-Factor-Authentication</label>
+                </div>
+                <button type="submit" class="btn btn-primary col-3 mx-auto mt-2 mb-2 rounded-pill">Guardar</button>
+        </form>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalConfirmarDatos" tabindex="-1" aria-labelledby="modalConfirmarDatosLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <!-- Encabezado -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalConfirmarDatosLabel">Confirmar Datos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <!-- Cuerpo -->
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-body">
+              <div class="d-flex align-items-center justify-content-center">
+                  <div class="d-flex flex-column text-center align-items-center justify-content-between ">
+                      <div class="fs-italic">
+                          <h5> Regina Miles</h5>
+                          <div class="text-muted-50 mb-1">
+                              <small>Trainer Expert</small>
+                          </div>
+                      </div>	
+                     
+                      <div class="card-profile-progress">
+                          <div id="circle-progress-1" class="circle-progress  circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
+                          <img src="/images/avatars/01.png" alt="User-Profile" class="theme-color-default-img img-fluid rounded-circle card-img">
+                      <div class="mt-3 text-center text-muted-50">
+                          <p>Slate helps you see how many more days you need</p>
+                      </div>
+                    
+                      <div class="card">
+                        <div class="card-header text-center">
+                          <div class="header-title text-center">
+                            <h4 class="card-title">Datos</h4>
+                          </div>
+                        </div>
+                        <div class="card-body">
+                          <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
+                            <ul class="list-inline p-0 m-0" id="datosTimeline">
+                              <!-- Los datos se inyectarán aquí desde JavaScript -->
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                     
+                  </div>
+              </div>
+          </div>
+          </div>
+      </div>
+        <!-- Lista de Datos -->
+        <div class="mt-4">
+          <ul id="datosConfirmacion" class="list-group">
+            <!-- Aquí se llenarán dinámicamente los datos -->
+          </ul>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Editar</button>
+        <button type="button" id="btnConfirmar" class="btn btn-primary">Confirmar</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Script para extraer fecha de nacimiento del RFC -->
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("rfc").addEventListener("input", function () {
-      const rfc = this.value;
-      console.log("RFC ingresado:", rfc);
+  const formPersonal = document.getElementById("form-personal");
+  const modalConfirmarDatos = new bootstrap.Modal(document.getElementById("modalConfirmarDatos"));
+  const modalNombre = document.getElementById("modalNombre");
+  const modalApellidos = document.getElementById("modalApellidos");
+  const modalImagen = document.getElementById("modalImagen");
+  const datosConfirmacion = document.getElementById("datosConfirmacion");
 
-      // Verificamos si el RFC tiene al menos 10 caracteres (para AAMMDD)
-      if (rfc.length >= 10) {
-        const year = rfc.substring(4, 6);
-        const month = rfc.substring(6, 8);
-        const day = rfc.substring(8, 10);
+  // Evento para mostrar el modal con datos al hacer clic en "Guardar"
+  formPersonal.addEventListener("submit", (event) => {
+    event.preventDefault(); // Evitar el envío automático del formulario
 
-        console.log("Año:", year, "Mes:", month, "Día:", day);
-
-        // Validamos que el mes y el día sean válidos
-        if (
-          parseInt(month) >= 1 &&
-          parseInt(month) <= 12 &&
-          parseInt(day) >= 1 &&
-          parseInt(day) <= 31
-        ) {
-          // Aquí asumimos que el año 00-99 es del 1900-1999, puedes ajustar si hay RFC de personas más jóvenes
-          const fullYear = parseInt(year) > 30 ? `19${year}` : `20${year}`;
-          console.log("Año completo:", fullYear);
-
-          // Formateamos la fecha de nacimiento
-          const fechaNacimiento = `${fullYear}-${month}-${day}`;
-          console.log("Fecha de Nacimiento calculada:", fechaNacimiento);
-
-          // Asignamos el valor al campo de fecha de nacimiento
-          document.getElementById("fecha_nacimiento").value = fechaNacimiento;
-        } else {
-          console.log("Mes o día inválidos.");
-        }
-      } else {
-        console.log("El RFC no tiene suficientes caracteres.");
-      }
-    });
-  });
-</script>
-<!--Script para imagen-->
-<script>
-  document.getElementById('subirimagen').addEventListener('change', function (event) {
-    const input = event.target;
-    const preview = document.getElementById('previewImage');
-
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        preview.src = e.target.result;
-      };
-      reader.readAsDataURL(input.files[0]);
+    // Obtener los datos del formulario
+    const formData = new FormData(formPersonal);
+    const datos = {};
+    for (const [key, value] of formData.entries()) {
+      datos[key] = value;
     }
+
+    // Llenar el modal con los datos del formulario
+    modalNombre.textContent = datos.nombre || "Nombre no proporcionado";
+    modalApellidos.textContent = datos.apellido || "Apellidos no proporcionados";
+    modalImagen.src = datos.imagen ? URL.createObjectURL(formPersonal.querySelector('input[type="file"]').files[0]) : "/images/avatars/01.png";
+
+    // Crear lista de datos
+    datosConfirmacion.innerHTML = ""; // Limpiar contenido previo
+    for (const [key, value] of Object.entries(datos)) {
+      if (key !== "imagen") { // Evitar mostrar el archivo directamente
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
+        listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
+        datosConfirmacion.appendChild(listItem);
+      }
+    }
+
+    // Crear timeline con los datos, manteniendo el estilo original
+    datosTimeline.innerHTML = ""; // Limpiar contenido previo
+    for (const [key, value] of Object.entries(datos)) {
+      if (key !== "imagen") { // Evitar mostrar el archivo directamente
+        const timelineItem = document.createElement("li");
+        timelineItem.classList.add("list-inline-item");
+
+        // Mantener el estilo original de los puntos de la cronología
+        const dotClass = key === "nombre" ? "border-primary text-primary" :
+                         key === "apellido" ? "border-success text-success" : "border-warning text-warning"; // Puedes agregar más lógica de color según lo necesites
+
+        timelineItem.innerHTML = `
+          <div class="timeline-dots timeline-dot1 ${dotClass}"></div>
+          <h6 class="float-left mb-1">${key}</h6>
+          <small class="float-right mt-1">${new Date().toLocaleDateString()}</small>
+          <div class="d-inline-block w-100">
+            <p>${value}</p>
+          </div>
+        `;
+        datosTimeline.appendChild(timelineItem);
+      }
+    }
+
+    // Mostrar el modal
+    modalConfirmarDatos.show();
   });
+});
+
 </script>
 
-<script>
-  const form = document.getElementById("form-wizard1");
-  form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Evita el comportamiento predeterminado de recarga de página
-    console.log("Formulario enviado");
-
-    const formData = new FormData(form); // Recopila los datos del formulario
-
-    fetch("/personal/agregar", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.text()) // O .json() si el backend devuelve JSON
-      .then((result) => {
-        console.log("Datos recibidos correctamente:", result);
-      })
-      .catch((error) => {
-        console.error("Error al enviar los datos:", error);
-      });
+<!--Logica modal-->
+<!-- <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const modalConfirmarDatos = new bootstrap.Modal(document.getElementById("modalConfirmarDatos"));
+    modalConfirmarDatos.show();
   });
+</script> -->
 
+<!--carga de ccts-->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Seleccionar elementos del DOM
+      const sectorSelect = document.getElementById("sector_id");
+      const zonaSelect = document.getElementById("zona_id");
+      const municipioSelect = document.getElementById("municipio_id");
+      const comunidadSelect = document.getElementById("comunidad_id");
+      const cctSelect = document.getElementById("cct_id");
+
+      // Deshabilitar selects inicialmente
+      zonaSelect.disabled = true;
+      municipioSelect.disabled = true;
+      comunidadSelect.disabled = true;
+      cctSelect.disabled = true;
+
+      // Función para limpiar opciones de un select
+      function limpiarOpciones(select, placeholder = "Selecciona una opción") {
+        select.innerHTML = `<option value="">${placeholder}</option>`;
+      }
+
+      // Cargar Zonas cuando se selecciona un Sector
+      sectorSelect.addEventListener("change", async function () {
+        const sectorId = this.value;
+
+        if (sectorId) {
+          limpiarOpciones(zonaSelect, "Cargando zonas...");
+          try {
+            const response = await fetch(`/obtener-zonas/${sectorId}`);
+            const data = await response.json();
+
+            limpiarOpciones(zonaSelect, "Selecciona una zona");
+            data.zonas.forEach(zona => {
+              const option = new Option(zona.numero_zona, zona.zona_id);
+              zonaSelect.add(option);
+            });
+
+            zonaSelect.disabled = false;
+          } catch (error) {
+            console.error("Error al cargar zonas:", error);
+          }
+        } else {
+          limpiarOpciones(zonaSelect);
+          zonaSelect.disabled = true;
+        }
+
+        limpiarOpciones(municipioSelect);
+        limpiarOpciones(comunidadSelect);
+        limpiarOpciones(cctSelect);
+        municipioSelect.disabled = true;
+        comunidadSelect.disabled = true;
+        cctSelect.disabled = true;
+      });
+
+      // Cargar Municipios cuando se selecciona una Zona
+      zonaSelect.addEventListener("change", async function () {
+        const sectorId = sectorSelect.value;
+        const zonaId = this.value;
+
+        if (zonaId) {
+          limpiarOpciones(municipioSelect, "Cargando municipios...");
+          try {
+            const response = await fetch(`/obtener_municipios?sectorId=${sectorId}&zonaId=${zonaId}`);
+            const data = await response.json();
+
+            limpiarOpciones(municipioSelect, "Selecciona un municipio");
+            data.municipios.forEach(municipio => {
+              const option = new Option(municipio.nombre_municipio, municipio.municipio_id);
+              municipioSelect.add(option);
+            });
+
+            municipioSelect.disabled = false;
+          } catch (error) {
+            console.error("Error al cargar municipios:", error);
+          }
+        } else {
+          limpiarOpciones(municipioSelect);
+          municipioSelect.disabled = true;
+        }
+
+        limpiarOpciones(comunidadSelect);
+        limpiarOpciones(cctSelect);
+        comunidadSelect.disabled = true;
+        cctSelect.disabled = true;
+      });
+
+      // Cargar Comunidades cuando se selecciona un Municipio
+      municipioSelect.addEventListener("change", async function () {
+        const sectorId = sectorSelect.value;
+        const zonaId = zonaSelect.value;
+        const municipioId = this.value;
+
+        if (municipioId) {
+          limpiarOpciones(comunidadSelect, "Cargando comunidades...");
+          try {
+            const response = await fetch(`/obtener-comunidades?sectorId=${sectorId}&zonaId=${zonaId}&municipioId=${municipioId}`);
+            const data = await response.json();
+
+            limpiarOpciones(comunidadSelect, "Selecciona una comunidad");
+            data.comunidades.forEach(comunidad => {
+              const option = new Option(comunidad.nombre_comunidad, comunidad.comunidad_id);
+              comunidadSelect.add(option);
+            });
+
+            comunidadSelect.disabled = false;
+          } catch (error) {
+            console.error("Error al cargar comunidades:", error);
+          }
+        } else {
+          limpiarOpciones(comunidadSelect);
+          comunidadSelect.disabled = true;
+        }
+
+        limpiarOpciones(cctSelect);
+        cctSelect.disabled = true;
+      });
+
+      // Cargar CCTs cuando se selecciona una Comunidad
+      comunidadSelect.addEventListener("change", async function () {
+        const sectorId = sectorSelect.value;
+        const zonaId = zonaSelect.value;
+        const municipioId = municipioSelect.value;
+        const comunidadId = this.value;
+
+        if (comunidadId) {
+          limpiarOpciones(cctSelect, "Cargando CCTs...");
+          try {
+            const response = await fetch(`/obtener-ccts?sectorId=${sectorId}&zonaId=${zonaId}&municipioId=${municipioId}&comunidadId=${comunidadId}`);
+            const data = await response.json();
+
+            limpiarOpciones(cctSelect, "Selecciona un CCT");
+            data.ccts.forEach(cct => {
+              const option = new Option(cct.centro_clave_trabajo, cct.cct_id);
+              cctSelect.add(option);
+            });
+
+            cctSelect.disabled = false;
+          } catch (error) {
+            console.error("Error al cargar CCTs:", error);
+          }
+        } else {
+          limpiarOpciones(cctSelect);
+          cctSelect.disabled = true;
+        }
+      });
+    });
+
+
+    document.getElementById("formPersonal").addEventListener("submit", (event) => {
+      event.preventDefault(); // Evitar que el formulario se envíe directamente
+    
+      const form = event.target; // Capturamos el formulario
+      const formData = new FormData(form); // Creamos un objeto FormData
+    
+      // Log para inspeccionar cada campo que se está enviando
+      console.log("=== Datos enviados desde el formulario ===");
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+    
+      // Opcional: Si estás haciendo fetch para enviar la solicitud manualmente
+      fetch(form.action, {
+        method: form.method,
+        body: formData,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error en el envío");
+          }
+          return response.text(); // Depende de lo que devuelva el backend
+        })
+        .then((data) => console.log("Respuesta del servidor:", data))
+        .catch((error) => console.error("Error en la solicitud:", error));
+    });
+
+    document.getElementById('form-laboral').addEventListener('submit', async (event) => {
+      event.preventDefault(); // Evitar el envío por defecto
+    
+      // Obtener los datos de ambos formularios
+      const formPersonal = new FormData(document.getElementById('form-personal'));
+      const formLaboral = new FormData(document.getElementById('form-laboral'));
+    
+      // Combinar los datos de ambos formularios
+      for (const [key, value] of formLaboral.entries()) {
+        formPersonal.append(key, value);
+      }
+    
+      try {
+        const response = await fetch('/personal/agregar', {
+          method: 'POST',
+          body: formPersonal,
+        });
+    
+        const result = await response.text();
+        console.log('Respuesta del servidor:', result);
+    
+        if (response.ok) {
+          alert('Datos enviados correctamente');
+        } else {
+          alert('Error al enviar datos');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al enviar los datos.');
+      }
+    });
+    
+  </script>
+
+<script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Obtener los elementos del campo `cargo_id`, `tipo_direccion_id` y `tipo_organizacion_id`
-    const cargoField = document.getElementById("cargo_id");
-    const tipoDireccionField = document.getElementById("tipo_direccion_id");
-    const tipoOrganizacionField = document.getElementById(
-      "tipo_organizacion_id"
-    );
-
-    // Escuchar cambios en el campo `cargo_id`
-    cargoField.addEventListener("change", function () {
-      // Obtener el valor seleccionado del campo `cargo_id`
-      const selectedValue = cargoField.value;
-
-      // Si el valor es "Director" (suponiendo que tiene el valor '1' para Director)
-      if (selectedValue === "1") {
-        // Habilitar y mostrar los campos `tipo_direccion_id` y `tipo_organizacion_id`
-        tipoDireccionField.disabled = false;
-        tipoDireccionField.style.display = "block"; // Mostrar campo
-
-        tipoOrganizacionField.disabled = false;
-        tipoOrganizacionField.style.display = "block"; // Mostrar campo
-      } else {
-        // Deshabilitar y esconder los campos `tipo_direccion_id` y `tipo_organizacion_id` para otros cargos
-        tipoDireccionField.value = ""; // Limpiar valor
-        tipoDireccionField.disabled = true; // Deshabilitar campo
-        tipoDireccionField.style.display = "none"; // Esconder campo
-
-        tipoOrganizacionField.value = ""; // Limpiar valor
-        tipoOrganizacionField.disabled = true; // Deshabilitar campo
-        tipoOrganizacionField.style.display = "none"; // Esconder campo
+    const formPersonal = document.getElementById("form-personal");
+    const formLaboral = document.getElementById("form-laboral");
+    const modalConfirmarDatos = new bootstrap.Modal(document.getElementById("modalConfirmarDatos"));
+    const datosConfirmacion = document.getElementById("datosConfirmacion");
+    const btnConfirmar = document.getElementById("btnConfirmar");
+    const datosTimeline = document.getElementById("datosTimeline");
+  
+    formLaboral.addEventListener("submit", (event) => {
+      event.preventDefault(); // Evitar el envío directo del formulario
+  
+      // Obtener datos de ambos formularios
+      const datosPersonal = new FormData(formPersonal);
+      const datosLaboral = new FormData(formLaboral);
+  
+      // Combinar los datos en un solo objeto
+      const datosCompletos = {};
+      for (const [key, value] of datosPersonal.entries()) {
+        datosCompletos[key] = value;
+      }
+      for (const [key, value] of datosLaboral.entries()) {
+        datosCompletos[key] = value;
+      }
+      
+  
+      // Crear el HTML para mostrar los datos en formato de cronología
+      datosTimeline.innerHTML = ""; // Limpiar contenido previo
+      for (const [key, value] of Object.entries(datosCompletos)) {
+        if (key !== "imagen") { // Evitar mostrar el archivo directamente
+          const timelineItem = document.createElement("li");
+          timelineItem.classList.add("list-inline-item");
+  
+          // Determinar el color del punto en la cronología
+          const dotClass = key === "nombre" ? "border-primary text-primary" :
+                           key === "apellido" ? "border-success text-success" : "border-warning text-warning"; // Puedes personalizar según el campo
+  
+                           timelineItem.innerHTML = `
+                           <div class="timeline-dots timeline-dot1 ${dotClass}"></div>
+                           <h6 class="float-left mb-1">${key}</h6>
+                           <div class="d-inline-block w-100">
+                             <p>${value}</p>
+                           </div>
+                         `;
+          datosTimeline.appendChild(timelineItem);
+        }
+      }
+  
+      // Mostrar el modal
+      modalConfirmarDatos.show();
+    });
+  
+    // Confirmar envío
+    btnConfirmar.addEventListener("click", async () => {
+      const datosFinales = new FormData(formPersonal);
+      const datosLaboral = new FormData(formLaboral);
+  
+      // Combinar los datos finales en FormData
+      for (const [key, value] of datosLaboral.entries()) {
+        datosFinales.append(key, value);
+      }
+  
+      try {
+        const response = await fetch('/personal/agregar', {
+          method: 'POST',
+          body: datosFinales,
+        });
+  
+        const result = await response.text();
+        console.log('Respuesta del servidor:', result);
+  
+        if (response.ok) {
+          modalConfirmarDatos.hide(); // Cerrar modal
+          Swal.fire({
+            title: '¡Registro agregado exitosamente!',
+            text: '¿Qué deseas hacer ahora?',
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Agregar otro',
+            cancelButtonText: 'Volver al inicio',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Reiniciar formularios para agregar otro registro
+              formPersonal.reset();
+              formLaboral.reset();
+            } else {
+              // Redirigir al inicio (puedes cambiar la URL según tu página de inicio)
+              window.location.href = '/home';
+            }
+          });
+        } else {
+          Swal.fire({
+            title: 'Error al registrar',
+            text: 'Hubo un problema al enviar los datos. Por favor, intenta de nuevo.',
+            icon: 'error',
+            confirmButtonText: 'Aceptar',
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+          title: 'Error crítico',
+          text: 'Hubo un problema en la solicitud. Revisa la consola para más detalles.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+        });
       }
     });
   });
+  
 </script>

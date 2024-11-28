@@ -5,16 +5,19 @@ import { cargarSectores, cargarZonas, cargarMunicipios, cargarComunidades, carga
 import { enviarDatos } from './dataSender.js';
 import { configurarBotonesAccion } from './modules/Configuraciones/Configs.js';
 
+// import { cargarPerfilUsuario } from '../utils/fetchUsuarioPerfil.js';
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
     configurarAutocompletado();
-    configurarBloqueCCT(); // Llama a la función para habilitar autocompletado
-    // const sectorSelect = document.querySelector('#nuevoRegistroModal #sector');
+    configurarBloqueCCT(); 
     // const zonaSelect = document.querySelector('#nuevoRegistroModal #zona');
     
    
    // Validación y carga de municipios
-const municipioSelect = document.querySelector('#nuevoRegistroModal #municipio_entra');
-if (municipioSelect) {
+    const municipioSelect = document.querySelector('#nuevoRegistroModal #municipio_entra');
+    if (municipioSelect) {
     cargarMunicipios().then(data => {
         actualizarSelect('municipio_entra', data, 'Seleccione Municipio', 'municipio_id', 'nombre_municipio');
     }).catch(error => console.error("Error al cargar municipios:", error));
@@ -30,7 +33,7 @@ if (municipioSelect) {
             console.warn("El elemento 'comunidad_entra' no existe en el DOM. Se omite la carga de comunidades.");
         }
     });
-}
+    }
 
 // Evento para cargar CCTs dinámicamente al cambiar la comunidad
 const comunidadSelect = document.querySelector('#nuevoRegistroModal #comunidad_entra');
@@ -84,8 +87,8 @@ if (comunidadSelect) {
 
     document.querySelectorAll('.editar-btn').forEach(button => {
         button.addEventListener('click', (event) => {
-            const id = event.target.dataset.id;  // Obtener el ID del item desde el atributo data-id
-            cargarDatosFormulario(id);  // Llamar a la función para cargar los datos del formulario
+            const id = event.target.dataset.id;  
+            cargarDatosFormulario(id);  
         });
     });
 
@@ -160,8 +163,6 @@ if (comunidadSelect) {
     }
     
     
-    
-    
 
     // Regresar a la edición del formulario
     btnEditar.addEventListener("click", () => {
@@ -230,4 +231,12 @@ document.addEventListener("click", async (event) => {
         }
     }
 });
+
+const fecha = new Date();
+
+// Ejemplo de formato: "17 de mayo de 2024, 00:00"
+const formattedDate = fecha.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+console.log(formattedDate);  // "17 de mayo de 2024, 00:00"
+
+  
 

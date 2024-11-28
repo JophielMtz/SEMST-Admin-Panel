@@ -51,16 +51,16 @@ const validationRules = [
     { id: 'observaciones_secretaria_general', message: 'Debe agregar observaciones para la secretaría general.' }
 ];
 // Verificar si los campos definidos en validationRules existen en el DOM
-console.log("Iniciando validación de IDs en validationRules...");
+// console.log("Iniciando validación de IDs en validationRules...");
 
-validationRules.forEach(({ id }) => {
-    const element = document.querySelector(`#nuevoRegistroModal #${id}`);
-    if (element) {
-        console.log(`✔️ Campo con id '${id}' encontrado en el DOM.`);
-    } else {
-        console.warn(`⚠️ Campo con id '${id}' no encontrado en el DOM.`);
-    }
-});
+// validationRules.forEach(({ id }) => {
+//     const element = document.querySelector(`#nuevoRegistroModal #${id}`);
+//     if (element) {
+//         console.log(`✔️ Campo con id '${id}' encontrado en el DOM.`);
+//     } else {
+//         console.warn(`⚠️ Campo con id '${id}' no encontrado en el DOM.`);
+//     }
+// });
 
 console.log("Validación de IDs completada.");
 
@@ -68,8 +68,8 @@ console.log("Validación de IDs completada.");
 function validateForm() {
     let isValid = true;
 
-    console.log("Iniciando validación del formulario...");
-    console.log("Campos esperados:", validationRules.map(rule => rule.id)); // Lista todos los IDs esperados
+    // console.log("Iniciando validación del formulario...");
+    // console.log("Campos esperados:", validationRules.map(rule => rule.id)); // Lista todos los IDs esperados
 
     // Iterar sobre las reglas de validación
     validationRules.forEach(({ id, regex, required, message }) => {
@@ -81,9 +81,9 @@ function validateForm() {
         }
 
         // Mostrar información sobre el campo
-        console.log(`Validando campo '${id}':`);
-        console.log(`- Visible: ${input.offsetParent !== null}`);
-        console.log(`- Valor actual: '${input.value.trim()}'`);
+        // console.log(`Validando campo '${id}':`);
+        // console.log(`- Visible: ${input.offsetParent !== null}`);
+        // console.log(`- Valor actual: '${input.value.trim()}'`);
 
         const value = input.value.trim();
 

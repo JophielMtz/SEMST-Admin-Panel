@@ -336,7 +336,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" href="/solicitudes">
                                     <i class="icon">
                                         <svg class="icon-10" xmlns="http://www.w3.org/2000/svg" width="10"
                                             viewBox="0 0 24 24" fill="currentColor">
@@ -1141,36 +1141,23 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="images/avatars/01.png" alt="User-Profile"
-                                        class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
-                                    <img src="images/avatars/avtar_1.png" alt="User-Profile"
-                                        class="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded">
-                                    <img src="images/avatars/avtar_2.png" alt="User-Profile"
-                                        class="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded">
-                                    <img src="images/avatars/avtar_4.png" alt="User-Profile"
-                                        class="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded">
-                                    <img src="images/avatars/avtar_5.png" alt="User-Profile"
-                                        class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded">
-                                    <img src="images/avatars/avtar_3.png" alt="User-Profile"
-                                        class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
-                                    <div class="caption ms-3 d-none d-md-block ">
-                                        <h6 class="mb-0 caption-title">Nombre usuario</h6>
-                                        <p class="mb-0 caption-sub-title">Puesto</p>
+                                <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img id="imagen-perfil" src="images/avatars/default-avatar.png" alt="Perfil" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
+                                    <div class="caption ms-3 d-none d-md-block">
+                                      <h6 id="usuario" class="mb-0 caption-title">Nombre usuario</h6>
+                                      <p id="#" class="mb-0 caption-sub-title">Opciones</p>
                                     </div>
-                                </a>
+                                  </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="/perfil">Perfil</a>
-                                    </li>
-                                    <li><a class="dropdown-item"
-                                            href="../dashboard/app/user-privacy-setting.html">Privacysss Setting</a></li>
+                                    <li><a class="dropdown-item" href="/perfil">Perfil</a></li>
+                                    <li><a class="dropdown-item" href="../dashboard/app/user-privacy-setting.html">Privacy Setting</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="../dashboard/auth/sign-in.html">Cerrar sesión</a></li>
+                                    <li><a class="dropdown-item" href="/login">Cerrar sesión</a></li>
                                 </ul>
                             </li>
+                            
                         </ul>
                     </div>
                 </div>
@@ -1519,7 +1506,8 @@
             </div>
         </div>
     </div>
-
+    <!--sweet Alert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Library Bundle Script -->
     <script src="js/core/libs.min.js"></script>
@@ -1547,7 +1535,7 @@
     <!-- <script src="js/custom.js"></script> -->
     <!-- <script src="js/formValidation.js"></script> -->
 
-
+    <script src="/utils/fetchUsuarioPerfil.js"></script>
      <!--Modulos de prueba-->
     <script type="module" src="/js/principal.js"></script>
     <script type="module" src="/js/cargaDeDatos.js"></script>

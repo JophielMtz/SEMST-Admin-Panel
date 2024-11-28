@@ -72,10 +72,6 @@ export const colFecha = (editMode) => ({
   },
 });
 
-
-
-
-
 /**
  * Función genérica para hacer una petición POST o PUT al servidor.
  * @param {string} endpoint - Endpoint del servidor.
@@ -173,7 +169,7 @@ export const borrarColumna = (apiEndpoint) => {
       editable: false, // No editable porque es una acción
       cellRenderer: (params) => {
           // Verificar si los datos son válidos antes de renderizar
-          if (!params.data || !params.data.np) {
+          if (!params.data || (!params.data.np && !params.data.personal_id)) {
               console.error("Datos insuficientes para renderizar la columna:", params.data);
               return null;
           }
@@ -190,21 +186,25 @@ export const borrarColumna = (apiEndpoint) => {
               const confirmDelete = confirm(`¿Deseas eliminar esta fila?`);
               if (confirmDelete) {
                   try {
-                      const np = params.data.np; // Identificador único
+                      const np = params.data.np; // Identificador único np
+                      const personalId = params.data.personal_id; // Identificador único personal_id
                       const tabla = params.data.tabla || "default"; // Tabla asociada (asegúrate de incluirla)
 
-                      if (!np || !tabla) {
+                      if ((!np && !personalId) || !tabla) {
                           alert('Error: Datos insuficientes para eliminar el registro.');
-                          console.error('Datos insuficientes:', { np, tabla });
+                          console.error('Datos insuficientes:', { np, personalId, tabla });
                           return;
                       }
+
+                      // Priorizar `np`, si no está, usar `personal_id`
+                      const identifier = np ? { np } : { personal_id: personalId };
 
                       const response = await fetch(apiEndpoint, {
                           method: 'DELETE',
                           headers: {
                               'Content-Type': 'application/json',
                           },
-                          body: JSON.stringify({ np, tabla }),
+                          body: JSON.stringify({ ...identifier, tabla }),
                       });
 
                       if (response.ok) {
@@ -225,6 +225,7 @@ export const borrarColumna = (apiEndpoint) => {
       },
   };
 };
+
 
 
 

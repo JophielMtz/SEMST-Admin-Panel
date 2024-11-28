@@ -1,110 +1,234 @@
-<div class="conatiner-fluid content-inner mt-n5 py-0">
+<div class="container-fluid content-inner mt-n5 py-0">
   <div class="row">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <div class="header-title">
-            <h4 class="card-title">Personal</h4>
+      <div class="col-sm-12">
+          <div class="card">
+            
+              <div class="card-body">
+                  <div class="test-container">
+                      <div class="test-header d-flex align-items-center">
+                          <!-- Radio para 'Todos' -->
+                          <div class="form-check form-check-inline">
+                              <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
+                              <label for="all" class="form-check-label pl-2">Todos</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
+                              <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
+                          </div>
+                          
+                      </div>
+                      <div id="myGrid" class="ag-theme-quartz" style="width: 100% " ></div>
+                  </div>
+              </div>
           </div>
-        </div>
-        <div class="card-body">
-          <div id="myGrid" class="ag-theme-quartz" style="height: 800px"></div>
-        </div>
       </div>
-    </div>
   </div>
 </div>
 
-<script>
-// Grid API: Access to Grid API methods
-let gridApi;
+  <!--Crear-->
+<div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+      <!-- Se usa modal-xl para más espacio -->
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="nuevoRegistroModalLabel">
+                  Nueva entrada
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <!-- Columna izquierda para el perfil -->
+                  <div class="col-xl-3 col-lg-4 mb-3">
+                      <div class="card">
+                          <div class="card-header d-flex justify-content-between">
+                              <div class="header-title">
+                                  <h4 class="card-title">Perfil</h4>
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <div class="form-group">
+                                  <div class="profile-img-edit position-relative text-center">
+                                      <img src="images/avatars/01.png" alt="profile-pic"
+                                          class="profile-pic rounded-circle img-fluid w-100 mb-3" />
+                                  </div>
+                                  <div class="img-extension mt-3">
+                                      <small class="text-muted text-center">Datos adicionales</small>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
 
-const dateFormatter = (params) => {
-  return new Date(params.value).toLocaleDateString("en-us", {
-    weekday: "long",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+                  <!-- Columna derecha para el formulario -->
+                  <div class="col-xl-9 col-lg-8">
+                      <div class="card">
+                          <div class="card-header d-flex justify-content-between">
+                              <div class="header-title">
+                                  <h4 class="card-title">Información del nuevo usuario</h4>
+                              </div>
+                          </div>
+
+                          <div class="card-body">
+                              <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
+                                  <input type="hidden" name="tabla" value="pendientes" />
+                                  <div class="row">
+                                      <!-- Fecha -->
+                                      <div class="form-group col-md-6 col-lg-6">
+                                          <label for="fecha" class="form-label">Fecha:</label>
+                                          <input type="date" class="form-control" id="fecha" name="fecha" />
+                                      </div>
+                                  
+                                      <!-- Estatus -->
+                                      <div class="form-group col-md-6 col-lg-6">
+                                          <label for="estatus" class="form-label">Estatus:</label>
+                                          <select class="form-select form-select-sm" id="estatus" name="estatus">
+                                              <option value="" selected disabled>Selecciona un estatus</option>
+                                              <option value="En proceso">En proceso</option>
+                                              <option value="Terminado">Terminado</option>
+                                              <option value="No se atiende">No se atiende</option>
+                                          </select>
+                                      </div>
+                                  
+                                      <!-- Trámite -->
+                                      <div class="form-group col-md-12">
+                                          <label for="tramite" class="form-label">Trámite:</label>
+                                          <input type="text" class="form-control" id="tramite" name="tramite" placeholder="Escribe el trámite" />
+                                      </div>
+                                  
+                                      <!-- Departamento -->
+                                      <div class="form-group col-md-12">
+                                          <label for="departamento" class="form-label">Departamento:</label>
+                                          <select class="form-control" id="departamento" name="departamento">
+                                              <option value="Subdireccion De Planeacion">Subdireccion De Planeacion</option>
+                                              <option value="Subdireccion De Administracion">Subdireccion De Administracion</option>
+                                              <option value="Recursos Humanos">Recursos Humanos</option>
+                                              <option value="Usicamm">Usicamm</option>
+                                              <option value="Operacion Escolar">Operacion Escolar</option>
+                                              <option value="Juridico">Juridico</option>
+                                              <option value="Sin Definir">Sin Definir</option>
+                                              <option value="Semst">Semst</option>
+                                          </select>
+                                      </div>
+                                  
+                                      <!-- Observaciones Conflictos -->
+                                      <div class="form-group col-md-12">
+                                          <label for="observaciones_conflictos" class="form-label">Observaciones Conflictos:</label>
+                                          <textarea class="form-control" id="observaciones" name="observaciones_conflictos" placeholder="Escribe las observaciones de conflictos"></textarea>
+                                      </div>
+                                  
+                                      <!-- Observaciones Secretaría General -->
+                                      <div class="form-group col-md-12">
+                                          <label for="observaciones_secretaria_general" class="form-label">Observaciones Secretaría General:</label>
+                                          <textarea class="form-control" id="observaciones_secretaria_general" name="observaciones_secretaria_general" placeholder="Escribe las observaciones para la secretaría general"></textarea>
+                                      </div>
+                                  </div>
+                                  
+                                  <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
+                                      Guardar
+                                  </button>
+                              </form>
+
+                              <div id="seccionConfirmacion" class="mt-4" style="display: none">
+                                  <h5>Confirmar Datos Ingresados</h5>
+                                  <div class="card">
+                                      <div class="card-body">
+                                          <!-- Aquí mostraremos el resumen de los datos -->
+                                          <div id="resumenDatos"></div>
+                                      </div>
+                                  </div>
+
+                                 <!--Campo entra para que no se joda el sistema--> 
+                                  <div id="hiddenFields" style="display: none;">
+                                      <div>
+                                          <div>
+                                              <label for="municipio_entra" class="form-label">Municipio:</label>
+                                              <input type="text" id="municipio_entra" name="municipio_entra" disabled>
+                                          </div>
+                                      
+                                          <div>
+                                              <label for="comunidad_entra" class="form-label">Comunidad:</label>
+                                              <input type="text" id="comunidad_entra" name="comunidad_entra" disabled>
+                                          </div>
+                                      
+                                          <div>
+                                              <label for="cct_entra" class="form-label">Clave CCT:</label>
+                                              <input type="text" id="cct_entra" name="cct_entra" disabled>
+                                          </div>
+                                      </div>
+                                      
+                                  </div>
+
+                                  
+                                  <div class="d-flex justify-content-end mt-3">
+                                      <button type="button" id="btnEditar" class="btn btn-secondary me-2"> Editar </button>
+                                      <button type="button" id="btnConfirmar" class="btn btn-success"> Confirmar </button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script type="module">
+ import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
+
+
+ let gridApi;
+ let editMode = false;
+
+ const datos = [
+ 
+ {field: "personal_id", headerName: "ID", width: 70},
+ {field: "nombre", headerName: "Nombre", width: 150},
+ {field: "rfc", headerName: "RFC", width: 150},
+ {field: "edad", headerName: "Edad", width: 100},
+ {field: "telefono", headerName: "Teléfono", width: 150},
+ {field: "correo", headerName: "Correo", width: 200},
+ {field: "cargo", headerName: "Cargo", width: 150},
+ {field: "tipo_organizacion_id", headerName: "Tipo de Organización", width: 180}
+];
+
+ const gridOptions = {
+     columnDefs: datos,
+     defaultColDef: {editable: true,resizable: true,},
+     rowData: null,
+     rowHeight: 60,
+     domLayout: "autoHeight",
+     pagination: true,
+     paginationPageSize: 20,
+     paginationPageSizeSelector: [10, 20, 50, 100],
+ };
+
+ const initializeGrid = async () => {
+  const gridDiv = document.querySelector("#myGrid");
+  gridApi = agGrid.createGrid(gridDiv, gridOptions);
+
+  try {
+      // Obtén los datos desde el backend
+      const data = await fetch("/getlistaPanelAdm").then((response) => response.json());
+
+      // Agrega el campo `tabla` dinámicamente
+      const rowData = data.map((row) => ({
+          ...row,
+          tabla: "#", // Nombre de la tabla
+      }));
+
+      // Asigna los datos al grid
+      gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
+  } catch (error) {
+      console.error("Error inicializando la tabla:", error);
+  }
 };
 
-class PersonalRenderer {
-  eGui;
-
-  init(params) {
-    // Crear elemento para la imagen
-    let personalImage = document.createElement("img");
-
-    // Validar si la URL de la imagen está disponible
-    if (params.data.imagen) {
-      personalImage.src = `/uploads/${params.data.imagen}`; // Apunta a la ruta pública
-    } else {
-      // Imagen predeterminada si no hay una imagen proporcionada
-      personalImage.src = "/uploads/default.jpg"; // Asegúrate de tener un archivo default.jpg
-    }
-
-    personalImage.setAttribute(
-      "style",
-      "display: block; width: 25px; height: 25px; border-radius: 50%; margin-right: 12px;"
-    );
-
-    // Crear elemento para el nombre completo
-    let personalName = document.createElement("p");
-    personalName.textContent = `${params.data.nombre} ${params.data.apellido_paterno} ${params.data.apellido_materno}`;
-    personalName.setAttribute(
-      "style",
-      "text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin: 0;"
-    );
-
-    // Crear contenedor principal y agregar imagen y nombre
-    this.eGui = document.createElement("span");
-    this.eGui.setAttribute(
-      "style",
-      "display: flex; height: 100%; width: 100%; align-items: center;"
-    );
-    this.eGui.appendChild(personalImage);
-    this.eGui.appendChild(personalName);
-  }
-
-  // Retornar el elemento DOM del componente
-  getGui() {
-    return this.eGui;
-  }
-
-  // Indicar que no se necesita refrescar
-  refresh(params) {
-    return false;
-  }
-}
-
-// Grid Options: Contains all of the grid configurations
-const gridOptions = {
-
-  
-  // Data to be displayed
-  rowData: [],
-  // Columns to be displayed (Should match rowData properties)
-  columnDefs: [
-  { headerName: "Nombre", width: 300, 
-    cellRenderer: PersonalRenderer,
-  },
-  { field: "personal_id", headerName: "ID", filter: true, width: 80 },
-  { field: "rfc", headerName: "RFC" },
-  { field: "edad", headerName: "Edad", width: 70 },
-  { field: "telefono", headerName: "Telefono" },
-  { field: "correo", headerName: "Email" },
-  { field: "cargo", headerName: "cargo" },
-  ],
-};
-
-
-
-// Create Grid: Create new grid within the #myGrid div, using the Grid Options object
-gridApi = agGrid.createGrid(document.querySelector("#myGrid"), gridOptions);
-
-// Fetch Remote Data
-fetch("/api/listaGeneral")
-  .then((response) => response.json())
-  .then((data) => gridApi.setGridOption("rowData", data));
+ 
+ document.addEventListener("DOMContentLoaded", initializeGrid);
 </script>
+
+
 

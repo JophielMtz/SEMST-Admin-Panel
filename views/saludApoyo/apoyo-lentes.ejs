@@ -1,621 +1,79 @@
-<div class="container-fluid content-inner mt-n5 py-0">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="container text-center">
-                    <h4 class="text-responsive mb-3 mt-3">Apoyo lentes</h4>
-                    <div class="row justify-content-center gx-2">
-                        <!-- Botón Nuevo -->
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-primary rounded-pill w-auto"
-                                data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
-                                style="padding: 4px 12px; font-size: 12px;"
-                                class="btn-sm">
-                                Nuevo
-                            </button>
+<div class="col-lg-6 mx-auto">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="d-flex flex-column text-center align-items-center justify-content-between ">
+                    <div class="fs-italic">
+                        <h5> Regina Miles</h5>
+                        <div class="text-muted-50 mb-1">
+                            <small>Trainer Expert</small>
                         </div>
-                
-                        <!-- Botón Activar Edición -->
-                        <div class="col-auto">
-                            <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
-                                style="padding: 4px 12px; font-size: 12px;">
-                                <i class="fas fa-edit me-1"></i> Activar Edición
-                            </button>
-                        </div>
-                
-                        <!-- Botón Borrar -->
-                        <div class="col-auto">
-                            <button id="deleteButton" class="btn btn-danger rounded-pill w-auto" 
-                                style="padding: 4px 12px; font-size: 12px;" disabled>
-                                <i class="fas fa-trash-alt me-1"></i> Borrar
-                            </button>
-                        </div>
-                        
+                    </div>	
+                   
+                    <div class="card-profile-progress">
+                        <div id="circle-progress-1" class="circle-progress  circle-progress-basic circle-progress-primary" data-min-value="0" data-max-value="100" data-value="80" data-type="percent"></div>
+                        <img src="/images/avatars/01.png" alt="User-Profile" class="theme-color-default-img img-fluid rounded-circle card-img">
+                    <div class="mt-3 text-center text-muted-50">
+                        <p>Slate helps you see how many more days you need</p>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="test-container">
-                        <div class="test-header d-flex align-items-center">
-                            <!-- Radio para 'Todos' -->
-                            <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
-                                <label for="all" class="form-check-label pl-2">Todos</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
-                                <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
-                            </div>
-                            
+                   
+
+<!-- 
+                    <div class="card">
+                        <div class="card-header  text-center">
+                           <div class="header-title text-center">
+                              <h4 class="card-title ">Datos</h4>
+                           </div>
                         </div>
-                        <div id="mygrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
-                    </div>
+                        <div class="card-body">
+                           <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
+                              <ul class="list-inline p-0 m-0">
+                                 <li>
+                                    <div class="timeline-dots timeline-dot1 border-primary text-primary"></div>
+                                    <h6 class="float-left mb-1">Client Login</h6>
+                                    <small class="float-right mt-1">24 November 2019</small>
+                                    <div class="d-inline-block w-100">
+                                       <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
+                                    </div>
+                                 </li>
+                                 <li>
+                                    <div class="timeline-dots timeline-dot1 border-success text-success"></div>
+                                    <h6 class="float-left mb-1">Scheduled Maintenance</h6>
+                                    <small class="float-right mt-1">23 November 2019</small>
+                                    <div class="d-inline-block w-100">
+                                       <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
+                                    </div>
+                                 </li>
+                                 <li>
+                                    <div class="timeline-dots timeline-dot1 border-danger text-danger"></div>
+                                    <h6 class="float-left mb-1">Dev Meetup</h6>
+                                    <small class="float-right mt-1">20 November 2019</small>
+                                    
+                                 </li>
+                                 <li>
+                                    <div class="timeline-dots timeline-dot1 border-primary text-primary"></div>
+                                    <h6 class="float-left mb-1">Client Call</h6>
+                                    <small class="float-right mt-1">19 November 2019</small>
+                                    <div class="d-inline-block w-100">
+                                       <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
+                                    </div>
+                                 </li>
+                                 <li>
+                                    <div class="timeline-dots timeline-dot1 border-warning text-warning"></div>
+                                    <h6 class="float-left mb-1">Mega event</h6>
+                                    <small class="float-right mt-1">15 November 2019</small>
+                                    <div class="d-inline-block w-100">
+                                       <p>Bonbon macaroon jelly beans gummi bears jelly lollipop apple</p>
+                                    </div>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                    </div> -->
+                   
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>
-    <!--Crear-->
-<div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <!-- Se usa modal-xl para más espacio -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="nuevoRegistroModalLabel">
-                        Nueva entrada
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <!-- Columna izquierda para el perfil -->
-                        <div class="col-xl-3 col-lg-4 mb-3">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="header-title">
-                                        <h4 class="card-title">Perfil</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <div class="profile-img-edit position-relative text-center">
-                                            <img src="images/avatars/01.png" alt="profile-pic"
-                                                class="profile-pic rounded-circle img-fluid w-100 mb-3" />
-                                        </div>
-                                        <div class="img-extension mt-3">
-                                            <small class="text-muted text-center">Datos adicionales</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Columna derecha para el formulario -->
-                        <div class="col-xl-9 col-lg-8">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="header-title">
-                                        <h4 class="card-title">Información del nuevo usuario</h4>
-                                    </div>
-                                </div>
-
-                                <div class="card-body">
-                                    <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
-                                        <input type="hidden" name="tabla" value="docentes_disponibles" />
-                                        <div class="row">
-                                            <!-- Personal ID y Nombre del Docente -->
-                                            <div class="row">
-                                                <div class="form-group col-md-2">
-                                                    <label for="personal_id" class="form-label">ID:</label>
-                                                    <input type="text" class="form-control" id="personal_id"
-                                                        name="personal_id" placeholder="" autocomplete="off" />
-                                                </div>
-                                                <div class="form-group col-md-10">
-                                                    <label for="nombre_docente" class="form-label">Nombre del
-                                                        personal:</label>
-                                                    <input type="text" class="form-control" id="nombre_docente"
-                                                        name="nombre_docente" placeholder="Escriba un nombre"
-                                                        autocomplete="off" />
-                                                    <ul id="suggestionsList" class="list-group position-absolute w-100"
-                                                        style="z-index: 1000"></ul>
-                                                </div>
-                                            </div>
-
-                                            <!-- Fecha, Antigüedad y Teléfono -->
-                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                                <label for="fecha" class="form-label">Fecha:</label>
-                                                <input type="date" class="form-control" id="fecha" name="fecha" />
-                                            </div>
-                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                                <label for="antiguedad" class="form-label">Antigüedad:</label>
-                                                <input type="text" class="form-control" id="antiguedad"
-                                                    name="antiguedad" placeholder="" />
-                                            </div>
-                                            <div class="form-group col-md-6 col-lg-6">
-                                                <label for="telefono" class="form-label">Teléfono:</label>
-                                                <input type="text" class="form-control" id="telefono" name="telefono"
-                                                    placeholder="" />
-                                            </div>
-
-                                            <!-- Cobertura -->
-                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                                <label for="estatus_cubierta" class="form-label">Cobertura:</label>
-                                                <select class="form-select form-select-sm" id="estatus_cubierta"
-                                                    name="estatus_cubierta">
-                                                    <option value="" selected disabled>
-                                                        Selecciona una opción
-                                                    </option>
-                                                    <option value="Cubierta">Cubierta</option>
-                                                    <option value="Sin cubrir">Sin cubrir</option>
-                                                    <option value="No se justifica">
-                                                        No se justifica
-                                                    </option>
-                                                </select>
-                                            </div>
-
-                                            <!-- Estatus y Situación -->
-                                            <div class="form-group col-md-6">
-                                                <label for="estatus" class="form-label">Estatus:</label>
-                                                <select class="form-select form-select-sm" id="estatus" name="estatus">
-                                                    <option value="" selected disabled>
-                                                        Selecciona un estatus
-                                                    </option>
-                                                    <option value="Atendido">Atendido</option>
-                                                    <option value="En proceso">En proceso</option>
-                                                    <option value="Sin atender">Sin atender</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="situacion" class="form-label">Situación:</label>
-                                                <select class="form-select form-select-sm" id="situacion"
-                                                    name="situacion">
-                                                    <option value="" selected disabled>
-                                                        Selecciona una opción
-                                                    </option>
-                                                    <option value="Inseguridad">Inseguridad</option>
-                                                    <option value="Salud">Salud</option>
-                                                    <option value="Sin CT">Sin CT</option>
-                                                </select>
-                                            </div>
-
-                                            <!-- Sección de CCT Sale -->
-                                            <div class="div">
-                                                <h2 class="h6 mb-2 mt-2">CCT Sale</h2>
-                                            </div>
-                                            <hr class="hr-horizontal mb-4" />
-                                            <div class="form-group col-md-4">
-                                                <label for="municipio_sale" class="form-label">Municipio:</label>
-                                                <input type="text" class="form-control" id="municipio_sale"
-                                                    placeholder="" readonly />
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="comunidad_sale" class="form-label">Comunidad:</label>
-                                                <input type="text" class="form-control" id="comunidad_sale"
-                                                    placeholder="" readonly />
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="cct_sale" class="form-label">Clave CCT:</label>
-                                                <input type="text" class="form-control" id="cct_sale"
-                                                    placeholder="Clave CCT" readonly />
-                                            </div>
-
-                                            <div class="div">
-                                                <h2 class="h6 mb-2 mt-1">CCT Entra</h2>
-                                            </div>
-                                            <hr class="hr-horizontal mb-4" />
-                                            <!-- Sección de CCT Entra -->
-                                            <div class="form-group col-md-4">
-                                                <label for="municipio_entra" class="form-label">Municipio:</label>
-                                                <select class="form-select" id="municipio_entra" name="municipio_entra">
-                                                    <option value="" selected disabled>
-                                                        Seleccione Municipio
-                                                    </option>
-                                                    <!-- Opciones dinámicas -->
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
-                                                <select class="form-select" id="comunidad_entra" name="comunidad_entra">
-                                                    <option value="" selected disabled>
-                                                        Seleccione Comunidad
-                                                    </option>
-                                                    <!-- Opciones dinámicas -->
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="cct_entra" class="form-label">Clave CCT:</label>
-                                                <select class="form-select" id="cct_entra" name="cct_entra">
-                                                    <option value="" selected disabled>
-                                                        Seleccione Clave CCT
-                                                    </option>
-                                                    <!-- Opciones dinámicas -->
-                                                </select>
-                                            </div>
-
-                                            <!-- Observaciones -->
-                                            <div class="form-group col-md-12">
-                                                <label for="observaciones" class="form-label">Observaciones:</label>
-                                                <textarea class="form-control" id="observaciones" name="observaciones"
-                                                    placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
-                                            </div>
-                                        </div>
-                                        <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
-                                            Guardar
-                                        </button>
-                                    </form>
-
-                                    <div id="seccionConfirmacion" class="mt-4" style="display: none">
-                                        <h5>Confirmar Datos Ingresados</h5>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <!-- Aquí mostraremos el resumen de los datos -->
-                                                <div id="resumenDatos"></div>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-end mt-3">
-                                            <button type="button" id="btnEditar" class="btn btn-secondary me-2">
-                                                Editar
-                                            </button>
-                                            <button type="button" id="btnConfirmar" class="btn btn-success">
-                                                Confirmar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</div>
-
-<script type="module">
-    import { getStatusClass,statusRenderer, colFecha, funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
-    import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
-
-    let gridApi;
-    let editMode = false;
-    
-    const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
-    
-    const gridOptions = {
-        columnDefs: [
-            { field: "np", headerName: "NP", width: 70, editable: false },
-
-                colFecha(editMode),
-                
-            {
-                field: "nombre_docente",
-                headerName: "Nombre",
-                filter: true,
-                width: 220,
-                editable: false,
-            },
-            {
-                field: "estatus",
-                headerName: "Estatus",
-                editable: () => editMode,
-                width: 120,
-                ...createSelectColumnProps(estatusValidValues), // Agrega la configuración modularizada
-              },
-            {
-                field: "observaciones",
-                headerName: "Observaciones",
-                minWidth: 250,
-                wrapHeaderText: true,
-                autoHeaderHeight: true,
-                cellStyle: { "white-space": "normal", "line-height": "1.7" },
-                autoHeight: true,
-                editable: () => editMode, // Observaciones es editable
-            },
-            {
-                field: "situacion",
-                headerName: "Situación",
-                cellRenderer: statusRenderer, // Assuming you imported this
-                editable: () => editMode,
-                width: 110,
-                cellEditor: "agSelectCellEditor",
-                cellEditorParams: {
-                  values: ["Inseguridad", "Salud", "Sin CT"], // Valid values
-                },
-                valueSetter: createValidatedValueSetter(["Inseguridad", "Salud", "Sin CT"]), // Modularized setter
-              },
-            {
-                field: "antiguedad",
-                headerName: "Antigüedad",
-                width: 110,
-                editable: () => false,
-            },
-            {
-                field: "municipio_sale",
-                headerName: "Municipio sale",
-                editable: () => editMode,
-                width: 150,
-                cellEditor: "agSelectCellEditor",
-                cellEditorParams: (params) => ({
-                    values: params.context.municipios.map((m) => m.nombre_municipio),
-                }),
-                valueSetter: (params) => {
-                    const municipioObj = params.context.municipios.find(
-                        (m) => m.nombre_municipio === params.newValue
-                    );
-                    if (municipioObj) {
-                        params.data.municipio_id = municipioObj.municipio_id;
-                        params.data.municipio_sale = municipioObj.nombre_municipio;
-                        params.context.currentComunidades =
-                            municipioObj.comunidades || [];
-                        return true;
-                    }
-                    alert("Municipio inválido.");
-                    return false;
-                },
-            },
-            {
-                field: "comunidad_sale",
-                headerName: "Comunidad Sale",
-                editable: () => editMode,
-                cellEditor: "agSelectCellEditor",
-                cellEditorParams: (params) => ({
-                    values: params.context.currentComunidades.map(
-                        (c) => c.nombre_comunidad
-                    ),
-                }),
-                valueSetter: async (params) => {
-                    const comunidadObj = params.context.currentComunidades.find(
-                        (c) => c.nombre_comunidad === params.newValue
-                    );
-                    if (comunidadObj) {
-                        params.data.comunidad_id = comunidadObj.comunidad_id;
-                        params.data.comunidad_sale = comunidadObj.nombre_comunidad;
-                        const ccts = await fetchCCTs(
-                            params.data.municipio_id,
-                            comunidadObj.comunidad_id
-                        );
-                        params.context.currentCCTs = ccts || [];
-                        return true;
-                    }
-                    alert("Comunidad inválida.");
-                    return false;
-                },
-            },
-            {
-                field: "cct_sale",
-                headerName: "CCT sale",
-                editable: () => editMode,
-                width: 115,
-                cellEditor: "agSelectCellEditor",
-                cellEditorParams: (params) => ({
-                    values: params.context.currentCCTs.map(
-                        (c) => c.centro_clave_trabajo
-                    ),
-                }),
-                valueSetter: (params) => {
-                    const cctObj = params.context.currentCCTs.find(
-                        (c) => c.centro_clave_trabajo === params.newValue
-                    );
-                    if (cctObj) {
-                        params.data.cct_id = cctObj.cct_id;
-                        params.data.cct_sale = cctObj.centro_clave_trabajo;
-                        return true;
-                    }
-                    alert("CCT inválido.");
-                    return false;
-                },
-            },
-            {
-                field: "estatus_cubierta",
-                headerName: "Estatus Cubierta",
-                cellRenderer: statusRenderer,
-                editable: () => editMode,
-                width: 150,
-                cellEditor: "agSelectCellEditor",
-                cellEditorParams: {
-                    values: ["Cubierta", "Sin cubrir", "No se justifica"],
-                },
-                valueSetter: (params) => {
-                    const validValues = ["Cubierta", "Sin cubrir", "No se justifica"];
-                    if (validValues.includes(params.newValue)) {
-                        params.data.estatus_cubierta = params.newValue;
-                        if (params.newValue === "Cubierta") {
-                            params.data.estatus = "Atendido";
-                        } else if (params.newValue === "No se justifica") {
-                            params.data.estatus = "Sin atender";
-                        }
-                        return true;
-                    } else {
-                        alert("Valor inválido. Seleccione una opción válida.");
-                        return false;
-                    }
-                },
-            },
-            {
-                field: "municipio_entra",
-                headerName: "Municipio entra",
-                editable: () => editMode,
-                width: 150,
-                cellEditor: "agSelectCellEditor",
-                cellEditorParams: (params) => ({
-                  values: (params.context.municipios || []).map((m) => m.nombre_municipio),
-                }),
-                valueSetter: (params) => {
-                  const municipioObj = params.context.municipios.find(
-                    (m) => m.nombre_municipio === params.newValue
-                  );
-                  if (municipioObj) {
-                    params.data.municipio_id = municipioObj.municipio_id;
-                    params.data.municipio_entra = municipioObj.nombre_municipio;
-                    params.context.currentComunidades = municipioObj.comunidades || [];
-                    return true;
-                  }
-                  alert("Municipio inválido.");
-                  return false;
-                },
-              },
-              {
-                field: "comunidad_entra",
-                headerName: "Comunidad entra",
-                editable: () => editMode,
-                cellEditor: "agSelectCellEditor",
-                cellEditorParams: (params) => ({
-                  values: (params.context.currentComunidades || []).map(
-                    (c) => c.nombre_comunidad
-                  ),
-                }),
-                valueSetter: (params) => {
-                  const comunidadObj = params.context.currentComunidades.find(
-                    (c) => c.nombre_comunidad === params.newValue
-                  );
-                  if (comunidadObj) {
-                    params.data.comunidad_id = comunidadObj.comunidad_id;
-                    params.data.comunidad_entra = comunidadObj.nombre_comunidad;
-            
-                    // Asíncrono: carga las CCTs después
-                    fetchCCTs(params.data.municipio_id, comunidadObj.comunidad_id).then(
-                      (ccts) => {
-                        params.context.currentCCTs = ccts || [];
-                      }
-                    );
-                    return true;
-                  }
-                  alert("Comunidad inválida.");
-                  return false;
-                },
-              },
-              {
-                field: "cct_entra",
-                headerName: "CCT entra",
-                editable: () => editMode,
-                width: 115,
-                cellEditor: "agSelectCellEditor",
-                cellEditorParams: (params) => ({
-                  values: (params.context.currentCCTs || []).map(
-                    (c) => c.centro_clave_trabajo
-                  ),
-                }),
-                valueSetter: (params) => {
-                  const cctObj = params.context.currentCCTs.find(
-                    (c) => c.centro_clave_trabajo === params.newValue
-                  );
-                  if (cctObj) {
-                    params.data.cct_id = cctObj.cct_id;
-                    params.data.cct_entra = cctObj.centro_clave_trabajo;
-                    return true;
-                  }
-                  alert("CCT inválido.");
-                  return false;
-                },
-              },
-            borrarColumna('/api/deleteRecord'),
-        ],
-        
-        defaultColDef: {editable: true,resizable: true,},
-        rowData: null,
-        pagination: true,
-        paginationPageSize: 20,
-        cacheBlockSize: 10,
-        rowHeight: 60,
-        domLayout: "autoHeight",
-        context: {
-            endpoint: "/editarPersonal", //Funcion post
-            municipios: [],
-            comunidades: [],
-            ccts: [],
-            currentComunidades: [],
-            currentCCTs: [],
-        },
-        rowSelection: {mode: "multiRow",},
-        onCellValueChanged: editarCelda,
-    };
-
-    // Función para manejar el cambio de filtro externo
-    window.externalFilterChanged = function (filterType) {
-        if (!gridApi) {
-            console.error("Grid API no está inicializado.");
-            return;
-        }
-        if (filterType === "cctsSaleEntra") {
-            // Lista de todas las columnas
-            const allColumns = gridOptions.columnDefs.map((colDef) => colDef.field);
-            // Columnas a mostrar
-            const columnsToShow = [
-                "nombre_docente",   
-                "fecha",
-                "estatus",
-                "municipio_sale",
-                "cct_sale",
-                "estatus_cubierta",
-                "municipio_entra",
-                "cct_entra",
-            ];
-            const columnsToHide = allColumns.filter(
-                (col) => !columnsToShow.includes(col)
-            );
-            columnsToHide.forEach((col) => {
-                gridApi.setColumnVisible(col, false);
-            });
-            columnsToShow.forEach((col) => {
-                gridApi.setColumnVisible(col, true);
-            });
-        } else if (filterType === "all") {
-            gridOptions.columnDefs.forEach((colDef) => {
-                gridApi.setColumnVisible(colDef.field, true);
-            });
-        }
-    };
-
-    const initializeGrid = async () => {
-        const gridDiv = document.querySelector("#myGrid");
-        gridApi = agGrid.createGrid(gridDiv, gridOptions);
-    
-        try {
-            const municipios = await fetchMunicipios();
-            for (const municipio of municipios) {
-                municipio.comunidades = await fetchComunidades(municipio.municipio_id);
-            }
-            gridOptions.context.municipios = municipios;
-    
-            // Obtén los datos desde el backend
-            const data = await fetch("/getDocentesDisponibles").then((response) =>
-                response.json()
-            );
-    
-            // Agrega el campo `tabla` dinámicamente
-            const rowData = data.map((row) => ({
-                ...row,
-                tabla: "docentes_disponibles", // Nombre de la tabla a la que pertenece esta fila
-            }));
-    
-            // Establece los datos en la tabla
-            gridApi.setGridOption("rowData", rowData);
-    
-            // Aplica el filtro inicial (opcional)
-            externalFilterChanged("all");
-        } catch (error) {
-            console.error("Error inicializando la tabla:", error);
-        }
-    };
-    
-    // Alternar el modo edición
-    document.querySelector("#toggleEditMode").addEventListener("click", async () => {
-        if (editMode) {
-            if (confirm("¿Estás seguro de los cambios?")) {
-                editMode = false;
-                const button = document.querySelector("#toggleEditMode");
-                button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
-                gridApi.refreshCells({ force: true }); // Refrescar las celdas
-    
-                // Recargar datos desde el servidor
-                await reloadData();
-            }
-        } else {
-            editMode = true;
-            const button = document.querySelector("#toggleEditMode");
-            button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
-            gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
-        }
-    });
-
-    document.addEventListener("DOMContentLoaded", initializeGrid);
-</script>
-
-

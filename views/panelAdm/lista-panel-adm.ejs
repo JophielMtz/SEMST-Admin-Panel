@@ -1,0 +1,166 @@
+<div class="container-fluid content-inner mt-n5 py-0">
+  <div class="row">
+      <div class="col-sm-12">
+          <div class="card">
+              <div class="container text-center">
+                  <h4 class="text-responsive mb-3 mt-3">Personal</h4>
+                  <div class="row justify-content-center gx-2">
+                      <!-- Botón Nuevo -->
+                      <div class="col-auto">
+                        <button type="button" class="btn btn-primary rounded-pill w-auto"
+                            style="padding: 4px 12px; font-size: 12px;" onclick="window.location.href='/agregar-personal';">
+                            Nuevo
+                        </button>
+                    </div>
+                      <!-- Botón Activar Edición -->
+                      <div class="col-auto">
+                          <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                              style="padding: 4px 12px; font-size: 12px;">
+                              <i class="fas fa-edit me-1"></i> Activar Edición
+                          </button>
+                      </div>
+              
+                     
+                  </div>
+              </div>
+              <div class="card-body">
+                  <div class="test-container">
+                      <div class="test-header d-flex align-items-center">
+                          <!-- Radio para 'Todos' -->
+                          <div class="form-check form-check-inline">
+                              <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
+                              <label for="all" class="form-check-label pl-2">Todos</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
+                              <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
+                          </div>
+                          
+                      </div>
+                      <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  <!--Crear-->
+<script type="module">
+  import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
+
+  let gridApi;
+  let editMode = false;
+
+  class PersonalRenderer {
+    eGui;
+    init(params) {
+      // Crear elemento para la imagen
+      let personalImage = document.createElement("img");
+  
+      // Validar si la URL de la imagen está disponible
+      if (params.data.imagen) {
+        personalImage.src = `/uploads/${params.data.imagen}`; // Apunta a la ruta pública
+      } else {
+        // Imagen predeterminada si no hay una imagen proporcionada
+        personalImage.src = "/uploads/default.jpg"; // Asegúrate de tener un archivo default.jpg
+      }
+      personalImage.setAttribute(
+        "style",
+        "display: block; width: 50px; height: 50px; border-radius: 25%; margin-right: 12px;"
+      );
+  
+      // Crear elemento para el nombre completo
+      let personalName = document.createElement("p");
+      personalName.textContent = `${params.data.nombre} ${params.data.apellido_paterno} ${params.data.apellido_materno}`;
+      personalName.setAttribute(
+        "style",
+        "text-overflow: ellipsis; overflow: hidden; white-space: nowrap; margin: 0;"
+      );
+  
+      // Crear contenedor principal y agregar imagen y nombre
+      this.eGui = document.createElement("span");
+      this.eGui.setAttribute(
+        "style",
+        "display: flex; height: 100%; width: 100%; align-items: center;"
+      );
+      this.eGui.appendChild(personalImage);
+      this.eGui.appendChild(personalName);
+    }
+  
+    // Retornar el elemento DOM del componente
+    getGui() {
+      return this.eGui;
+    }
+  
+    // Indicar que no se necesita refrescar
+    refresh(params) {
+      return false;
+    }
+  }
+  
+
+  const datos = [
+  { field: "personal_id", headerName: "ID", width: 70, editable: false },
+  { headerName: "Nombre", width: 300,  editable: true, cellRenderer: PersonalRenderer,},
+  {field: "edad", headerName: "Edad", width: 70, wrapHeaderText: true},
+  {field: "telefono", headerName: "Teléfono",editable: () => editMode, minWidth: 100, wrapHeaderText: true},
+  {field: "correo", headerName: "Correo", editable: () => editMode, minWidth: 200, wrapHeaderText: true},
+  { field: "rfc", headerName: "RFC", width: 150, editable: false },
+  { field: "cargo", headerName: "cargo", editable: () => editMode,},
+  borrarColumna('/api/deleteRecord'),
+];
+
+  const gridOptions = {
+      columnDefs: datos,
+      defaultColDef: {editable: true,resizable: true,},
+      rowData: null,
+      rowHeight: 60,
+      domLayout: "autoHeight",
+      context: {
+          endpoint: "/editarListaPanelAdm",
+      },
+      onCellValueChanged: editarCelda,
+  };
+
+  const initializeGrid = async () => {
+   const gridDiv = document.querySelector("#myGrid");
+   gridApi = agGrid.createGrid(gridDiv, gridOptions);
+
+   try {
+       // Obtén los datos desde el backend
+       const data = await fetch("/getlistaPanelAdm").then((response) => response.json());
+
+       // Agrega el campo `tabla` dinámicamente
+       const rowData = data.map((row) => ({
+           ...row,
+           tabla: "personal", // Nombre de la tabla a la que pertenece esta fila
+       }));
+
+       // Asigna los datos al grid
+       gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
+   } catch (error) {
+       console.error("Error inicializando la tabla:", error);
+   }
+};
+
+  document.querySelector("#toggleEditMode").addEventListener("click", async () => {
+      if (editMode) {
+          if (confirm("¿Estás seguro de los cambios?")) {
+              editMode = false;
+              const button = document.querySelector("#toggleEditMode");
+              button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
+              gridApi.refreshCells({ force: true }); // Refrescar las celdas
+  
+              // Recargar datos desde el servidor
+              await reloadData();
+          }
+      } else {
+          editMode = true;
+          const button = document.querySelector("#toggleEditMode");
+          button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
+          gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
+      }
+  });
+
+  document.addEventListener("DOMContentLoaded", initializeGrid);
+</script>

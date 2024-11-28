@@ -235,3 +235,26 @@ td:first-child {
   border-radius: 5px;
 }
 
+
+.list-inline-item {
+  margin-bottom: 10px; /* Reduce el espacio entre los items */
+}
+
+.timeline-dots {
+  margin-right: 10px; /* Ajusta la distancia entre el punto y el texto */
+}
+
+.timeline-dots.timeline-dot1 {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px; /* Reduce el margen entre el punto y el texto */
+}
+
+h6 {
+  margin-bottom: 5px; /* Reduce el margen entre el título (key) y el contenido (value) */
+}
+
+p {
+  margin-bottom: 0px; /* Elimina el margen debajo de cada párrafo de contenido */
+}
