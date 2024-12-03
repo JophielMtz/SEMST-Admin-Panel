@@ -10,3 +10,5 @@ export function previewImage(event) {
       reader.readAsDataURL(file); 
     }
 }
+
+

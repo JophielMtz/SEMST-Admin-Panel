@@ -118,19 +118,26 @@
 
                                     <div class="form-group col-md-4">
                                         <label for="municipio_id" class="form-label">Municipio:</label>
-                                        <input type="text" class="form-control" id="municipio_id" placeholder=""
-                                            readonly />
+                                        <select id="municipio_id" name="municipio_id" class="form-control">
+                                            <option value="">Seleccione un municipio</option>
+                                        </select>
                                     </div>
+                                    
                                     <div class="form-group col-md-4">
                                         <label for="comunidad_id" class="form-label">Comunidad:</label>
-                                        <input type="text" class="form-control" id="comunidad_id" placeholder=""
-                                            readonly />
+                                        <select id="comunidad_id" name="comunidad_id" class="form-control" disabled>
+                                            <option value="">Seleccione una comunidad</option>
+                                        </select>
                                     </div>
+                                    
                                     <div class="form-group col-md-4">
                                         <label for="cct_id" class="form-label">Clave CCT:</label>
-                                        <input type="text" class="form-control" id="cct_id" placeholder="Clave CCT"
-                                            readonly />
+                                        <select id="cct_id" name="cct_id" class="form-control" disabled>
+                                            <option value="">Seleccione una CCT</option>
+                                        </select>
                                     </div>
+                                    
+                                    
 
                                     <hr class="hr-horizontal mb-4" />
 
@@ -199,6 +206,7 @@
                                                         <option value="Unitaria">Unitaria</option>
                                                         <option value="Bidocente">Bidocente</option>
                                                         <option value="Tridocente">Tridocente</option>
+
                                                         <option value="Completa">Completa</option>
                                                     </select>
 
@@ -378,7 +386,96 @@
     </div>
 </div>
 
-
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const municipioSelect = document.getElementById("municipio_id");
+        const comunidadSelect = document.getElementById("comunidad_id");
+        const cctSelect = document.getElementById("cct_id");
+    
+        // Cargar municipios al cargar la página
+        cargarMunicipios()
+            .then(municipios => {
+                municipios.forEach(municipio => {
+                    const option = document.createElement("option");
+                    option.value = municipio.id; // Suponiendo que el municipio tiene un campo `id`
+                    option.textContent = municipio.nombre; // Suponiendo que el municipio tiene un campo `nombre`
+                    municipioSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error("Error al cargar municipios:", error));
+    
+        // Evento para cargar comunidades cuando se selecciona un municipio
+        municipioSelect.addEventListener("change", (event) => {
+            const municipioId = event.target.value;
+    
+            // Limpiar comunidades y deshabilitar
+            comunidadSelect.innerHTML = '<option value="">Seleccione una comunidad</option>';
+            comunidadSelect.disabled = true;
+    
+            // Limpiar CCTs y deshabilitar
+            cctSelect.innerHTML = '<option value="">Seleccione una CCT</option>';
+            cctSelect.disabled = true;
+    
+            if (municipioId) {
+                cargarComunidades(municipioId)
+                    .then(comunidades => {
+                        comunidades.forEach(comunidad => {
+                            const option = document.createElement("option");
+                            option.value = comunidad.id; // Suponiendo que la comunidad tiene un campo `id`
+                            option.textContent = comunidad.nombre; // Suponiendo que la comunidad tiene un campo `nombre`
+                            comunidadSelect.appendChild(option);
+                        });
+                        comunidadSelect.disabled = false; // Habilitar el selector de comunidad
+                    })
+                    .catch(error => console.error("Error al cargar comunidades:", error));
+            }
+        });
+    
+        // Evento para cargar CCTs cuando se selecciona una comunidad
+        comunidadSelect.addEventListener("change", (event) => {
+            const comunidadId = event.target.value;
+            const municipioId = municipioSelect.value;
+    
+            // Limpiar CCTs y deshabilitar
+            cctSelect.innerHTML = '<option value="">Seleccione una CCT</option>';
+            cctSelect.disabled = true;
+    
+            if (comunidadId) {
+                cargarCCTs(municipioId, comunidadId)
+                    .then(ccts => {
+                        ccts.forEach(cct => {
+                            const option = document.createElement("option");
+                            option.value = cct.id; // Suponiendo que la CCT tiene un campo `id`
+                            option.textContent = cct.nombre; // Suponiendo que la CCT tiene un campo `nombre`
+                            cctSelect.appendChild(option);
+                        });
+                        cctSelect.disabled = false; // Habilitar el selector de CCT
+                    })
+                    .catch(error => console.error("Error al cargar CCTs:", error));
+            }
+        });
+    });
+    
+    // Función para cargar municipios desde el servidor
+    function cargarMunicipios() {
+        return fetch("/obtener-municipios")
+            .then(response => response.json());
+    }
+    
+    // Función para cargar comunidades basado en el municipio seleccionado
+    function cargarComunidades(municipioId) {
+        return fetch(`/obtener-comunidades/${municipioId}`)
+            .then(response => response.json());
+    }
+    
+    // Función para cargar CCTs basado en el municipio y comunidad seleccionados
+    function cargarCCTs(municipioId, comunidadId) {
+        return fetch(`/obtener-ccts/${municipioId}/${comunidadId}`)
+            .then(response => response.json());
+    }
+    
+    
+</script>
 
 
 <script type="module">
