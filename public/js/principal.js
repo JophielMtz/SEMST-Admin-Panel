@@ -4,6 +4,8 @@ import { validateForm, showError, clearError } from './formValidatioon.js';
 import { cargarSectores, cargarZonas, cargarMunicipios, cargarComunidades, cargarCCTs, actualizarSelect, configurarAutocompletado,configurarBloqueCCT } from './cargaDeDatos.js';
 import { enviarDatos } from './dataSender.js';
 import { configurarBotonesAccion } from './modules/Configuraciones/Configs.js';
+import * as config from '../js/configs/configs.js';
+
 
 // import { cargarPerfilUsuario } from '../utils/fetchUsuarioPerfil.js';
 
@@ -102,7 +104,7 @@ if (comunidadSelect) {
         // Llamar a validateForm y rastrear el resultado
         const isValid = validateForm();
         console.log(`Resultado de la validación del formulario: ${isValid ? 'Éxito' : 'Fallido'}`);
-        
+    
         if (isValid) {
             console.log("Validación exitosa. Llamando a 'mostrarConfirmacion'.");
             mostrarConfirmacion(); // Se llama si la validación pasa
@@ -110,6 +112,82 @@ if (comunidadSelect) {
             console.log("Validación fallida. Verifica los campos esperados."); // Log si la validación falla
         }
     });
+    
+    function mostrarConfirmacion() {
+        console.log("Ejecutando 'mostrarConfirmacion'...");
+        const datos = {};
+        const form = document.querySelector('#nuevoRegistroModal');
+    
+        if (!form) {
+            console.error("El formulario no existe en el DOM. Asegúrate de que el ID '#nuevoRegistroModal' sea correcto.");
+            return;
+        }
+    
+        console.log("Formulario encontrado. Recolectando datos...");
+        // Recorremos todos los inputs, selects y textareas dentro del formulario
+        form.querySelectorAll('input, select, textarea').forEach(field => {
+            const name = field.id || field.name; // Usar el atributo name o id como clave
+    
+            // Ignorar campos deshabilitados o campos específicos
+            if (!name || field.disabled || ['municipio_entra', 'comunidad_entra', 'cct_entra'].includes(name)) {
+                console.log(`Campo ignorado: ID="${name}" (Deshabilitado o no requerido).`);
+                return;
+            }
+    
+            const value = field.value || ''; // Obtener el valor del campo (vacío si no tiene valor)
+            console.log(`Campo incluido: ID="${name}", Valor="${value}"`); // Log para cada campo válido
+            datos[name] = value; // Solo agregamos los campos que pasan el filtro
+        });
+    
+        console.log("Datos recolectados:", datos); // Muestra los datos recolectados del formulario
+    
+        let resumenHTML = '<ul class="list-group">';
+        for (const [key, value] of Object.entries(datos)) {
+            resumenHTML += `<li class="list-group-item"><strong>${key.replace(/_/g, ' ')}:</strong> ${value}</li>`;
+        }
+        resumenHTML += '</ul>';
+    
+        console.log("Resumen generado:", resumenHTML); // Muestra el resumen generado antes de insertarlo
+    
+        const resumenDatos = document.querySelector('#resumenDatos');
+        const formRegistro = document.querySelector('#formRegistro');
+        const seccionConfirmacion = document.querySelector('#seccionConfirmacion');
+    
+        if (resumenDatos && formRegistro && seccionConfirmacion) {
+            console.log("Elementos encontrados: resumenDatos, formRegistro y seccionConfirmacion.");
+            resumenDatos.innerHTML = resumenHTML; // Inserta el resumen en el DOM
+            formRegistro.style.display = "none"; // Oculta el formulario original
+            seccionConfirmacion.style.display = "block"; // Muestra la sección de confirmación
+            console.log("Formulario ocultado. Sección de confirmación mostrada.");
+    
+            // SweetAlert de éxito con opciones
+            Swal.fire({
+                title: '¡Datos confirmados!',
+                text: 'Los datos se han recolectado correctamente. ¿Qué deseas hacer ahora?',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'Agregar otro registro',
+                cancelButtonText: 'Salir',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Reiniciar los formularios para agregar otro registro
+                    formRegistro.reset();
+                    // Ocultar confirmación y mostrar formulario
+                    seccionConfirmacion.style.display = "none";
+                    formRegistro.style.display = "block";
+                    console.log("Formulario reiniciado para agregar otro registro.");
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Redirigir o realizar alguna acción si el usuario decide "Salir"
+                    window.location.href = '/home'; // Redirige al inicio (ajusta la URL según sea necesario)
+                    console.log("Redirigiendo al inicio.");
+                }
+            });
+        } else {
+            console.error("Elementos faltantes: asegúrate de que los IDs 'resumenDatos', 'formRegistro' y 'seccionConfirmacion' existen en el DOM.");
+        }
+    }
+    
     
     function mostrarConfirmacion() {
         console.log("Ejecutando 'mostrarConfirmacion'...");
@@ -232,11 +310,9 @@ document.addEventListener("click", async (event) => {
     }
 });
 
-const fecha = new Date();
+// Evento para previsualizar la imagen
+document.getElementById('file-upload').addEventListener('change', config.previewImage);
 
-// Ejemplo de formato: "17 de mayo de 2024, 00:00"
-const formattedDate = fecha.toLocaleString('es-MX', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-console.log(formattedDate);  // "17 de mayo de 2024, 00:00"
 
   
 

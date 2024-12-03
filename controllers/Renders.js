@@ -18,13 +18,16 @@ const home = async () => {
       FROM pendientes;
     `);
 
-    // Consulta adicional para obtener nombre y rol de los usuarios
+   
     const [tablaRoles] = await pool.query(`
-      SELECT CONCAT(usuario, ' ', apellido) AS nombre, rol, email AS correo
-      FROM usuarios;
+     SELECT 
+      id,
+      CONCAT(usuario, ' ', apellido) AS nombre, rol, email AS correo
+      FROM usuarios
+      WHERE rol IN ('admin', 'usuario');
+
     `);
 
-    // Devolvemos los resultados de todas las consultas en un solo objeto
     return {
       personal: resultsPersonal[0],
       pendientes: resultsPendientes,

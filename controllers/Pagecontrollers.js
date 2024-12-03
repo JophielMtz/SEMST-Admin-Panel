@@ -1,6 +1,5 @@
 const pool = require("../src/config/db");
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 
 //=========Gets de las APIS==========//
 const obtenerPendientes = async (req, res) => {
@@ -133,19 +132,19 @@ const obtenerBecas = async (req, res) => {
     const [results] = await pool.query(`
     SELECT
     np,
-fecha,
-  personal_id,
-  nombre_docente,
-  cct_sale,
-  comunidad_sale,
-  municipio_sale,
-  vacante,
-  cubre,
-  antiguedad,
-  telefono,
-  observaciones,
-  observaciones_secretaria_general
-FROM becas_comision;
+    fecha,
+    personal_id,
+    nombre_docente,
+    cct_sale,
+    comunidad_sale,
+    municipio_sale,
+    vacante,
+    cubre,
+    antiguedad,
+    telefono,
+    observaciones,
+    observaciones_secretaria_general
+    FROM becas_comision;
     `);
     res.json(results);
   } catch (error) {
@@ -199,28 +198,27 @@ const obtenerSolicitudesPersonal = async (req, res) => {
     const [results] = await pool.query(`
      SELECT
   np , fecha,
-  CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
   estatus, escuela,
   c.nombre AS "comunidad",
   m.nombre AS "municipio",
   observaciones AS "observaciones",
-  cct.centro_clave_trabajo AS "CLAVE CCT",
+  cct.centro_clave_trabajo,
   m.nombre AS "MUNICIPIO",
   sp.observaciones AS "OBSERVACIONES",
   u.cct_id AS "Clave CCT",
   com.nombre AS "COMUNIDAD CCT",
   mun.nombre AS "MUNICIPIO CCT",
-  u.zona_id AS "ZONA",
-  u.sector_id AS "SECTOR",
-  sp.org AS "ORG",
-  sp.no_alumnos AS "NO DE ALUMNOS",
-  sp.grado_1 AS "1° GRADO",
-  sp.grado_2 AS "2° GRADO",
-  sp.grado_3 AS "3° GRADO",
-  sp.funcion_docente AS "FUNCION DEL DOCENTE",
-  sp.tipo_nombramiento AS "TIPO DE NOMBRAMIENTO",
-  sp.inicio_movimiento AS "INICIO DEL MOVIMIENTO",
-  sp.termino_movimiento AS "TERMINO DEL MOVIMIENTO",
+  u.zona_id,
+  u.sector_id,
+  sp.tipo_organizacion,
+  sp.no_alumnos,
+  sp.grado_1,
+  sp.grado_2,
+  sp.grado_3,
+  sp.funcion_docente,
+  sp.tipo_nombramiento,
+  sp.inicio_movimiento,
+  sp.termino_movimiento,
   sp.propuesta AS "PROPUESTA",
   sp.subdireccion_academica AS "SUBDIRECCION ACADEMICA",
   sp.subdireccion_planeacion AS "SUBDIRECCION DE PLANEACION",
@@ -260,7 +258,9 @@ const obtenerIncidencias = async (req, res) => {
      SELECT
     i.np,
     i.fecha,
-    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_del_docente,
+    i.estatus,
+    i.escuela,
+    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
     dl.antiguedad,
     p.telefono,
     cct.centro_clave_trabajo,
@@ -317,40 +317,40 @@ const obtenerLicenciaSinGoce = async (req, res) => {
   try {
     const [results] = await pool.query(`
      SELECT
-  np,
-  lsg.fecha,
-  lsg.fecha_documento,
-  CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS "NOMBRE DEL DOCENTE",
-  lsg.tipo_movimiento AS "TIPO DE MOVIMIENTO",
-  ccts.centro_clave_trabajo AS "CCT",
-  com.nombre AS "COMUNIDAD",
-  mun.nombre AS "MUNICIPIO",
-  lsg.tipo_organizacion AS "ORGANIZACION",  -- Utiliza el valor ENUM directamente
-  lsg.justifica AS "JUSTIFICA",
-  lsg.inicio_movimiento AS "INICIO DEL MOVIMIENTO",
-  lsg.termino_movimiento AS "TÉRMINO DEL MOVIMIENTO",
-  lsg.diagnostico AS "DIAGNOSTICO",
-  lsg.aviso AS "AVISO",
-  lsg.vacante AS "VACANTE",
-  lsg.observaciones AS "OBSERVACIONES",
-  dl.antiguedad AS "ANTIGUEDAD",
-  p.telefono AS "TELEFONO",
-  lsg.observaciones_conflictos AS "OBSERVACIONES CONFLICTOS",
-  lsg.observaciones_secretaria_general AS "OBSERVACIONES SECRETARIA GENERAL"
-FROM
-  licencia_sin_goce lsg
-LEFT JOIN
-  personal p ON lsg.personal_id = p.personal_id
-LEFT JOIN
-  ubic_ccts uc ON lsg.id_relacion = uc.id_relacion
-LEFT JOIN
-  ccts ON uc.cct_id = ccts.cct_id
-LEFT JOIN
-  comunidad com ON uc.comunidad_id = com.comunidad_id
-LEFT JOIN
-  municipio mun ON uc.municipio_id = mun.municipio_id
-LEFT JOIN
-  detalle_laboral dl ON lsg.personal_id = dl.personal_id;
+      np,
+      lsg.fecha_registro,
+      lsg.fecha_documento,
+      CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS "nombre_docente",
+      lsg.tipo_movimiento,
+      ccts.centro_clave_trabajo AS "cct_sale",
+      com.nombre AS "comunidad_sale",
+      mun.nombre AS "municipio_sale",
+      lsg.tipo_organizacion,
+      lsg.justifica AS "JUSTIFICA",
+      lsg.inicio_movimiento,
+      lsg.termino_movimiento,
+      lsg.diagnostico AS "DIAGNOSTICO",
+      lsg.aviso AS "AVISO",
+      lsg.vacante AS "VACANTE",
+      lsg.observaciones AS "OBSERVACIONES",
+      dl.antiguedad,
+      p.telefono,
+      lsg.observaciones_conflictos AS "OBSERVACIONES CONFLICTOS",
+      lsg.observaciones_secretaria_general AS "OBSERVACIONES SECRETARIA GENERAL"
+      FROM
+        licencia_sin_goce lsg
+      LEFT JOIN
+        personal p ON lsg.personal_id = p.personal_id
+      LEFT JOIN
+        ubic_ccts uc ON lsg.id_relacion = uc.id_relacion
+      LEFT JOIN
+        ccts ON uc.cct_id = ccts.cct_id
+      LEFT JOIN
+        comunidad com ON uc.comunidad_id = com.comunidad_id
+      LEFT JOIN
+        municipio mun ON uc.municipio_id = mun.municipio_id
+      LEFT JOIN
+        detalle_laboral dl ON lsg.personal_id = dl.personal_id;
 
 
 
@@ -365,21 +365,23 @@ LEFT JOIN
 const obtenerListaPanelAdministrador = async (req, res) => {
   try {
     const [results] = await pool.query(`
-    SELECT
+   SELECT
     p.personal_id,
     p.rfc,
-    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre,
+    CONCAT(IFNULL(p.nombre, ''), ' ', IFNULL(p.apellido_paterno, ''), ' ', IFNULL(p.apellido_materno, '')) AS nombre,
     p.edad,
     p.telefono,
     p.correo,
     p.imagen,
-    c.descripcion AS cargo
+    IFNULL(c.descripcion, 'No asignado') AS cargo
 FROM
     personal p
 LEFT JOIN
     detalle_laboral dl ON p.personal_id = dl.personal_id
 LEFT JOIN
     cargos c ON dl.cargo_id = c.cargo_id;
+
+
 
     `);
     res.json(results);
@@ -412,54 +414,49 @@ const obtenerEscuelasDisponibles = async (req, res) => {
 const obtenerNombramientosDocentes = async (req, res) => {
   try {
     const [results] = await pool.query(`
-      SELECT
+    SELECT
     n.np,
     n.fecha,
     CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_del_docente,
-    dl.antiguedad,
+    n.antiguedad,
     p.telefono,
-    cct.centro_clave_trabajo,
+    u.cct_id AS centro_clave_trabajo,
     com.nombre AS comunidad,
     mun.nombre AS municipio,
     u.zona_id,
     u.sector_id,
-    n.tipo_organizacion,
+    n.tipo_organizacion AS org,
     n.no_alumnos,
-    n.grado_1,
-    n.grado_2,
-    n.grado_3,
+    n.primer_grado AS grado_1,
+    n.segundo_grado AS grado_2,
+    n.tercer_grado AS grado_3,
     n.funcion_docente,
     n.tipo_nombramiento,
     n.inicio_movimiento,
     n.termino_movimiento,
-    n.propuesta,
-    n.subdireccion_academica,
-    n.subdireccion_planeacion,
     n.subdireccion_administracion,
     n.usicamm,
     n.recursos_humanos,
     n.juridico,
-    n.observaciones_conflictos,
-    n.observaciones_secretaria_general,
-    n.estatus_movimiento
+    n.observaciones
 FROM
     nombramientos n
 JOIN
     personal p ON n.personal_id = p.personal_id
-LEFT JOIN
-    detalle_laboral dl ON n.detalle_laboral_id = dl.detalle_laboral_id
-LEFT JOIN
-    ubic_ccts u ON dl.id_relacion = u.id_relacion
-LEFT JOIN
-    ccts cct ON u.cct_id = cct.cct_id
+JOIN
+    ubic_ccts u ON n.id_relacion = u.id_relacion
 LEFT JOIN
     comunidad com ON u.comunidad_id = com.comunidad_id
 LEFT JOIN
-    municipio mun ON u.municipio_id = mun.municipio_id;
+    municipio mun ON u.municipio_id = mun.municipio_id
+WHERE
+    u.id_relacion IS NOT NULL;
+
 
     `);
 
-
+    // Log de los resultados antes de enviarlos en la respuesta
+    console.log("Resultados de la consulta:", results);
 
     res.json(results);
   } catch (error) {
@@ -467,6 +464,7 @@ LEFT JOIN
     res.status(500).json({ message: "Error al obtener lista nombramientos docentes" });
   }
 };
+
 
 const obtenerSolicitudes = async (req, res) => {
   try {
@@ -505,7 +503,7 @@ const obtenerSolicitudesGenerales = async (req, res) => {
       SELECT
         solicitudes_generales.np,
         solicitudes_generales.fecha,
-        CONCAT(personal.nombre, ' ', personal.apellido_paterno, ' ', personal.apellido_materno) AS nombre_del_docente,
+        CONCAT(personal.nombre, ' ', personal.apellido_paterno, ' ', personal.apellido_materno) AS nombre_docente,
         solicitudes_generales.estatus,
         solicitudes_generales.tipo_solicitud,
         solicitudes_generales.fecha_documento,
@@ -789,7 +787,7 @@ const editarBecas = async (req, res) => {
   const { np, field, value } = req.body;
 
   const validFields = [ 'np', 'fecha', 'nombre_docente', 'cct', 'comunidad',  'municipio', 'vacante',
-    'cubre', 'antiguedad', 'telefono', 'observaciones_conflictos', 'observaciones_secretaria_general'
+    'cubre', 'antiguedad', 'telefono', 'observaciones_conflictos', 'observaciones_secretaria_general', 'observaciones'
   ];
   // Validación previa para asegurar que los datos clave estén presentes
   if (!np || !field || value === undefined) {
@@ -802,8 +800,8 @@ const editarBecas = async (req, res) => {
 const editarSalud = async (req, res) => {
   const { np, field, value } = req.body;
   const validFields = [ 'nombre_docente', 'fecha', 'estatus', 'situacion',
-    'antiguedad', 'municipio_sale', 'comunidad_sale', 'municipio_entra',
-    'comunidad_entra', 'cct_entra', 'cct_sale', 'estatus_cubierta',
+    'antiguedad', 'municipio_sale', 'comunidad_sale', 'municipio_entra', 'diagnostico',
+    'comunidad_entra', 'cct_entra', 'funcion_docente', 'cct_sale', 'estatus_cubierta',
     'observaciones', ];
   if (!np || !field || value === undefined) {
     return res.status(400).json({ message: "Datos insuficientes. Se requieren 'np', 'field' y 'value'." });
@@ -816,7 +814,7 @@ const editarSolicitudesDeCambio = async (req, res) => {
   const { np, field, value } = req.body;
 
   const validFields = [
-    'np','fecha', 'estatus', 'situacion', 'antiguedad', 'municipio_entra', 'comunidad_entra', 'cct_entra',  'observaciones',
+    'np','fecha', 'estatus', 'situacion', 'antiguedad',  'municipio_entra', 'comunidad_entra', 'cct_entra',  'observaciones',
   ];
 
   return actualizarRegistro("solicitudes_de_cambio", "np", np, field, value, validFields, res);
@@ -832,13 +830,15 @@ const editarSolicitudesPersonal = async (req, res) => {
   }
   return actualizarRegistro("solicitudes_de_personal", "np", np, field, value, validFields, res);
 };
+
 const editarSolicitudesGenerales = async (req, res) => {
   console.log("Datos recibidos en editarPendientes:", req.body);
   const { np, field, value } = req.body;
-  const validFields = ['np', 'fecha', 'nombre_del_docente', 'estatus', 'tipo_solicitud', 'fecha_documento', 'observaciones', 'departamento', 'edad', 'telefono', 'centro_clave_trabajo', 'comunidad', 'municipio', 'zona_id', 'sector_id', 'org', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 'funcion_docente', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'observaciones_secretaria_general'];
-
-
-
+  const validFields = ['np', 'fecha', 'nombre_del_docente', 'estatus', 'tipo_solicitud', 
+    'fecha_documento', 'observaciones', 'departamento', 'edad', 'telefono', 'centro_clave_trabajo', 
+    'comunidad', 'municipio', 'zona_id', 'sector_id', 'tipo_organizacion', 'no_alumnos', 'grado_1', 
+    'grado_2', 'grado_3','funcion_docente', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 
+    'observaciones_secretaria_general'];
 
   if (!np || !field || value === undefined) {
     return res.status(400).json({ message: "Datos insuficientes. Se requieren 'np', 'field' y 'value'." });
@@ -849,7 +849,11 @@ const editarSolicitudesGenerales = async (req, res) => {
 
 const editarIncidencias = async (req, res) => {
   const { np, field, value } = req.body;
-  const validFields = [ "zona_id", "sector_id", "tipo_organizacion", "no_alumnos", "grado_1", "grado_2", "grado_3", "funcion_docente", "tipo_nombramiento", "inicio_movimiento", "termino_movimiento", "propuesta", "subdireccion_academica", "subdireccion_planeacion", "subdireccion_administracion", "usicamm", "recursos_humanos", "juridico", "observaciones_conflictos", "observaciones_secretaria_general", "estatus_movimiento", "situacion", "observaciones", "org"];
+  const validFields = [ "zona_id", "sector_id", "tipo_organizacion", "no_alumnos", "grado_1", "escuela",
+     "grado_2", "grado_3", "funcion_docente", "tipo_nombramiento", "inicio_movimiento", "termino_movimiento", 
+     "propuesta", "subdireccion_academica", "subdireccion_planeacion", "subdireccion_administracion", "usicamm", 
+     "recursos_humanos", "juridico", "observaciones_conflictos", "observaciones_secretaria_general", "estatus_movimiento",
+      "situacion", "observaciones", "org"];
 
 
   if (!np || !field || value === undefined) {
@@ -859,9 +863,9 @@ const editarIncidencias = async (req, res) => {
 };
 
 const editarLicenciaSinGoce = async (req, res) => {
-  console.log("Datos recibidos en editarPendientes:", req.body);
+  console.log("Datos recibidos en editarLicenciaSinGoce:", req.body);
   const { np, field, value } = req.body;
-  const validFields = ["NP", "FECHA_REGISTRO", "FECHA_DOCUMENTO", "PERSONAL_ID", "TIPO_MOVIMIENTO", "CCT", "COMUNIDAD", "MUNICIPIO", "ORGANIZACION", "JUSTIFICA", "INICIO_MOVIMIENTO", "TERMINO_MOVIMIENTO", "DIAGNOSTICO", "AVISO", "VACANTE", "OBSERVACIONES", "ANTIGUEDAD", "TELEFONO", "OBSERVACIONES_CONFLICTOS", "OBSERVACIONES_SECRETARIA_GENERAL"];
+  const validFields = ["NP", "FECHA_REGISTRO", "FECHA_DOCUMENTO", "PERSONAL_ID", "tipo_movimiento", "CCT", "COMUNIDAD", "MUNICIPIO", "tipo_organizacion", "JUSTIFICA", "INICIO_MOVIMIENTO", "TERMINO_MOVIMIENTO", "DIAGNOSTICO", "AVISO", "VACANTE", "OBSERVACIONES", "ANTIGUEDAD", "TELEFONO", "OBSERVACIONES_CONFLICTOS", "OBSERVACIONES_SECRETARIA_GENERAL"];
 
 
   if (!np || !field || value === undefined) {
@@ -954,10 +958,6 @@ const editarListaPanelAdministrador = async (req, res) => {
 };
 
 
-
-
-
-
 const editarEscuelasDisponibles = async (req, res) => {
   const { np, field, value } = req.body;
   const validFields = [ 'np', 'fecha', 'nombre_docente', 'cct', 'comunidad', 'municipio', 'vacante', 'cubre', 'antiguedad', 'telefono', 'observaciones_conflictos', 'observaciones_secretaria_general' ];
@@ -997,6 +997,42 @@ const editarInternos = async (req, res) => {
   }
   return actualizarRegistro("internos", "np", np, field, value, validFields, res);
 };
+
+const editarUsuario = async (req, res) => {
+  try {
+    const { id, rol } = req.body;
+
+    // Validación: Verificar si los datos requeridos están presentes
+    if (!id || !rol) {
+      return res.status(400).json({ mensaje: 'ID y rol son requeridos' });
+    }
+
+    // Validación: Verificar si el rol es válido
+    const rolesValidos = ['admin', 'usuario'];
+    if (!rolesValidos.includes(rol)) {
+      return res.status(400).json({ mensaje: 'El rol proporcionado no es válido' });
+    }
+
+    // Actualizar el rol del usuario en la base de datos
+    const [result] = await pool.query(
+      'UPDATE usuarios SET rol = ? WHERE id = ?',
+      [rol, id]
+    );
+
+    // Verificar si se actualizó algún registro
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+
+    // Respuesta exitosa
+    res.status(200).json({ mensaje: 'Rol del usuario actualizado correctamente' });
+  } catch (error) {
+    console.error('Error al actualizar el rol del usuario:', error);
+    res.status(500).json({ mensaje: 'Hubo un error al actualizar el rol del usuario' });
+  }
+};
+
+
 
 //============Función agregar personal==========//
 
@@ -1234,6 +1270,62 @@ const borrarFila = async (req, res) => {
 
 
 
+const borrarUsuario = async (req, res) => {
+    const { id } = req.body; // Obtener el 'id' del cuerpo de la solicitud JSON
+
+    console.log('Recibido ID desde la solicitud:', id); // Log para ver el ID recibido
+
+    // Verifica si el ID está presente en la solicitud
+    if (!id) {
+        console.error('Falta el ID en la solicitud'); // Log de error si falta el ID
+        return res.status(400).json({ mensaje: 'Falta el id en la solicitud' });
+    }
+
+    try {
+        console.log('Realizando consulta para verificar si el usuario con ID', id, 'existe en la base de datos.');
+
+        // Verificar si el usuario existe en la base de datos
+        const [checkUser] = await pool.query('SELECT * FROM usuarios WHERE id = ?', [id]);
+
+        console.log('Resultado de la consulta de usuario:', checkUser); // Log para ver el resultado de la consulta
+
+        // Si el usuario no existe, retornar error
+        if (checkUser.length === 0) {
+            console.error('Usuario no encontrado con ID:', id); // Log si el usuario no existe
+            return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+        }
+
+        console.log('Usuario encontrado. Procediendo con la eliminación del usuario con ID:', id);
+
+        // Proceder con la eliminación del usuario
+        const [result] = await pool.query('DELETE FROM usuarios WHERE id = ?', [id]);
+
+        console.log('Resultado de la eliminación:', result); // Log para ver el resultado de la eliminación
+
+        // Si la eliminación no afectó ninguna fila
+        if (result.affectedRows === 0) {
+            console.error('No se pudo eliminar el usuario, no se encontró el ID:', id); // Log si no se eliminó
+            return res.status(404).json({ mensaje: 'No se pudo eliminar el usuario, no se encontró el ID' });
+        }
+
+        console.log('Usuario eliminado correctamente con ID:', id); // Log de éxito
+
+        // Responder con éxito
+        res.status(200).json({ mensaje: 'Usuario eliminado correctamente' });
+    } catch (error) {
+        console.error('Error al eliminar el usuario:', error); // Log de error
+        res.status(500).json({ mensaje: 'Hubo un error al eliminar el usuario', error: error.message });
+    }
+};
+
+module.exports = borrarUsuario;
+
+
+
+
+
+
+
 
 
 const vistaNombramientosDocentes = async (req, res) => {
@@ -1342,9 +1434,6 @@ const vistaPerfil = (req, res) => {
 
 
 
-const vistaRoles = (req, res) => {
-  res.render("roles");
-};
 
 const vistaAgregarpersonal = async (req, res) => {
     const sectorId = req.body.sector_id || null;
@@ -1558,6 +1647,7 @@ module.exports = {
   editarSolicitudesGenerales,
   editarSolicitudesDeCambio,
   editarListaPanelAdministrador,
+  editarUsuario,
 
   vistaAgregarpersonal,
   agregarPersonal,
@@ -1583,6 +1673,7 @@ module.exports = {
   obtenerListaPanelAdministrador,
 
   borrarFila,
+  borrarUsuario,
   actualizarRegistro,
 
 

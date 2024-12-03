@@ -3,13 +3,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
-
 dotenv.config();
+
 const usuarios = {
 
     registroUsuario: async (req, res) => {
         const { usuario, apellido, email, password, rol } = req.body;
-        const imagen = req.file;  // Este es el archivo de imagen recibido
+        const imagen = req.file;  
     
         try {
             if (!usuario || !apellido || !email || !password || !rol) {
@@ -19,13 +19,11 @@ const usuarios = {
             const saltRounds = 10;
             const passwordHasheada = await bcrypt.hash(password, saltRounds);
     
-            // Manejo de la imagen (si existe)
             let imagenPath = null;
             if (imagen) {
-                imagenPath = imagen.filename; // Guarda el nombre del archivo subido
+                imagenPath = imagen.filename;
             }
     
-            // Guardar el usuario en la base de datos
             const query = `
                 INSERT INTO usuarios (usuario, apellido, email, password, rol, imagen) 
                 VALUES (?, ?, ?, ?, ?, ?)
@@ -43,93 +41,63 @@ const usuarios = {
     
     login: async (req, res) => {
         const { email, password } = req.body;
-    
-        try {
-            // Log: Datos recibidos
-            console.log('Datos recibidos:', { email, password });
-    
-            // Verificar que se han recibido ambos campos
-            if (!email || !password) {
-                console.log('Faltan campos:', { email, password });
-                return res.status(400).json({ error: 'Todos los campos son obligatorios' });
-            }
-    
-            // Log: Verificando si el email existe en la base de datos
-            const query = `SELECT * FROM usuarios WHERE email = ?`;
-            console.log('Ejecutando consulta para email:', email);
-    
-            const [result] = await pool.query(query, [email]);
-    
-            // Si no se encuentra el usuario
-            if (result.length === 0) {
-                console.log('Usuario no encontrado para el email:', email);
-                return res.status(404).json({ error: 'Usuario no encontrado' });
-            }
-    
-            const usuario = result[0];
-            console.log('Usuario encontrado:', usuario);
-    
-            // Verificación de la contraseña
-            const contraseñaValida = await bcrypt.compare(password, usuario.password);
-            console.log('Contraseña válida:', contraseñaValida);
-    
-            if (!contraseñaValida) {
-                console.log('Contraseña incorrecta para el usuario:', email);
-                return res.status(401).json({ error: 'Contraseña incorrecta' });
-            }
-    
-            // Generar un token JWT para el usuario autenticado
-            console.log('Generando token JWT para el usuario:', usuario.id);
-            const token = jwt.sign(
-                { id: usuario.id, usuario: usuario.usuario, rol: usuario.rol, imagen: usuario.imagen },
-                process.env.JWT_SECRET,
-                { expiresIn: '1h' }
-            );
-    
-            // Log: Token generado con éxito
-            console.log('Token generado exitosamente');
-    
-            // Responder con el mensaje de éxito y el token en formato JSON
-            return res.status(200).json({
-                message: 'Inicio de sesión exitoso',
-                token
-            });
-        } catch (error) {
-            // Log: Error general
-            console.error('Error al iniciar sesión:', error);
-            return res.status(500).json({ error: 'Error al iniciar sesión' });
-        }
-    },
-    
-    
-
-
-autenticarToken: (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Extraer el token
-
-    if (!token) {
-        return res.status(401).json({ error: 'Acceso denegado. Token no proporcionado.' });
-    }
 
     try {
-        // Verifica el token con la clave secreta
-        const usuario = jwt.verify(token, process.env.JWT_SECRET);
+        // Verificar que se han recibido ambos campos
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+        }
 
-        // Asigna los datos del usuario a la solicitud
-        req.usuario = usuario;
+        const query = `SELECT * FROM usuarios WHERE email = ?`;
+        const [result] = await pool.query(query, [email]);
 
-        // Responde con los datos del usuario si es necesario
+        // Si no se encuentra el usuario
+        if (result.length === 0) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        const usuario = result[0];
+
+        // Verificación de la contraseña
+        const contraseñaValida = await bcrypt.compare(password, usuario.password);
+        if (!contraseñaValida) {
+            return res.status(401).json({ error: 'Contraseña incorrecta' });
+        }
+
+        // Generar los tokens
+        const accessToken = jwt.sign(
+            { id: usuario.id, usuario: usuario.usuario, rol: usuario.rol, imagen: usuario.imagen },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' } // Expira en 1 hora
+        );
+
+        // Configuración de las cookies
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true, // Hace que la cookie solo sea accesible desde el servidor (seguridad)
+            secure: process.env.NODE_ENV === 'production', // Solo se envía por HTTPS en producción
+            maxAge: 60 * 60 * 1000, // Expira en 1 hora
+            sameSite: 'Strict' // Protección contra ataques CSRF
+        });
+
         return res.status(200).json({
-            message: 'Token válido',
-            usuario: usuario
+            message: 'Inicio de sesión exitoso',
         });
 
     } catch (error) {
-        return res.status(403).json({ error: 'Token no válido.' });
+        return res.status(500).json({ error: 'Error al iniciar sesión' });
     }
-}
+    },
+    
+    logout: (req, res) => {
+        res.clearCookie('accessToken', {
+            httpOnly: true, // Asegura que la cookie solo sea accesible por el servidor
+            secure: process.env.NODE_ENV === 'production', // Solo en producción se enviará sobre HTTPS
+            sameSite: 'Strict', // Para mayor seguridad
+        });
 
+        return res.redirect('/');
+    },
+    
 };
 
 

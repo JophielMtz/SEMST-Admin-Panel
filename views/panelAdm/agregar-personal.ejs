@@ -15,17 +15,19 @@
                 <div class="row">
                   <!--Imagen de perfil-->
                   <div class="form-group col-md-12">
-                    <div class="profile-img-edit position-relative d-flex align-items-center">
-                      <!-- Imagen previa -->
-                      <img src="/images/avatars/01.png" alt="profile-pic" class="theme-color-default-img profile-pic rounded avatar-100 me-3">
+                    <div class="profile-img-edit d-flex flex-column align-items-center">
+                      <!-- Imagen previa con id para el script -->
+                      <img id="profile-img" src="/images/avatars/01.png" alt="profile-pic" class="theme-color-default-img profile-pic rounded-circle avatar-100 mb-2">
                       
                       <!-- Botón de subir imagen -->
-                      <label class="btn btn-primary btn-sm rounded-pill d-flex align-items-center" for="file-upload">
+                      <label class="btn btn-primary btn-sm rounded-pill d-flex align-items-center mt-2" for="file-upload">
                         <i class="fas fa-upload me-2"></i> Subir Imagen
                         <input class="file-upload d-none" type="file" accept="image/*" id="file-upload" name="imagen">
                       </label>
                     </div>
                   </div>
+                  
+                  
                   
 
                   <!-- Primera fila de datos personales -->
@@ -284,12 +286,7 @@
 
 
                 <hr>
-                <h5 class="mb-3">Security</h5>
-
-                <div class="checkbox">
-                  <label class="form-label"><input class="form-check-input me-2" type="checkbox" value=""
-                      id="flexCheckChecked">Enable Two-Factor-Authentication</label>
-                </div>
+               
                 <button type="submit" class="btn btn-primary col-3 mx-auto mt-2 mb-2 rounded-pill">Guardar</button>
         </form>
 
@@ -368,82 +365,204 @@
 </div>
 
 
+
+
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-  const formPersonal = document.getElementById("form-personal");
-  const modalConfirmarDatos = new bootstrap.Modal(document.getElementById("modalConfirmarDatos"));
-  const modalNombre = document.getElementById("modalNombre");
-  const modalApellidos = document.getElementById("modalApellidos");
-  const modalImagen = document.getElementById("modalImagen");
-  const datosConfirmacion = document.getElementById("datosConfirmacion");
-
-  // Evento para mostrar el modal con datos al hacer clic en "Guardar"
-  formPersonal.addEventListener("submit", (event) => {
-    event.preventDefault(); // Evitar el envío automático del formulario
-
-    // Obtener los datos del formulario
-    const formData = new FormData(formPersonal);
-    const datos = {};
-    for (const [key, value] of formData.entries()) {
-      datos[key] = value;
-    }
-
-    // Llenar el modal con los datos del formulario
-    modalNombre.textContent = datos.nombre || "Nombre no proporcionado";
-    modalApellidos.textContent = datos.apellido || "Apellidos no proporcionados";
-    modalImagen.src = datos.imagen ? URL.createObjectURL(formPersonal.querySelector('input[type="file"]').files[0]) : "/images/avatars/01.png";
-
-    // Crear lista de datos
-    datosConfirmacion.innerHTML = ""; // Limpiar contenido previo
-    for (const [key, value] of Object.entries(datos)) {
-      if (key !== "imagen") { // Evitar mostrar el archivo directamente
-        const listItem = document.createElement("li");
-        listItem.classList.add("list-group-item");
-        listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
-        datosConfirmacion.appendChild(listItem);
+    const formPersonal = document.getElementById("form-personal");
+    const modalConfirmarDatos = new bootstrap.Modal(document.getElementById("modalConfirmarDatos"));
+    const modalNombre = document.getElementById("modalNombre");
+    const modalApellidos = document.getElementById("modalApellidos");
+    const modalImagen = document.getElementById("modalImagen");
+    const datosConfirmacion = document.getElementById("datosConfirmacion");
+    const generoSelect = document.querySelector('select[name="sexo"]'); // Selector de género
+    const imagenInput = formPersonal.querySelector('input[type="file"]'); // Selector para el input de imagen
+    const imagenCampo = document.getElementById("imagen"); // Campo oculto para la imagen
+  
+    // Evento para mostrar el modal con datos al hacer clic en "Guardar"
+    formPersonal.addEventListener("submit", (event) => {
+      event.preventDefault(); // Evitar el envío automático del formulario
+  
+      // Obtener los datos del formulario
+      const formData = new FormData(formPersonal);
+      const datos = {};
+      for (const [key, value] of formData.entries()) {
+        datos[key] = value;
       }
-    }
-
-    // Crear timeline con los datos, manteniendo el estilo original
-    datosTimeline.innerHTML = ""; // Limpiar contenido previo
-    for (const [key, value] of Object.entries(datos)) {
-      if (key !== "imagen") { // Evitar mostrar el archivo directamente
-        const timelineItem = document.createElement("li");
-        timelineItem.classList.add("list-inline-item");
-
-        // Mantener el estilo original de los puntos de la cronología
-        const dotClass = key === "nombre" ? "border-primary text-primary" :
-                         key === "apellido" ? "border-success text-success" : "border-warning text-warning"; // Puedes agregar más lógica de color según lo necesites
-
-        timelineItem.innerHTML = `
-          <div class="timeline-dots timeline-dot1 ${dotClass}"></div>
-          <h6 class="float-left mb-1">${key}</h6>
-          <small class="float-right mt-1">${new Date().toLocaleDateString()}</small>
-          <div class="d-inline-block w-100">
-            <p>${value}</p>
-          </div>
-        `;
-        datosTimeline.appendChild(timelineItem);
+  
+      // Verificar si se ha subido una imagen
+      if (imagenInput.files.length > 0) {
+        // Si se sube una imagen, mostrarla y asignarla al campo oculto
+        modalImagen.src = URL.createObjectURL(imagenInput.files[0]);
+        imagenCampo.value = URL.createObjectURL(imagenInput.files[0]);
+      } else {
+        // Si no se sube imagen, asignar la imagen predeterminada por género al campo oculto
+        if (generoSelect.value === "Masculino") {
+          modalImagen.src = "/images/avatars/avatar-default.png"; // Avatar masculino por defecto
+          imagenCampo.value = "/images/avatars/avatar-default.png"; // Asignar al campo oculto
+        } else if (generoSelect.value === "Femenino") {
+          modalImagen.src = "/images/avatars/avatar-mujer-default.png"; // Avatar femenino por defecto
+          imagenCampo.value = "/images/avatars/avatar-mujer-default.png"; // Asignar al campo oculto
+        } else {
+          modalImagen.src = "/images/avatars/01.png"; // Imagen por defecto si no se selecciona género
+          imagenCampo.value = "/images/avatars/01.png"; // Asignar al campo oculto
+        }
       }
-    }
-
-    // Mostrar el modal
-    modalConfirmarDatos.show();
+  
+      // Llenar el modal con los datos del formulario
+      modalNombre.textContent = datos.nombre || "Nombre no proporcionado";
+      modalApellidos.textContent = datos.apellido || "Apellidos no proporcionados";
+  
+      // Crear lista de datos
+      datosConfirmacion.innerHTML = ""; // Limpiar contenido previo
+      for (const [key, value] of Object.entries(datos)) {
+        if (key !== "imagen") { // Evitar mostrar el archivo directamente
+          const listItem = document.createElement("li");
+          listItem.classList.add("list-group-item");
+          listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
+          datosConfirmacion.appendChild(listItem);
+        }
+      }
+  
+      // Mostrar el modal
+      modalConfirmarDatos.show();
+    });
   });
-});
+  
+ </script>
+  
 
+<!--Validaciones-->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('form-personal');
+    const guardarButton = document.querySelector('button[type="submit"]');
+    const nombreInput = document.getElementById('nombre');
+    const apellidoInput = document.getElementById('apellido');
+    const rfcInput = document.getElementById('rfc');
+    const curpInput = document.getElementById('curp');
+    const telefonoInput = document.getElementById('telefono');
+    const cargoSelect = document.querySelector('[name="cargo_id"]');
+    const tipoDirectorSelect = document.querySelector('[name="tipo_direccion_id"]');
+    const tipoOrganizacionSelect = document.querySelector('[name="tipo_organizacion_id"]');
+
+    const validarTexto = (input) => {
+      const regex = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/;
+      if (!regex.test(input.value.trim())) {
+        input.setCustomValidity('Este campo solo puede contener letras.');
+        input.classList.add('is-invalid');
+      } else {
+        input.setCustomValidity('');
+        input.classList.remove('is-invalid');
+      }
+    };
+
+    const validarRFC = (input) => {
+      const regex = /^[A-ZÑ&]{3,4}(\d{2})(\d{2})(\d{2})[A-Z\d]{3}$/;
+      const fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+    
+      if (!regex.test(input.value.trim())) {
+        input.setCustomValidity('Ingrese un RFC válido.');
+        input.classList.add('is-invalid');
+        fechaNacimientoInput.value = ''; // Limpiar el campo de fecha si el RFC no es válido
+      } else {
+        input.setCustomValidity('');
+        input.classList.remove('is-invalid');
+    
+        // Extraer la fecha de nacimiento del RFC
+        const match = input.value.match(regex);
+        if (match) {
+          const year = parseInt(match[1], 10) + (parseInt(match[1], 10) < 50 ? 2000 : 1900);
+          const month = match[2];
+          const day = match[3];
+    
+          const fechaNacimiento = `${year}-${month}-${day}`;
+          fechaNacimientoInput.value = fechaNacimiento;
+        }
+      }
+    };
+
+    const validarCURP = (input) => {
+      const regex = /^[A-Z][AEIOU][A-Z]{2}\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])[HM](AS|BC|BS|CC|CL|CM|CS|CH|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d]\d$/;
+      if (!regex.test(input.value.trim())) {
+        input.setCustomValidity('Ingrese un CURP válido.');
+        input.classList.add('is-invalid');
+      } else {
+        input.setCustomValidity('');
+        input.classList.remove('is-invalid');
+      }
+    };
+
+    const validarTelefono = (input) => {
+      const regex = /^\d{10}$/;
+      if (!regex.test(input.value.trim())) {
+        input.setCustomValidity('Ingrese un número de teléfono válido (10 dígitos).');
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
+      } else {
+        input.setCustomValidity('');
+        input.classList.remove('is-invalid');
+        input.classList.remove('is-valid');
+      }
+    };
+
+    const manejarHabilitacionCampos = () => {
+      if (cargoSelect.value !== '1') {
+        tipoDirectorSelect.disabled = true;
+        tipoOrganizacionSelect.disabled = true;
+        tipoDirectorSelect.classList.add('is-disabled');
+        tipoOrganizacionSelect.classList.add('is-disabled');
+      } else {
+        tipoDirectorSelect.disabled = false;
+        tipoOrganizacionSelect.disabled = false;
+        tipoDirectorSelect.classList.remove('is-disabled');
+        tipoOrganizacionSelect.classList.remove('is-disabled');
+      }
+    };
+
+    
+
+    guardarButton.addEventListener('click', function (event) {
+      validarTexto(nombreInput);
+      validarTexto(apellidoInput);
+      validarRFC(rfcInput);
+      validarCURP(curpInput);
+      validarTelefono(telefonoInput);
+      manejarHabilitacionCampos();
+
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        Swal.fire({
+          title: 'Error en el formulario',
+          text: 'Por favor, corrija los campos marcados antes de continuar.',
+          icon: 'error',
+          confirmButtonText: 'Entendido',
+        });
+
+        // Resaltar campos inválidos
+        form.querySelectorAll(':invalid').forEach((input) => {
+          input.classList.add('is-invalid');
+        });
+
+        return false;
+      }
+    });
+
+    cargoSelect.addEventListener('change', manejarHabilitacionCampos);
+
+    nombreInput.addEventListener('input', () => validarTexto(nombreInput));
+    apellidoInput.addEventListener('input', () => validarTexto(apellidoInput));
+    rfcInput.addEventListener('input', () => validarRFC(rfcInput));
+    curpInput.addEventListener('input', () => validarCURP(curpInput));
+    telefonoInput.addEventListener('input', () => validarTelefono(telefonoInput));
+  });
 </script>
 
-<!--Logica modal-->
-<!-- <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const modalConfirmarDatos = new bootstrap.Modal(document.getElementById("modalConfirmarDatos"));
-    modalConfirmarDatos.show();
-  });
-</script> -->
+
 
 <!--carga de ccts-->
-  <script>
+<script>
     document.addEventListener("DOMContentLoaded", function () {
       // Seleccionar elementos del DOM
       const sectorSelect = document.getElementById("sector_id");
@@ -649,24 +768,40 @@
       }
     });
     
-  </script>
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const formPersonal = document.getElementById("form-personal");
     const formLaboral = document.getElementById("form-laboral");
-    const modalConfirmarDatos = new bootstrap.Modal(document.getElementById("modalConfirmarDatos"));
-    const datosConfirmacion = document.getElementById("datosConfirmacion");
-    const btnConfirmar = document.getElementById("btnConfirmar");
-    const datosTimeline = document.getElementById("datosTimeline");
-  
+    const generoSelect = document.querySelector('select[name="sexo"]'); // Selector de género
+    const imagenInput = formPersonal.querySelector('input[type="file"]'); // Selector para el input de imagen
+    const imagenCampo = document.getElementById("imagen"); // Campo oculto para la imagen
+    
     formLaboral.addEventListener("submit", (event) => {
       event.preventDefault(); // Evitar el envío directo del formulario
-  
+      
       // Obtener datos de ambos formularios
       const datosPersonal = new FormData(formPersonal);
       const datosLaboral = new FormData(formLaboral);
-  
+      
+      // Verificar si se ha subido una imagen
+      if (imagenInput.files.length > 0) {
+        // Si se sube una imagen, agregarla a los datos personales
+        datosPersonal.append("imagen", imagenInput.files[0]);
+      } else {
+        // Si no se sube imagen, asignar la imagen predeterminada por género
+        let imagenPredeterminada = "";
+        if (generoSelect.value === "Masculino") {
+          imagenPredeterminada = "/images/avatars/avatar-default.png"; // Avatar masculino por defecto
+        } else if (generoSelect.value === "Femenino") {
+          imagenPredeterminada = "/images/avatars/avatar-mujer-default.png"; // Avatar femenino por defecto
+        } else {
+          imagenPredeterminada = "/images/avatars/01.png"; // Imagen por defecto si no se selecciona género
+        }
+        datosPersonal.append("imagen", imagenPredeterminada); // Asignar imagen predeterminada
+      }
+      
       // Combinar los datos en un solo objeto
       const datosCompletos = {};
       for (const [key, value] of datosPersonal.entries()) {
@@ -675,90 +810,78 @@
       for (const [key, value] of datosLaboral.entries()) {
         datosCompletos[key] = value;
       }
+  
+      // Mostrar SweetAlert con un mensaje simple
+      Swal.fire({
+        title: '¿Estás seguro que los datos están correctos?',
+        text: 'Si todo es correcto, puedes enviar los datos. Si necesitas hacer cambios, haz clic en "Editar".',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, enviar',
+        cancelButtonText: 'Editar',
+        reverseButtons: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const datosFinales = new FormData(formPersonal);
+          const datosLaboral = new FormData(formLaboral);
       
-  
-      // Crear el HTML para mostrar los datos en formato de cronología
-      datosTimeline.innerHTML = ""; // Limpiar contenido previo
-      for (const [key, value] of Object.entries(datosCompletos)) {
-        if (key !== "imagen") { // Evitar mostrar el archivo directamente
-          const timelineItem = document.createElement("li");
-          timelineItem.classList.add("list-inline-item");
-  
-          // Determinar el color del punto en la cronología
-          const dotClass = key === "nombre" ? "border-primary text-primary" :
-                           key === "apellido" ? "border-success text-success" : "border-warning text-warning"; // Puedes personalizar según el campo
-  
-                           timelineItem.innerHTML = `
-                           <div class="timeline-dots timeline-dot1 ${dotClass}"></div>
-                           <h6 class="float-left mb-1">${key}</h6>
-                           <div class="d-inline-block w-100">
-                             <p>${value}</p>
-                           </div>
-                         `;
-          datosTimeline.appendChild(timelineItem);
-        }
-      }
-  
-      // Mostrar el modal
-      modalConfirmarDatos.show();
-    });
-  
-    // Confirmar envío
-    btnConfirmar.addEventListener("click", async () => {
-      const datosFinales = new FormData(formPersonal);
-      const datosLaboral = new FormData(formLaboral);
-  
-      // Combinar los datos finales en FormData
-      for (const [key, value] of datosLaboral.entries()) {
-        datosFinales.append(key, value);
-      }
-  
-      try {
-        const response = await fetch('/personal/agregar', {
-          method: 'POST',
-          body: datosFinales,
-        });
-  
-        const result = await response.text();
-        console.log('Respuesta del servidor:', result);
-  
-        if (response.ok) {
-          modalConfirmarDatos.hide(); // Cerrar modal
-          Swal.fire({
-            title: '¡Registro agregado exitosamente!',
-            text: '¿Qué deseas hacer ahora?',
-            icon: 'success',
-            showCancelButton: true,
-            confirmButtonText: 'Agregar otro',
-            cancelButtonText: 'Volver al inicio',
-          }).then((result) => {
-            if (result.isConfirmed) {
-              // Reiniciar formularios para agregar otro registro
-              formPersonal.reset();
-              formLaboral.reset();
+          // Combinar los datos finales en FormData
+          for (const [key, value] of datosLaboral.entries()) {
+            datosFinales.append(key, value);
+          }
+      
+          try {
+            const response = await fetch('/personal/agregar', {
+              method: 'POST',
+              body: datosFinales,
+            });
+      
+            const result = await response.text();
+            console.log('Respuesta del servidor:', result);
+      
+            if (response.ok) {
+              Swal.fire({
+                title: '¡Registro agregado exitosamente!',
+                text: '¿Qué deseas hacer ahora?',
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'Agregar otro',
+                cancelButtonText: 'Volver al inicio',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // Reiniciar formularios para agregar otro registro
+                  formPersonal.reset();
+                  formLaboral.reset();
+                } else {
+                  // Redirigir al inicio
+                  window.location.href = '/home';
+                }
+              });
             } else {
-              // Redirigir al inicio (puedes cambiar la URL según tu página de inicio)
-              window.location.href = '/home';
+              Swal.fire({
+                title: 'Error al registrar',
+                text: 'Hubo un problema al enviar los datos. Por favor, intenta de nuevo.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+              });
             }
-          });
-        } else {
-          Swal.fire({
-            title: 'Error al registrar',
-            text: 'Hubo un problema al enviar los datos. Por favor, intenta de nuevo.',
-            icon: 'error',
-            confirmButtonText: 'Aceptar',
-          });
+          } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+              title: 'Error crítico',
+              text: 'Hubo un problema en la solicitud. Revisa la consola para más detalles.',
+              icon: 'error',
+              confirmButtonText: 'Aceptar',
+            });
+          }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          // Si el usuario decide editar, no hacer nada o cerrar el modal
+          console.log('El usuario desea editar los datos');
         }
-      } catch (error) {
-        console.error('Error:', error);
-        Swal.fire({
-          title: 'Error crítico',
-          text: 'Hubo un problema en la solicitud. Revisa la consola para más detalles.',
-          icon: 'error',
-          confirmButtonText: 'Aceptar',
-        });
-      }
+      });
     });
   });
+  
+  
   
 </script>

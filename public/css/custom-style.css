@@ -258,3 +258,27 @@ h6 {
 p {
   margin-bottom: 0px; /* Elimina el margen debajo de cada párrafo de contenido */
 }
+/* 
+boton de trash roles */
+.delete-btn:hover {
+  color: gray !important; /* Cambia el color a gris al pasar el mouse */
+}
+
+.delete-btn:active {
+  color: var(--bs-primary) !important; /* Cambia el color al azul primario de Bootstrap al hacer clic */
+}
+
+/* AG Grid style */
+
+.centrar-celda {
+  margin: 10px;
+}
+
+.ag-header-cell {
+  background-color: #0f76ba;  /* Color de fondo para todos los encabezados */
+  color: white;            /* Color de texto blanco */
+}
+
+.ag-background-color {
+  background-color: #050709;  /* Color de fondo para todos los encabezados */
+}

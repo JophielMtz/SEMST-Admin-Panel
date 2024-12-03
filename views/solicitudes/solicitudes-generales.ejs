@@ -4,25 +4,31 @@
             <div class="card">
                 <div class="container text-center">
                     <h4 class="text-responsive mb-3 mt-3">Solicitudes Generales</h4>
-                    <div class="row justify-content-center gx-2">
-                        <!-- Botón Nuevo -->
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-primary rounded-pill w-auto"
-                                data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
-                                style="padding: 4px 12px; font-size: 12px;"
-                                class="btn-sm">
-                                Nuevo
-                            </button>
-                        </div>
-                
-                        <!-- Botón Activar Edición -->
-                        <div class="col-auto">
-                            <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
-                                style="padding: 4px 12px; font-size: 12px;">
-                                <i class="fas fa-edit me-1"></i> Activar Edición
-                            </button>
-                        </div>
+                    <div class="row justify-content-center gx-2" 
+                    <<% if (role !== 'admin' && role !== 'super-admin') { %> style="display: none;" <% } %> 
+
+                    <!-- Botón Nuevo -->
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary rounded-pill w-auto"
+                            data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                            style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
+                            Nuevo
+                        </button>
                     </div>
+                
+                    <!-- Botón Activar Edición -->
+                    <div class="col-auto">
+                        <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                            style="padding: 4px 12px; font-size: 12px;">
+                            <i class="fas fa-edit me-1"></i> Activar Edición
+                        </button>
+                    </div>
+                
+               
+               
+                </div>
+                
+                    
                 </div>
                 <div class="card-body">
                     <div class="test-container">
@@ -34,8 +40,15 @@
                             </div>
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
-                                <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
+                                <label for="cctsSaleEntra" class="form-check-label pl-2">Filtro</label>
                             </div>
+                            <% if (role === 'admin' || role === 'super-admin') { %>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
+                                    <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
+                                </div>
+                            <% } %>
+                            
                             
                         </div>
                         <div id="mygrid" class="ag-theme-quartz" style="width: 100%"></div>
@@ -44,9 +57,9 @@
             </div>
         </div>
     </div>
- </div>
+</div>
     <!--Crear-->
-    <div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"aria-hidden="true">
+<div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -171,7 +184,6 @@
                                                             <option value="Unitaria">Unitaria</option>
                                                             <option value="Bidocente">Bidocente</option>
                                                             <option value="Tridocente">Tridocente</option>
-                                                            <option value="Tetradocente">Tetradocente</option>
                                                             <option value="Completa">Completa</option>
                                                         </select>
                                                     </div>
@@ -359,76 +371,210 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
  
- <script type="module">
-    import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
- 
+<script type="module">
+    import { getStatusClass,statusRenderer,  funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
+    import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
+    import * as Columnas from "./js/AgGrid/columNames.js";
+
     let gridApi;
     let editMode = false;
+   
+
+    const estatusValidValues = ["No se atiende", "En proceso", "Terminado", "Entregado a SETEL"];
+    const departamentoValidValues = ["Subdireccion Académica", "Subdireccion de Planeación", "Subdireccion de Administración", "Recursos Humanos", "USICAMM", "Operacion Escolar", "Juridico", "Sin Definir",];
+    const OrgValidValues = ["Unitaria", "Bidocente", "Tridocente", "Organización completa"];
+    const zonaColumns = Columnas.Zona().columns;
+
+
+    const datos = [
+
+        borrarColumna('/api/deleteRecord'),
+        { field: "np", headerName: "NP", width: 52, editable: false },
+        {...Columnas.colFecha(), headerName: "Fecha Registro"},
+        {field: "estatus",headerName: "Estatus", editable: () => editMode, width: 120,
+            ...createSelectColumnProps(estatusValidValues),},
+            Columnas.nombreDocente(),
+            Columnas.antiguedad(),
+            Columnas.telefono(),
+        { headerName: "Tipo de Solicitud", field: "tipo_solicitud", editable: () => editMode, width: 220 },
+        Columnas.colFechaDocumento(),
+        { ...Columnas.observaciones(), editable: () => editMode, },
+        {field: "departamento",headerName: "Departamento",  wrapHeaderText: true,
+         ...createSelectColumnProps(departamentoValidValues),},
+         {...Columnas.municipioSale(), headerName: "Municipio", field: "municipio",},
+         {...Columnas.comunidadSale(), headerName: "Comunidad", field: "comunidad",},
+         {...Columnas.cctSale(), headerName: "Clave CCT", field: "centro_clave_trabajo",},
+         ...zonaColumns.map(col => ({...col, editable: col.field === "sector_id" || col.field === "zona_id" ? false : () => editMode
+        })),
+        {field: "tipo_organizacion",headerName: "Organizació",  wrapHeaderText: true, 
+        autoHeaderHeight: true,  cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, width: 120,
+             ...createSelectColumnProps(OrgValidValues),},
+        {...Columnas.FuncionDocente(),editable: () => editMode,},
+        Columnas.colIniciMovimiento(),
+        Columnas.colTerminoMovimiento(),
+    { headerName: "Propuesta", field: "propuesta", editable: () => editMode, resizable: true },
+    { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode, resizable: true },
+
+    ];
+
  
     const gridOptions = {
-       columnDefs: [
-       { field: "np", headerName: "NP", width: 52, editable: false },
-       colFecha(editMode),
-       { headerName: "Estatus", field: "estatus", editable: () => editMode, width: 220 },
-       { headerName: "Nombre del Docente", field: "nombre_del_docente", editable: false, width: 220 },
-       { headerName: "Solicitud", field: "tipo_solicitud", editable: () => editMode, width: 220 },
-       { headerName: "Fecha Documento", field: "fecha_documento", editable: () => editMode, resizable: true, width: 120 },
-       { headerName: "Observaciones", field: "observaciones", editable: () => editMode, resizable: true, width: 200 },
-       { headerName: "Departamento", field: "departamento", editable: () => editMode, resizable: true, width: 150 },
-
-       { headerName: "Antigüedad", field: "antiguedad", editable: () => editMode, resizable: true, width: 109 },
-       { headerName: "Teléfono", field: "telefono", editable: () => editMode, resizable: true, width: 115 },
-       { headerName: "Clave CCT", field: "centro_clave_trabajo", editable: () => editMode, resizable: true, width: 115 },
-       { headerName: "Comunidad", field: "comunidad", editable: () => editMode, resizable: true },
-       { headerName: "Municipio", field: "municipio", editable: () => editMode, resizable: true },
-       { headerName: "Zona", field: "zona_id", editable: () => editMode, resizable: true, width: 70 },
-       { headerName: "Sector", field: "sector_id", editable: () => editMode, resizable: true, width: 80  },
-       { headerName: "Org", field: "org", editable: () => editMode, resizable: true },
-       { headerName: "No de Alumnos", field: "no_alumnos", editable: () => editMode, resizable: true },
-       { headerName: "1° Grado", field: "grado_1", editable: () => editMode, resizable: true },
-       { headerName: "2° Grado", field: "grado_2", editable: () => editMode, resizable: true },
-       { headerName: "3° Grado", field: "grado_3", editable: () => editMode, resizable: true },
-       { headerName: "Función del Docente", field: "funcion_docente", editable: () => editMode, resizable: true },
-       { headerName: "Inicio del Movimiento", field: "inicio_movimiento", editable: () => editMode, resizable: true },
-       { headerName: "Término del Movimiento", field: "termino_movimiento", editable: () => editMode, resizable: true },
-       { headerName: "Propuesta", field: "propuesta", editable: () => editMode, resizable: true },
-       { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode, resizable: true },
-       borrarColumna('/api/deleteRecord'),
-       ],
-    
+        columnDefs: datos,
         defaultColDef: {editable: true,resizable: true,},
-        rowData: null,
+        rowData: [],
         pagination: true,
         paginationPageSize: 20,
         cacheBlockSize: 10,
-        rowHeight: 60,
+        rowHeight: 70,
         domLayout: "autoHeight",
-        context: { endpoint: "/editarSolicitudesGenerales",},
+        context: {endpoint: "/editarSolicitudesGenerales",},
         onCellValueChanged: editarCelda,
-       };
- 
+    };
+
+   
+    const columnVisibilityConfig = {
+        cctsSaleEntra: [
+            "nombre_docente",
+            "fecha",
+            "estatus",
+            "tipo_solicitud",
+            "fecha_documento",
+            "departamento",
+            "zona_id",
+            "sector_id",
+            "org",
+            "no_alumnos",
+            "grado_1",
+            "grado_2",
+            "grado_3",
+            "funcion_docente",
+            "cct_sale",
+            "estatus_cubierta",
+            
+        ],
+        funcionDelete: [
+            "Accion",
+            "np",
+           "fecha",
+            "estatus",
+            "nombre_del_docente",
+            "tipo_solicitud",
+            "fecha_documento",
+            "observaciones",
+            "departamento",
+            "antiguedad",
+            "telefono",
+            "centro_clave_trabajo",
+            "comunidad",
+            "municipio",
+            "zona_id",
+            "sector_id",
+            "org",
+            "no_alumnos",
+            "grado_1",
+            "grado_2",
+            "grado_3",
+            "funcion_docente",
+            "inicio_movimiento",
+            "termino_movimiento",
+            "propuesta",
+            "observaciones_secretaria_general"
+        ],
+        all: [
+           "np",
+           "fecha",
+            "estatus",
+            "nombre_docente",
+            "tipo_solicitud",
+            "fecha_documento",
+            "observaciones",
+            "departamento",
+            "antiguedad",
+            "telefono",
+            "centro_clave_trabajo",
+            "comunidad",
+            "municipio",
+            "zona_id",
+            "sector_id",
+            "tipo_organizacion",
+            "no_alumnos",
+            "grado_1",
+            "grado_2",
+            "grado_3",
+            "funcion_docente",
+            "inicio_movimiento",
+            "termino_movimiento",
+            "propuesta",
+            "observaciones_secretaria_general"
+        ],
+    };
+    
+    window.externalFilterChanged = function (filterType) {
+        if (!gridApi) {
+            console.error("Grid API no está inicializado.");
+            return;
+        }
+    
+        if (filterType in columnVisibilityConfig) {
+            const columnsToShow = columnVisibilityConfig[filterType];
+    
+            if (columnsToShow) {
+                const allColumns = gridOptions.columnDefs.map((colDef) =>
+                    colDef.field ? colDef.field : null
+                );
+    
+                const columnsToHide = allColumns.filter(
+                    (col) => col && !columnsToShow.includes(col)
+                );
+    
+                columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
+                columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
+            } else {
+                gridOptions.columnDefs.forEach((colDef) => {
+                    gridApi.setColumnVisible(colDef.field, true);
+                });
+            }
+        } else {
+            console.warn(`Tipo de filtro desconocido: ${filterType}`);
+        }
+    };
+    
+    
+
     const initializeGrid = async () => {
-     const gridDiv = document.querySelector("#mygrid");
-     gridApi = agGrid.createGrid(gridDiv, gridOptions);
- 
-     try {
-         // Obtén los datos desde el backend
-         const data = await fetch("/getSolicitudesGenerales").then((response) => response.json());
- 
-         // Agrega el campo `tabla` dinámicamente
-         const rowData = data.map((row) => ({
-             ...row,
-             tabla: "solicitudes_generales", // Nombre de la tabla
-         }));
- 
-         // Asigna los datos al grid
-         gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
-     } catch (error) {
-         console.error("Error inicializando la tabla:", error);
-     }
- };
+        const gridDiv = document.querySelector("#mygrid");
+        gridApi = agGrid.createGrid(gridDiv, gridOptions);
+    
+        try {
+            const municipios = await fetchMunicipios();
+            for (const municipio of municipios) {
+                municipio.comunidades = await fetchComunidades(municipio.municipio_id);
+            }
+            gridOptions.context.municipios = municipios;
+    
+            // Obtén los datos desde el backend
+            const data = await fetch("/getSolicitudesGenerales").then((response) =>
+                response.json()
+            );
+    
+            // Agrega el campo `tabla` dinámicamente
+            const rowData = data.map((row) => ({
+                ...row,
+                tabla: "solicitudes_generales", // Nombre de la tabla a la que pertenece esta fila
+            }));
+    
+            // Establece los datos en la tabla
+            gridApi.setGridOption("rowData", rowData);
+    
+            // Aplica el filtro inicial (opcional)
+            externalFilterChanged("all");
+        } catch (error) {
+            console.error("Error inicializando la tabla:", error);
+        }
+    };
+    
     // Alternar el modo edición
     document.querySelector("#toggleEditMode").addEventListener("click", async () => {
         if (editMode) {
@@ -448,7 +594,6 @@
             gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
         }
     });
- 
+
     document.addEventListener("DOMContentLoaded", initializeGrid);
- </script>
- 
+</script>

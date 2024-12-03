@@ -16,6 +16,13 @@ const vistasController = {
     }); 
   },
   
+  vistaError: async (req, res) => {
+    res.render('error/403', { 
+        title: 'Inicio-de-Sesión',
+        layout: '403/layout-error'
+    }); 
+  },
+
   vistaPrincipal: async (req, res) => {
     try {
       const { personal, pendientes } = await home();
@@ -33,11 +40,8 @@ const vistasController = {
       res.status(500).send("Error al cargar la página");
     }
   },
-  
-  
-  
-  
-      vistaReviciones: (req, res) => {
+
+  vistaReviciones: (req, res) => {
         res.render("revisiones");
       },
     vistaCambio: async (req, res) => {
@@ -85,6 +89,7 @@ const vistasController = {
     vistaPerfil: (req, res) => {
       res.render("perfil");
     },
+    
     vistaRoles: async (req, res) => {
       try {
           const homeData = await home();
@@ -95,15 +100,19 @@ const vistasController = {
           console.error('Error al obtener los roles:', error);
           res.status(500).json({ error: 'Error al obtener los roles' });
       }
-  },
+    },
     vistaInfoPersonal: (req, res) => {
       res.render("personal/info-personal");
     },
     VistaSolicitudes: (req, res) => {
       res.render("solicitudes");
     },
-    
-   
+    vista403: (req, res) => {
+      res.render("errors/403");
+    },
+    vistaCalendario: (req, res) => {
+      res.render("utilidades/calendario");
+    },
   };
 
 

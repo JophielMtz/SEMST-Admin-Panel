@@ -94,108 +94,125 @@
    </div>
     
    <script>
-      document.querySelector('form').addEventListener('submit', async function (e) {
-          e.preventDefault(); // Prevenir el envío estándar del formulario
+    // Escuchar el evento submit del formulario
+    document.querySelector('form').addEventListener('submit', async function (e) {
+      e.preventDefault(); // Prevenir el envío estándar del formulario
+      
+      // Limpiar mensajes de error previos
+      const emailField = document.getElementById('email');
+      const passwordField = document.getElementById('password'); // Cambiado 'contraseña' a 'password'
+      clearErrorMessages(emailField);
+      clearErrorMessages(passwordField);
   
-          // Limpiar mensajes de error previos
-          const emailField = document.getElementById('email');
-          const passwordField = document.getElementById('password'); // Cambiado 'contraseña' a 'password'
-          clearErrorMessages(emailField);
-          clearErrorMessages(passwordField);
+      // Obtener los datos del formulario
+      const formData = new FormData(this);
+      const data = {
+        email: formData.get('email'),
+        password: formData.get('password'), // Cambiado 'contraseña' a 'password'
+      };
   
-          // Obtener los datos del formulario
-          const formData = new FormData(this);
-          const data = {
-              email: formData.get('email'),
-              password: formData.get('password'), // Cambiado 'contraseña' a 'password'
-          };
+      // Log para verificar los datos antes de enviarlos
+      console.log("Datos a enviar:", data);
   
-          try {
-              // Realizar la solicitud al backend
-              const response = await fetch('/loginUser', {
-                  method: 'POST',
-                  headers: {
-                      'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(data),
-              });
+      try {
+        // Realizar la solicitud al backend
+        const response = await fetch('/loginUser', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
   
-              const result = await response.json();
+        const result = await response.json();
   
-              if (!response.ok) {
-                  // Manejar errores específicos
-                  if (result.error === 'Usuario no encontrado') {
-                      emailField.classList.add('is-invalid');
-                      showErrorMessage(emailField, 'Correo no encontrado.');
-                  } else if (result.error === 'Contraseña incorrecta') {
-                      passwordField.classList.add('is-invalid');
-                      showErrorMessage(passwordField, 'Contraseña incorrecta.');
-                  } else {
-                      alert('Ocurrió un error inesperado. Por favor, intente de nuevo.');
-                  }
-              } else {
-                  // Inicio de sesión exitoso
-                  window.location.href = '/home';
-              }
-          } catch (error) {
-              console.error('Error en la conexión con el servidor:', error);
-              alert('Error al conectar con el servidor. Por favor, revise su conexión a internet.');
+        // Log de la respuesta del servidor
+        console.log("Respuesta del servidor:", result);
+  
+        if (!response.ok) {
+          // Manejar errores específicos
+          if (result.error === 'Usuario no encontrado') {
+            emailField.classList.add('is-invalid');
+            showErrorMessage(emailField, 'Correo no encontrado.');
+          } else if (result.error === 'Contraseña incorrecta') {
+            passwordField.classList.add('is-invalid');
+            showErrorMessage(passwordField, 'Contraseña incorrecta.');
+          } else {
+            alert('Ocurrió un error inesperado. Por favor, intente de nuevo.');
           }
-      });
-  
-      // Función para mostrar mensajes de error
-      function showErrorMessage(field, message) {
-          const errorElement = document.createElement('div');
-          errorElement.className = 'invalid-feedback';
-          errorElement.textContent = message;
-          field.parentNode.appendChild(errorElement);
-      }
-  
-      // Función para limpiar mensajes de error
-      function clearErrorMessages(field) {
-          field.classList.remove('is-invalid');
-          const existingError = field.parentNode.querySelector('.invalid-feedback');
-          if (existingError) {
-              existingError.remove();
+        } else {
+          // Inicio de sesión exitoso
+          // Guardar los tokens en localStorage
+          const { accessToken, refreshToken } = result;
+          if (accessToken) {
+            console.log('Token de acceso recibido:', accessToken); // Log del token de acceso
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken); // Opcionalmente puedes guardar ambos
           }
-      }
-  
-      document.getElementById('login-btn').addEventListener('click', function(event) {
-          console.log('Botón de login presionado');
-  
-          // Verificar si el botón está dentro de un formulario
-          const form = event.target.closest('form');
-          if (form) {
-              console.log('Formulario encontrado');
-              
-              // Log de la acción del formulario
-              console.log('Action del formulario:', form.action);
-              console.log('Método del formulario:', form.method);
-              
-              // Añadir un listener para ver si el formulario es enviado
-              form.addEventListener('submit', function(submitEvent) {
-                  console.log('Formulario enviado');
-              });
-          }
-  
-          // Verificar si hay alguna redirección
-          const currentURL = window.location.href;
-          console.log('URL actual antes del clic:', currentURL);
-  
-          // Si hay una redirección, ver qué URL se intenta cargar
-          const originalLocation = window.location.href;
-          const redirectInterval = setInterval(function() {
-              if (window.location.href !== originalLocation) {
-                  console.log('Redirección detectada');
-                  console.log('Redirigiendo a:', window.location.href);
-                  clearInterval(redirectInterval);
-              }
-          }, 100);
-  
-          // Verificar si el código del botón hace algo adicional
-          console.log('Verificando si el botón dispara alguna acción adicional...');
           
-      });
+          // Redirigir a la página principal o de perfil
+          console.log("Redirigiendo a la página principal");
+          window.location.href = '/home';
+        }
+      } catch (error) {
+        console.error('Error en la conexión con el servidor:', error);
+        alert('Error al conectar con el servidor. Por favor, revise su conexión a internet.');
+      }
+    });
+  
+    // Función para mostrar mensajes de error
+    function showErrorMessage(field, message) {
+      const errorElement = document.createElement('div');
+      errorElement.className = 'invalid-feedback';
+      errorElement.textContent = message;
+      field.parentNode.appendChild(errorElement);
+    }
+  
+    // Función para limpiar mensajes de error
+    function clearErrorMessages(field) {
+      field.classList.remove('is-invalid');
+      const existingError = field.parentNode.querySelector('.invalid-feedback');
+      if (existingError) {
+        existingError.remove();
+      }
+    }
+  
+    // Escuchar el evento click en el botón de login
+    document.getElementById('login-btn').addEventListener('click', function (event) {
+      console.log('Botón de login presionado');
+  
+      // Verificar si el botón está dentro de un formulario
+      const form = event.target.closest('form');
+      if (form) {
+        console.log('Formulario encontrado');
+        
+        // Log de la acción del formulario
+        console.log('Action del formulario:', form.action);
+        console.log('Método del formulario:', form.method);
+        
+        // Añadir un listener para ver si el formulario es enviado
+        form.addEventListener('submit', function(submitEvent) {
+          console.log('Formulario enviado');
+        });
+      }
+  
+      // Verificar si hay alguna redirección
+      const currentURL = window.location.href;
+      console.log('URL actual antes del clic:', currentURL);
+  
+      // Si hay una redirección, ver qué URL se intenta cargar
+      const originalLocation = window.location.href;
+      const redirectInterval = setInterval(function() {
+        if (window.location.href !== originalLocation) {
+          console.log('Redirección detectada');
+          console.log('Redirigiendo a:', window.location.href);
+          clearInterval(redirectInterval);
+        }
+      }, 100);
+  
+      // Verificar si el código del botón hace algo adicional
+      console.log('Verificando si el botón dispara alguna acción adicional...');
+    });
   </script>
   
   

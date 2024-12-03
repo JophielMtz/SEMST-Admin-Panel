@@ -1,58 +1,62 @@
 <div class="container-fluid content-inner mt-n5 py-0">
-  <div class="row">
-      <div class="col-sm-12">
-          <div class="card">
-              <div class="container text-center">
-                  <h4 class="text-responsive mb-3 mt-3">Licencia Sin Goce</h4>
-                  <div class="row justify-content-center gx-2">
-                      <!-- Botón Nuevo -->
-                      <div class="col-auto">
-                          <button type="button" class="btn btn-primary rounded-pill w-auto"
-                              data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
-                              style="padding: 4px 12px; font-size: 12px;"
-                              class="btn-sm">
-                              Nuevo
-                          </button>
-                      </div>
-              
-                      <!-- Botón Activar Edición -->
-                      <div class="col-auto">
-                          <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
-                              style="padding: 4px 12px; font-size: 12px;">
-                              <i class="fas fa-edit me-1"></i> Activar Edición
-                          </button>
-                      </div>
-              
-                      <!-- Botón Borrar -->
-                      <div class="col-auto">
-                          <button id="deleteButton" class="btn btn-danger rounded-pill w-auto" 
-                              style="padding: 4px 12px; font-size: 12px;" disabled>
-                              <i class="fas fa-trash-alt me-1"></i> Borrar
-                          </button>
-                      </div>
-                      
-                  </div>
-              </div>
-              <div class="card-body">
-                  <div class="test-container">
-                      <div class="test-header d-flex align-items-center">
-                          <!-- Radio para 'Todos' -->
-                          <div class="form-check form-check-inline">
-                              <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
-                              <label for="all" class="form-check-label pl-2">Todos</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
-                              <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
-                          </div>
-                          
-                      </div>
-                      <div id="mygrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="container text-center">
+                    <h4 class="text-responsive mb-3 mt-3">Licencia Sin Goce</h4>
+                    <div class="row justify-content-center gx-2" 
+                    <<% if (role !== 'admin' && role !== 'super-admin') { %> style="display: none;" <% } %> 
+
+                    <!-- Botón Nuevo -->
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary rounded-pill w-auto"
+                            data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                            style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
+                            Nuevo
+                        </button>
+                    </div>
+                
+                    <!-- Botón Activar Edición -->
+                    <div class="col-auto">
+                        <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                            style="padding: 4px 12px; font-size: 12px;">
+                            <i class="fas fa-edit me-1"></i> Activar Edición
+                        </button>
+                    </div>
+                
+               
+               
+                </div>
+                
+                    
+                </div>
+                <div class="card-body">
+                    <div class="test-container">
+                        <div class="test-header d-flex align-items-center">
+                            <!-- Radio para 'Todos' -->
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
+                                <label for="all" class="form-check-label pl-2">Todos</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
+                                <label for="cctsSaleEntra" class="form-check-label pl-2">Filtrar</label>
+                            </div>
+                            <% if (role === 'admin' || role === 'super-admin') { %>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
+                                    <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
+                                </div>
+                            <% } %>
+                            
+                            
+                        </div>
+                        <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -122,24 +126,53 @@
                                                     style="z-index: 1000"></ul>
                                             </div>
                                           </div>
+                                           <!-- Fecha, Antigüedad y Teléfono -->
+                                          <div class="form-group col-md-6 col-lg-6">
+                                            <label for="telefono" class="form-label">Teléfono:</label>
+                                            <input type="text" class="form-control" id="telefono" name="telefono"
+                                                placeholder="" />
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="antiguedad" class="form-label">Antigüedad:</label>
+                                            <input type="text" class="form-control" id="antiguedad"
+                                                name="antiguedad" placeholder="" />
+                                        </div>
 
+                                         <!-- Sección de CCT Sale -->
+                                         <div class="div">
+                                            <h2 class="h6 mb-2 mt-2 text-center">CCT </h2>
+                                        </div>
+                                        <hr class="hr-horizontal mb-4" />
+                                        <div class="form-group col-md-4">
+                                            <label for="municipio_sale" class="form-label">Municipio:</label>
+                                            <input type="text" class="form-control" id="municipio_sale"
+                                                placeholder="" readonly />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="comunidad_sale" class="form-label">Comunidad:</label>
+                                            <input type="text" class="form-control" id="comunidad_sale"
+                                                placeholder="" readonly />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="cct_sale" class="form-label">Clave CCT:</label>
+                                            <input type="text" class="form-control" id="cct_sale"
+                                                placeholder="Clave CCT" readonly />
+                                        </div>
+
+                                        <hr class="hr-horizontal mb-3">
                                           
 
-                                          <!-- Fecha, Antigüedad y Teléfono -->
+                                         
                                           <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                              <label for="fecha" class="form-label">Fecha:</label>
-                                              <input type="date" class="form-control" id="fecha" name="fecha" placeholder="" />
+                                              <label for="fecha" class="form-label">Fecha Registro:</label>
+                                              <input type="date" class="form-control" id="fecha_registro" name="fecha_registro" placeholder="" />
                                           </div>
                                           <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                              <label for="antiguedad" class="form-label">Antigüedad:</label>
-                                              <input type="text" class="form-control" id="antiguedad"
-                                                  name="antiguedad" placeholder="" />
-                                          </div>
-                                          <div class="form-group col-md-6 col-lg-6">
-                                              <label for="telefono" class="form-label">Teléfono:</label>
-                                              <input type="text" class="form-control" id="telefono" name="telefono"
-                                                  placeholder="" />
-                                          </div>
+                                            <label for="fecha" class="form-label">Fecha Documento:</label>
+                                            <input type="date" class="form-control" id="fecha_documento" name="fecha_documento" placeholder="" />
+                                        </div>
+                                          
+                                         
 
                                           <!-- Cobertura -->
                                           <div class="form-group col-sm-6 col-md-6 col-lg-6">
@@ -162,10 +195,9 @@
                                                     Selecciona un estatus
                                                 </option>
                                                 <option value="Unitaria">Unitaria</option>
-        <option value="Bidocente">Bidocente</option>
-        <option value="Tridocente">Tridocente</option>
-        <option value="Tetradocente">Tetradocente</option>
-        <option value="Organización completa">Organización completa</option>
+                                                 <option value="Bidocente">Bidocente</option>
+                                                 <option value="Tridocente">Tridocente</option>
+                                                 <option value="Organización completa">Organización completa</option>
                                             </select>
                                         </div>
                                         
@@ -179,27 +211,17 @@
                                                   <option value="no">No</option>
                                               </select>
                                           </div>
+                                          <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="vacante" class="form-label">Vacante:</label>
+                                            <select class="form-select form-select-sm" id="vacante" name="vacante">
+                                                <option value="" selected disabled>Selecciona una opción</option>
+                                                <option value="Cubierta">Cubierta</option>
+                                                <option value="Sin cubrir">Sin cubrir</option>
+                                                <option value="Sin validar">Sin validar</option>
+                                            </select>
+                                        </div>
 
-                                          <!-- Sección de CCT Sale -->
-                                          <div class="div">
-                                              <h2 class="h6 mb-2 mt-2">CCT </h2>
-                                          </div>
-                                          <hr class="hr-horizontal mb-4" />
-                                          <div class="form-group col-md-4">
-                                              <label for="municipio_sale" class="form-label">Municipio:</label>
-                                              <input type="text" class="form-control" id="municipio_sale"
-                                                  placeholder="" readonly />
-                                          </div>
-                                          <div class="form-group col-md-4">
-                                              <label for="comunidad_sale" class="form-label">Comunidad:</label>
-                                              <input type="text" class="form-control" id="comunidad_sale"
-                                                  placeholder="" readonly />
-                                          </div>
-                                          <div class="form-group col-md-4">
-                                              <label for="cct_sale" class="form-label">Clave CCT:</label>
-                                              <input type="text" class="form-control" id="cct_sale"
-                                                  placeholder="Clave CCT" readonly />
-                                          </div>
+                                         
 
                                 
                                           <hr class="hr-horizontal mb-4" />
@@ -228,15 +250,7 @@
                                                 placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
                                         </div>
                                         
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label for="vacante" class="form-label">Vacante:</label>
-                                            <select class="form-select form-select-sm" id="vacante" name="vacante">
-                                                <option value="" selected disabled>Selecciona una opción</option>
-                                                <option value="Cubierta">Cubierta</option>
-                                                <option value="Sin cubrir">Sin cubrir</option>
-                                                <option value="Sin validar">Sin validar</option>
-                                            </select>
-                                        </div>
+                                       
                                         
 
 
@@ -302,93 +316,217 @@
 </div>
 
 <script type="module">
-  import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
+    import { getStatusClass,statusRenderer,  funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
+    import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
+    import * as Columnas from "./js/AgGrid/columNames.js";
 
-  let gridApi;
-  let editMode = false;
-
-  const gridOptions = {
-     columnDefs: [
-     { field: "np", headerName: "NP", width: 60, editable: false },
-     colFecha(editMode),
-     { field: "fecha_registro", headerName: "Fecha Registro", width: 60, editable: false },
-     { field: "fecha_documento", headerName: "Fecha Documento", width: 60, editable: false },
-     { headerName: "Nombre del Docente", field: "NOMBRE DEL DOCENTE", editable: false, resizable: true },
-     { headerName: "Tipo de Movimiento", field: "TIPO DE MOVIMIENTO", editable: () => editMode, resizable: true },
-     { headerName: "CCT", field: "CCT", editable: false, resizable: true },
-     { headerName: "Comunidad", field: "COMUNIDAD", editable: false, resizable: true },
-     { headerName: "Municipio", field: "MUNICIPIO", editable: false, resizable: true },
-     { headerName: "Organización", field: "ORGANIZACION", editable: () => editMode, resizable: true },
-     { headerName: "Justifica", field: "JUSTIFICA", editable: () => editMode, resizable: true },
-     { headerName: "Inicio del Movimiento", field: "INICIO DEL MOVIMIENTO", editable: () => editMode, resizable: true },
-     { headerName: "Término del Movimiento", field: "TÉRMINO DEL MOVIMIENTO", editable: () => editMode, resizable: true },
-     { headerName: "Diagnóstico", field: "DIAGNOSTICO", editable: () => editMode, resizable: true },
-     { headerName: "Aviso", field: "AVISO", editable: () => editMode, resizable: true },
-     { headerName: "Vacante", field: "VACANTE", editable: () => editMode, resizable: true },
-     { headerName: "Observaciones", field: "OBSERVACIONES", editable: () => editMode, resizable: true },
-     { headerName: "Antigüedad", field: "ANTIGUEDAD", editable: () => editMode, resizable: true },
-     { headerName: "Teléfono", field: "TELEFONO", editable: () => editMode, resizable: true },
-     { headerName: "Observaciones Conflictos", field: "OBSERVACIONES CONFLICTOS", editable: () => editMode, resizable: true },
-     { headerName: "Observaciones Secretaría General", field: "OBSERVACIONES SECRETARIA GENERAL", editable: () => editMode, resizable: true },
-     borrarColumna('/api/deleteRecord'),
+    let gridApi;
+    let editMode = false;
    
-      ],
+    const estatusValidValues = ["LSG", "Incapacidad"];
+    const OrgValidValues = ["Unitaria", "Bidocente", "Tridocente", "Organización completa"];
+    const vacanteValidValues = ["Cubierta", "Sin cubrir", "Sin validar"];
 
-  
-      defaultColDef: {editable: true,resizable: true,},
-      rowData: null,
-      rowHeight: 60,
-      domLayout: "autoHeight",
-      context: {
-          endpoint: "/editarLicenciaSinGoce",
-      },
+    const datos = [
+        borrarColumna('/api/deleteRecord'),
+        { field: "np", headerName: "NP", width: 70, editable: false },
+        {...Columnas.colFechaRegistro(), editable: () => editMode,},
+        {...Columnas.colFechaDocumento(), editable: () => editMode,},
+        Columnas.nombreDocente(),
+        Columnas.antiguedad(),
+        Columnas.telefono(),
+        {field: "tipo_movimiento",headerName: "Tipo de Movimiento",  wrapHeaderText: true, 
+        autoHeaderHeight: true,  cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, width: 120,
+             ...createSelectColumnProps(estatusValidValues),},
+        Columnas.municipioSale(),
+        Columnas.comunidadSale(),
+        Columnas.cctSale(),
+        {field: "tipo_organizacion",headerName: "Organizació",  wrapHeaderText: true, 
+        autoHeaderHeight: true,  cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, width: 120,
+             ...createSelectColumnProps(OrgValidValues),},
+      { headerName: "Justifica", field: "JUSTIFICA", editable: () => editMode, resizable: true, width: 90, cellEditor: 
+      "agSelectCellEditor", cellEditorParams: { values: ["Si", "No"],} },
+      {...Columnas.colIniciMovimiento(), editable: () => editMode,},
+      {...Columnas.colTerminoMovimiento(), editable: () => editMode,},
+      { headerName: "Diagnóstico", field: "DIAGNOSTICO", editable: () => editMode, resizable: true,  },       
+      { headerName: "Aviso", field: "AVISO", editable: () => editMode, resizable: true, width: 120, },       
+      {field: "VACANTE",headerName: "Vacante",  wrapHeaderText: true, 
+        autoHeaderHeight: true,  editable: () => editMode, width: 120,
+             ...createSelectColumnProps(vacanteValidValues),},      
+      { headerName: "Observaciones", field: "OBSERVACIONES", editable: () => editMode, resizable: true },           
+      { headerName: "Observaciones Conflictos", field: "OBSERVACIONES CONFLICTOS", editable: () => editMode, resizable: true        },
+    { headerName: "Observaciones Secretaría General", field: "OBSERVACIONES SECRETARIA GENERAL", editable: () => editMode,        resizable: true },
+    ];
 
-      onCellValueChanged: editarCelda,
-  };
+    const gridOptions = {
+        columnDefs: datos,
+        defaultColDef: {editable: true,resizable: true,},
+        rowData: [],
+        pagination: true,
+        paginationPageSize: 20,
+        cacheBlockSize: 10,
+        rowHeight: 60,
+        domLayout: "autoHeight",
+        context: {
+            endpoint: "/editarLicenciaSinGoce", // Funcion post
+            municipios: [], // Lista de municipios
+            comunidades: [], // Lista global de comunidades
+            ccts: [], // Lista global de CCTs
+            currentComunidades: [], // Para "sale"
+            currentCCTs: [], // Para "sale"
+            currentComunidadesEntra: [], // Nueva clave para "entra"
+            currentCCTsEntra: [], // Nueva clave para "entra"
+        },
+     
+        onCellValueChanged: editarCelda,
+    };
 
-  
+   
+    const columnVisibilityConfig = {
+        cctsSaleEntra: [
+        "np",
+        "NOMBRE DEL DOCENTE",
+        "tipo_movimiento",
+        "CCT",
+        "ORGANIZACION",
+        "JUSTIFICA",
+        "INICIO DEL MOVIMIENTO",
+        "TÉRMINO DEL MOVIMIENTO",
+        "DIAGNOSTICO",
+        "VACANTE",
+        "OBSERVACIONES",
+        ],
+        funcionDelete: [
+        "Accion",
+        "np",
+        "fecha_registro",
+        "fecha_documento",
+        "NOMBRE DEL DOCENTE",
+        "TIPO DE MOVIMIENTO",
+        "cct_sale",
+        "comunidad_sale",
+        "municipio_sale",
+        "ORGANIZACION",
+        "JUSTIFICA",
+        "INICIO DEL MOVIMIENTO",
+        "TÉRMINO DEL MOVIMIENTO",
+        "DIAGNOSTICO",
+        "AVISO",
+        "VACANTE",
+        "OBSERVACIONES",
+        "ANTIGUEDAD",
+        "TELEFONO",
+        "OBSERVACIONES CONFLICTOS",
+        "OBSERVACIONES SECRETARIA GENERAL"
 
-  const initializeGrid = async () => {
-   const gridDiv = document.querySelector("#mygrid");
-   gridApi = agGrid.createGrid(gridDiv, gridOptions);
+        ],
+        all: [
+        "np",
+        "fecha_registro",
+        "fecha_documento",
+        "nombre_docente",
+        "tipo_movimiento",
+        "cct_sale",
+        "comunidad_sale",
+        "municipio_sale",
+        "tipo_organizacion",
+        "JUSTIFICA",
+        "inicio_movimiento",
+        "termino_movimiento",
+        "DIAGNOSTICO",
+        "AVISO",
+        "VACANTE",
+        "OBSERVACIONES",
+        "antiguedad",
+        "telefono",
+        "OBSERVACIONES CONFLICTOS",
+        "OBSERVACIONES SECRETARIA GENERAL"
+        ],
+    };
+    
+    window.externalFilterChanged = function (filterType) {
+        if (!gridApi) {
+            console.error("Grid API no está inicializado.");
+            return;
+        }
+    
+        if (filterType in columnVisibilityConfig) {
+            const columnsToShow = columnVisibilityConfig[filterType];
+    
+            if (columnsToShow) {
+                const allColumns = gridOptions.columnDefs.map((colDef) =>
+                    colDef.field ? colDef.field : null
+                );
+    
+                const columnsToHide = allColumns.filter(
+                    (col) => col && !columnsToShow.includes(col)
+                );
+    
+                columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
+                columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
+            } else {
+                gridOptions.columnDefs.forEach((colDef) => {
+                    gridApi.setColumnVisible(colDef.field, true);
+                });
+            }
+        } else {
+            console.warn(`Tipo de filtro desconocido: ${filterType}`);
+        }
+    };
+    
+    
 
-   try {
-       // Obtén los datos desde el backend
-       const data = await fetch("/getLicenciaSinGoce").then((response) => response.json());
+    const initializeGrid = async () => {
+        const gridDiv = document.querySelector("#myGrid");
+        gridApi = agGrid.createGrid(gridDiv, gridOptions);
+    
+        try {
+            const municipios = await fetchMunicipios();
+            for (const municipio of municipios) {
+                municipio.comunidades = await fetchComunidades(municipio.municipio_id);
+            }
+            gridOptions.context.municipios = municipios;
+    
+            // Obtén los datos desde el backend
+            const data = await fetch("/getLicenciaSinGoce").then((response) =>
+                response.json()
+            );
+    
+            // Agrega el campo `tabla` dinámicamente
+            const rowData = data.map((row) => ({
+                ...row,
+                tabla: "licencia_sin_goce", // Nombre de la tabla a la que pertenece esta fila
+            }));
+    
+            // Establece los datos en la tabla
+            gridApi.setGridOption("rowData", rowData);
+    
+            // Aplica el filtro inicial (opcional)
+            externalFilterChanged("all");
+        } catch (error) {
+            console.error("Error inicializando la tabla:", error);
+        }
+    };
+    
+    // Alternar el modo edición
+    document.querySelector("#toggleEditMode").addEventListener("click", async () => {
+        if (editMode) {
+            if (confirm("¿Estás seguro de los cambios?")) {
+                editMode = false;
+                const button = document.querySelector("#toggleEditMode");
+                button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
+                gridApi.refreshCells({ force: true }); // Refrescar las celdas
+    
+                // Recargar datos desde el servidor
+                await reloadData();
+            }
+        } else {
+            editMode = true;
+            const button = document.querySelector("#toggleEditMode");
+            button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
+            gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
+        }
+    });
 
-       // Agrega el campo `tabla` dinámicamente
-       const rowData = data.map((row) => ({
-           ...row,
-           tabla: "licencia_sin_goce", // Nombre de la tabla
-       }));
-
-       // Asigna los datos al grid
-       gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
-   } catch (error) {
-       console.error("Error inicializando la tabla:", error);
-   }
-};
-
-
-  // Alternar el modo edición
-  document.querySelector("#toggleEditMode").addEventListener("click", async () => {
-      if (editMode) {
-          if (confirm("¿Estás seguro de los cambios?")) {
-              editMode = false;
-              const button = document.querySelector("#toggleEditMode");
-              button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
-              gridApi.refreshCells({ force: true }); // Refrescar las celdas
-  
-              // Recargar datos desde el servidor
-              await reloadData();
-          }
-      } else {
-          editMode = true;
-          const button = document.querySelector("#toggleEditMode");
-          button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
-          gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
-      }
-  });
-
-  document.addEventListener("DOMContentLoaded", initializeGrid);
+    document.addEventListener("DOMContentLoaded", initializeGrid);
 </script>

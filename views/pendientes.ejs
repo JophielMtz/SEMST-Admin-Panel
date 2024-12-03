@@ -4,29 +4,31 @@
             <div class="card">
                 <div class="container text-center">
                     <h4 class="text-responsive mb-3 mt-3">Pendientes</h4>
-                    <div class="row justify-content-center gx-2">
-                        <!-- Botón Nuevo -->
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-primary rounded-pill w-auto"
-                                data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
-                                style="padding: 4px 12px; font-size: 12px;"
-                                class="btn-sm">
-                                Nuevo
-                            </button>
-                        </div>
-                
-                        <!-- Botón Activar Edición -->
-                        <div class="col-auto">
-                            <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
-                                style="padding: 4px 12px; font-size: 12px;">
-                                <i class="fas fa-edit me-1"></i> Activar Edición
-                            </button>
-                        </div>
-                
-                        <!-- Botón Borrar -->
-                        
-                        
+                    <div class="row justify-content-center gx-2" 
+                    <<% if (role !== 'admin' && role !== 'super-admin') { %> style="display: none;" <% } %> 
+
+                    <!-- Botón Nuevo -->
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary rounded-pill w-auto"
+                            data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                            style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
+                            Nuevo
+                        </button>
                     </div>
+                
+                    <!-- Botón Activar Edición -->
+                    <div class="col-auto">
+                        <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                            style="padding: 4px 12px; font-size: 12px;">
+                            <i class="fas fa-edit me-1"></i> Activar Edición
+                        </button>
+                    </div>
+                
+               
+               
+                </div>
+                
+                    
                 </div>
                 <div class="card-body">
                     <div class="test-container">
@@ -36,13 +38,17 @@
                                 <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
                                 <label for="all" class="form-check-label pl-2">Todos</label>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
-                                <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
-                            </div>
+                            
+                            <% if (role === 'admin' || role === 'super-admin') { %>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
+                                    <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
+                                </div>
+                            <% } %>
+                            
                             
                         </div>
-                        <div id="pendientesGrid" class="ag-theme-quartz" style="width: 100%"></div>
+                        <div id="mygrid" class="ag-theme-quartz" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
@@ -90,9 +96,9 @@
                                             <label for="estatus" class="form-label">Estatus:</label>
                                             <select class="form-select form-select-sm" id="estatus" name="estatus">
                                                 <option value="" selected disabled>Selecciona un estatus</option>
+                                                <option value="Atendido">Atendido</option>
                                                 <option value="En proceso">En proceso</option>
-                                                <option value="Terminado">Terminado</option>
-                                                <option value="No se atiende">No se atiende</option>
+                                                <option value="Sin atender">Sin atender</option>
                                             </select>
                                         </div>
                                     
@@ -181,23 +187,25 @@
 </div>
 
 <script type="module">
-   import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
-
+   import { getStatusClass,statusRenderer,  funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
+   import * as Columnas from "./js/AgGrid/columNames.js";
 
    let gridApi;
    let editMode = false;
 
-   const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
+   const estatusValidValues = ["Terminado", "En proceso", "No se atiende"];
    
 
    const datos = [
+   borrarColumna('/api/deleteRecord'),
    { field: "np", headerName: "NP", width: 70, editable: false },
-        colFecha(editMode),
-   { headerName: "Estatus", field: "estatus", editable: () => editMode, 
-     cellEditor: "agSelectCellEditor",
-     cellEditorParams: {values: ["Terminado", "En proceso", "No se atiende"],},},
-    { headerName: "Trámite", field: "tramite", editable: () => editMode,   resizable: true,},
-    { headerName: "Departamento", field: "departamento", editable: () => editMode,  resizable: true, cellEditor: "agSelectCellEditor", cellEditorParams: {
+   {...Columnas.colFecha(), editable: () => editMode,},
+   {field: "estatus",headerName: "Estatus", editable: () => editMode, width: 120,
+            ...createSelectColumnProps(estatusValidValues),},
+    { headerName: "Trámite", field: "tramite",  minWidth: 300, wrapHeaderText: true, 
+    autoHeaderHeight: true,    cellStyle: { "white-space": "normal", "line-height": "1.7" }, autoHeight: true, 
+    editable: () => editMode },
+    { headerName: "Departamento", field: "departamento",minWidth: 300, editable: () => editMode,  resizable: true, cellEditor: "agSelectCellEditor", cellEditorParams: {
             values: [
                 "SUBDIRECCION ACADEMICA",
                 "SUBDIRECCION DE PLANEACION",
@@ -211,12 +219,12 @@
             ], 
         },
     },
-    { field: "observaciones_conflictos", headerName: "Observaciones", minWidth: 380, wrapHeaderText: true, 
+    { field: "observaciones_conflictos", headerName: "Observaciones", minWidth: 450, wrapHeaderText: true, 
     autoHeaderHeight: true,    cellStyle: { "white-space": "normal", "line-height": "1.7" }, autoHeight: true, 
     editable: () => editMode },
-    { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode,   resizable: true,
+    { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode, wrapHeaderText: true,  resizable: true, minWidth: 500,
     },
-    borrarColumna('/api/deleteRecord'),
+
  ];
 
    const gridOptions = {
@@ -231,8 +239,49 @@
        onCellValueChanged: editarCelda,
    };
 
+   const columnVisibilityConfig = {
+    
+    funcionDelete: [
+    "Accion",
+   "np", "estatus", "tramite", "departamento", "observaciones_conflictos", "observaciones_secretaria_general",
+    ],
+    all: [
+    "Accion", "np", "estatus", "tramite", "departamento", "observaciones_conflictos", "observaciones_secretaria_general",
+],
+};
+
+window.externalFilterChanged = function (filterType) {
+    if (!gridApi) {
+        console.error("Grid API no está inicializado.");
+        return;
+    }
+
+    if (filterType in columnVisibilityConfig) {
+        const columnsToShow = columnVisibilityConfig[filterType];
+
+        if (columnsToShow) {
+            const allColumns = gridOptions.columnDefs.map((colDef) =>
+                colDef.field ? colDef.field : null
+            );
+
+            const columnsToHide = allColumns.filter(
+                (col) => col && !columnsToShow.includes(col)
+            );
+
+            columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
+            columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
+        } else {
+            gridOptions.columnDefs.forEach((colDef) => {
+                gridApi.setColumnVisible(colDef.field, true);
+            });
+        }
+    } else {
+        console.warn(`Tipo de filtro desconocido: ${filterType}`);
+    }
+};
+
    const initializeGrid = async () => {
-    const gridDiv = document.querySelector("#pendientesGrid");
+    const gridDiv = document.querySelector("#mygrid");
     gridApi = agGrid.createGrid(gridDiv, gridOptions);
 
     try {
@@ -246,7 +295,9 @@
         }));
 
         // Asigna los datos al grid
-        gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
+        gridApi.setGridOption("rowData", rowData);
+
+        externalFilterChanged("all");
     } catch (error) {
         console.error("Error inicializando la tabla:", error);
     }

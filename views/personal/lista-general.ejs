@@ -5,19 +5,8 @@
             
               <div class="card-body">
                   <div class="test-container">
-                      <div class="test-header d-flex align-items-center">
-                          <!-- Radio para 'Todos' -->
-                          <div class="form-check form-check-inline">
-                              <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
-                              <label for="all" class="form-check-label pl-2">Todos</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
-                              <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
-                          </div>
-                          
-                      </div>
-                      <div id="myGrid" class="ag-theme-quartz" style="width: 100% " ></div>
+                      
+                      <div id="myGrid" class="ag-theme-quartz mt-3" style="width: 100% " ></div>
                   </div>
               </div>
           </div>
@@ -185,13 +174,13 @@
  const datos = [
  
  {field: "personal_id", headerName: "ID", width: 70},
- {field: "nombre", headerName: "Nombre", width: 150},
+ {field: "nombre", headerName: "Nombre", width: 350},
  {field: "rfc", headerName: "RFC", width: 150},
  {field: "edad", headerName: "Edad", width: 100},
  {field: "telefono", headerName: "Teléfono", width: 150},
  {field: "correo", headerName: "Correo", width: 200},
- {field: "cargo", headerName: "Cargo", width: 150},
- {field: "tipo_organizacion_id", headerName: "Tipo de Organización", width: 180}
+ {field: "cargo", headerName: "Cargo", width: 2500},
+
 ];
 
  const gridOptions = {

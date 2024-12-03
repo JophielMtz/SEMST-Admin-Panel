@@ -3,35 +3,29 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="container text-center">
-                    <h4 class="text-responsive mb-3 mt-3">Beca Comisión</h4>
-                    <div class="row justify-content-center gx-2">
-                        <!-- Botón Nuevo -->
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-primary rounded-pill w-auto"
-                                data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
-                                style="padding: 4px 12px; font-size: 12px;"
-                                class="btn-sm">
-                                Nuevo
-                            </button>
-                        </div>
-                
-                        <!-- Botón Activar Edición -->
-                        <div class="col-auto">
-                            <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
-                                style="padding: 4px 12px; font-size: 12px;">
-                                <i class="fas fa-edit me-1"></i> Activar Edición
-                            </button>
-                        </div>
-                
-                        <!-- Botón Borrar -->
-                        <div class="col-auto">
-                            <button id="deleteButton" class="btn btn-danger rounded-pill w-auto" 
-                                style="padding: 4px 12px; font-size: 12px;" disabled>
-                                <i class="fas fa-trash-alt me-1"></i> Borrar
-                            </button>
-                        </div>
-                        
+                    <h4 class="text-responsive mb-3 mt-3">Beca Comisións</h4>
+                    <div class="row justify-content-center gx-2" 
+                    <<% if (role !== 'admin' && role !== 'super-admin') { %> style="display: none;" <% } %> 
+
+                    <!-- Botón Nuevo -->
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary rounded-pill w-auto"
+                            data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                            style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
+                            Nuevo
+                        </button>
                     </div>
+                
+                    <!-- Botón Activar Edición -->
+                    <div class="col-auto">
+                        <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                            style="padding: 4px 12px; font-size: 12px;">
+                            <i class="fas fa-edit me-1"></i> Activar Edición
+                        </button>
+                    </div>
+                </div>
+                
+                    
                 </div>
                 <div class="card-body">
                     <div class="test-container">
@@ -43,11 +37,18 @@
                             </div>
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
-                                <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
+                                <label for="cctsSaleEntra" class="form-check-label pl-2">Filtro</label>
                             </div>
+                            <% if (role === 'admin' || role === 'super-admin') { %>
+                                <div class="form-check form-check-inline">
+                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
+                                    <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
+                                </div>
+                            <% } %>
+                            
                             
                         </div>
-                        <div id="mygrid" class="ag-theme-quartz-dark" style="width: 100%"></div>
+                        <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
                     </div>
                 </div>
             </div>
@@ -271,92 +272,137 @@
 
 
 <script type="module">
-    import { getStatusClass,statusRenderer, colFecha, funcionPost, editarCelda, createValidatedValueSetter, createSelectColumnProps, borrarColumna,  } from "./js/AgGrid/config.js";
- 
- 
+    import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
+    import { getStatusClass,statusRenderer,  funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
+    import * as Columnas from "./js/AgGrid/columNames.js";
+
     let gridApi;
     let editMode = false;
- 
     
-    const gridOptions = {
-       columnDefs: [
-       { field: "np", headerName: "NP", width: 70, editable: false },
-       colFecha(editMode),
-       { field: "nombre_docente", headerName: "Nombre", filter: true, width: 220, editable: false },
-    {
-        headerName: "CCT",
-        field: "cct_sale",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Comunidad",
-        field: "comunidad_sale",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Municipio",
-        field: "municipio_sale",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Vacante",
-        field: "vacante",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-        cellEditor: "agSelectCellEditor",
-        cellEditorParams: {
-            values: ["CUBIERTA", "SIN CUBRIR", "SIN VALIDAR"], // Opciones del select
-        },
-    },
-    {
-        headerName: "Cubre",
-        field: "cubre",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Antigüedad",
-        field: "antiguedad",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    {
-        headerName: "Teléfono",
-        field: "telefono",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    { field: "observaciones", headerName: "Observaciones", minWidth: 250, wrapHeaderText: true, 
-    autoHeaderHeight: true,    cellStyle: { "white-space": "normal", "line-height": "1.7" }, autoHeight: true, 
-    editable: () => editMode },
-    {
-        headerName: "Observaciones Secretaría General",
-        field: "observaciones_secretaria_general",
-        editable: () => editMode,  // Esta columna será editable si editMode es true
-        resizable: true,
-    },
-    borrarColumna('/api/deleteRecord'),
+    const OrgValidValues = ["Cubierta", "Sin cubrir", "Sin validar"];
+    
+    const datos = [
+        borrarColumna('/api/deleteRecord'),
+        { field: "np", headerName: "NP", width: 70, editable: false },
+        Columnas.colFecha(),
+        Columnas.nombreDocente(),
+        Columnas.antiguedad(),
+        Columnas.telefono(),
+        Columnas.municipioSale(),
+        Columnas.comunidadSale(),
+        Columnas.cctSale(),
+        {field: "vacante",headerName: "vacante", cellClass: "centrar-celda",  wrapHeaderText: true,  editable: () => editMode, width: 120,
+            ...createSelectColumnProps(OrgValidValues),},
+        { headerName: "Cubre", field: "cubre", editable: () => editMode,
+        minWidth: 300, 
+        wrapHeaderText: true, 
+        autoHeaderHeight: true, 
+        autoHeight: true,  
+        cellStyle: { "white-space": "normal", "line-height": "1.7" }, 
+        autoHeight: true,  },
+        { ...Columnas.observaciones(), editable: () => editMode, },
+    ]
 
-    ],
-    
+    const gridOptions = {
+        columnDefs: datos,
         defaultColDef: {editable: true,resizable: true,},
         rowData: null,
+        pagination: true,
+        paginationPageSize: 10,
+        cacheBlockSize: 10,
         rowHeight: 60,
         domLayout: "autoHeight",
-        context: {
-            endpoint: "/editarBecas",
-        },
-
+        context: {endpoint: "/editarBecas",},
         onCellValueChanged: editarCelda,
     };
  
+    const columnVisibilityConfig = {
+        cctsSaleEntra: [
+            "np",
+            "nombre_docente",
+            "fecha",
+            "municipio_sale",
+            "cct_sale",
+            "estatus_cubierta",
+           "vacante",
+        ],
+        funcionDelete: [
+            "Accion",
+            "np",
+            "nombre_docente",
+            "fecha",
+            "vacante",
+            "cubre",
+            "antiguedad",
+            "telefono",
+            "situacion",
+            "diagnostico",
+            "fecha_inicio",
+            "fecha_termino",
+            "municipio_sale",
+            "comunidad_sale",
+            "cct_sale",
+            "estatus_cubierta",
+            "funcion_docente",
+            "observaciones",
+
+        ],
+        all: [
+            "np",
+            "nombre_docente",
+            "fecha",
+            "vacante",
+            "cubre",
+            "antiguedad",
+            "telefono",
+            "situacion",
+            "diagnostico",
+            "fecha_inicio",
+            "fecha_termino",
+            "municipio_sale",
+            "comunidad_sale",
+            "cct_sale",
+            "estatus_cubierta",
+            "funcion_docente",
+            "observaciones",
+            
+        ],
+    };
+    
+    window.externalFilterChanged = function (filterType) {
+        if (!gridApi) {
+            console.error("Grid API no está inicializado.");
+            return;
+        }
+    
+        if (filterType in columnVisibilityConfig) {
+            const columnsToShow = columnVisibilityConfig[filterType];
+    
+            if (columnsToShow) {
+                const allColumns = gridOptions.columnDefs.map((colDef) =>
+                    colDef.field ? colDef.field : null
+                );
+    
+                const columnsToHide = allColumns.filter(
+                    (col) => col && !columnsToShow.includes(col)
+                );
+    
+                columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
+                columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
+            } else {
+                gridOptions.columnDefs.forEach((colDef) => {
+                    gridApi.setColumnVisible(colDef.field, true);
+                });
+            }
+        } else {
+            console.warn(`Tipo de filtro desconocido: ${filterType}`);
+        }
+    };
+
     
  
     const initializeGrid = async () => {
-     const gridDiv = document.querySelector("#mygrid");
+     const gridDiv = document.querySelector("#myGrid");
      gridApi = agGrid.createGrid(gridDiv, gridOptions);
  
      try {
@@ -370,7 +416,8 @@
          }));
  
          // Asigna los datos al grid
-         gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
+         gridApi.setGridOption("rowData", rowData);
+         externalFilterChanged("all"); 
      } catch (error) {
          console.error("Error inicializando la tabla:", error);
      }

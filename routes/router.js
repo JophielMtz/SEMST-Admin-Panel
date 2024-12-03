@@ -2,11 +2,15 @@ const express = require('express');
 const { 
   vistaEditarPersonal, vistaAgregarpersonal, 
   agregarPersonal, actualizarPersonal,
-  editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio, editarListaPanelAdministrador,
-   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,  obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, login } = require('../controllers/Pagecontrollers');
+  editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio, editarListaPanelAdministrador, editarUsuario,
+   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,  obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, borrarUsuario,  } = require('../controllers/Pagecontrollers');
 
 
 const vistasController = require('../controllers/vistas');
+
+const checkRol = require('../src/config/middlewares/checkRol');
+const autenticarToken = require('../src/config/middlewares/autenticarToken');
+const authViews = require('../src/config/middlewares/authViews'); 
 const usuarios = require('../auth/authController');
 const router = express.Router();
 const pool = require('../src/config/db'); 
@@ -27,33 +31,44 @@ const upload = multer({ storage: storage });
 //=======Ruta para registros de usuarios===========//
 router.post('/registrar', upload.single('imagen'), usuarios.registroUsuario);
 router.post('/loginUser', usuarios.login);
-router.get('/perfil', usuarios.autenticarToken);
+// router.get('/perfil', usuarios. vistasController.vistaPerfil);
+router.post('/logout', usuarios.logout);
+
+//=======Ruta sin autenticacion===========//
+router.get('/login', vistasController.vistaLogin);
+router.get('/sign-up', vistasController.vistaSignUp);
 
 
 
 //=======Ruta para vistas===========//
-router.get('/login', vistasController.vistaLogin);
-router.get('/sign-up', vistasController.vistaSignUp);
-router.get('/home', vistasController.vistaPrincipal);
-router.get('/revisiones', vistasController.vistaReviciones);
-router.get('/cambio', vistasController.vistaCambio);
-router.get('/pendientes', vistasController.vistaPendientes);
-router.get('/docentes-disponibles', vistasController.vistaDocentesDisponibles);
-router.get('/lista-general', vistasController.vistaListaGeneral);
-router.get('/beca-comision', vistasController.vistaBecaComision);
-router.get('/apoyo-lentes', vistasController.vistaApoyoLentes);
-router.get('/nombramientos-docentes', vistasController.vistaNombramientosDocentes);
-router.get('/licencias-sin-goce', vistasController.vistaLicenciasSinGoce);
-router.get('/incidencias', vistasController.vistaIncidencias);
-router.get('/calendario', vistasController.vistaCalendario);
-router.get('/solicitudes-generales', vistasController.vistaSolicitudesGenerales);
-router.get('/solicitudes-personal', vistasController.vistaSolicitudesPersonal);
-router.get('/salud', vistasController.vistaSalud);
-router.get('/lista-panel-adm', vistasController.vistaListaPanelAdm);
+// router.get('/home', autenticarToken, checkRol(['admin']), vistasController.vistaPrincipal);
+router.get('/home', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaPrincipal);
+router.get('/roles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaRoles);
+router.get('/lista-panel-adm', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaListaPanelAdm);
+router.get('/agregar-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistaAgregarpersonal);
+router.get('/docentes-disponibles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaDocentesDisponibles);
+router.get('/revisiones', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaReviciones);
+router.get('/cambio', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaCambio);
+router.get('/pendientes', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaPendientes);
+router.get('/docentes-disponibles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaDocentesDisponibles);
+router.get('/lista-general', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaListaGeneral);
+router.get('/beca-comision', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaBecaComision);
+router.get('/apoyo-lentes', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaApoyoLentes);
+router.get('/nombramientos-docentes', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaNombramientosDocentes);
+router.get('/licencias-sin-goce', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaLicenciasSinGoce);
+router.get('/incidencias', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaIncidencias);
+router.get('/calendario', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaCalendario);
+router.get('/solicitudes-generales', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaSolicitudesGenerales);
+router.get('/solicitudes-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaSolicitudesPersonal);
+router.get('/salud', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaSalud);
+router.get('/info-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', '']), vistasController.vistaInfoPersonal);
+router.get('/solicitudes', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.VistaSolicitudes);
+router.get('/calendario', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaCalendario);
+router.get('/403', vistasController.vista403);
+
+
+
 router.get('/perfil', vistasController.vistaPerfil);
-router.get('/roles', vistasController.vistaRoles);
-router.get('/info-personal', vistasController.vistaInfoPersonal);
-router.get('/solicitudes', vistasController.VistaSolicitudes);
 
 //========== Endpoints para Apis =============//
 router.get('/api/personal/:personal_id',  obtenerDetallePersonal);
@@ -74,8 +89,6 @@ router.get('/getSolicitudes', obtenerSolicitudes);
 router.get('/getInternos', obtenerInternos);
 router.get ('/getUbicCCTs', obtenerUbicCCTs);
 
-
-
 ///========Ruta Endpoints funcion Editar==========//
 router.put('/editarDocente', editarDocente);
 router.post('/editarCCTS', editarCCTS);
@@ -92,11 +105,12 @@ router.put('/editarNombramientosDocentes', editarNombramientosDocentes);
 router.put('/editarSolicitudes', editarSolicitudes);
 router.put('/editarInternos', editarInternos);
 router.put('/editarListaPanelAdm', editarListaPanelAdministrador);
+router.patch('/editarUsuario', editarUsuario);
 
 
 
 router.get('/api/listaGeneral', obtenerListaGeneral);
-router.get('/agregar-personal', vistaAgregarpersonal);
+
 router.get('/editar-personal', vistaEditarPersonal);
 
 //=======Endpoint para guardar registros en tablas===========//
@@ -326,11 +340,10 @@ router.get('/obtener-ccts', async (req, res) => {
 });
 
 
-//post
-
 
 //delete
-router.delete('/deleteRecord', borrarFila);
+router.delete('/deleteRecord', autenticarToken, authViews, checkRol(['admin', 'super-admin']), borrarFila);
+router.delete('/deleteUser',  borrarUsuario);
 
 
 
@@ -572,24 +585,49 @@ router.post('/guardarRegistro', async (req, res) => {
 
 
 
-router.post('/deleteDocente', async (req, res) => {
-  const id = req.body.id;
+router.delete('/deletePersonal', async (req, res) => {
+  const { personal_id } = req.body;
 
-  if (!id) {
-    return res.json({ success: false, error: 'ID no proporcionado.' });
+  console.log(`[LOG] Recibido personal_id: ${personal_id}`);
+
+  if (!personal_id) {
+      console.error('[ERROR] El campo personal_id es requerido.');
+      return res.status(400).json({ error: 'El campo personal_id es requerido.' });
   }
 
   try {
-    const [result] = await pool.query('DELETE FROM docentes_disponibles WHERE np = ?', [id]);
+      const connection = await pool.getConnection();
 
-    if (result.affectedRows > 0) {
-      res.json({ success: true });
-    } else {
-      res.json({ success: false, error: 'No se encontró el docente.' });
-    }
-  } catch (err) {
-    console.error(err);
-    res.json({ success: false, error: 'Error al eliminar el docente.' });
+      try {
+          await connection.beginTransaction();
+
+          console.log('[LOG] Eliminando registros en detalle_laboral...');
+          const deleteDetalleLaboralQuery = 'DELETE FROM detalle_laboral WHERE personal_id = ?';
+          await connection.query(deleteDetalleLaboralQuery, [personal_id]);
+
+          console.log('[LOG] Eliminando registro en personal...');
+          const deletePersonalQuery = 'DELETE FROM personal WHERE personal_id = ?';
+          const [result] = await connection.query(deletePersonalQuery, [personal_id]);
+
+          if (result.affectedRows === 0) {
+              console.error('[ERROR] No se encontró ningún registro con el personal_id proporcionado.');
+              throw new Error('No se encontró ningún registro con el personal_id proporcionado.');
+          }
+
+          await connection.commit();
+          console.log('[LOG] Registro eliminado exitosamente.');
+
+          res.status(200).json({ message: 'Registro eliminado exitosamente.' });
+      } catch (error) {
+          await connection.rollback();
+          console.error(`[ERROR] Error durante la transacción: ${error.message}`);
+          throw error;
+      } finally {
+          connection.release();
+      }
+  } catch (error) {
+      console.error(`[ERROR] Error al procesar la solicitud: ${error.message}`);
+      res.status(500).json({ error: 'Error al eliminar el registro. Intenta nuevamente.' });
   }
 });
 

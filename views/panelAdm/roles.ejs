@@ -111,7 +111,6 @@
                     </div>
                 </div>
 
-                <!--Tabla usuarios-->
                 <div class="card-body">
                     <div class="table-responsive">
                       <table class="table table-bordered">
@@ -140,19 +139,25 @@
                                        data-id="<%= usuario.id %>" data-role="usuario">
                               </td>
                               <td class="text-center">
-                                <i class="fas fa-trash-alt delete-btn" data-id="<%= usuario.id %>" data-table="roles"></i>
+                                <i 
+                                  class="fas fa-trash-alt delete-btn text-muted" 
+                                  data-id="<%= usuario.id %>" 
+                                  data-name="<%= usuario.nombre %>" 
+                                  data-table="roles" 
+                                  style="cursor: pointer;" 
+                                  data-bs-toggle="tooltip" 
+                                  title="Eliminar usuario"></i>
                               </td>
                             </tr>
                           <% }); %>
                         </tbody>
                       </table>
                       <div class="text-center">
-                        <a href="./admin.html" type="button" class="btn btn-primary">Guardar</a>
+                        <button id="guardar-cambios" type="button" class="btn btn-primary">Guardar</button>
                       </div>
+                      
                     </div>
                   </div>
-                  
-                  
             </div>
         </div>
     </div>
@@ -197,42 +202,108 @@
   </script>
 <!-- image preview -->
 <script>
+  document.querySelectorAll('.form-check-input').forEach((checkbox) => {
+    checkbox.addEventListener('change', function () {
+      const row = this.closest('tr');
+      const adminCheckbox = row.querySelector('.admin-checkbox');
+      const userCheckbox = row.querySelector('.user-checkbox');
 
-    document.querySelectorAll('.form-check-input').forEach((checkbox) => {
-        checkbox.addEventListener('change', function() {
-          const row = this.closest('tr'); // Obtener la fila de la tabla donde está el checkbox
-          const adminCheckbox = row.querySelector('.admin-checkbox');
-          const userCheckbox = row.querySelector('.user-checkbox');
-          
-          // Si el checkbox de Administrador es seleccionado, desmarcar el de Usuario
-          if (this.classList.contains('admin-checkbox') && adminCheckbox.checked) {
-            userCheckbox.checked = false;
-          }
-          
-          // Si el checkbox de Usuario es seleccionado, desmarcar el de Administrador
-          if (this.classList.contains('user-checkbox') && userCheckbox.checked) {
-            adminCheckbox.checked = false;
-          }
-        });
-      });
+      if (this.classList.contains('admin-checkbox') && adminCheckbox.checked) {
+        userCheckbox.checked = false;
+      }
 
+      if (this.classList.contains('user-checkbox') && userCheckbox.checked) {
+        adminCheckbox.checked = false;
+      }
+    });
+  });
 
+  document.getElementById('guardar-cambios').addEventListener('click', async function () {
+    const cambios = [];
 
+    document.querySelectorAll('tr').forEach((row) => {
+      const adminCheckbox = row.querySelector('.admin-checkbox');
+      const userCheckbox = row.querySelector('.user-checkbox');
 
-    function previewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function () {
-                const output = document.getElementById('profile-img');
-                output.src = reader.result;
-            }
-            reader.readAsDataURL(file);
+      if (adminCheckbox && userCheckbox) {
+        const userId = adminCheckbox.getAttribute('data-id');
+        let newRole;
+
+        if (adminCheckbox.checked) {
+          newRole = 'admin';
+        } else if (userCheckbox.checked) {
+          newRole = 'usuario';
         }
+
+        if (newRole) {
+          cambios.push({ id: userId, rol: newRole });
+        }
+      }
+    });
+
+    if (cambios.length === 0) {
+      Swal.fire('Sin cambios', 'No se detectaron cambios en los roles de usuario.', 'info');
+      return;
     }
 
+    const confirm = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¿Deseas aplicar los cambios realizados?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, guardar cambios',
+      cancelButtonText: 'Cancelar',
+    });
 
+    if (!confirm.isConfirmed) return;
+
+    try {
+      const results = await Promise.all(
+        cambios.map(async (cambio) => {
+          const response = await fetch('/editarUsuario', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cambio),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.mensaje || 'Error al actualizar un usuario.');
+          }
+
+          return { success: true, id: cambio.id };
+        })
+      );
+
+      Swal.fire(
+        '¡Cambios aplicados!',
+        `Se actualizaron correctamente ${results.length} usuarios.`,
+        'success'
+      );
+    } catch (error) {
+      Swal.fire('Error', error.message || 'Ocurrió un problema al aplicar los cambios.', 'error');
+    }
+  });
+
+  function previewImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const output = document.getElementById('profile-img');
+        output.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 </script>
+
+
 
 <script>
     document.getElementById('registrarForm').addEventListener('submit', function (e) {
@@ -282,7 +353,7 @@
                     // SweetAlert para mostrar el mensaje de éxito
                     Swal.fire({
                         title: "¡Registro Exitoso!",
-                        text: "Usuario registrado correctamente. ¿Deseas agregar otro usuario o cerrar?",
+                        text: "Usuario registrado correctamente. ¿Deseas agregar otro usuario?",
                         icon: "success",
                         showCancelButton: true,
                         confirmButtonText: "Agregar otro usuario",
@@ -311,47 +382,68 @@
     });
 </script>
 
+<!--Funcion delete-->
 <script>
-    // Función para manejar la eliminación de un usuario
-    document.addEventListener('DOMContentLoaded', () => {
-      const deleteButtons = document.querySelectorAll('.delete-btn'); // Seleccionamos todos los botones de eliminar
-  
-      deleteButtons.forEach(button => {
-        button.addEventListener('click', async function() {
-          const userId = this.getAttribute('data-id');  // Obtenemos el ID del usuario
-          const table = this.getAttribute('data-table'); // Obtenemos la tabla (roles)
-  
-          console.log('Eliminación solicitada:', { userId, table });  // Log para ver los datos
-  
-          if (confirm("¿Estás seguro de que quieres eliminar este usuario?")) {
-            try {
-              const response = await fetch('/eliminar', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  personal_id: userId,  // El ID del usuario
-                  tabla: table,  // En este caso, la tabla de "roles"
-                }),
-              });
-  
-              const result = await response.json();
-              console.log('Respuesta del servidor:', result); // Log para ver la respuesta del servidor
-  
-              if (response.ok) {
-                alert(result.message); // Muestra un mensaje de éxito
-                this.closest('tr').remove();  // Elimina la fila correspondiente de la tabla en la vista
-                console.log('Fila eliminada del DOM');
-              } else {
-                alert('Error: ' + result.message); // En caso de error en la eliminación
-              }
-            } catch (error) {
-              console.error('Error al eliminar el registro:', error);
-              alert('Error al intentar eliminar el registro');
-            }
+  document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    );
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+
+    deleteButtons.forEach((button) => {
+      button.addEventListener('click', function () {
+        const userId = this.getAttribute('data-id');
+        const userName = this.getAttribute('data-name'); // Obtener el nombre del usuario
+        const tableName = this.getAttribute('data-table');
+
+        if (!userId || !userName) return;
+
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: `¿Deseas eliminar al usuario ${userName}?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            borrarUsuario(userId, tableName, this);
           }
         });
       });
     });
-  </script>
+
+    const borrarUsuario = async (userId, tableName, button) => {
+      try {
+        const response = await fetch('/deleteUser', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: userId, table: tableName }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const rowToDelete = button.closest('tr');
+          if (rowToDelete) rowToDelete.remove();
+
+          Swal.fire('¡Eliminado!', `El usuario ${data.nombre || 'desconocido'} fue eliminado correctamente.`, 'success');
+        } else {
+          const errorData = await response.json();
+          Swal.fire('Error', errorData.mensaje || 'No se pudo eliminar el usuario.', 'error');
+        }
+      } catch (error) {
+        Swal.fire('Error', 'Hubo un problema al eliminar el usuario. Intenta nuevamente.', 'error');
+      }
+    };
+  });
+
+  
+</script>
