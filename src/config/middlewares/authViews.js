@@ -7,11 +7,11 @@ module.exports = (req, res, next) => {
 
         // Log para saber qué rol está siendo asignado
         if (res.locals.role === 'admin') {
-            console.log(`Usuario con rol "admin" autorizado: ${req.usuario.usuario}`);
+           
         } else if (res.locals.role === 'super-admin') {
-            console.log(`Usuario con rol "super-admin" autorizado: ${req.usuario.usuario}`);
+           
         } else {
-            console.log(`Usuario con rol "${res.locals.role}" autorizado: ${req.usuario.usuario}`);
+           
         }
     } else {
         // Si no hay usuario, asignamos valores predeterminados

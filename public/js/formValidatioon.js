@@ -29,7 +29,7 @@ const validationRules = [
     { id: 'antiguedad', regex: onlyNumbersRegex, message: 'La antigüedad debe ser un número.' },
     { id: 'telefono', regex: onlyNumbersRegex, message: 'El teléfono debe contener solo números.' },
     { id: 'tipo_movimiento', required: true, message: 'Debe seleccionar un tipo de movimiento.' },
-    { id: 'tipo_organizacion_id', required: true, message: 'Debe seleccionar un tipo de organización.' },
+    { id: 'tipo_organizacion', required: false, message: 'Debe seleccionar un tipo de organización.' },
     { id: 'justifica', required: true, message: 'Debe proporcionar una justificación.' },
     { id: 'municipio_sale', required: true, message: 'Debe seleccionar al personal para obtener la información.' },
     { id: 'comunidad_sale', required: true, message: 'Debe seleccionar al personal para obtener la información.' },

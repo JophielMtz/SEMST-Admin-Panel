@@ -4,55 +4,52 @@
             <div class="card">
                 <div class="container text-center">
                     <h4 class="text-responsive mb-3 mt-3">Solicitudes Personal</h4>
-                    <div class="row justify-content-center gx-2" <<% if (role !=='admin' && role !=='super-admin' ) { %>
-                        style="display: none;" <% } %>
+                    <div class="row justify-content-center gx-2" 
+                    <<% if (role !== 'admin' && role !== 'super-admin') { %> style="display: none;" <% } %> 
 
-                            <!-- Botón Nuevo -->
-                            <div class="col-auto">
-                                <button type="button" class="btn btn-primary rounded-pill w-auto" data-bs-toggle="modal"
-                                    data-bs-target="#nuevoRegistroModal" data-action="nuevo"
-                                    style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
-                                    Nuevo
-                                </button>
-                            </div>
-
-                            <!-- Botón Activar Edición -->
-                            <div class="col-auto">
-                                <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
-                                    style="padding: 4px 12px; font-size: 12px;">
-                                    <i class="fas fa-edit me-1"></i> Activar Edición
-                                </button>
-                            </div>
-
-
-
+                    <!-- Botón Nuevo -->
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary rounded-pill w-auto"
+                            data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                            style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
+                            Nuevo
+                        </button>
                     </div>
-
-
+                
+                    <!-- Botón Activar Edición -->
+                    <div class="col-auto">
+                        <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                            style="padding: 4px 12px; font-size: 12px;">
+                            <i class="fas fa-edit me-1"></i> Activar Edición
+                        </button>
+                    </div>
+                
+               
+               
+                </div>
+                
+                    
                 </div>
                 <div class="card-body">
                     <div class="test-container">
                         <div class="test-header d-flex align-items-center">
                             <!-- Radio para 'Todos' -->
                             <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="filter" id="all"
-                                    onchange="externalFilterChanged('all')" checked>
+                                <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
                                 <label for="all" class="form-check-label pl-2">Todos</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra"
-                                    onchange="externalFilterChanged('cctsSaleEntra')">
-                                <label for="cctsSaleEntra" class="form-check-label pl-2">Filtro</label>
+                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
+                                <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
                             </div>
-                            <% if (role==='admin' || role==='super-admin' ) { %>
+                            <% if (role === 'admin' || role === 'super-admin') { %>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete"
-                                        onchange="externalFilterChanged('funcionDelete')">
+                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
                                     <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
                                 </div>
-                                <% } %>
-
-
+                            <% } %>
+                            
+                            
                         </div>
                         <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
                     </div>
@@ -122,22 +119,23 @@
                                             <option value="">Seleccione un municipio</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="form-group col-md-4">
                                         <label for="comunidad_id" class="form-label">Comunidad:</label>
                                         <select id="comunidad_id" name="comunidad_id" class="form-control" disabled>
                                             <option value="">Seleccione una comunidad</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="form-group col-md-4">
                                         <label for="cct_id" class="form-label">Clave CCT:</label>
                                         <select id="cct_id" name="cct_id" class="form-control" disabled>
                                             <option value="">Seleccione una CCT</option>
                                         </select>
                                     </div>
-                                    
-                                    
+
+
+
 
                                     <hr class="hr-horizontal mb-4" />
 
@@ -155,98 +153,63 @@
                                     <!-- Contenedor colapsable -->
                                     <div class="collapse" id="contenidoDatos">
                                         <div class="card card-body mt-3">
-                                            <!-- ESCUELA -->
                                             <div class="row align-items-center mb-3">
                                                 <div class="col-md-2">
-                                                    <label for="escuela" class="form-label mb-0">Escuela:</label>
+                                                    <label for="tipo_organizacion_id" class="form-label">ORG:</label>
                                                 </div>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="escuela" name="escuela"
-                                                        placeholder="Nombre de la escuela" />
+                                                    <select class="form-select" id="tipo_organizacion"
+                                                        name="tipo_organizacion" required>
+                                                        <option value="" disabled selected>Selecciona una opción</option>
+                                                        <option value="Unitaria">Unitaria</option>
+                                                        <option value="Bidocente">Bidocente</option>
+                                                        <option value="Tridocente">Tridocente</option>
+                                                        <option value="Completa">Completa</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="row align-items-center mb-3">
-                                                <div class="col-md-2">
-                                                    <label for="estatus" class="form-label mb-0">Estatus:</label>
-                                                </div>
-                                                <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="estatus" name="estatus"
-                                                        placeholder="" />
-                                                </div>
-                                            </div>
-
                                             <!-- ZONA y SECTOR -->
                                             <div class="row">
                                                 <div class="col-md-2">
                                                     <label for="zona" class="form-label mt-1 mb-1">ZONA:</label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <input type="text" class="form-control" id="zona" name="zona"
-                                                        value="Zona 1" />
+                                                    <input type="text" class="form-control" id="zona" name="zona" />
                                                 </div>
                                                 <div class="col-md-2">
                                                     <label for="sector" class="form-label mt-1 mb-1">SECTOR:</label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <input type="text" class="form-control" id="sector" name="sector"
-                                                        value="Sector A" />
+                                                    <input type="text" class="form-control" id="sector" name="sector" />
                                                 </div>
                                             </div>
 
                                             <!-- ORG y NO DE ALUMNOS -->
+
                                             <div class="row mt-2">
-                                                <div class="col-md-2">
-                                                    <label for="tipo_organizacion_id" class="form-label">ORG:</label>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <select class="form-select" id="tipo_organizacion"
-                                                        name="tipo_organizacion" required>
-                                                        <option value="" selected disabled>Selecciona una opción
-                                                        </option>
-                                                        <option value="Unitaria">Unitaria</option>
-                                                        <option value="Bidocente">Bidocente</option>
-                                                        <option value="Tridocente">Tridocente</option>
-
-                                                        <option value="Completa">Completa</option>
-                                                    </select>
-
-                                                </div>
-                                                <div class="col-md-2 mt-3">
+                                                <!-- Fila: No de Alumnos y 1° Grado -->
+                                                <div class="col-md-6">
                                                     <label for="no_alumnos" class="form-label">NO DE ALUMNOS:</label>
+                                                    <input type="text" class="form-control" id="no_alumnos" name="no_alumnos" />
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <input type="text" class="form-control" id="no_alumnos"
-                                                        name="no_alumnos" value="100" />
+                                                <div class="col-md-6">
+                                                    <label for="grado_1" class="form-label">1° GRADO:</label>
+                                                    <input type="text" class="form-control" id="grado_1" name="grado_1" />
                                                 </div>
                                             </div>
-
-                                            <!-- GRADOS -->
+                                            
                                             <div class="row mt-2">
-                                                <div class="col-md-2">
-                                                    <label for="primer_grado" class="form-label">1° GRADO:</label>
+                                                <!-- Fila: 2° Grado y 3° Grado -->
+                                                <div class="col-md-6">
+                                                    <label for="grado_2" class="form-label">2° GRADO:</label>
+                                                    <input type="text" class="form-control" id="grado_2" name="grado_2" />
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <input type="text" class="form-control mt-1 mb-1" id="primer_grado"
-                                                        name="primer_grado" value="30" />
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label for="segundo_grado" class="form-label mt-1 mb-1">2°
-                                                        GRADO:</label>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <input type="text" class="form-control mt-1 mb-1" id="segundo_grado"
-                                                        name="segundo_grado" value="40" />
+                                                <div class="col-md-6">
+                                                    <label for="grado_3" class="form-label">3° GRADO:</label>
+                                                    <input type="text" class="form-control" id="grado_3" name="grado_3" />
                                                 </div>
                                             </div>
-                                            <div class="row mt-2">
-                                                <div class="col-md-2">
-                                                    <label for="tercer_grado" class="form-label">3° GRADO:</label>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <input type="text" class="form-control" id="tercer_grado"
-                                                        name="tercer_grado" value="30" />
-                                                </div>
-                                            </div>
+                                            
 
 
 
@@ -294,35 +257,82 @@
                                                         name="termino_movimiento" />
                                                 </div>
                                             </div>
+
                                             <hr class="hr-horizontal mt-3 mb-1" />
-                                            <div class="row mt-3">
-                                                <div class="col-md-6">
-                                                    <label for="subdireccion_administracion"
-                                                        class="form-label">Subdirección de Administración:</label>
-                                                    <input type="text" class="form-control"
-                                                        id="subdireccion_administracion"
-                                                        name="subdireccion_administracion"
-                                                        placeholder="Escribe datos de Subdirección" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="usicamm" class="form-label">USICAMM:</label>
-                                                    <input type="text" class="form-control" id="usicamm" name="usicamm"
-                                                        placeholder="Escribe datos de USICAMM" />
+                                            
+                                            <button class="btn btn-primary mb-4" type="button" data-bs-toggle="collapse" data-bs-target="#datosAdicionales" aria-expanded="false" aria-controls="datosAdicionales">
+                                                <i class="fas fa-chevron-down me-2"></i> Ver Datos
+                                            </button>
+                                            
+                                            <!-- Contenedor colapsable -->
+                                            <div class="collapse" id="datosAdicionales">
+                                                <div class="card card-body">
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="propuesta" class="form-label">Propuesta:</label>
+                                                            <input type="text" class="form-control" id="propuesta" name="propuesta" />
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="subdireccion_academica" class="form-label">Subdirección Académica:</label>
+                                                            <input type="text" class="form-control" id="subdireccion_academica" name="subdireccion_academica" />
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="subdireccion_planeacion" class="form-label">Subdirección de Planeación:</label>
+                                                            <input type="text" class="form-control" id="subdireccion_planeacion" name="subdireccion_planeacion" />
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="subdireccion_administracion" class="form-label">Subdirección de Administración:</label>
+                                                            <input type="text" class="form-control" id="subdireccion_administracion" name="subdireccion_administracion" />
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="usicamm" class="form-label">USICAMM:</label>
+                                                            <input type="text" class="form-control" id="usicamm" name="usicamm" />
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="recursos_humanos" class="form-label">Recursos Humanos:</label>
+                                                            <input type="text" class="form-control" id="recursos_humanos" name="recursos_humanos" />
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="juridico" class="form-label">Jurídico:</label>
+                                                            <input type="text" class="form-control" id="juridico" name="juridico" />
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="observaciones_secretaria_general" class="form-label">Observaciones Secretaría General:</label>
+                                                            <input type="text" class="form-control" id="observaciones_secretaria_general" name="observaciones_secretaria_general" />
+                                                        </div>
+                                                    </div>
+                                            
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-12">
+                                                            <label for="estatus_movimiento" class="form-label">Estatus del Movimiento:</label>
+                                                            <input type="text" class="form-control" id="estatus_movimiento" name="estatus_movimiento" />
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="row mt-2">
-                                                <div class="col-md-6">
-                                                    <label for="recursos_humanos" class="form-label">Recursos
-                                                        Humanos:</label>
-                                                    <input type="text" class="form-control" id="recursos_humanos"
-                                                        name="recursos_humanos"
-                                                        placeholder="Escribe datos de Recursos Humanos" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="juridico" class="form-label">Jurídico:</label>
-                                                    <input type="text" class="form-control" id="juridico"
-                                                        name="juridico" placeholder="Escribe datos de Jurídico" />
-                                                </div>
+                                            
+                                          
                                             </div>
                                         </div>
                                     </div>
@@ -391,110 +401,93 @@
         const municipioSelect = document.getElementById("municipio_id");
         const comunidadSelect = document.getElementById("comunidad_id");
         const cctSelect = document.getElementById("cct_id");
-    
-        // Cargar municipios al cargar la página
-        cargarMunicipios()
-            .then(municipios => {
-                municipios.forEach(municipio => {
+
+        // Cargar Municipios
+        fetch("/obtener-municipios")
+            .then((response) => response.json())
+            .then((municipios) => {
+                municipios.forEach((municipio) => {
                     const option = document.createElement("option");
-                    option.value = municipio.id; // Suponiendo que el municipio tiene un campo `id`
-                    option.textContent = municipio.nombre; // Suponiendo que el municipio tiene un campo `nombre`
+                    option.value = municipio.municipio_id;
+                    option.textContent = municipio.nombre_municipio;
                     municipioSelect.appendChild(option);
                 });
             })
-            .catch(error => console.error("Error al cargar municipios:", error));
-    
-        // Evento para cargar comunidades cuando se selecciona un municipio
-        municipioSelect.addEventListener("change", (event) => {
-            const municipioId = event.target.value;
-    
-            // Limpiar comunidades y deshabilitar
+            .catch((error) => console.error("Error al cargar municipios:", error));
+
+        // Listener para cargar Comunidades
+        municipioSelect.addEventListener("change", () => {
+            const municipioId = municipioSelect.value;
+
             comunidadSelect.innerHTML = '<option value="">Seleccione una comunidad</option>';
-            comunidadSelect.disabled = true;
-    
-            // Limpiar CCTs y deshabilitar
             cctSelect.innerHTML = '<option value="">Seleccione una CCT</option>';
+            comunidadSelect.disabled = true;
             cctSelect.disabled = true;
-    
+
             if (municipioId) {
-                cargarComunidades(municipioId)
-                    .then(comunidades => {
-                        comunidades.forEach(comunidad => {
+                fetch(`/obtener-comunidades/${municipioId}`)
+                    .then((response) => response.json())
+                    .then((comunidades) => {
+                        comunidades.forEach((comunidad) => {
                             const option = document.createElement("option");
-                            option.value = comunidad.id; // Suponiendo que la comunidad tiene un campo `id`
-                            option.textContent = comunidad.nombre; // Suponiendo que la comunidad tiene un campo `nombre`
+                            option.value = comunidad.comunidad_id;
+                            option.textContent = comunidad.nombre_comunidad;
                             comunidadSelect.appendChild(option);
                         });
-                        comunidadSelect.disabled = false; // Habilitar el selector de comunidad
+                        comunidadSelect.disabled = false;
                     })
-                    .catch(error => console.error("Error al cargar comunidades:", error));
+                    .catch((error) => console.error("Error al cargar comunidades:", error));
             }
         });
-    
-        // Evento para cargar CCTs cuando se selecciona una comunidad
-        comunidadSelect.addEventListener("change", (event) => {
-            const comunidadId = event.target.value;
+
+        // Listener para cargar CCTs
+        comunidadSelect.addEventListener("change", () => {
             const municipioId = municipioSelect.value;
-    
-            // Limpiar CCTs y deshabilitar
+            const comunidadId = comunidadSelect.value;
+
             cctSelect.innerHTML = '<option value="">Seleccione una CCT</option>';
             cctSelect.disabled = true;
-    
-            if (comunidadId) {
-                cargarCCTs(municipioId, comunidadId)
-                    .then(ccts => {
-                        ccts.forEach(cct => {
+
+            if (municipioId && comunidadId) {
+                fetch(`/obtener-ccts/${municipioId}/${comunidadId}`)
+                    .then((response) => response.json())
+                    .then((ccts) => {
+                        ccts.forEach((cct) => {
                             const option = document.createElement("option");
-                            option.value = cct.id; // Suponiendo que la CCT tiene un campo `id`
-                            option.textContent = cct.nombre; // Suponiendo que la CCT tiene un campo `nombre`
+                            option.value = cct.cct_id;
+                            option.textContent = cct.centro_clave_trabajo;
                             cctSelect.appendChild(option);
                         });
-                        cctSelect.disabled = false; // Habilitar el selector de CCT
+                        cctSelect.disabled = false;
                     })
-                    .catch(error => console.error("Error al cargar CCTs:", error));
+                    .catch((error) => console.error("Error al cargar CCTs:", error));
             }
         });
     });
-    
-    // Función para cargar municipios desde el servidor
-    function cargarMunicipios() {
-        return fetch("/obtener-municipios")
-            .then(response => response.json());
-    }
-    
-    // Función para cargar comunidades basado en el municipio seleccionado
-    function cargarComunidades(municipioId) {
-        return fetch(`/obtener-comunidades/${municipioId}`)
-            .then(response => response.json());
-    }
-    
-    // Función para cargar CCTs basado en el municipio y comunidad seleccionados
-    function cargarCCTs(municipioId, comunidadId) {
-        return fetch(`/obtener-ccts/${municipioId}/${comunidadId}`)
-            .then(response => response.json());
-    }
-    
-    
+
 </script>
 
 
 <script type="module">
     import { getStatusClass, statusRenderer, funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
-    import { fetchMunicipios, fetchComunidades, fetchCCTs, } from "./js/AgGrid/cargaDatos.js";
     import * as Columnas from "./js/AgGrid/columNames.js";
+
+
     let gridApi;
     let editMode = false;
 
+    const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
     const OrgValidValues = ["Unitaria", "Bidocente", "Tridocente", "Organización completa"];
+    const EstatusCubiertaValidValues = ["Cubierta", "Sin cubrir", "No se justifica"];
     const zonaColumns = Columnas.Zona().columns;
 
-    const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
 
     const datos = [
         borrarColumna('/api/deleteRecord'),
         { field: "np", headerName: "NP", width: 52, editable: false },
-        Columnas.colFecha(),
-        { headerName: "Estatus", field: "estatus", editable: () => editMode, resizable: true, width: 120, },
+        {...Columnas.colFecha(),editable: () => editMode,},
+        {field: "estatus",headerName: "Estatus", editable: () => editMode, width: 120,
+        ...createSelectColumnProps(EstatusCubiertaValidValues),},
         { headerName: "Escuela", field: "escuela", editable: () => editMode, resizable: true },
         { ...Columnas.municipioSale(), headerName: "Municipio", field: "municipio", },
         { ...Columnas.comunidadSale(), headerName: "Comunidad", field: "comunidad", },
@@ -537,15 +530,16 @@
         cacheBlockSize: 10,
         rowHeight: 60,
         domLayout: "autoHeight",
-        context: {
-            endpoint: "/editarSolicitudesPersonal",
-        },
+        context: {endpoint: "/editarSolicitudesPersonal"},
         onCellValueChanged: editarCelda,
     };
 
     const columnVisibilityConfig = {
         cctsSaleEntra: [
             "np",
+            "escuela",
+            "fecha",
+            "estatus",
             "centro_clave_trabajo",
             "situacion",
             "zona_id",
@@ -557,23 +551,40 @@
             "grado_3",
             "funcion_docente",
             "tipo_nombramiento",
+            "observaciones",
         ],
         funcionDelete: [
             "Accion",
             "np",
-            "nombre_docente",
             "fecha",
+            "escuela",
             "estatus",
-            "situacion",
             "antiguedad",
-            "municipio_sale",
-            "comunidad_sale",
-            "cct_sale",
-            "estatus_cubierta",
+            "telefono",
+            "centro_clave_trabajo",
+            "comunidad",
+            "municipio",
+            "zona_id",
+            "sector_id",
+            "tipo_organizacion",
+            "no_alumnos",
+            "grado_1",
+            "grado_2",
+            "grado_3",
+            "funcion_docente",
+            "tipo_nombramiento",
+            "inicio_movimiento",
+            "termino_movimiento",
+            "propuesta",
+            "subdireccion_academica",
+            "subdireccion_planeacion",
+            "subdireccion_administracion",
+            "usicamm",
+            "recursos_humanos",
+            "juridico",
             "observaciones",
-            "municipio_entra",
-            "comunidad_entra",
-            "cct_entra",
+            "observaciones_secretaria_general",
+            "estatus_movimiento"
 
         ],
         all: [
@@ -581,14 +592,11 @@
             "fecha",
             "escuela",
             "estatus",
-            "nombre_del_docente",
             "antiguedad",
             "telefono",
             "centro_clave_trabajo",
             "comunidad",
             "municipio",
-            "MUNICIPIO CCT",
-            "COMUNIDAD CCT",
             "zona_id",
             "sector_id",
             "tipo_organizacion",

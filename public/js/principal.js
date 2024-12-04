@@ -7,10 +7,8 @@ import { configurarBotonesAccion } from './modules/Configuraciones/Configs.js';
 import * as config from '../js/configs/configs.js';
 
 
+
 // import { cargarPerfilUsuario } from '../utils/fetchUsuarioPerfil.js';
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
     configurarAutocompletado();
     configurarBloqueCCT(); 
@@ -313,6 +311,4 @@ document.addEventListener("click", async (event) => {
 // Evento para previsualizar la imagen
 document.getElementById('file-upload').addEventListener('change', config.previewImage);
 
-
-  
 

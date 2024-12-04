@@ -134,6 +134,15 @@
                                     <hr class="hr-horizontal mb-4" />
 
                                     <!------------------------ Fin Datos por default------------------------------->
+                                    
+                                    
+                                    <div class="row mt-1 mb-4">
+                                        <div class="col-md-12">
+                                            <label for="situacion" class="form-label">Situación:</label>
+                                            <input type="text" class="form-control" id="situacion" name="situacion" />
+                                        </div>
+                                    </div>
+
                                     <div class="div">
                                         <h2 class="h6 mb-3  text-center">Detalles de Movimiento</h2>
                                     </div>
@@ -394,6 +403,7 @@
         { ...Columnas.comunidadSale(), headerName: "Comunidad", field: "comunidad", },
         { ...Columnas.cctSale(), headerName: "Clave CCT", field: "centro_clave_trabajo", },
         { ...Columnas.observaciones(), editable: () => editMode, },
+        { ...Columnas.situacion(), editable: () => editMode, },
         { ...Columnas.municipioEntra(true), field: "MUNICIPIO CCT", headerName: "Municipio", editable: () => editMode, resizable: true, width: 150, },
         { ...Columnas.comunidadEntra(true), field: "COMUNIDAD CCT", headerName: "Municipio", editable: () => editMode, },
         { ...Columnas.cctEntra(true), editable: () => editMode, },

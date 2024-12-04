@@ -197,38 +197,39 @@ const obtenerSolicitudesPersonal = async (req, res) => {
   try {
     const [results] = await pool.query(`
      SELECT
-  np , fecha,
-  estatus, escuela,
-  c.nombre AS "comunidad",
-  m.nombre AS "municipio",
-  observaciones AS "observaciones",
-  cct.centro_clave_trabajo,
-  m.nombre AS "MUNICIPIO",
-  sp.observaciones AS "OBSERVACIONES",
-  u.cct_id AS "Clave CCT",
-  com.nombre AS "COMUNIDAD CCT",
-  mun.nombre AS "MUNICIPIO CCT",
-  u.zona_id,
-  u.sector_id,
-  sp.tipo_organizacion,
-  sp.no_alumnos,
-  sp.grado_1,
-  sp.grado_2,
-  sp.grado_3,
-  sp.funcion_docente,
-  sp.tipo_nombramiento,
-  sp.inicio_movimiento,
-  sp.termino_movimiento,
-  sp.propuesta AS "PROPUESTA",
-  sp.subdireccion_academica AS "SUBDIRECCION ACADEMICA",
-  sp.subdireccion_planeacion AS "SUBDIRECCION DE PLANEACION",
-  sp.subdireccion_administracion AS "SUBDIRECCION DE ADMINISTRACION",
-  sp.usicamm AS "USICAMM",
-  sp.recursos_humanos AS "RECURSOS HUMANOS",
-  sp.juridico AS "JURIDICO",
-  sp.observaciones_conflictos AS "OBSERVACIONES CONFLICTOS",
-  sp.observaciones_secretaria_general AS "OBSERVACIONES SECRETARIA GENERAL",
-  sp.estatus_movimiento AS "ESTATUS DEL MOVIMIENTO"
+    np , fecha,
+    estatus, escuela,
+    c.nombre AS "comunidad",
+    m.nombre AS "municipio",
+    observaciones AS "observaciones",
+    cct.centro_clave_trabajo,
+    m.nombre AS "MUNICIPIO",
+    sp.observaciones AS "OBSERVACIONES",
+    u.cct_id AS "Clave CCT",
+    com.nombre AS "COMUNIDAD CCT",
+    mun.nombre AS "MUNICIPIO CCT",
+    u.zona_id,
+    u.sector_id,
+    sp.tipo_organizacion,
+    sp.no_alumnos,
+    sp.grado_1,
+    sp.grado_2,
+    sp.grado_3,
+    sp.funcion_docente,
+    sp.tipo_nombramiento,
+    sp.inicio_movimiento,
+    sp.termino_movimiento,
+    sp.propuesta,
+    sp.subdireccion_academica,
+    sp.subdireccion_planeacion,
+    sp.subdireccion_administracion,
+    sp.usicamm,
+    sp.recursos_humanos,
+    sp.juridico,
+    sp.observaciones_conflictos,
+    sp.observaciones_secretaria_general,
+    sp.estatus_movimiento
+
 FROM
   solicitudes_de_personal sp
 JOIN
@@ -414,49 +415,56 @@ const obtenerEscuelasDisponibles = async (req, res) => {
 const obtenerNombramientosDocentes = async (req, res) => {
   try {
     const [results] = await pool.query(`
-    SELECT
+   SELECT
     n.np,
     n.fecha,
-    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_del_docente,
+    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
     n.antiguedad,
     p.telefono,
-    u.cct_id AS centro_clave_trabajo,
+    c.centro_clave_trabajo, 
     com.nombre AS comunidad,
     mun.nombre AS municipio,
     u.zona_id,
     u.sector_id,
-    n.tipo_organizacion AS org,
+    n.tipo_organizacion,
     n.no_alumnos,
-    n.primer_grado AS grado_1,
-    n.segundo_grado AS grado_2,
-    n.tercer_grado AS grado_3,
+    n.grado_1,
+    n.grado_2,
+    n.grado_3,
     n.funcion_docente,
     n.tipo_nombramiento,
     n.inicio_movimiento,
     n.termino_movimiento,
+    n.propuesta,
+    n.observaciones_secretaria,
+    n.subdireccion_academica,
     n.subdireccion_administracion,
+    n.subdireccion_planeacion,
+    n.estatus_movimiento,
+    n.observaciones_conflictos,
     n.usicamm,
     n.recursos_humanos,
-    n.juridico,
-    n.observaciones
+    n.juridico
+    
 FROM
     nombramientos n
 JOIN
     personal p ON n.personal_id = p.personal_id
 JOIN
-    ubic_ccts u ON n.id_relacion = u.id_relacion
+    detalle_laboral dl ON p.personal_id = dl.personal_id
+JOIN
+    ubic_ccts u ON dl.id_relacion = u.id_relacion
 LEFT JOIN
     comunidad com ON u.comunidad_id = com.comunidad_id
 LEFT JOIN
     municipio mun ON u.municipio_id = mun.municipio_id
-WHERE
-    u.id_relacion IS NOT NULL;
+LEFT JOIN
+    ccts c ON u.cct_id = c.cct_id  -- JOIN con ccts para obtener 'centro_clave_trabajo'
+
+
 
 
     `);
-
-    // Log de los resultados antes de enviarlos en la respuesta
-    console.log("Resultados de la consulta:", results);
 
     res.json(results);
   } catch (error) {
@@ -821,8 +829,13 @@ const editarSolicitudesDeCambio = async (req, res) => {
 };
 
 const editarSolicitudesPersonal = async (req, res) => {
+  console.log("Datos recibidos en editarPendientes:", req.body);
   const { np, field, value } = req.body;
-  const validFields = ["np", "fecha", "estatus", "escuela", "comunidad", "municipio", "observaciones", "clave cct", "comunidad cct", "municipio cct", "zona", "sector", "org", "no de alumnos", "1° grado", "2° grado", "3° grado", "funcion_docente", "tipo de nombramiento", "inicio del movimiento", "termino del movimiento", "propuesta", "subdireccion academica", "subdireccion de planeacion", "subdireccion de administracion", "usicamm", "recursos humanos", "juridico", "observaciones conflictos", "observaciones secretaria general", "estatus del movimiento"];
+  const validFields = ["np", "fecha", "estatus", "escuela", "comunidad", "municipio", 
+    "observaciones", "clave cct", "comunidad cct", "municipio cct", "zona", "sector", "org",
+    "no de alumnos", "1° grado", "2° grado", "3° grado", "funcion_docente", "tipo de nombramiento",
+    "inicio del movimiento", "termino del movimiento", "propuesta", "subdireccion_academica", "subdireccion_planeacion", 
+    "subdireccion_administracion", "usicamm", "recursos_humanos", "juridico", "observaciones_conflictos", "observaciones_secretaria_general", "estatus_movimiento"];
 
 
   if (!np || !field || value === undefined) {
@@ -970,7 +983,11 @@ const editarEscuelasDisponibles = async (req, res) => {
 const editarNombramientosDocentes = async (req, res) => {
   const { np, field, value } = req.body;
   console.log("Datos recibidos en editarPendientes:", req.body);
-  const validFields = ['np', 'fecha', 'nombre_del_docente', 'antiguedad', 'telefono', 'centro_clave_trabajo', 'comunidad', 'municipio', 'zona_id', 'sector_id', 'org', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 'funcion_docente', 'tipo_nombramiento', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'subdireccion_academica', 'subdireccion_planeacion', 'subdireccion_administracion', 'usicamm', 'recursos_humanos', 'juridico', 'observaciones_conflictos', 'observaciones_secretaria_general', 'estatus_movimiento'];
+  const validFields = ['np', 'fecha', 'nombre_del_docente', 'antiguedad', 'telefono', 'centro_clave_trabajo', 
+    'comunidad', 'municipio', 'zona_id', 'sector_id', 'org', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 
+    'funcion_docente', 'tipo_nombramiento', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'subdireccion_academica', 
+    'subdireccion_planeacion', 'subdireccion_administracion', 'usicamm', 'recursos_humanos', 'juridico', 'observaciones_conflictos',
+     'observaciones_secretaria_general', 'estatus_movimiento'];
 
 
 

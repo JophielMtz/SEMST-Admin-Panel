@@ -16,6 +16,10 @@ const router = express.Router();
 const pool = require('../src/config/db'); 
 const multer = require('multer');
 const path = require('path');
+const Joi = require('joi');
+
+
+
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -479,105 +483,177 @@ LEFT JOIN
 
 
 
+const registroSchema = Joi.object({
+  tabla: Joi.string().valid('docentes_disponibles', 'solicitudes_de_cambio', 'pendientes', 'nombramientos', 'licencia_sin_goce', 'salud_inseguridad').required(),
+  personal_id: Joi.number().integer().required(),
+  nombre_docente: Joi.string().required(),
+  telefono: Joi.string().pattern(/^\d{10}$/).required(),
+  antiguedad: Joi.number().integer().min(0).required(),
+  fecha: Joi.date().iso().required(),
+  municipio_sale: Joi.string().required(),
+  comunidad_sale: Joi.string().required(),
+  cct_sale: Joi.string().required(),
+  tipo_organizacion: Joi.string().valid('Unitaria', 'Bidocente', 'Tridocente', 'Organización completa').allow(null, ''),
+  zona: Joi.string().allow(null, ''),
+  sector: Joi.string().allow(null, ''),
+  no_alumnos: Joi.number().integer().allow(null),
+  grado_1: Joi.string().allow(null, '').custom((value, helper) => { return value === '' ? null : value; }),
+  grado_2: Joi.string().allow(null, ''),
+  grado_3: Joi.string().allow(null, ''),
+  funcion_docente: Joi.string().allow(null, ''),
+  tipo_nombramiento: Joi.string().allow(null, ''),
+  inicio_movimiento: Joi.date().iso().required(),
+  termino_movimiento: Joi.date().iso().required(),
+  propuesta: Joi.string().allow(null, ''),
+  subdireccion_academica: Joi.string().allow(null, ''),
+  subdireccion_planeacion: Joi.string().allow(null, ''),
+  subdireccion_administracion: Joi.string().allow(null, ''),
+  usicamm: Joi.string().allow(null, ''),
+  recursos_humanos: Joi.string().allow(null, ''),
+  juridico: Joi.string().allow(null, ''),
+  observaciones_secretaria_general: Joi.string().allow(null, ''),
+  estatus_movimiento: Joi.string().allow(null, ''),
+  observaciones: Joi.string().allow(null, '')
+});
+
 //api de docentes
 router.post('/guardarRegistro', async (req, res) => {
-    console.log("Datos recibidos en req.body:", req.body);
+  console.log("Datos recibidos en req.body:", req.body);
 
-    const { tabla, cct_entra, municipio_entra, comunidad_entra, ...data } = req.body;
+  // Validar los datos de entrada
+  const { error, value } = registroSchema.validate(req.body, { abortEarly: false });
 
-    console.log("Tabla solicitada:", tabla);
-    console.log("Datos restantes:", data);
-    console.log("Datos de entrada - cct_entra:", cct_entra, "municipio_entra:", municipio_entra, "comunidad_entra:", comunidad_entra);
+  if (error) {
+      console.error("Errores de validación:", error.details);
+      return res.status(400).json({ errors: error.details });
+  }
 
-    const tablasPermitidas = ['docentes_disponibles', 'solicitudes_de_cambio', 'pendientes', 'nombramientos', 'licencia_sin_goce', 'salud_inseguridad'];
-    if (!tabla || !tablasPermitidas.includes(tabla)) {
-        console.error("Tabla no válida:", tabla);
-        return res.status(400).send("Tabla no válida o no especificada.");
-    }
+  // Desestructurar los valores validados
+  const { tabla, cct_entra, municipio_entra, comunidad_entra, ...data } = value;
 
-    const connection = await pool.getConnection();
-    try {
-        // Si se proporcionan datos para "entra", procesar la lógica correspondiente
-        if (cct_entra && municipio_entra && comunidad_entra) {
-            console.log("Buscando id_relacion para los datos proporcionados...");
-            const [nuevoIdRelacion] = await connection.query(
-                `
-                SELECT id_relacion
-                FROM ubic_ccts
-                WHERE cct_id = (SELECT cct_id FROM ccts WHERE centro_clave_trabajo = ?)
-                  AND municipio_id = (SELECT municipio_id FROM municipio WHERE nombre = ?)
-                  AND comunidad_id = (SELECT comunidad_id FROM comunidad WHERE nombre = ?)
-                LIMIT 1
-                `,
-                [cct_entra, municipio_entra, comunidad_entra]
-            );
+  console.log("Tabla solicitada:", tabla);
+  console.log("Datos restantes:", data);
+  console.log("Datos de entrada - cct_entra:", cct_entra, "municipio_entra:", municipio_entra, "comunidad_entra:", comunidad_entra);
 
-            console.log("Resultado de id_relacion:", nuevoIdRelacion);
+  const tablasPermitidas = ['docentes_disponibles', 'solicitudes_de_cambio', 'pendientes', 'nombramientos', 'licencia_sin_goce', 'salud_inseguridad'];
+  if (!tabla || !tablasPermitidas.includes(tabla)) {
+      console.error("Tabla no válida:", tabla);
+      return res.status(400).send("Tabla no válida o no especificada.");
+  }
 
-            if (!nuevoIdRelacion.length) {
-                console.error("No se encontró id_relacion para los datos:", { cct_entra, municipio_entra, comunidad_entra });
-                return res.status(404).send("Ubicación no encontrada para los datos proporcionados.");
-            }
+  const connection = await pool.getConnection();
+  try {
+      // Procesar lógica para "entra" si se proporcionan datos
+      if (cct_entra && municipio_entra && comunidad_entra) {
+          console.log("Buscando id_relacion para los datos proporcionados...");
+          const [nuevoIdRelacion] = await connection.query(
+              `SELECT id_relacion
+               FROM ubic_ccts
+               WHERE cct_id = (SELECT cct_id FROM ccts WHERE centro_clave_trabajo = ?)
+                 AND municipio_id = (SELECT municipio_id FROM municipio WHERE nombre = ?)
+                 AND comunidad_id = (SELECT comunidad_id FROM comunidad WHERE nombre = ?)
+               LIMIT 1`,
+              [cct_entra, municipio_entra, comunidad_entra]
+          );
 
-            const idRelacion = nuevoIdRelacion[0].id_relacion;
-            console.log("id_relacion encontrado:", idRelacion);
+          console.log("Resultado de id_relacion:", nuevoIdRelacion);
 
-            // Actualizar detalle_laboral con el nuevo id_relacion
-            console.log(`Actualizando detalle_laboral para personal_id: ${data.personal_id} con id_relacion: ${idRelacion}`);
-            await connection.query(
-                `UPDATE detalle_laboral SET id_relacion = ? WHERE personal_id = ?`,
-                [idRelacion, data.personal_id]
-            );
+          if (!nuevoIdRelacion.length) {
+              console.error("No se encontró id_relacion para los datos:", { cct_entra, municipio_entra, comunidad_entra });
+              return res.status(404).send("Ubicación no encontrada para los datos proporcionados.");
+          }
 
-            // Registrar en historial_movimientos
-            console.log(`Registrando en historial_movimientos para personal_id: ${data.personal_id}, id_relacion: ${idRelacion}`);
-            await connection.query(
-                `
-                INSERT INTO historial_movimientos (personal_id, detalle_laboral_id, ubic_ccts_id, fecha_movimiento, tipo_movimiento, observaciones)
-                VALUES (?, (SELECT detalle_laboral_id FROM detalle_laboral WHERE personal_id = ?), ?, CURDATE(), 'Cambio de CCT', ?)
-                `,
-                [data.personal_id, data.personal_id, idRelacion, `CCT actualizado a ${cct_entra}`]
-            );
-        }
+          const idRelacion = nuevoIdRelacion[0].id_relacion;
+          console.log("id_relacion encontrado:", idRelacion);
 
-        // Continuar con la lógica de inserción en la tabla seleccionada
-        console.log("Obteniendo columnas válidas de la tabla:", tabla);
-        const [columns] = await connection.query(`DESCRIBE ${tabla}`);
-        const columnasValidas = columns.map(col => col.Field);
+          // Actualizar detalle_laboral con el nuevo id_relacion
+          console.log(`Actualizando detalle_laboral para personal_id: ${data.personal_id} con id_relacion: ${idRelacion}`);
+          await connection.query(
+              `UPDATE detalle_laboral SET id_relacion = ? WHERE personal_id = ?`,
+              [idRelacion, data.personal_id]
+          );
 
-        console.log("Columnas válidas obtenidas:", columnasValidas);
+          // Registrar en historial_movimientos
+          console.log(`Registrando en historial_movimientos para personal_id: ${data.personal_id}, id_relacion: ${idRelacion}`);
+          await connection.query(
+              `INSERT INTO historial_movimientos (personal_id, detalle_laboral_id, ubic_ccts_id, fecha_movimiento, tipo_movimiento, observaciones)
+               VALUES (?, (SELECT detalle_laboral_id FROM detalle_laboral WHERE personal_id = ?), ?, CURDATE(), 'Cambio de CCT', ?)`,
+              [data.personal_id, data.personal_id, idRelacion, `CCT actualizado a ${cct_entra}`]
+          );
+      }
 
-        const datosInsertar = Object.keys(data)
-            .filter(key => columnasValidas.includes(key))
-            .reduce((obj, key) => {
-                obj[key] = data[key];
-                return obj;
-            }, {});
+      // **Paso Crítico: Convertir valores vacíos y placeholders a NULL**
+      const datosInsertar = Object.keys(data).reduce((obj, key) => {
+          let valor = data[key];
 
-        console.log("Datos para insertar:", datosInsertar);
+          if (typeof valor === 'string') {
+              valor = valor.trim(); // Eliminar espacios en blanco
+              const valorLower = valor.toLowerCase(); // Convertir a minúsculas para comparación insensible a mayúsculas
 
-        const campos = Object.keys(datosInsertar);
-        const valores = Object.values(datosInsertar);
-        const placeholders = campos.map(() => '?').join(', ');
+              // Lista de valores que deben convertirse a NULL
+              const placeholders = ['selecciona una opción', ''];
 
-        console.log("Campos a insertar:", campos);
-        console.log("Valores a insertar:", valores);
+              if (placeholders.includes(valorLower)) {
+                  console.log(`Convirtiendo ${key} de '${data[key]}' a null`);
+                  obj[key] = null;
+              } else {
+                  obj[key] = valor;
+              }
+          } else {
+              // Si el valor no es una cadena, simplemente asignarlo
+              obj[key] = (valor === "" || valor === null) ? null : valor;
+          }
 
-        const insertQuery = `INSERT INTO ${tabla} (${campos.join(', ')}) VALUES (${placeholders})`;
-        console.log("Consulta de inserción generada:", insertQuery);
+          return obj;
+      }, {});
 
-        const [result] = await connection.query(insertQuery, valores);
+      // **Solución Alternativa: Asignar null manualmente si no se convirtió correctamente**
+      if (datosInsertar.tipo_organizacion === 'Selecciona una opción') {
+          console.log("Asignando null a tipo_organizacion manualmente.");
+          datosInsertar.tipo_organizacion = null;
+      }
 
-        console.log("Resultado de la inserción:", result);
+      console.log("Datos para insertar con valores nulos en campos vacíos:", datosInsertar);
 
-        res.status(201).json({ message: `Registro creado exitosamente en la tabla ${tabla}.`, id: result.insertId });
-    } catch (error) {
-        console.error("Error al guardar registro:", error);
-        res.status(500).send(`Error al crear el registro: ${error.message}`);
-    } finally {
-        connection.release();
-        console.log("Conexión liberada.");
-    }
+      // Obtener columnas válidas de la tabla seleccionada
+      const [columns] = await connection.query(`DESCRIBE \`${tabla}\``);
+      const columnasValidas = columns.map(col => col.Field);
+
+      console.log("Columnas válidas obtenidas:", columnasValidas);
+
+      // Filtrar solo los campos que son válidos para la tabla
+      const datosParaInsertar = Object.keys(datosInsertar)
+          .filter(key => columnasValidas.includes(key))
+          .reduce((obj, key) => {
+              obj[key] = datosInsertar[key];
+              return obj;
+          }, {});
+
+      console.log("Datos finales para insertar:", datosParaInsertar);
+
+      // Preparar la consulta de inserción
+      const campos = Object.keys(datosParaInsertar);
+      const valores = Object.values(datosParaInsertar);
+      const placeholdersSQL = campos.map(() => '?').join(', ');
+
+      console.log("Campos a insertar:", campos);
+      console.log("Valores a insertar:", valores);
+
+      const insertQuery = `INSERT INTO \`${tabla}\` (${campos.join(', ')}) VALUES (${placeholdersSQL})`;
+      console.log("Consulta de inserción generada:", insertQuery);
+
+      const [result] = await connection.query(insertQuery, valores);
+
+      console.log("Resultado de la inserción:", result);
+
+      res.status(201).json({ message: `Registro creado exitosamente en la tabla ${tabla}.`, id: result.insertId });
+  } catch (error) {
+      console.error("Error al guardar registro:", error);
+      res.status(500).send(`Error al crear el registro: ${error.message}`);
+  } finally {
+      connection.release();
+      console.log("Conexión liberada.");
+  }
 });
 
 

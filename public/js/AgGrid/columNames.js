@@ -163,6 +163,18 @@ export const observaciones = () => ({
 
 });
 
+export const situacion = () => ({
+    field: "situacion", 
+    headerName: "Situación", 
+    minWidth: 250, 
+    wrapHeaderText: true, 
+    autoHeaderHeight: true, 
+    autoHeight: true,  
+    cellStyle: { "white-space": "normal", "line-height": "1.7" }, 
+    autoHeight: true, 
+
+});
+
 export const FuncionDocente = () => ({
     field: "funcion_docente",
     headerName: "Función Docente",
