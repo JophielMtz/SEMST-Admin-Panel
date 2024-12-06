@@ -6,6 +6,7 @@ const db = require('./src/config/db');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const authViews = require('./src/config/middlewares/authViews');
+const { PORT } = require('./src/config/configPort');
 
 
 
@@ -65,7 +66,7 @@ module.exports = { app, upload };
 const router = require('./routes/router');
 app.use(router);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('server up running in http://localhost:3000/');
 });
 
