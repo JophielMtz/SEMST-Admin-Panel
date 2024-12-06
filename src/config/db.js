@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',  // Si no está definido en .env, usa localhost
+  host: process.env.DB_HOST || 'localhost',  // Si no está definido en .env, usa loca
   user: process.env.DB_USER || 'root',      // Si no está definido, usa root
   password: process.env.DB_PASSWORD || 'root', // Si no está definido, usa el valor por defecto
   database: process.env.DB_NAME || 'semstdb',   // Si no está definido, usa usersdb
