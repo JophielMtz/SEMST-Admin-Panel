@@ -265,7 +265,13 @@
                          <div class="mt-1 profile-dots-pills border-primary"></div>
                          <div class="ms-4">
                            <h6 class="mb-1"><%= pendiente.tramite %></h6>
-                           <span class="mb-0"><%= pendiente.fecha %> <%= pendiente.estatus %></span>
+                           <span class="mb-0"><%= new Date(pendiente.fecha).toLocaleDateString('es-MX', {
+                              weekday: 'short',
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            }) %> <%= pendiente.estatus %>
+                            </span>
                          </div>
                        </div>
                      <% }) %>
