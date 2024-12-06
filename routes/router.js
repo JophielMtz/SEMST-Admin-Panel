@@ -146,6 +146,12 @@ router.post('/guardarRegistro', async (req, res) => {
       return res.status(400).send("Tabla no válida o no especificada.");
   }
 
+  Object.keys(data).forEach((key) => {
+    if (data[key] === '' || data[key] === 'Seleccione un estatus') {
+        data[key] = null; // Convertir valores inválidos a NULL
+    }
+});
+
   const connection = await pool.getConnection();
   try {
       // Manejar `detalle_laboral_id` solo si la tabla es `solicitudes_de_cambio`
@@ -174,11 +180,11 @@ router.post('/guardarRegistro', async (req, res) => {
 
       // Filtrar los datos para incluir solo las columnas válidas
       const datosInsertar = Object.keys(data)
-          .filter(key => columnasValidas.includes(key))
-          .reduce((obj, key) => {
-              obj[key] = data[key];
-              return obj;
-          }, {});
+            .filter(key => columnasValidas.includes(key))
+            .reduce((obj, key) => {
+                obj[key] = data[key] === '' ? null : data[key]; // Convertir valores vacíos a NULL
+                return obj;
+            }, {});
 
       // Verificar si faltan columnas requeridas
       const columnasRequeridas = columns

@@ -860,8 +860,8 @@ const editarSolicitudesPersonal = async (req, res) => {
   console.log("Datos recibidos en editarPendientes:", req.body);
   const { np, field, value } = req.body;
   const validFields = ["np", "fecha", "estatus", "escuela", "comunidad", "municipio", 
-    "observaciones", "clave cct", "comunidad cct", "municipio cct", "zona", "sector", "org",
-    "no de alumnos", "1° grado", "2° grado", "3° grado", "funcion_docente", "tipo de nombramiento",
+    "observaciones", "clave cct", "comunidad cct", "municipio cct", "zona", "sector", 
+    "no_alumnos", "grado_1", "grado_2", "grado_3", "funcion_docente","tipo_organizacion", "tipo_de_nombramiento",
     "inicio del movimiento", "termino del movimiento", "propuesta", "subdireccion_academica", "subdireccion_planeacion", 
     "subdireccion_administracion", "usicamm", "recursos_humanos", "juridico", "observaciones_conflictos", "observaciones_secretaria_general", "estatus_movimiento"];
 
