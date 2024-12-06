@@ -6,11 +6,11 @@ const home = async () => {
     const [resultsPersonal] = await pool.query(`
       SELECT
     (SELECT COUNT(*) FROM personal) AS total_personal, -- Total desde personal
-    COUNT(CASE WHEN detalle_laboral.cargo_id = 1 THEN 1 END) AS total_directores,
-    COUNT(CASE WHEN detalle_laboral.cargo_id = 3 THEN 1 END) AS total_docentes,
-    COUNT(CASE WHEN detalle_laboral.cargo_id = 4 THEN 1 END) AS total_auxiliares
+    COUNT(CASE WHEN detalle_laboral.cargo = 1 THEN 1 END) AS total_directores,
+    COUNT(CASE WHEN detalle_laboral.cargo = 3 THEN 1 END) AS total_docentes,
+    COUNT(CASE WHEN detalle_laboral.cargo = 4 THEN 1 END) AS total_auxiliares
     FROM detalle_laboral
-    WHERE detalle_laboral.cargo_id IN (1, 3, 4);
+    WHERE detalle_laboral.cargo IN (1, 3, 4);
     `);
 
     const [resultsPendientes] = await pool.query(`
@@ -72,15 +72,15 @@ const obtenerDetalleCompleto = async (personalId) => {
   try {
     const [detalleCompleto] = await pool.query(`
    SELECT
-    dl.cargo_id,
-    c.descripcion AS cargo_nombre,
-    dl.tipo_organizacion_id,
+    dl.cargo,
+    dl.tipo_organizacion,
     dl.activo,
     dl.pausa,
     dl.fecha_ingreso,
     dl.fecha_nombramiento,
     dl.antiguedad,
-    dl.tipo_direccion_id,
+    dl.tipo_direccion,
+     dl.\`z.e\` AS \`Z.E\`,
     dl.id_relacion,
     uc.cct_id,
     ccts.centro_clave_trabajo AS clave_cct,
@@ -88,15 +88,24 @@ const obtenerDetalleCompleto = async (personalId) => {
     s.sector_numero AS sector,
     m.nombre AS municipio,
     cdt.nombre AS comunidad
-FROM detalle_laboral AS dl
-LEFT JOIN cargos AS c ON dl.cargo_id = c.cargo_id
-LEFT JOIN ubic_ccts AS uc ON dl.id_relacion = uc.id_relacion
-LEFT JOIN ccts ON uc.cct_id = ccts.cct_id
-LEFT JOIN zona AS z ON uc.zona_id = z.zona_id
-LEFT JOIN sector AS s ON uc.sector_id = s.sector_id
-LEFT JOIN municipio AS m ON uc.municipio_id = m.municipio_id
-LEFT JOIN comunidad AS cdt ON uc.comunidad_id = cdt.comunidad_id
-WHERE dl.personal_id = ?;
+FROM
+    detalle_laboral AS dl
+LEFT JOIN
+    ubic_ccts AS uc ON dl.id_relacion = uc.id_relacion
+LEFT JOIN
+    ccts ON uc.cct_id = ccts.cct_id
+LEFT JOIN
+    zona AS z ON uc.zona_id = z.zona_id
+LEFT JOIN
+    sector AS s ON uc.sector_id = s.sector_id
+LEFT JOIN
+    municipio AS m ON uc.municipio_id = m.municipio_id
+LEFT JOIN
+    comunidad AS cdt ON uc.comunidad_id = cdt.comunidad_id
+WHERE
+    dl.personal_id = ?;
+
+
 
     `, [personalId]);
 

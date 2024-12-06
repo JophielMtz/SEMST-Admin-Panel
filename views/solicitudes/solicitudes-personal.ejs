@@ -155,16 +155,16 @@
                                         <div class="card card-body mt-3">
                                             <div class="row align-items-center mb-3">
                                                 <div class="col-md-2">
-                                                    <label for="tipo_organizacion_id" class="form-label">ORG:</label>
+                                                    <label for="tipo_organizacion" class="form-label">ORG:</label>
                                                 </div>
                                                 <div class="col-md-10">
                                                     <select class="form-select" id="tipo_organizacion"
                                                         name="tipo_organizacion" required>
-                                                        <option value="" disabled selected>Selecciona una opción</option>
-                                                        <option value="Unitaria">Unitaria</option>
-                                                        <option value="Bidocente">Bidocente</option>
-                                                        <option value="Tridocente">Tridocente</option>
-                                                        <option value="Completa">Completa</option>
+                                                        <option value=""</option>
+                                                            <option value="UNITARIA">Unitaria</option>
+                                                            <option value="BIDOCENTE">Bidocente</option>
+                                                            <option value="TRIDOCENTE">Tridocente</option>
+                                                            <option value="ORG. COM.">ORG. COM.</option>   
                                                     </select>
                                                 </div>
                                             </div>
@@ -477,7 +477,8 @@
     let editMode = false;
 
     const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
-    const OrgValidValues = ["Unitaria", "Bidocente", "Tridocente", "Organización completa"];
+    const OrgValidValues = ["UNITARIA", "BIDOCENTE", "TRIDOCENTE", "ORGANIZACIÓN COMPLETA"];
+
     const EstatusCubiertaValidValues = ["Cubierta", "Sin cubrir", "No se justifica"];
     const zonaColumns = Columnas.Zona().columns;
 

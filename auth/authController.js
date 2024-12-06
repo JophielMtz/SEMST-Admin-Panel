@@ -41,62 +41,83 @@ const usuarios = {
     
     login: async (req, res) => {
         const { email, password } = req.body;
-
-    try {
-        // Verificar que se han recibido ambos campos
-        if (!email || !password) {
-            return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+    
+        try {
+            // Verificar que se han recibido ambos campos
+            if (!email || !password) {
+                return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+            }
+    
+            const query = `SELECT * FROM usuarios WHERE email = ?`;
+            const [result] = await pool.query(query, [email]);
+    
+            // Si no se encuentra el usuario
+            if (result.length === 0) {
+                return res.status(404).json({ error: 'Usuario no encontrado' });
+            }
+    
+            const usuario = result[0];
+    
+            // Verificación de la contraseña
+            const contraseñaValida = await bcrypt.compare(password, usuario.password);
+            if (!contraseñaValida) {
+                return res.status(401).json({ error: 'Contraseña incorrecta' });
+            }
+    
+            // Generar el access token (1 hora de validez)
+            const accessToken = jwt.sign(
+                { id: usuario.id, usuario: usuario.usuario, rol: usuario.rol, imagen: usuario.imagen },
+                process.env.JWT_SECRET,
+                { expiresIn: '1h' }
+            );
+    
+            // Generar el refresh token (7 días de validez)
+            const refreshToken = jwt.sign(
+                { id: usuario.id },
+                process.env.JWT_SECRET,
+                { expiresIn: '7d' }
+            );
+    
+            // Configuración de las cookies
+            res.cookie('accessToken', accessToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 60 * 60 * 1000, // 1 hora
+                sameSite: 'Strict'
+            });
+    
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
+                sameSite: 'Strict'
+            });
+    
+            return res.status(200).json({
+                message: 'Inicio de sesión exitoso',
+            });
+    
+        } catch (error) {
+            return res.status(500).json({ error: 'Error al iniciar sesión' });
         }
-
-        const query = `SELECT * FROM usuarios WHERE email = ?`;
-        const [result] = await pool.query(query, [email]);
-
-        // Si no se encuentra el usuario
-        if (result.length === 0) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
-        const usuario = result[0];
-
-        // Verificación de la contraseña
-        const contraseñaValida = await bcrypt.compare(password, usuario.password);
-        if (!contraseñaValida) {
-            return res.status(401).json({ error: 'Contraseña incorrecta' });
-        }
-
-        // Generar los tokens
-        const accessToken = jwt.sign(
-            { id: usuario.id, usuario: usuario.usuario, rol: usuario.rol, imagen: usuario.imagen },
-            process.env.JWT_SECRET,
-            { expiresIn: '1h' } // Expira en 1 hora
-        );
-
-        // Configuración de las cookies
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true, // Hace que la cookie solo sea accesible desde el servidor (seguridad)
-            secure: process.env.NODE_ENV === 'production', // Solo se envía por HTTPS en producción
-            maxAge: 60 * 60 * 1000, // Expira en 1 hora
-            sameSite: 'Strict' // Protección contra ataques CSRF
-        });
-
-        return res.status(200).json({
-            message: 'Inicio de sesión exitoso',
-        });
-
-    } catch (error) {
-        return res.status(500).json({ error: 'Error al iniciar sesión' });
-    }
     },
     
+    
     logout: (req, res) => {
-        res.clearCookie('accessToken', {
-            httpOnly: true, // Asegura que la cookie solo sea accesible por el servidor
-            secure: process.env.NODE_ENV === 'production', // Solo en producción se enviará sobre HTTPS
-            sameSite: 'Strict', // Para mayor seguridad
-        });
-
+        // Limpiar las cookies
+        res.clearCookie('accessToken');
+        res.clearCookie('refreshToken');
+    
+        // Configurar encabezados para evitar caché
+        res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        res.set('Pragma', 'no-cache');
+        res.set('Expires', '0');
+        res.set('Surrogate-Control', 'no-store');
+    
+        // Redirigir al inicio
         return res.redirect('/');
     },
+    
     
 };
 

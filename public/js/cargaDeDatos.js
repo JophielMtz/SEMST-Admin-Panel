@@ -25,7 +25,7 @@ function llenarFormulario(docente) {
     const campos = {
         personal_id: docente.personal_id,
         nombre_docente: `${docente.nombre_personal} ${docente.apellido_paterno} ${docente.apellido_materno}`,
-        antiguedad: docente.antiguedad,
+        // antiguedad: docente.antiguedad,
         telefono: docente.telefono,
         cct_sale: docente.clave_cct || '',
         municipio_sale: docente.nombre_municipio || '',

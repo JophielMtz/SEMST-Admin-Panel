@@ -191,13 +191,11 @@
                                           <div class="form-group col-md-6">
                                             <label for="estatus" class="form-label">Organización:</label>
                                             <select class="form-select form-select-sm" id="tipo_organizacion" name="tipo_organizacion">
-                                                <option value="" selected disabled>
-                                                    Selecciona un estatus
-                                                </option>
-                                                <option value="Unitaria">Unitaria</option>
-                                                 <option value="Bidocente">Bidocente</option>
-                                                 <option value="Tridocente">Tridocente</option>
-                                                 <option value="Organización completa">Organización completa</option>
+                                                <option value=""</option>
+                                                    <option value="UNITARIA">Unitaria</option>
+                                                    <option value="BIDOCENTE">Bidocente</option>
+                                                    <option value="TRIDOCENTE">Tridocente</option>
+                                                    <option value="ORG. COM.">ORG. COM.</option>                                               
                                             </select>
                                         </div>
                                         
@@ -324,7 +322,7 @@
     let editMode = false;
    
     const estatusValidValues = ["LSG", "Incapacidad"];
-    const OrgValidValues = ["Unitaria", "Bidocente", "Tridocente", "Organización completa"];
+    const OrgValidValues = ["UNITARIA", "BIDOCENTE", "TRIDOCENTE", "ORGANIZACIÓN COMPLETA"];
     const vacanteValidValues = ["Cubierta", "Sin cubrir", "Sin validar"];
 
     const datos = [

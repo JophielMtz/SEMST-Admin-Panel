@@ -177,16 +177,15 @@
                                                         <input type="date" class="form-control" id="fecha_documento" name="fecha_documento" />
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <label for="tipo_organizacion_id" class="form-label">ORG:</label>
+                                                        <label for="tipo_organizacion" class="form-label">ORG:</label>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <select class="form-select" id="tipo_organizacion" name="tipo_organizacion" >
                                                             <option value=""</option>
-                                                            <option value="Unitaria">Unitaria</option>
-                                                            <option value="Bidocente">Bidocente</option>
-                                                            <option value="Tridocente">Tridocente</option>
-                                                            <option value="Tetradocente">Tetradocente</option>
-                                                            <option value="Completa">Completa</option>
+                                                                <option value="UNITARIA">Unitaria</option>
+                                                                <option value="BIDOCENTE">Bidocente</option>
+                                                                <option value="TRIDOCENTE">Tridocente</option>
+                                                                <option value="ORG. COM.">ORG. COM.</option>   
                                                         </select>
                                                     </div>
                                                     
@@ -377,7 +376,7 @@
 
     const estatusValidValues = ["No se atiende", "En proceso", "Terminado", "Entregado a SETEL"];
     const departamentoValidValues = ["Subdireccion Académica", "Subdireccion de Planeación", "Subdireccion de Administración", "Recursos Humanos", "USICAMM", "Operacion Escolar", "Juridico", "Sin Definir",];
-    const OrgValidValues = ["Unitaria", "Bidocente", "Tridocente", "Organización completa"];
+    const OrgValidValues = ["UNITARIA", "BIDOCENTE", "TRIDOCENTE", "ORGANIZACIÓN COMPLETA"];
     const zonaColumns = Columnas.Zona().columns;
 
 

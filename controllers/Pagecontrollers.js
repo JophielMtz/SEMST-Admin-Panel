@@ -144,9 +144,9 @@ FROM
 LEFT JOIN
     detalle_laboral dl ON p.personal_id = dl.personal_id
 LEFT JOIN
-    cargos c ON dl.cargo_id = c.cargo_id
+    cargos c ON dl.cargo = c.cargo
 LEFT JOIN
-    tipo_organizacion to ON p.tipo_organizacion_id = to.tipo_organizacion_id;
+    tipo_organizacion to ON p.tipo_organizacion = to.tipo_organizacion;
 
     `);
     res.json(results);
@@ -195,7 +195,6 @@ const obtenerSalud = async (req, res) => {
     si.diagnostico,
     si.fecha_inicio,
     si.fecha_termino,
-    si.antiguedad,
     si.observaciones,
     si.municipio_sale,
     si.comunidad_sale,
@@ -205,7 +204,6 @@ const obtenerSalud = async (req, res) => {
     si.comunidad_entra,
     si.cct_entra,
     si.estatus_cubierta,
-    si.telefono,
     si.observaciones_conflictos
 FROM
     salud_inseguridad si
@@ -403,13 +401,13 @@ const obtenerListaPanelAdministrador = async (req, res) => {
     p.telefono,
     p.correo,
     p.imagen,
-    IFNULL(c.descripcion, 'No asignado') AS cargo
+    IFNULL(dl.cargo, 'No asignado') AS cargo
 FROM
     personal p
 LEFT JOIN
-    detalle_laboral dl ON p.personal_id = dl.personal_id
-LEFT JOIN
-    cargos c ON dl.cargo_id = c.cargo_id;
+    detalle_laboral dl ON p.personal_id = dl.personal_id;
+
+
 
 
 
@@ -601,11 +599,11 @@ const obtenerSolicitudesGenerales = async (req, res) => {
 //     const [results] = await pool.query(`
 //       SELECT
 //     COUNT(*) AS total_personal,
-//     COUNT(CASE WHEN detalle_laboral.cargo_id = 1 THEN 1 END) AS total_directores,
-//     COUNT(CASE WHEN detalle_laboral.cargo_id = 3 THEN 1 END) AS total_docentes,
-//     COUNT(CASE WHEN detalle_laboral.cargo_id = 4 THEN 1 END) AS total_auxiliares
+//     COUNT(CASE WHEN detalle_laboral.cargo = 1 THEN 1 END) AS total_directores,
+//     COUNT(CASE WHEN detalle_laboral.cargo = 3 THEN 1 END) AS total_docentes,
+//     COUNT(CASE WHEN detalle_laboral.cargo = 4 THEN 1 END) AS total_auxiliares
 // FROM detalle_laboral
-// WHERE detalle_laboral.cargo_id IN (1, 3, 4);
+// WHERE detalle_laboral.cargo IN (1, 3, 4);
 
 //     `);
 //     return results[0];
@@ -922,7 +920,7 @@ const editarListaPanelAdministrador = async (req, res) => {
 
   const { personal_id, field, value } = req.body;
 
-  // Mapeo entre el nombre del cargo y el cargo_id
+  // Mapeo entre el nombre del cargo y el cargo
   const cargoMapping = {
     "Director": 1,
     "Subdirector": 2,
@@ -937,7 +935,7 @@ const editarListaPanelAdministrador = async (req, res) => {
   // Definir los campos válidos para cada tabla
   const validFieldsPersonal = ["personal_id", "nombre", "telefono", "rfc", "correo"];
   const validFieldsDetalleLaboral = [
-    "cargo_id", "tipo_organizacion_id", "activo", "pausa", 
+    "cargo", "tipo_organizacion", "activo", "pausa", 
     "fecha_ingreso", "fecha_nombramiento", "antiguedad", 
     "tipo_direccion_id", "id_relacion", "plaza_id"
   ];
@@ -953,8 +951,8 @@ const editarListaPanelAdministrador = async (req, res) => {
     let query;
     let params;
 
-    // Si el campo es 'cargo', convertir el nombre a cargo_id
-    if (field === "cargo_id") {
+    // Si el campo es 'cargo', convertir el nombre a cargo
+    if (field === "cargo") {
       // Verificar si el cargo proporcionado es válido y convertirlo al id correspondiente
       const cargoId = cargoMapping[value];
 
@@ -964,7 +962,7 @@ const editarListaPanelAdministrador = async (req, res) => {
         });
       }
 
-      // Asignar el nuevo valor de cargo_id
+      // Asignar el nuevo valor de cargo
       value = cargoId;
     }
 
@@ -1105,8 +1103,8 @@ const agregarPersonal = async (req, res) => {
       telefono,
       correo,
       direccion,
-      cargo_id,
-      tipo_organizacion_id,
+      cargo,
+      tipo_organizacion,
       fecha_ingreso,
       fecha_nombramiento,
       tipo_direccion_id,
@@ -1149,8 +1147,8 @@ const agregarPersonal = async (req, res) => {
       telefono,
       correo,
       direccion,
-      cargo_id,
-      tipo_organizacion_id,
+      cargo,
+      tipo_organizacion,
       fecha_ingreso,
       fecha_nombramiento,
       tipo_direccion_id,
@@ -1236,14 +1234,14 @@ const agregarPersonal = async (req, res) => {
     }
 
     const insertDetalleLaboral = `
-      INSERT INTO detalle_laboral (personal_id, cargo_id, id_relacion, tipo_organizacion_id, fecha_ingreso, fecha_nombramiento, tipo_direccion_id, plaza_id, activo, pausa)
+      INSERT INTO detalle_laboral (personal_id, cargo, id_relacion, tipo_organizacion, fecha_ingreso, fecha_nombramiento, tipo_direccion_id, plaza_id, activo, pausa)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     await pool.query(insertDetalleLaboral, [
       personal_id,
-      cargo_id,
+      cargo,
       id_relacion,
-      tipo_organizacion_id,
+      tipo_organizacion,
       fecha_ingreso,
       fecha_nombramiento,
       tipo_direccion_id,
@@ -1390,7 +1388,7 @@ const vistaListaPanelAdm = async (req, res) => {
       LEFT JOIN
         detalle_laboral dl ON p.personal_id = dl.personal_id
       LEFT JOIN
-        cargos c ON dl.cargo_id = c.cargo_id
+        cargos c ON dl.cargo = c.cargo
     `);
 
     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
@@ -1483,9 +1481,9 @@ const vistaEditarPersonal = async (req, res) => {
           p.telefono,
           p.sexo,
           p.imagen,
-          dl.cargo_id,
+          dl.cargo,
           dl.tipo_direccion_id,
-          dl.tipo_organizacion_id,
+          dl.tipo_organizacion,
           dl.plaza_id,
           dl.fecha_ingreso,
           dl.fecha_nombramiento,
@@ -1546,7 +1544,7 @@ const vistaEditarPersonal = async (req, res) => {
 //       LEFT JOIN
 //         detalle_laboral AS dl ON p.personal_id = dl.personal_id
 //       LEFT JOIN
-//         cargos AS c ON dl.cargo_id = c.cargo_id
+//         cargos AS c ON dl.cargo = c.cargo
 //     `);
 //     res.json(results);
 //   } catch (error) {
@@ -1591,8 +1589,8 @@ const obtenerDetallePersonal  = async (req, res) => {
     FROM
         personal AS p
     LEFT JOIN detalle_laboral AS dl ON p.personal_id = dl.personal_id
-    LEFT JOIN cargos AS c ON dl.cargo_id = c.cargo_id
-    LEFT JOIN tipo_organizacion AS t_org ON dl.tipo_organizacion_id = t_org.tipo_organizacion_id
+    LEFT JOIN cargos AS c ON dl.cargo = c.cargo
+    LEFT JOIN tipo_organizacion AS t_org ON dl.tipo_organizacion = t_org.tipo_organizacion
     LEFT JOIN tipo_direccion AS t_dir ON dl.tipo_direccion_id = t_dir.tipo_direccion_id
     LEFT JOIN plazas AS pl ON dl.plaza_id = pl.plaza_id
     LEFT JOIN ubic_ccts AS u ON dl.id_relacion = u.id_relacion

@@ -205,7 +205,7 @@ const editarTablas = {
       
      editarSolicitudesPersonal: async (req, res) => {
         const { np, field, value } = req.body;
-        const validFields = ["np", "fecha", "estatus", "escuela", "comunidad", "municipio", "observaciones", "clave cct", "comunidad cct", "municipio cct", "zona", "sector", "org", "no de alumnos", "1° grado", "2° grado", "3° grado", "funcion_docente", "tipo de nombramiento", "inicio del movimiento", "termino del movimiento", "propuesta", "subdireccion academica", "subdireccion de planeacion", "subdireccion de administracion", "usicamm", "recursos humanos", "juridico", "observaciones conflictos", "observaciones secretaria general", "estatus del movimiento"];
+        const validFields = ["np", "fecha", "estatus", "escuela", "comunidad", "municipio", "observaciones", "clave cct", "comunidad cct", "municipio cct", "zona", "sector", "tipo_organizacion", "no de alumnos", "1° grado", "2° grado", "3° grado", "funcion_docente", "tipo de nombramiento", "inicio del movimiento", "termino del movimiento", "propuesta", "subdireccion academica", "subdireccion de planeacion", "subdireccion de administracion", "usicamm", "recursos humanos", "juridico", "observaciones conflictos", "observaciones secretaria general", "estatus del movimiento"];
       
       
         if (!np || !field || value === undefined) {
@@ -217,7 +217,7 @@ const editarTablas = {
      editarSolicitudesGenerales: async (req, res) => {
         console.log("Datos recibidos en editarPendientes:", req.body);
         const { np, field, value } = req.body;
-        const validFields = ['np', 'fecha', 'nombre_del_docente', 'estatus', 'tipo_solicitud', 'fecha_documento', 'observaciones', 'departamento', 'edad', 'telefono', 'centro_clave_trabajo', 'comunidad', 'municipio', 'zona_id', 'sector_id', 'org', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 'funcion_docente', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'observaciones_secretaria_general'];
+        const validFields = ['np', 'fecha', 'nombre_del_docente', 'estatus', 'tipo_solicitud', 'fecha_documento', 'observaciones', 'departamento', 'edad', 'telefono', 'centro_clave_trabajo', 'comunidad', 'municipio', 'zona_id', 'sector_id', 'tipo_organizacion', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 'funcion_docente', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'observaciones_secretaria_general'];
       
       
       
@@ -231,7 +231,7 @@ const editarTablas = {
       
      editarIncidencias: async (req, res) => {
         const { np, field, value } = req.body;
-        const validFields = [ "zona_id", "sector_id", "tipo_organizacion", "no_alumnos", "grado_1", "grado_2", "grado_3", "funcion_docente", "tipo_nombramiento", "inicio_movimiento", "termino_movimiento", "propuesta", "subdireccion_academica", "subdireccion_planeacion", "subdireccion_administracion", "usicamm", "recursos_humanos", "juridico", "observaciones_conflictos", "observaciones_secretaria_general", "estatus_movimiento", "situacion", "observaciones", "org"];
+        const validFields = [ "zona_id", "sector_id", "tipo_organizacion", "no_alumnos", "grado_1", "grado_2", "grado_3", "funcion_docente", "tipo_nombramiento", "inicio_movimiento", "termino_movimiento", "propuesta", "subdireccion_academica", "subdireccion_planeacion", "subdireccion_administracion", "usicamm", "recursos_humanos", "juridico", "observaciones_conflictos", "observaciones_secretaria_general", "estatus_movimiento", "situacion", "observaciones", ];
       
       
         if (!np || !field || value === undefined) {
@@ -307,7 +307,7 @@ const editarTablas = {
      editarNombramientosDocentes: async (req, res) => {
         const { np, field, value } = req.body;
         console.log("Datos recibidos en editarPendientes:", req.body);
-        const validFields = ['np', 'fecha', 'nombre_del_docente', 'antiguedad', 'telefono', 'centro_clave_trabajo', 'comunidad', 'municipio', 'zona_id', 'sector_id', 'org', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 'funcion_docente', 'tipo_nombramiento', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'subdireccion_academica', 'subdireccion_planeacion', 'subdireccion_administracion', 'usicamm', 'recursos_humanos', 'juridico', 'observaciones_conflictos', 'observaciones_secretaria_general', 'estatus_movimiento'];
+        const validFields = ['np', 'fecha', 'nombre_del_docente', 'antiguedad', 'telefono', 'centro_clave_trabajo', 'comunidad', 'municipio', 'zona_id', 'sector_id', 'tipo_organizacion', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 'funcion_docente', 'tipo_nombramiento', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'subdireccion_academica', 'subdireccion_planeacion', 'subdireccion_administracion', 'usicamm', 'recursos_humanos', 'juridico', 'observaciones_conflictos', 'observaciones_secretaria_general', 'estatus_movimiento'];
       
         
         

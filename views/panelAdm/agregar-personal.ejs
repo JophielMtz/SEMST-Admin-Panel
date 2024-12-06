@@ -184,18 +184,19 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="cargo_id" class="form-label">Cargo</label>
-                    <select class="form-select mb-3 shadow-none" id="cargo_id" name="cargo_id"
+                    <label for="cargo" class="form-label">Cargo</label>
+                    <select class="form-select mb-3 shadow-none" id="cargo" name="cargo"
                       style="max-height: 300px; overflow-y: auto" required>
                       <option value="">Selecciona el cargo</option>
-                      <option value="1">Director</option>
-                      <option value="2">Subdirector</option>
-                      <option value="3">Docente</option>
-                      <option value="4">Auxiliar Administrativo</option>
-                      <option value="5">Auxiliar de Servicios</option>
-                      <option value="6">Docente de apoyo</option>
-                      <option value="7">Docente/ATP</option>
-                      <option value="8">Velador</option>
+                      <option value="DIRECTOR">Director</option>
+                      <option value="SUBDIRECTOR">Subdirector</option>
+                      <option value="DOCENTE">Docente</option>
+                      <option value="AUXILIAR ADMINISTRATIVO">Auxiliar Administrativo</option>
+                      <option value="AUXILIAR DE SERVICIOS">Auxiliar de Servicios</option>
+                      <option value="DOCENTE DE APOYO">Docente de apoyo</option>
+                      <option value="DOCENTE/ATP">Docente/ATP</option>
+                      <option value="VELADOR">Velador</option>
+                      <option value="DOCENTE/CAMB/ACT">Docente/CAMB/ACT</option>
                     </select>
                     <div class="invalid-feedback">
                       Por favor selecciona el cargo.
@@ -222,17 +223,14 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="tipo_organizacion_id" class="form-label">Tipo de Organización</label>
-                    <select class="form-select mb-3 shadow-none" id="tipo_organizacion_id" name="tipo_organizacion_id"
+                    <label for="tipo_organizacion" class="form-label">Tipo de Organización</label>
+                    <select class="form-select mb-3 shadow-none" id="tipo_organizacion" name="tipo_organizacion"
                       required>
-                      <option value="">
-                        Selecciona el tipo de organización
-                      </option>
-                      <option value="1">Unitaria</option>
-                      <option value="2">Bidocente</option>
-                      <option value="3">Tridocente</option>
-                      <option value="4">Tetradocente</option>
-                      <option value="5">Completa</option>
+                      <option value=""</option>
+                        <option value="UNITARIA">Unitaria</option>
+                        <option value="BIDOCENTE">Bidocente</option>
+                        <option value="TRIDOCENTE">Tridocente</option>
+                        <option value="ORG. COM.">ORG. COM.</option>    
                     </select>
                     <div class="invalid-feedback">
                       Por favor selecciona el tipo de organización.
@@ -443,9 +441,9 @@
     const rfcInput = document.getElementById('rfc');
     const curpInput = document.getElementById('curp');
     const telefonoInput = document.getElementById('telefono');
-    const cargoSelect = document.querySelector('[name="cargo_id"]');
+    const cargoSelect = document.querySelector('[name="cargo"]');
     const tipoDirectorSelect = document.querySelector('[name="tipo_direccion_id"]');
-    const tipoOrganizacionSelect = document.querySelector('[name="tipo_organizacion_id"]');
+    const tipoOrganizacionSelect = document.querySelector('[name="tipo_organizacion"]');
 
     const validarTexto = (input) => {
       const regex = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/;
