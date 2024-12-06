@@ -134,7 +134,7 @@ export const nombreDocente = () => ({
     width: 230,
     wrapHeaderText: true, 
     autoHeaderHeight: true,
-    cellClass: "centrar-celda"
+    // cellClass: "centrar-celda"
 });
 
 

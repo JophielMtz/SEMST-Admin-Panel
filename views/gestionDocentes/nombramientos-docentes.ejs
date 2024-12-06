@@ -449,6 +449,7 @@
         },
         Columnas.colIniciMovimiento(),
         Columnas.colTerminoMovimiento(),
+        { ...Columnas.observaciones(), editable: () => editMode, },
         { headerName: "Propuesta", field: "propuesta", editable: () => editMode, resizable: true },
         { headerName: "Subdirección Académica", field: "subdireccion_academica", editable: () => editMode, resizable: true },
         { headerName: "Subdirección de Planeación", field: "subdireccion_planeacion", editable: () => editMode, resizable: true },

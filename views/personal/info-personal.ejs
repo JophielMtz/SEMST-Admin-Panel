@@ -66,8 +66,7 @@
                 info: true,
                 lengthChange: false,
                 pageLength: 10,
-                // Agrega esta línea para personalizar la posición de la barra de búsqueda
-                dom: '<"row"<"col-md-6"><"col-md-6 text-end"f>>rtip',
+                dom: '<"row"<"col-md-6"><"col-md-6 text-end"f>>rtip', // Esto coloca la barra de búsqueda a la derecha
             });
             // Evento 'draw' para actualizar las tarjetas
             table.on('draw', () => {
@@ -248,14 +247,17 @@
         <div class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
             <ul class="list-inline p-0 m-0">
                 <!-- Cambio 1: Registro del Docente -->
-                <li>
-                    <div class="timeline-dots timeline-dot1 border-primary text-primary"></div>
-                    <h6 class="float-left mb-1">Registro de Docente</h6>
-                    <small class="float-right mt-1">24 Noviembre 2023</small>
-                    <div class="d-inline-block w-100">
-                        <p>El docente ha sido registrado en el sistema con la información básica: nombre, dirección, y especialidad.</p>
-                    </div>
-                </li>
+                <% becas.forEach(function(beca) { %>
+    <li>
+      <div class="timeline-dots timeline-dot1 border-primary text-primary"></div>
+      <h6 class="float-left mb-1">Registro de Docente: <%= beca.nombre_docente %></h6>
+      <small class="float-right mt-1"><%= beca.fecha %></small>
+      <div class="d-inline-block w-100">
+        <p>El docente ha sido registrado en el sistema con la información básica: nombre, dirección, y especialidad.</p>
+        <p>Observaciones: <%= beca.observaciones %></p>
+      </div>
+    </li>
+  <% }); %>
                 <!-- Cambio 2: Cambio de Departamento -->
                 <li>
                     <div class="timeline-dots timeline-dot1 border-success text-success"></div>

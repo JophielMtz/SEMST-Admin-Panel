@@ -26,7 +26,7 @@ function clearError(input) {
 const validationRules = [
     { id: 'nombre_docente', regex: onlyLettersAndSpacesRegex, message: 'Debe de seleccionar un nombre.' },
     { id: 'fecha', required: true, message: 'Debe seleccionar un fecha.' },
-    { id: 'antiguedad', regex: onlyNumbersRegex, message: 'La antigüedad debe ser un número.' },
+    // { id: 'antiguedad', regex: onlyNumbersRegex, message: 'La antigüedad debe ser un número.' },
     { id: 'telefono', regex: onlyNumbersRegex, message: 'El teléfono debe contener solo números.' },
     { id: 'tipo_movimiento', required: true, message: 'Debe seleccionar un tipo de movimiento.' },
     { id: 'tipo_organizacion', required: false, message: 'Debe seleccionar un tipo de organización.' },

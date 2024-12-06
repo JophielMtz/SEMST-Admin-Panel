@@ -74,7 +74,7 @@
                             </div>
                             <div class="progress-detail">
                                <p  class="mb-2">Procesos en Tránsito</p>
-                               <h4 class="counter">36</h4>
+                               <h4 class="counter"><%= totalProcesos %></h4>
                             </div>
                          </div>
                       </div>
@@ -115,13 +115,15 @@
              </div>
           </div>
        </div>
+
+       <!--Grafica de procesos en transito-->
        <div class="col-md-12 col-lg-8">
           <div class="row">
              <div class="col-md-12">
                 <div class="card" data-aos="fade-up" data-aos-delay="800">
                    <div class="flex-wrap card-header d-flex justify-content-between align-items-center">
                       <div class="header-title">
-                         <h4 class="card-title">36</h4>
+                         <h4 class="card-title"><%= totalProcesos %></h4>
                          <p class="mb-0">Procesos</p>
                       </div>
                       <div class="d-flex align-items-center align-self-center">
@@ -235,11 +237,11 @@
             
           </div>
        </div>
+
+
        <div class="col-md-12 col-lg-4">
           <div class="row">
              <div class="col-md-12 col-lg-12">
-                
-         
              </div>
              <!--Procesos Pendientes-->
              <div class="col-md-12 col-lg-12">
@@ -251,7 +253,7 @@
                        <svg class="me-2 icon-24" width="24" height="24" viewBox="0 0 24 24">
                          <path fill="#17904b" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
                        </svg>
-                       16% this month
+                       <!-- 16% this month -->
                      </p>
                    </div>
                  </div>

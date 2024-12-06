@@ -2,6 +2,32 @@ const pool = require("../src/config/db");
 
 
 //=========Gets de las APIS==========//
+const obtenerPersonal = async (req, res) => {
+  const personalId = req.params.personal_id;
+
+  console.log('Recibiendo solicitud para obtener personal con ID:', personalId);
+
+  try {
+    // Usar '?' en lugar de '$1' para MySQL
+    const result = await pool.query('SELECT * FROM semstdb.personal WHERE personal_id = ?', [personalId]);
+
+    console.log('Resultado de la consulta:', result[0]);
+
+    if (result[0].length === 0) {
+      console.log('Personal no encontrado para ID:', personalId);
+      return res.status(404).json({ message: 'Personal no encontrado' });
+    }
+
+    res.json(result[0][0]); // Devolver los datos del primer resultado
+
+  } catch (error) {
+    console.error('Error al obtener el personal:', error);
+    res.status(500).json({ message: 'Error en el servidor al obtener el personal' });
+  }
+};
+
+
+
 const obtenerPendientes = async (req, res) => {
   try {
     const [results] = await pool.query(`
@@ -19,25 +45,28 @@ const obtenerPendientes = async (req, res) => {
 const obtenerDocentesDisponibles = async (req, res) => {
   try {
     const [results] = await pool.query(`
-    SELECT
-          dd.np,
-          dd.personal_id,
-          dd.nombre_docente,
-          dd.fecha,
-          dd.estatus,
-          dd.situacion,
-          dd.antiguedad,
-          dd.municipio_sale,
-          dd.comunidad_sale,
-          dd.cct_sale,
-          dd.municipio_entra,
-          dd.comunidad_entra,
-          dd.cct_entra,
-          dd.estatus_cubierta,
-          dd.observaciones
-      FROM
-        docentes_disponibles dd
-      LEFT JOIN personal p ON dd.personal_id = p.personal_id
+   SELECT
+    dd.np,
+    dd.personal_id,
+    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
+    dd.fecha,
+    dd.estatus,
+    dd.situacion,
+    dd.antiguedad,
+    dd.municipio_sale,
+    dd.comunidad_sale,
+    dd.cct_sale,
+    dd.municipio_entra,
+    dd.comunidad_entra,
+    dd.cct_entra,
+    dd.estatus_cubierta,
+    dd.observaciones,
+    dd.observaciones_conflictos,
+    p.telefono
+FROM
+    docentes_disponibles dd
+LEFT JOIN
+    personal p ON dd.personal_id = p.personal_id;
     `);
     res.json(results);
   } catch (error) {
@@ -436,7 +465,7 @@ const obtenerNombramientosDocentes = async (req, res) => {
     n.inicio_movimiento,
     n.termino_movimiento,
     n.propuesta,
-    n.observaciones_secretaria,
+    n.observaciones,
     n.subdireccion_academica,
     n.subdireccion_administracion,
     n.subdireccion_planeacion,
@@ -563,6 +592,7 @@ const obtenerSolicitudesGenerales = async (req, res) => {
     res.status(500).json({ message: "Error al obtener lista internos" });
   }
 };
+
 
 
 //==========LLamar Datos para renders y forms==========//
@@ -987,7 +1017,7 @@ const editarNombramientosDocentes = async (req, res) => {
     'comunidad', 'municipio', 'zona_id', 'sector_id', 'org', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 
     'funcion_docente', 'tipo_nombramiento', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'subdireccion_academica', 
     'subdireccion_planeacion', 'subdireccion_administracion', 'usicamm', 'recursos_humanos', 'juridico', 'observaciones_conflictos',
-     'observaciones_secretaria_general', 'estatus_movimiento'];
+     'observaciones', 'estatus_movimiento'];
 
 
 
@@ -1341,68 +1371,6 @@ module.exports = borrarUsuario;
 
 
 
-
-
-
-
-const vistaNombramientosDocentes = async (req, res) => {
-  try {
-    // Realiza la consulta a la base de datos para obtener los datos directamente desde la tabla `nombramientos`
-    const [nombramientos] = await pool.query(`
-      SELECT
-        np,
-        fecha,
-        nombre_docente,
-        antiguedad,
-        telefono,
-        clave_cct,
-        comunidad,
-        municipio,
-        zona,
-        sector,
-        organizacion,
-        no_alumnos,
-        grado_1,
-        grado_2,
-        grado_3,
-        funcion_docente,
-        tipo_nombramiento,
-        inicio_movimiento,
-        termino_movimiento,
-        propuesta,
-        subdireccion_academica,
-        subdireccion_planeacion,
-        subdireccion_administracion,
-        usicamm,
-        recursos_humanos,
-        juridico,
-        observaciones_conflictos,
-        observaciones_secretaria_general,
-        estatus_movimiento
-      FROM nombramientos
-    `);
-
-    // Verifica si la solicitud es AJAX
-    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      // Enviar los datos como JSON
-      res.json({ data: nombramientos });
-    } else {
-      // Renderiza la vista con los datos obtenidos
-      res.render('nombramientos-docentes', { nombramientos });
-    }
-  } catch (error) {
-    // Manejo de errores
-    console.error('Error al obtener datos de nombramientos:', error);
-    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      res.status(500).json({ error: 'Error al obtener datos de nombramientos' });
-    } else {
-      res.status(500).send('Error al obtener datos de nombramientos');
-    }
-  }
-};
-
-
-
 const vistaListaPanelAdm = async (req, res) => {
   try {
     const [personal] = await pool.query(`
@@ -1442,10 +1410,6 @@ const vistaListaPanelAdm = async (req, res) => {
 
 
 //api de lista general
-
-const vistaPerfil = (req, res) => {
-  res.render("perfil");
-};
 
 
 
@@ -1564,33 +1528,34 @@ const vistaEditarPersonal = async (req, res) => {
 
 
 // Función para obtener la lista de empleados
-const obtenerPersonal = async (req, res) => {
-  try {
-    const [results] = await pool.query(`
-     SELECT
-        p.personal_id,
-        p.nombre,
-        p.apellido_paterno,
-        p.apellido_materno,
-        p.imagen, -- Asegúrate de que aquí esté el campo imagen
-        p.direccion, -- Campo agregado para la dirección
-        p.telefono,  -- Campo agregado para el teléfono
-        p.correo,    -- Campo agregado para el correo
-        c.descripcion AS cargo
-      FROM
-        personal AS p
-      LEFT JOIN
-        detalle_laboral AS dl ON p.personal_id = dl.personal_id
-      LEFT JOIN
-        cargos AS c ON dl.cargo_id = c.cargo_id
-    `);
-    res.json(results);
-  } catch (error) {
-    console.error("Error al obtener el personal:", error);
-    res.status(500).json({ message: "Error al obtener la lista de personal" });
-  }
-};
+// const obtenerPersonal = async (req, res) => {
+//   try {
+//     const [results] = await pool.query(`
+//      SELECT
+//         p.personal_id,
+//         p.nombre,
+//         p.apellido_paterno,
+//         p.apellido_materno,
+//         p.imagen, -- Asegúrate de que aquí esté el campo imagen
+//         p.direccion, -- Campo agregado para la dirección
+//         p.telefono,  -- Campo agregado para el teléfono
+//         p.correo,    -- Campo agregado para el correo
+//         c.descripcion AS cargo
+//       FROM
+//         personal AS p
+//       LEFT JOIN
+//         detalle_laboral AS dl ON p.personal_id = dl.personal_id
+//       LEFT JOIN
+//         cargos AS c ON dl.cargo_id = c.cargo_id
+//     `);
+//     res.json(results);
+//   } catch (error) {
+//     console.error("Error al obtener el personal:", error);
+//     res.status(500).json({ message: "Error al obtener la lista de personal" });
+//   }
+// };
 
+// Función para obtener detalles de cada empleado ne la lista de empleados
 const obtenerDetallePersonal  = async (req, res) => {
   const { personal_id} =  req.params;
 
@@ -1692,6 +1657,7 @@ module.exports = {
   borrarFila,
   borrarUsuario,
   actualizarRegistro,
+
 
 
 };

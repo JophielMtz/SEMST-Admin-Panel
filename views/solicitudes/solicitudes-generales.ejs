@@ -172,21 +172,24 @@
                                                     <div class="col-md-2">
                                                         <label for="fecha_documento" class="form-label mb-0">Fecha del Docuento:</label>
                                                     </div>
+                                                    
                                                     <div class="col-md-4">
                                                         <input type="date" class="form-control" id="fecha_documento" name="fecha_documento" />
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <label for="tipo_organizacion_id" class="form-label">Proceso:</label>
+                                                        <label for="tipo_organizacion_id" class="form-label">ORG:</label>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <select class="form-select" id="tipo_organizacion" name="tipo_organizacion" required>
-                                                            <option value="" selected disabled>Selecciona una opción</option>
+                                                        <select class="form-select" id="tipo_organizacion" name="tipo_organizacion" >
+                                                            <option value=""</option>
                                                             <option value="Unitaria">Unitaria</option>
                                                             <option value="Bidocente">Bidocente</option>
                                                             <option value="Tridocente">Tridocente</option>
+                                                            <option value="Tetradocente">Tetradocente</option>
                                                             <option value="Completa">Completa</option>
                                                         </select>
                                                     </div>
+                                                    
                                                 </div>
     
                                                 <!-- ZONA y SECTOR -->
@@ -207,49 +210,39 @@
     
                                                 <!-- ORG y NO DE ALUMNOS -->
                                                 <div class="row mt-2">
-                                                    <div class="col-md-2">
-                                                        <label for="tipo_organizacion_id" class="form-label">ORG:</label>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <select class="form-select" id="tipo_organizacion" name="tipo_organizacion" required>
-                                                            <option value="" selected disabled>Selecciona una opción</option>
-                                                            <option value="Unitaria">Unitaria</option>
-                                                            <option value="Bidocente">Bidocente</option>
-                                                            <option value="Tridocente">Tridocente</option>
-                                                            <option value="Tetradocente">Tetradocente</option>
-                                                            <option value="Completa">Completa</option>
-                                                        </select>
-                                                    </div>
+                                                    
                                                     <div class="col-md-2 mt-2">
                                                         <label for="no_alumnos" class="form-label">NO DE ALUMNOS:</label>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <input type="text" class="form-control" id="no_alumnos" name="no_alumnos"  />
                                                     </div>
-                                                </div>
-    
-                                                <!-- GRADOS -->
-                                                <div class="row mt-2">
                                                     <div class="col-md-2">
                                                         <label for="grado_1" class="form-label">1° GRADO:</label>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <input type="text" class="form-control mt-1 mb-1" id="grado_1" name="grado_1" />
                                                     </div>
+                                                </div>
+    
+                                                <!-- GRADOS -->
+                                                <div class="row mt-2">
+                                                    
                                                     <div class="col-md-2">
                                                         <label for="grado_2" class="form-label mt-1 mb-1">2° GRADO:</label>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <input type="text" class="form-control mt-1 mb-1" id="grado_2" name="grado_2" />
                                                     </div>
-                                                </div>
-                                                    <div class="row mt-2">
                                                     <div class="col-md-2">
                                                         <label for="grado_3" class="form-label">3° GRADO:</label>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <input type="text" class="form-control" id="grado_3" name="grado_3" />
                                                     </div>
+                                                </div>
+                                                    <div class="row mt-2">
+                                                    
                                                     </div>
     
     
@@ -398,7 +391,9 @@
             Columnas.nombreDocente(),
             Columnas.antiguedad(),
             Columnas.telefono(),
-        { headerName: "Tipo de Solicitud", field: "tipo_solicitud", editable: () => editMode, width: 220 },
+        { headerName: "Tipo de Solicitud", field: "tipo_solicitud", editable: () => editMode,  minWidth: 250,  wrapHeaderText: true, 
+             autoHeaderHeight: true,  autoHeight: true,   cellStyle: { "white-space": "normal", "line-height": "1.7" }, 
+             autoHeight: true,  },
         Columnas.colFechaDocumento(),
         { ...Columnas.observaciones(), editable: () => editMode, },
         {field: "departamento",headerName: "Departamento",  wrapHeaderText: true,
