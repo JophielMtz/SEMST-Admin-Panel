@@ -147,7 +147,10 @@ router.post('/guardarRegistro', async (req, res) => {
   }
 
   Object.keys(data).forEach((key) => {
-    if (data[key] === '' || data[key] === 'Seleccione un estatus') {
+    if (data[key] === '' ||
+        data[key] === 'Seleccione un estatus' || 
+        data[key] === 'Selecciona una opción' 
+      ) {
         data[key] = null; // Convertir valores inválidos a NULL
     }
 });

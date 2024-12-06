@@ -88,7 +88,7 @@
                                             <input type="text" class="form-control" id="personal_id" name="personal_id"
                                                 placeholder="" autocomplete="off" />
                                         </div>
-                                        <div class="form-group col-md-10">
+                                        <div class="form-group col-md-6">
                                             <label for="nombre_docente" class="form-label">Nombre del personal:</label>
                                             <input type="text" class="form-control" id="nombre_docente"
                                                 name="nombre_docente" placeholder="Escriba un nombre"
@@ -96,25 +96,21 @@
                                             <ul id="suggestionsList" class="list-group position-absolute w-100"
                                                 style="z-index: 1000"></ul>
                                         </div>
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-4">
+                                            <label for="fecha" class="form-label">Fecha:</label>
+                                            <input type="date" class="form-control" id="fecha" name="fecha" />
+                                        </div>
                                     </div>
 
-                                    <!-- Fecha, Antigüedad y Teléfono -->
 
-                                    <div class="form-group col-md-6 col-lg-4">
-                                        <label for="telefono" class="form-label">Teléfono:</label>
-                                        <input type="text" class="form-control" id="telefono" name="telefono"
-                                            placeholder="" />
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-6 col-lg-4">
-                                        <label for="antiguedad" class="form-label">Antigüedad:</label>
-                                        <input type="text" class="form-control" id="antiguedad" name="antiguedad"
-                                            placeholder="" />
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-6 col-lg-4">
-                                        <label for="fecha" class="form-label">Fecha:</label>
-                                        <input type="date" class="form-control" id="fecha" name="fecha" />
-                                    </div>
 
+
+                                    <div class="div">
+                                        <h2 class="h6 mb-2 mt-2 text-center"> <span class="badge bg-primary"
+                                                style="font-size: 1.1em;">CCT</span>
+                                        </h2>
+                                    </div>
+                                    <hr class="hr-horizontal mb-4" />
 
                                     <div class="form-group col-md-4">
                                         <label for="municipio_sale" class="form-label">Municipio:</label>
@@ -134,8 +130,8 @@
                                     <hr class="hr-horizontal mb-4" />
 
                                     <!------------------------ Fin Datos por default------------------------------->
-                                    
-                                    
+
+
                                     <div class="row mt-1 mb-4">
                                         <div class="col-md-12">
                                             <label for="situacion" class="form-label">Situación:</label>
@@ -173,15 +169,13 @@
                                                     <label for="zona" class="form-label mt-1 mb-1">ZONA:</label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <input type="text" class="form-control" id="zona" name="zona"
-                                                        value="Zona 1" />
+                                                    <input type="text" class="form-control" id="zona" name="zona" />
                                                 </div>
                                                 <div class="col-md-2">
                                                     <label for="sector" class="form-label mt-1 mb-1">SECTOR:</label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <input type="text" class="form-control" id="sector" name="sector"
-                                                        value="Sector A" />
+                                                    <input type="text" class="form-control" id="sector" name="sector"/>
                                                 </div>
                                             </div>
 
@@ -193,11 +187,11 @@
                                                 <div class="col-md-4">
                                                     <select class="form-select" id="tipo_organizacion"
                                                         name="tipo_organizacion" required>
-                                                        <option value=""</option>
-                                                            <option value="UNITARIA">Unitaria</option>
-                                                            <option value="BIDOCENTE">Bidocente</option>
-                                                            <option value="TRIDOCENTE">Tridocente</option>
-                                                            <option value="ORG. COM.">ORG. COM.</option>    
+                                                        <option value='' selected disabled>Selecciona una opción</option>
+                                                        <option value="UNITARIA">Unitaria</option>
+                                                        <option value="BIDOCENTE">Bidocente</option>
+                                                        <option value="TRIDOCENTE">Tridocente</option>
+                                                        <option value="ORG. COM.">ORG. COM.</option>
                                                     </select>
 
                                                 </div>
@@ -406,7 +400,7 @@
         { ...Columnas.situacion(), editable: () => editMode, },
         { ...Columnas.municipioEntra(true), field: "MUNICIPIO CCT", headerName: "Municipio", editable: () => editMode, resizable: true, width: 150, },
         { ...Columnas.comunidadEntra(true), field: "COMUNIDAD CCT", headerName: "Municipio", editable: () => editMode, },
-        { ...Columnas.cctEntra(true), editable: () => editMode, },
+        { ...Columnas.cctEntra(true),field: "centro_clave_trabajo", headerName: "CCT", editable: () => editMode, },
         ...zonaColumns.map(col => ({
             ...col, editable: col.field === "sector_id" || col.field === "zona_id" ? false : () => editMode
         })),
@@ -416,9 +410,11 @@
             ...createSelectColumnProps(OrgValidValues),
         },
         { ...Columnas.FuncionDocente(), editable: () => editMode, },
-        { headerName: "Tipo nombramiento", field: "tipo_nombramiento", wrapHeaderText: true, 
-        autoHeaderHeight: true,  autoHeight: true, width: 130,
-        cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, resizable: true },
+        {
+            headerName: "Tipo nombramiento", field: "tipo_nombramiento", wrapHeaderText: true,
+            autoHeaderHeight: true, autoHeight: true, width: 130,
+            cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, resizable: true
+        },
         Columnas.colIniciMovimiento(),
         Columnas.colTerminoMovimiento(),
         { headerName: "Propuesta", field: "propuesta", editable: () => editMode, resizable: true },

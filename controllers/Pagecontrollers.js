@@ -322,7 +322,7 @@ FROM
 JOIN
     personal p ON i.personal_id = p.personal_id
 LEFT JOIN
-    detalle_laboral dl ON i.personal_id = dl.personal_id
+    detalle_laboral dl ON i.personal_id = dl.personal_id AND dl.activo = 1
 LEFT JOIN
     ubic_ccts u ON dl.id_relacion = u.id_relacion
 LEFT JOIN
@@ -330,7 +330,8 @@ LEFT JOIN
 LEFT JOIN
     comunidad com ON u.comunidad_id = com.comunidad_id
 LEFT JOIN
-    municipio mun ON u.municipio_id = mun.municipio_id
+    municipio mun ON u.municipio_id = mun.municipio_id;
+
     `);
 
 
@@ -363,8 +364,8 @@ const obtenerLicenciaSinGoce = async (req, res) => {
       lsg.observaciones AS "OBSERVACIONES",
       dl.antiguedad,
       p.telefono,
-      lsg.observaciones_conflictos AS "OBSERVACIONES CONFLICTOS",
-      lsg.observaciones_secretaria_general AS "OBSERVACIONES SECRETARIA GENERAL"
+      lsg.observaciones_conflictos,
+      lsg.observaciones_secretaria_general
       FROM
         licencia_sin_goce lsg
       LEFT JOIN
@@ -535,51 +536,50 @@ const obtenerInternos = async (req, res) => {
 const obtenerSolicitudesGenerales = async (req, res) => {
   try {
     const [results] = await pool.query(`
-      SELECT
-        solicitudes_generales.np,
-        solicitudes_generales.fecha,
-        CONCAT(personal.nombre, ' ', personal.apellido_paterno, ' ', personal.apellido_materno) AS nombre_docente,
-        solicitudes_generales.estatus,
-        solicitudes_generales.tipo_solicitud,
-        solicitudes_generales.fecha_documento,
-        solicitudes_generales.observaciones,
-        solicitudes_generales.departamento,
-        TIMESTAMPDIFF(YEAR, personal.fecha_nacimiento, CURDATE()),
-        personal.telefono,
-        ccts.centro_clave_trabajo,
-        comunidad.nombre AS comunidad,
-        municipio.nombre AS municipio,
-        zona.numero_zona as zona_id,
-        sector.sector_numero as sector_id,
-        solicitudes_generales.tipo_organizacion,
-        solicitudes_generales.no_alumnos,
-        solicitudes_generales.grado_1,
-        solicitudes_generales.grado_2,
-        solicitudes_generales.grado_3,
-        solicitudes_generales.funcion_docente,
-        solicitudes_generales.tipo_solicitud,
-        solicitudes_generales.inicio_movimiento,
-        solicitudes_generales.termino_movimiento,
-        solicitudes_generales.propuesta,
-        solicitudes_generales.observaciones_secretaria_general
-      FROM
-        solicitudes_generales
-      JOIN
-        personal ON solicitudes_generales.personal_id = personal.personal_id
-      JOIN
-        detalle_laboral ON solicitudes_generales.detalle_laboral_id = detalle_laboral.detalle_laboral_id
-      JOIN
-        ubic_ccts ON detalle_laboral.id_relacion = ubic_ccts.id_relacion
-      LEFT JOIN
-        ccts ON ubic_ccts.cct_id = ccts.cct_id
-      LEFT JOIN
-        comunidad ON ubic_ccts.comunidad_id = comunidad.comunidad_id
-      LEFT JOIN
-        municipio ON ubic_ccts.municipio_id = municipio.municipio_id
-      LEFT JOIN
-        zona ON ubic_ccts.zona_id = zona.zona_id
-      LEFT JOIN
-        sector ON ubic_ccts.sector_id = sector.sector_id;
+     SELECT
+    solicitudes_generales.np,
+    solicitudes_generales.fecha,
+    CONCAT(personal.nombre, ' ', personal.apellido_paterno, ' ', personal.apellido_materno) AS nombre_docente,
+    solicitudes_generales.estatus,
+    solicitudes_generales.tipo_solicitud,
+    solicitudes_generales.fecha_documento,
+    solicitudes_generales.observaciones,
+    solicitudes_generales.departamento,
+    personal.telefono,
+    ccts.centro_clave_trabajo,
+    comunidad.nombre AS comunidad,
+    municipio.nombre AS municipio,
+    zona.numero_zona AS zona_id,
+    sector.sector_numero AS sector_id,
+    solicitudes_generales.tipo_organizacion,
+    solicitudes_generales.no_alumnos,
+    solicitudes_generales.grado_1,
+    solicitudes_generales.grado_2,
+    solicitudes_generales.grado_3,
+    solicitudes_generales.funcion_docente,
+    solicitudes_generales.inicio_movimiento,
+    solicitudes_generales.termino_movimiento,
+    solicitudes_generales.propuesta,
+    solicitudes_generales.observaciones_secretaria_general
+FROM
+    solicitudes_generales
+JOIN
+    personal ON solicitudes_generales.personal_id = personal.personal_id
+LEFT JOIN
+    detalle_laboral ON solicitudes_generales.detalle_laboral_id = detalle_laboral.detalle_laboral_id
+LEFT JOIN
+    ubic_ccts ON detalle_laboral.id_relacion = ubic_ccts.id_relacion
+LEFT JOIN
+    ccts ON ubic_ccts.cct_id = ccts.cct_id
+LEFT JOIN
+    comunidad ON ubic_ccts.comunidad_id = comunidad.comunidad_id
+LEFT JOIN
+    municipio ON ubic_ccts.municipio_id = municipio.municipio_id
+LEFT JOIN
+    zona ON ubic_ccts.zona_id = zona.zona_id
+LEFT JOIN
+    sector ON ubic_ccts.sector_id = sector.sector_id;
+
     `);
 
 
@@ -906,7 +906,10 @@ const editarIncidencias = async (req, res) => {
 const editarLicenciaSinGoce = async (req, res) => {
   console.log("Datos recibidos en editarLicenciaSinGoce:", req.body);
   const { np, field, value } = req.body;
-  const validFields = ["NP", "FECHA_REGISTRO", "FECHA_DOCUMENTO", "PERSONAL_ID", "tipo_movimiento", "CCT", "COMUNIDAD", "MUNICIPIO", "tipo_organizacion", "JUSTIFICA", "INICIO_MOVIMIENTO", "TERMINO_MOVIMIENTO", "DIAGNOSTICO", "AVISO", "VACANTE", "OBSERVACIONES", "ANTIGUEDAD", "TELEFONO", "OBSERVACIONES_CONFLICTOS", "OBSERVACIONES_SECRETARIA_GENERAL"];
+  const validFields = ["NP", "FECHA_REGISTRO", "FECHA_DOCUMENTO", "PERSONAL_ID", "tipo_movimiento",
+     "CCT", "COMUNIDAD", "MUNICIPIO", "tipo_organizacion", "JUSTIFICA", "INICIO_MOVIMIENTO", "TERMINO_MOVIMIENTO",
+      "DIAGNOSTICO", "AVISO", "VACANTE", "OBSERVACIONES", "ANTIGUEDAD", "TELEFONO", "observaciones_conflictos", 
+      "OBSERVACIONES_SECRETARIA_GENERAL"];
 
 
   if (!np || !field || value === undefined) {

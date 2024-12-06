@@ -40,13 +40,13 @@ const validationRules = [
     { id: 'aviso', required: true, message: 'Debe proporcionar un aviso.' },
     { id: 'vacante', required: true, message: 'Debe seleccionar si existe una vacante.' },
     { id: 'estatus', required: false, message: 'Seleccione una opción.' },
-    { id: 'situacion', required: true, message: 'Seleccione una opción.' },
+    { id: 'situacion', required: false, message: 'Seleccione una opción.' },
     { id: 'municipio_entra', message: 'Debe seleccionar un municipio.' },
     { id: 'comunidad_entra',  message: 'Debe seleccionar una comunidad.' },
     { id: 'cct_entra',  message: 'Debe seleccionar un CCT.' },
     { id: 'estatus_cubierta', required: true, message: 'Debe seleccionar un estatus de cubierta.' },
     { id: 'tramite', required: true, message: 'Debe proporcionar un trámite válido.' },
-    { id: 'departamento', required: true, message: 'Debe seleccionar un departamento.' },
+    { id: 'departamento', required: false, message: 'Debe seleccionar un departamento.' },
     { id: 'observaciones_conflictos', required: true, message: 'Debe agregar observaciones de conflictos.' },
     { id: 'observaciones_secretaria_general', message: 'Debe agregar observaciones para la secretaría general.' }
 ];

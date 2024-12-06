@@ -81,13 +81,19 @@ export const colFechaTermino = () => ({
     autoHeaderHeight: true,
     cellEditor: "agDateCellEditor",
     valueFormatter: (params) => {
-      const date = new Date(params.value);
-      return date.toLocaleDateString("es-MX", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        timeZone: "America/Monterrey",
-      });
+        if (!params.value) {
+            return ""; // Si no hay valor, no renderiza nada
+        }
+        const date = new Date(params.value);
+        if (isNaN(date.getTime())) {
+            return ""; // Si no es una fecha válida, no renderiza nada
+        }
+        return date.toLocaleDateString("es-MX", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            timeZone: "America/Monterrey",
+        });
     },
 });
 
@@ -99,13 +105,19 @@ export const colIniciMovimiento = () => ({
     autoHeaderHeight: true,
     cellEditor: "agDateCellEditor",
     valueFormatter: (params) => {
-      const date = new Date(params.value);
-      return date.toLocaleDateString("es-MX", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        timeZone: "America/Monterrey",
-      });
+        if (!params.value) {
+            return ""; // Si no hay valor, no renderiza nada
+        }
+        const date = new Date(params.value);
+        if (isNaN(date.getTime())) {
+            return ""; // Si no es una fecha válida, no renderiza nada
+        }
+        return date.toLocaleDateString("es-MX", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            timeZone: "America/Monterrey",
+        });
     },
 });
 
@@ -117,13 +129,19 @@ export const colTerminoMovimiento = () => ({
     autoHeaderHeight: true,
     cellEditor: "agDateCellEditor",
     valueFormatter: (params) => {
-      const date = new Date(params.value);
-      return date.toLocaleDateString("es-MX", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        timeZone: "America/Monterrey",
-      });
+        if (!params.value) {
+            return ""; // Si no hay valor, no renderiza nada
+        }
+        const date = new Date(params.value);
+        if (isNaN(date.getTime())) {
+            return ""; // Si no es una fecha válida, no renderiza nada
+        }
+        return date.toLocaleDateString("es-MX", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            timeZone: "America/Monterrey",
+        });
     },
 });
 

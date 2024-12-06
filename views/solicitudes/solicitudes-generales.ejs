@@ -115,8 +115,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="estatus" class="form-label">Estatus:</label>
                                             <select class="form-select form-select-sm" name="estatus" id="estatus">
-                                                <option value="" selected disabled>
-                                                    Selecciona una opción</option>
+                                                <option value="" disabled selected>Seleccione un estatus</option>
                                                     <option value="Terminado">Terminado</option>
                                                     <option value="En proceso">En proceso</option>
                                                     <option value="No se atiende">No se atiende</option>
@@ -181,7 +180,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <select class="form-select" id="tipo_organizacion" name="tipo_organizacion" >
-                                                            <option value=""</option>
+                                                                <option value="" selected disabled>Selecciona una opción</option>
                                                                 <option value="UNITARIA">Unitaria</option>
                                                                 <option value="BIDOCENTE">Bidocente</option>
                                                                 <option value="TRIDOCENTE">Tridocente</option>
@@ -285,7 +284,7 @@
                                                 <!-- Departamento -->
                                                 <div class="form-group col-md-6">
                                                     <label for="departamento" class="form-label">Departamento:</label>
-                                                    <select class="form-select" id="departamento" name="departamento" required>
+                                                    <select class="form-select" id="departamento" name="departamento" >
                                                         <option value="" selected disabled>Selecciona una opción</option>
                                                         <option value="Subdireccion Academica">Subdirección Académica</option>
                                                         <option value="Subdireccion De Planeacion">Subdirección de Planeación</option>
@@ -393,7 +392,7 @@
         { headerName: "Tipo de Solicitud", field: "tipo_solicitud", editable: () => editMode,  minWidth: 250,  wrapHeaderText: true, 
              autoHeaderHeight: true,  autoHeight: true,   cellStyle: { "white-space": "normal", "line-height": "1.7" }, 
              autoHeight: true,  },
-        Columnas.colFechaDocumento(),
+             {...Columnas.colFecha(), headerName: "Fecha Documento", field: "fecha_documento", editable: () => editMode, resizable: true, width: 115, },
         { ...Columnas.observaciones(), editable: () => editMode, },
         {field: "departamento",headerName: "Departamento",  wrapHeaderText: true,
          ...createSelectColumnProps(departamentoValidValues),},

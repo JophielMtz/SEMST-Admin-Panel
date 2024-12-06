@@ -217,7 +217,10 @@ const editarTablas = {
      editarSolicitudesGenerales: async (req, res) => {
         console.log("Datos recibidos en editarPendientes:", req.body);
         const { np, field, value } = req.body;
-        const validFields = ['np', 'fecha', 'nombre_del_docente', 'estatus', 'tipo_solicitud', 'fecha_documento', 'observaciones', 'departamento', 'edad', 'telefono', 'centro_clave_trabajo', 'comunidad', 'municipio', 'zona_id', 'sector_id', 'tipo_organizacion', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 'funcion_docente', 'inicio_movimiento', 'termino_movimiento', 'propuesta', 'observaciones_secretaria_general'];
+        const validFields = ['np', 'fecha', 'nombre_del_docente', 'estatus', 'tipo_solicitud', 'fecha_documento',
+           'observaciones', 'departamento', 'edad', 'telefono', 'centro_clave_trabajo', 'comunidad', 'municipio',
+            'zona_id', 'sector_id', 'tipo_organizacion', 'no_alumnos', 'grado_1', 'grado_2', 'grado_3', 'funcion_docente', 
+            'inicio_movimiento', 'termino_movimiento', 'propuesta', 'observaciones_secretaria_general'];
       
       
       
