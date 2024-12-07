@@ -6,11 +6,19 @@ const home = async () => {
     const [resultsPersonal] = await pool.query(`
       SELECT
     (SELECT COUNT(*) FROM personal) AS total_personal, -- Total desde personal
-    COUNT(CASE WHEN detalle_laboral.cargo = 1 THEN 1 END) AS total_directores,
-    COUNT(CASE WHEN detalle_laboral.cargo = 3 THEN 1 END) AS total_docentes,
-    COUNT(CASE WHEN detalle_laboral.cargo = 4 THEN 1 END) AS total_auxiliares
+    COUNT(CASE WHEN detalle_laboral.cargo = 'DIRECTOR' THEN 1 END) AS total_directores,
+    COUNT(CASE WHEN detalle_laboral.cargo = 'DOCENTE' THEN 1 END) AS total_docentes,
+    COUNT(CASE WHEN detalle_laboral.cargo = 'AUXILIAR ADMVO' THEN 1 END) AS totalAuxiliares,
+    COUNT(CASE WHEN detalle_laboral.cargo = 'ADMVO' THEN 1 END) AS total_administrativos,
+    COUNT(CASE WHEN detalle_laboral.cargo = 'AUXILIAR SERVICIO' THEN 1 END) AS total_auxiliar,
+    COUNT(CASE WHEN detalle_laboral.cargo = 'DOCENTE DE APOYO' THEN 1 END) AS total_docente_apoyo,
+    COUNT(CASE WHEN detalle_laboral.cargo = 'DOCENTE/CAMB/ACT' THEN 1 END) AS total_docente_camb,
+    COUNT(CASE WHEN detalle_laboral.cargo = 'SUBDIR DE GESTION' THEN 1 END) AS total_docente_subdir
     FROM detalle_laboral
-    WHERE detalle_laboral.cargo IN (1, 3, 4);
+    WHERE detalle_laboral.cargo IN ('DIRECTOR', 'DOCENTE', 'AUXILIAR ADMVO', 
+    'AUXILIAR SERVICIO', 'DOCENTE DE APOYO',
+    'DOCENTE/CAMB/ACT', 'SUBDIR DE GESTION');
+
     `);
 
     const [resultsPendientes] = await pool.query(`

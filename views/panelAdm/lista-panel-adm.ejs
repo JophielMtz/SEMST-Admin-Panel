@@ -1,66 +1,61 @@
 <div class="container-fluid content-inner mt-n5 py-0">
   <div class="row">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="container text-center">
-          <h4 class="text-responsive mb-3 mt-3">Personal</h4>
-          <div class="row justify-content-center gx-2">
-            <!-- Botón Nuevo -->
-            <div class="col-auto">
-              <button
-                type="button"
-                class="btn btn-primary rounded-pill w-auto"
-                style="padding: 4px 12px; font-size: 12px"
-                onclick="window.location.href='/agregar-personal';"
-              >
-                Nuevo
-              </button>
-            </div>
-            <!-- Botón Activar Edición -->
-            <div class="col-auto">
-              <button
-                id="toggleEditMode"
-                class="btn btn-primary rounded-pill w-auto"
-                style="padding: 4px 12px; font-size: 12px"
-              >
-                <i class="fas fa-edit me-1"></i> Activar Edición
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="test-container">
-            <div class="test-header d-flex align-items-center">
-              <!-- Radio para 'Todos' -->
-              <div class="form-check form-check-inline">
-                <input
-                  type="radio"
-                  class="form-check-input"
-                  name="filter"
-                  id="all"
-                  onchange="externalFilterChanged('all')"
-                  checked
-                />
-                <label for="all" class="form-check-label pl-2">Todos</label>
+      <div class="col-sm-12">
+          <div class="card">
+              <div class="container text-center">
+                  <h4 class="text-responsive mb-3 mt-3">Personal</h4>
+                  <div class="row justify-content-center gx-2" 
+                  <<% if (role !== 'admin' && role !== 'super-admin') { %> style="display: none;" <% } %> 
+
+                  <!-- Botón Nuevo -->
+                  <div class="col-auto">
+                      <button type="button" class="btn btn-primary rounded-pill w-auto"
+                          data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                          style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
+                          Nuevo
+                      </button>
+                  </div>
+              
+                  <!-- Botón Activar Edición -->
+                  <div class="col-auto">
+                      <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                          style="padding: 4px 12px; font-size: 12px;">
+                          <i class="fas fa-edit me-1"></i> Activar Edición
+                      </button>
+                  </div>
+              
+             
+             
               </div>
-              <div class="form-check form-check-inline">
-                <input
-                  type="radio"
-                  class="form-check-input"
-                  name="filter"
-                  id="cctsSaleEntra"
-                  onchange="externalFilterChanged('cctsSaleEntra')"
-                />
-                <label for="cctsSaleEntra" class="form-check-label pl-2"
-                  >CCTs sale y entra</label
-                >
+              
+                  
               </div>
-            </div>
-            <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
+              <div class="card-body">
+                  <div class="test-container">
+                      <div class="test-header d-flex align-items-center">
+                          <!-- Radio para 'Todos' -->
+                          <div class="form-check form-check-inline">
+                              <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
+                              <label for="all" class="form-check-label pl-2">Todos</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
+                              <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
+                          </div>
+                          <% if (role === 'admin' || role === 'super-admin') { %>
+                              <div class="form-check form-check-inline">
+                                  <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
+                                  <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
+                              </div>
+                          <% } %>
+                          
+                          
+                      </div>
+                      <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
   </div>
 </div>
 
@@ -255,13 +250,13 @@
         deleteButton.style.cursor = "pointer";
 
         deleteButton.innerHTML = `
-        <span class="btn-inner">
+        <!-- <span class="btn-inner">
           <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
             <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
             <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
           </svg>
-        </span>
+        </span> -->
       `;
 
         // Lógica del evento de Eliminar Personal
@@ -321,7 +316,9 @@
     defaultColDef: { editable: true, resizable: true },
     cellStyle: { textAlign: "center" },
     filter: true, // Habilita filtros por defecto
-  
+    pagination: true,
+    paginationPageSize: 20,
+    cacheBlockSize: 10,
     rowData: null,
     rowHeight: 75,
     domLayout: "autoHeight",
@@ -330,6 +327,90 @@
     },
     onCellValueChanged: editarCelda,
   };
+
+
+
+  const columnVisibilityConfig = {
+    cctsSaleEntra: [
+        "nombre_docente",
+        "fecha",
+        "estatus",
+        "municipio_sale",
+        "cct_sale",
+        "estatus_cubierta",
+        "municipio_entra",
+        "cct_entra",
+    ],
+    funcionDelete: [
+    "Accion",
+    "np",
+        "nombre_docente",
+        "fecha",
+        "estatus",
+        "situacion",
+        "antiguedad",
+        "municipio_sale",
+        "comunidad_sale",
+        "cct_sale",
+        "estatus_cubierta",
+        "observaciones",
+        "municipio_entra",
+        "comunidad_entra",
+        "cct_entra",
+
+    ],
+    all: [
+        "Accion",
+        "personal_id",
+        "nombre",
+        "imagen",
+        "cargo",
+        "edad",
+        "rfc",
+        "correo",
+        "curp",
+        "telefono",
+        "estatus_cubierta",
+        "observaciones",
+        "municipio_entra",
+        "comunidad_entra",
+        "cct_entra",
+    ],
+};
+
+window.externalFilterChanged = function (filterType) {
+    if (!gridApi) {
+        console.error("Grid API no está inicializado.");
+        return;
+    }
+
+    if (filterType in columnVisibilityConfig) {
+        const columnsToShow = columnVisibilityConfig[filterType];
+
+        if (columnsToShow) {
+            const allColumns = gridOptions.columnDefs.map((colDef) =>
+                colDef.field ? colDef.field : null
+            );
+
+            const columnsToHide = allColumns.filter(
+                (col) => col && !columnsToShow.includes(col)
+            );
+
+            columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
+            columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
+        } else {
+            gridOptions.columnDefs.forEach((colDef) => {
+                gridApi.setColumnVisible(colDef.field, true);
+            });
+        }
+    } else {
+        console.warn(`Tipo de filtro desconocido: ${filterType}`);
+    }
+};
+
+
+
+
 
   const initializeGrid = async () => {
     const gridDiv = document.querySelector("#myGrid");
@@ -348,7 +429,8 @@
       }));
 
       // Asigna los datos al grid
-      gridApi.setGridOption("rowData", rowData); // Asegúrate de usar `rowData` con `tabla` agregado
+      gridApi.setGridOption("rowData", rowData); 
+      externalFilterChanged("all");
     } catch (error) {
       console.error("Error inicializando la tabla:", error);
     }

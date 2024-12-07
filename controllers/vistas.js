@@ -86,9 +86,14 @@ const vistasController = {
         totalPersonal: personal.total_personal, 
         totalDirectores: personal.total_directores, 
         totalDocentes: personal.total_docentes, 
-        totalAuxiliares: personal.total_auxiliares,
-        pendientes: pendientes,
-        totalProcesos: procesos
+        totalAuxiliares: personal.total_auxiliares, // Este alias debe coincidir con el nombre del campo en SQL
+        totalAdministrativos: personal.total_administrativos, 
+        totalAuxiliarServicio: personal.total_auxiliar, 
+        totalDocenteApoyo: personal.total_docente_apoyo, 
+        totalDocenteCamb: personal.total_docente_camb,
+        totalDocenteSubdir: personal.total_docente_subdir,
+        pendientes: pendientes, 
+        totalProcesos: procesos 
       });
     } catch (error) {
       console.error("Error al cargar la vista principal:", error);
