@@ -4,20 +4,26 @@ const home = async () => {
   try {
     // Ejecutamos todas las consultas en paralelo
     const [resultsPersonal] = await pool.query(`
-      SELECT
-    (SELECT COUNT(*) FROM personal) AS total_personal, -- Total desde personal
+    SELECT
+    (SELECT COUNT(*) FROM personal) AS total_personal,
+      (SELECT COUNT(*) FROM pendientes) AS pendientes,
     COUNT(CASE WHEN detalle_laboral.cargo = 'DIRECTOR' THEN 1 END) AS total_directores,
     COUNT(CASE WHEN detalle_laboral.cargo = 'DOCENTE' THEN 1 END) AS total_docentes,
-    COUNT(CASE WHEN detalle_laboral.cargo = 'AUXILIAR ADMVO' THEN 1 END) AS totalAuxiliares,
+    COUNT(CASE WHEN detalle_laboral.cargo IN ('AUXILIAR ADMVO', 'AUXILIAR SERVICIO') THEN 1 END) AS total_auxiliares,
     COUNT(CASE WHEN detalle_laboral.cargo = 'ADMVO' THEN 1 END) AS total_administrativos,
-    COUNT(CASE WHEN detalle_laboral.cargo = 'AUXILIAR SERVICIO' THEN 1 END) AS total_auxiliar,
     COUNT(CASE WHEN detalle_laboral.cargo = 'DOCENTE DE APOYO' THEN 1 END) AS total_docente_apoyo,
     COUNT(CASE WHEN detalle_laboral.cargo = 'DOCENTE/CAMB/ACT' THEN 1 END) AS total_docente_camb,
-    COUNT(CASE WHEN detalle_laboral.cargo = 'SUBDIR DE GESTION' THEN 1 END) AS total_docente_subdir
-    FROM detalle_laboral
-    WHERE detalle_laboral.cargo IN ('DIRECTOR', 'DOCENTE', 'AUXILIAR ADMVO', 
-    'AUXILIAR SERVICIO', 'DOCENTE DE APOYO',
-    'DOCENTE/CAMB/ACT', 'SUBDIR DE GESTION');
+    COUNT(CASE WHEN detalle_laboral.cargo = 'SUBDIR DE GESTION' THEN 1 END) AS total_docente_subdir,
+    COUNT(CASE WHEN detalle_laboral.tipo_entidad = 'Estatal' THEN 1 END) AS total_estatal,
+    COUNT(CASE WHEN detalle_laboral.tipo_entidad = 'Federal' THEN 1 END) AS total_federal
+FROM 
+    detalle_laboral
+WHERE 
+    detalle_laboral.cargo IN (
+    'DIRECTOR', 'DOCENTE', 'AUXILIAR ADMVO', 'AUXILIAR SERVICIO', 
+    'DOCENTE DE APOYO', 'DOCENTE/CAMB/ACT', 'SUBDIR DE GESTION');
+
+
 
     `);
 
@@ -188,7 +194,7 @@ const historialMovimientos = async (personalId) => {
 };
 
 const historialLicenciaSinGoce = async (personalId) => {
-  return await obtenerHistorialPorTabla('historial_licencia_sin_goce', personalId);
+  return await obtenerHistorialPorTabla('historia_licencia_sin_goce', personalId);
 };
 
 

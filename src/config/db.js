@@ -6,7 +6,7 @@ dotenv.config();
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',  // Si no está definido en .env, usa loca
   user: process.env.DB_USER || 'root',      // Si no está definido, usa root
-  password: process.env.DB_PASSWORD || 'root', // Si no está definido, usa el valor por defecto
+  password: process.env.DB_PASSWORD || '5uperman', // Si no está definido, usa el valor por defecto
   database: process.env.DB_NAME || 'semstdb',   // Si no está definido, usa usersdb
   port: process.env.DB_PORT || 3306          // Si no está definido, usa 3306
 }).promise();

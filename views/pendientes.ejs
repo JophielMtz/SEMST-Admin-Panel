@@ -96,9 +96,9 @@
                                             <label for="estatus" class="form-label">Estatus:</label>
                                             <select class="form-select form-select-sm" id="estatus" name="estatus">
                                                 <option value="" selected disabled>Selecciona un estatus</option>
-                                                <option value="Atendido">Atendido</option>
+                                                <option value="Terminado">Terminado</option>
                                                 <option value="En proceso">En proceso</option>
-                                                <option value="Sin atender">Sin atender</option>
+                                                <option value="No se atiende">No se atiende</option>
                                             </select>
                                         </div>
                                     
@@ -119,6 +119,7 @@
                                                 <option value="Operacion Escolar">Operacion Escolar</option>
                                                 <option value="Juridico">Juridico</option>
                                                 <option value="Sin Definir">Sin Definir</option>
+                                                <option value="Subdireccion Académica">Subdireccion Académica</option>
                                                 <option value="Semst">Semst</option>
                                             </select>
                                         </div>
@@ -225,28 +226,31 @@
     { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode, wrapHeaderText: true,  resizable: true, minWidth: 500,
     },
 
- ];
+];
 
-   const gridOptions = {
-       columnDefs: datos,
-       defaultColDef: {editable: true,resizable: true,},
-       rowData: null,
-       rowHeight: 60,
-       domLayout: "autoHeight",
-       context: {
-           endpoint: "/editarPendientes",
-       },
-       onCellValueChanged: editarCelda,
-   };
+    const gridOptions = {
+        columnDefs: datos,
+        defaultColDef: {editable: true,resizable: true,},
+        rowData: null,
+        pagination: true,
+        paginationPageSize: 20,
+        cacheBlockSize: 10,
+        rowHeight: 60,
+        domLayout: "autoHeight",
+        context: {
+            endpoint: "/editarPendientes",
+        },
+        onCellValueChanged: editarCelda,
+    };
 
-   const columnVisibilityConfig = {
+    const columnVisibilityConfig = {
     
     funcionDelete: [
     "Accion",
-   "np", "estatus", "tramite", "departamento", "observaciones_conflictos", "observaciones_secretaria_general",
+    "np", "estatus", "tramite", "departamento", "observaciones_conflictos", "observaciones_secretaria_general",
     ],
     all: [
-     "np", "estatus", "tramite", "departamento", "observaciones_conflictos", "observaciones_secretaria_general",
+    "np", "fecha","estatus", "tramite", "departamento", "observaciones_conflictos", "observaciones_secretaria_general",
 ],
 };
 

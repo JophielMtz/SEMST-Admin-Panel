@@ -282,3 +282,33 @@ boton de trash roles */
 .ag-background-color {
   background-color: #050709;  /* Color de fondo para todos los encabezados */
 }
+
+#suggestionsList {
+  max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: none; /* Ocultar inicialmente */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#suggestionsList .list-group-item {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+#suggestionsList .list-group-item:last-child {
+  border-bottom: none;
+}
+
+#suggestionsList .list-group-item:hover {
+  background-color: #f0f0f0;
+}
+

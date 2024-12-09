@@ -31,7 +31,7 @@ const vistasController = {
             historialSolicitudesGenerales: await historialSolicitudesGenerales(personalId) || [],
             "Nombramientos": await historialNombramientos(personalId) || [],
             "Historial de Movimientos": await historialMovimientos(personalId) || [],
-            // historialLicenciaSinGoce: await historialLicenciaSinGoce(personalId) || []
+            historialLicenciaSinGoce: await historialLicenciaSinGoce(personalId) || []
         };
 
         if (!perfil) {
@@ -84,14 +84,17 @@ const vistasController = {
       // Renderizamos la vista pasando ambos conjuntos de datos
       res.render("home", { 
         totalPersonal: personal.total_personal, 
+        totalPendientes:personal.pendientes,
         totalDirectores: personal.total_directores, 
         totalDocentes: personal.total_docentes, 
-        totalAuxiliares: personal.total_auxiliares, // Este alias debe coincidir con el nombre del campo en SQL
+        totalAuxiliares: personal.total_auxiliares, 
         totalAdministrativos: personal.total_administrativos, 
         totalAuxiliarServicio: personal.total_auxiliar, 
         totalDocenteApoyo: personal.total_docente_apoyo, 
         totalDocenteCamb: personal.total_docente_camb,
         totalDocenteSubdir: personal.total_docente_subdir,
+        totalEstatal: personal.total_estatal, 
+        totalFederal: personal.total_federal,
         pendientes: pendientes, 
         totalProcesos: procesos 
       });

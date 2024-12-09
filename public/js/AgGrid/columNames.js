@@ -8,6 +8,9 @@ export const colFecha = () => ({
     width: 115,
     cellEditor: "agDateCellEditor",
     valueFormatter: (params) => {
+      if (!params.value) {
+        return "Sin fecha"; // Manejo de valores nulos o indefinidos
+      }
       const date = new Date(params.value);
       return date.toLocaleDateString("es-MX", {
         day: "numeric",
@@ -17,6 +20,7 @@ export const colFecha = () => ({
       });
     },
 });
+
 export const colFechaRegistro = () => ({
     headerName: "Fecha Registro",
     field: "fecha_registro",

@@ -18,6 +18,7 @@ async function buscarDocente(valor) {
 }
 
 
+
 function llenarFormulario(docente) {
     console.log(`Llenando formulario con docente ID: ${docente.personal_id}`);
 
@@ -77,8 +78,8 @@ function configurarAutocompletado() {
     const nombreInput = document.getElementById("nombre_docente");
     const suggestionsList = document.getElementById("suggestionsList");
 
-    if (!nombreInput) {
-        console.warn("El campo 'nombre_docente' no está en el formulario.");
+    if (!nombreInput || !suggestionsList) {
+        console.warn("El campo 'nombre_docente' o 'suggestionsList' no está en el formulario.");
         return;
     }
 
@@ -86,23 +87,52 @@ function configurarAutocompletado() {
 
     nombreInput.addEventListener("input", function () {
         clearTimeout(debounceTimer);
+
         const valor = nombreInput.value.trim();
         if (valor.length >= 2) {
             debounceTimer = setTimeout(async () => {
-                const docentes = await buscarDocente(valor);
+                try {
+                    const docentes = await buscarDocente(valor);
 
-                if (suggestionsList) {
-                    mostrarSugerencias(docentes, suggestionsList);
-                    ajustarPosicionSugerencias(nombreInput, suggestionsList); // Ajusta posición
-                } else {
-                    console.warn("La lista de sugerencias no está definida.");
+                    if (Array.isArray(docentes) && docentes.length > 0) {
+                        const docentesOrdenados = docentes.sort((a, b) => {
+                            const nombreA = `${a.nombre_personal} ${a.apellido_paterno} ${a.apellido_materno}`.toLowerCase();
+                            const nombreB = `${b.nombre_personal} ${b.apellido_paterno} ${b.apellido_materno}`.toLowerCase();
+                            return nombreA.localeCompare(nombreB);
+                        });
+
+                        mostrarSugerencias(docentesOrdenados, suggestionsList);
+
+                        // Ajustar diseño y comportamiento visual del contenedor
+                        suggestionsList.style.display = "block";
+                        suggestionsList.style.maxHeight = "600px";
+                        suggestionsList.style.overflowY = "auto";
+                        suggestionsList.style.position = "absolute";
+                        suggestionsList.style.zIndex = "1000";
+                        suggestionsList.style.width = `${nombreInput.offsetWidth}px`;
+
+                    } else {
+                        suggestionsList.innerHTML = "<li class='list-group-item text-muted'>No se encontraron resultados.</li>";
+                    }
+                } catch (error) {
+                    console.error("Error al buscar docentes:", error);
                 }
             }, 300);
-        } else if (suggestionsList) {
+        } else {
             suggestionsList.innerHTML = "";
+            suggestionsList.style.display = "none";
+        }
+    });
+
+    // Ocultar lista de sugerencias al hacer clic fuera
+    document.addEventListener("click", (e) => {
+        if (!nombreInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+            suggestionsList.style.display = "none";
         }
     });
 }
+
+
 
 function configurarBloqueCCT() {
     const municipioSelect = document.querySelector('#nuevoRegistroModal #municipio_entra');

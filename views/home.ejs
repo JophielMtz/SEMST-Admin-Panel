@@ -58,7 +58,7 @@
                                </svg>
                             </div>
                             <div class="progress-detail">
-                               <p  class="mb-2">Administrativo</p>
+                               <p  class="mb-2">Auxiliar Administrativo</p>
                                <h4 class="counter"><%=  totalAuxiliares %></h4>
                             </div>
                          </div>
@@ -74,7 +74,7 @@
                             </div>
                             <div class="progress-detail">
                                <p  class="mb-2">Auxiliar servicio</p>
-                               <h4 class="counter"><%= totalAuxiliarServicio %></h4>
+                               <h4 class="counter"><%= totalDocenteApoyo %></h4>
 
                             </div>
                          </div>
@@ -90,7 +90,7 @@
                             </div>
                             <div class="progress-detail">
                                <p  class="mb-2">Estatal</p>
-                               <h4 class="counter">47</h4>
+                               <h4 class="counter"><%= totalEstatal %></h4>
                             </div>
                          </div>
                       </div>
@@ -105,7 +105,7 @@
                             </div>
                             <div class="progress-detail">
                                <p  class="mb-2">Federal</p>
-                               <h4 class="counter">12</h4>
+                               <h4 class="counter"><%= totalFederal %></h4>
                             </div>
                          </div>
                       </div>
@@ -250,6 +250,7 @@
                  <div class="flex-wrap card-header d-flex justify-content-between">
                    <div class="header-title">
                      <h4 class="mb-2 card-title">Procesos Pendientes</h4>
+                     <h4 class="counter"><%= totalPendientes %></h4>
                      <p class="mb-0">
                        <svg class="me-2 icon-24" width="24" height="24" viewBox="0 0 24 24">
                          <path fill="#17904b" d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />

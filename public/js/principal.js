@@ -1,7 +1,7 @@
 // main.js
 
 import { validateForm, showError, clearError } from './formValidatioon.js';
-import { cargarSectores, cargarZonas, cargarMunicipios, cargarComunidades, cargarCCTs, actualizarSelect, configurarAutocompletado,configurarBloqueCCT } from './cargaDeDatos.js';
+import { cargarSectores, cargarZonas, cargarMunicipios, cargarComunidades, cargarCCTs, actualizarSelect, configurarAutocompletado,configurarBloqueCCT,} from './cargaDeDatos.js';
 import { enviarDatos } from './dataSender.js';
 import { configurarBotonesAccion } from './modules/Configuraciones/Configs.js';
 import * as config from '../js/configs/configs.js';
@@ -310,5 +310,33 @@ document.addEventListener("click", async (event) => {
 
 // Evento para previsualizar la imagen
 document.getElementById('file-upload').addEventListener('change', config.previewImage);
+
+function decodificarTextoGlobal(texto) {
+    return texto
+        .normalize('NFC')
+        .replace(/Ã‘/g, 'Ñ')
+        .replace(/Ã¡/g, 'á')
+        .replace(/Ã©/g, 'é')
+        .replace(/Ã­/g, 'í')
+        .replace(/Ã³/g, 'ó')
+        .replace(/Ãº/g, 'ú')
+        .replace(/Ã±/g, 'ñ');
+}
+
+function aplicarCorreccionesATodosLosTextos() {
+    const elementos = document.querySelectorAll('*:not(script):not(style)');
+    elementos.forEach(elemento => {
+        if (elemento.childNodes.length) {
+            elemento.childNodes.forEach(nodo => {
+                if (nodo.nodeType === Node.TEXT_NODE && nodo.nodeValue.trim()) {
+                    nodo.nodeValue = decodificarTextoGlobal(nodo.nodeValue);
+                }
+            });
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', aplicarCorreccionesATodosLosTextos);
+
 
 

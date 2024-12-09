@@ -131,70 +131,10 @@
   }
 
   const datos = [
-    {
-      field: "personal_id",
-      headerName: "ID",
-      width: 70,
-      editable: false,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "imagen",
-      headerName: "Imagen",
-      width: 100,
-      editable: false,
-      cellRenderer: ImageRenderer,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "nombre",
-      headerName: "Nombre",
-      width: 300,
-      editable: () => editMode,
-      cellClass: "centrar-celda",
-      filter: "agTextColumnFilter",
-    
-    },
-    {
-      field: "edad",
-      headerName: "Edad",
-      width: 70,
-      wrapHeaderText: true,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "telefono",
-      headerName: "Teléfono",
-      editable: () => editMode,
-      minWidth: 100,
-      wrapHeaderText: true,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "correo",
-      headerName: "Correo",
-      editable: () => editMode,
-      minWidth: 200,
-      wrapHeaderText: true,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "rfc",
-      headerName: "RFC",
-      width: 150,
-      editable: false,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "cargo",
-      headerName: "cargo",
-      editable: () => editMode,
-      cellClass: "centrar-celda",
-    },
-    {
+  {
       field: "Accion",
-      headerName: "Acción",
-      width: 900,
+      headerName: "Ver perfil",
+      width: 100,
       editable: false,
       cellClass: "centrar-celda",
       cellRenderer: (params) => {
@@ -309,6 +249,67 @@
         return actionContainer;
       },
     },
+    {
+      field: "personal_id",
+      headerName: "ID",
+      width: 70,
+      editable: false,
+      cellClass: "centrar-celda",
+    },
+    {
+      field: "imagen",
+      headerName: "Imagen",
+      width: 100,
+      editable: false,
+      cellRenderer: ImageRenderer,
+      cellClass: "centrar-celda",
+    },
+    {
+      field: "nombre",
+      headerName: "Nombre",
+      width: 300,
+      editable: () => editMode,
+      cellClass: "centrar-celda",
+      filter: "agTextColumnFilter",
+    
+    },
+    {
+      field: "edad",
+      headerName: "Edad",
+      width: 70,
+      wrapHeaderText: true,
+      cellClass: "centrar-celda",
+    },
+    {
+      field: "telefono",
+      headerName: "Teléfono",
+      editable: () => editMode,
+      minWidth: 100,
+      wrapHeaderText: true,
+      cellClass: "centrar-celda",
+    },
+    {
+      field: "correo",
+      headerName: "Correo",
+      editable: () => editMode,
+      minWidth: 200,
+      wrapHeaderText: true,
+      cellClass: "centrar-celda",
+    },
+    {
+      field: "rfc",
+      headerName: "RFC",
+      width: 150,
+      editable: false,
+      cellClass: "centrar-celda",
+    },
+    {
+      field: "cargo",
+      headerName: "cargo",
+      editable: () => editMode,
+      cellClass: "centrar-celda",
+    },
+   
   ];
 
   const gridOptions = {
