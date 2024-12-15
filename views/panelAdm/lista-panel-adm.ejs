@@ -95,6 +95,7 @@
     createSelectColumnProps,
     borrarColumna,
   } from "./js/AgGrid/config.js";
+  import * as Columnas from "./js/AgGrid/columNames.js";
 
   let gridApi;
   let editMode = false;
@@ -289,27 +290,22 @@
       cellClass: "centrar-celda",
     },
     {
-      field: "correo",
-      headerName: "Correo",
-      editable: () => editMode,
-      minWidth: 200,
-      wrapHeaderText: true,
-      cellClass: "centrar-celda",
-    },
-    {
       field: "rfc",
       headerName: "RFC",
       width: 150,
       editable: false,
       cellClass: "centrar-celda",
     },
+    {...Columnas.antiguedad(),field:"antiguedad_compacta", headerName: "Antiguedad"},
     {
       field: "cargo",
       headerName: "cargo",
       editable: () => editMode,
       cellClass: "centrar-celda",
+      width: 180,
     },
-   
+    {...Columnas.antiguedad(),field:"tipo_organizacion", headerName:"Tipo Org.",  width: 150,},
+    {...Columnas.antiguedad(),field:"z_e", headerName:"Z.E",  width: 80,}
   ];
 
   const gridOptions = {

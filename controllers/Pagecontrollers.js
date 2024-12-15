@@ -394,7 +394,7 @@ const obtenerLicenciaSinGoce = async (req, res) => {
 const obtenerListaPanelAdministrador = async (req, res) => {
   try {
     const [results] = await pool.query(`
-   SELECT
+  SELECT
     p.personal_id,
     p.rfc,
     CONCAT(IFNULL(p.nombre, ''), ' ', IFNULL(p.apellido_paterno, ''), ' ', IFNULL(p.apellido_materno, '')) AS nombre,
@@ -402,16 +402,26 @@ const obtenerListaPanelAdministrador = async (req, res) => {
     p.telefono,
     p.correo,
     p.imagen,
-    IFNULL(dl.cargo, 'No asignado') AS cargo
+    IFNULL(dl.cargo, 'No asignado') AS cargo,
+    CASE
+        WHEN dl.antiguedad_detalle LIKE '%años%' THEN 
+            CONCAT(SUBSTRING_INDEX(dl.antiguedad_detalle, ' años', 1), ' años')
+        WHEN dl.antiguedad_detalle LIKE '%meses%' THEN 
+            CONCAT(SUBSTRING_INDEX(SUBSTRING_INDEX(dl.antiguedad_detalle, ' meses', 1), ', ', -1), ' meses')
+        ELSE 
+            'Sin antigüedad'
+    END AS antiguedad_compacta,
+    dl.tipo_organizacion,
+    dl.z_e AS z_e, -- Cambia el punto a un guion bajo o un alias limpio
+    dl.tipo_entidad,
+    dl.tipo_direccion,
+    dl.plaza_id,
+    dl.nombramiento,
+    dl.grado
 FROM
     personal p
 LEFT JOIN
     detalle_laboral dl ON p.personal_id = dl.personal_id;
-
-
-
-
-
     `);
     res.json(results);
   } catch (error) {
@@ -592,26 +602,6 @@ LEFT JOIN
 };
 
 
-
-//==========LLamar Datos para renders y forms==========//
-// const obtenerPersonalTotal = async () => {
-//   try {
-//     const [results] = await pool.query(`
-//       SELECT
-//     COUNT(*) AS total_personal,
-//     COUNT(CASE WHEN detalle_laboral.cargo = 1 THEN 1 END) AS total_directores,
-//     COUNT(CASE WHEN detalle_laboral.cargo = 3 THEN 1 END) AS total_docentes,
-//     COUNT(CASE WHEN detalle_laboral.cargo = 4 THEN 1 END) AS total_auxiliares
-// FROM detalle_laboral
-// WHERE detalle_laboral.cargo IN (1, 3, 4);
-
-//     `);
-//     return results[0];
-//   } catch (error) {
-//     console.error("Error al obtener totales de personal por cargo:", error); // Registro del error
-//     throw new Error("Error al obtener totales de personal por cargo");
-//   }
-// };
 
 const obtenerUbicCCTs = async (req, res) => {
   const { sector_id } = req.query;
@@ -1369,48 +1359,6 @@ const borrarUsuario = async (req, res) => {
 module.exports = borrarUsuario;
 
 
-
-
-
-const vistaListaPanelAdm = async (req, res) => {
-  try {
-    const [personal] = await pool.query(`
-      SELECT
-        p.personal_id,
-        p.rfc,
-        p.nombre,
-        p.apellido_paterno,
-        p.apellido_materno,
-        p.edad,
-        p.telefono,
-        p.correo,
-        p.imagen,
-        c.descripcion AS cargo
-      FROM
-        personal p
-      LEFT JOIN
-        detalle_laboral dl ON p.personal_id = dl.personal_id
-      LEFT JOIN
-        cargos c ON dl.cargo = c.cargo
-    `);
-
-    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      res.json({ data: personal });
-    } else {
-      res.render('lista-panel-adm', { personal });
-    }
-  } catch (error) {
-    console.error('Error al obtener datos del panel de administración:', error);
-    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
-      res.status(500).json({ error: 'Error al obtener datos del panel de administración' });
-    } else {
-      res.status(500).send('Error al obtener datos del panel de administración');
-    }
-  }
-};
-
-
-//api de lista general
 
 
 

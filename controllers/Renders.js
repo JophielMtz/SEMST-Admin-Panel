@@ -85,17 +85,27 @@ const obtenerPerfilPorId = async (personalId) => {
 const obtenerDetalleCompleto = async (personalId) => {
   try {
     const [detalleCompleto] = await pool.query(`
-   SELECT
+    SELECT
     dl.cargo,
     dl.tipo_organizacion,
     dl.activo,
     dl.pausa,
     dl.fecha_ingreso,
     dl.fecha_nombramiento,
-    dl.antiguedad,
+    CASE
+        WHEN dl.antiguedad_detalle LIKE '%años%' THEN 
+            CONCAT(SUBSTRING_INDEX(dl.antiguedad_detalle, ' años', 1), ' años')
+        WHEN dl.antiguedad_detalle LIKE '%meses%' THEN 
+            CONCAT(SUBSTRING_INDEX(SUBSTRING_INDEX(dl.antiguedad_detalle, ' meses', 1), ', ', -1), ' meses')
+        ELSE 
+            'Sin antigüedad'
+    END AS antiguedad_compacta,
     dl.tipo_direccion,
-     dl.\`z.e\` AS \`Z.E\`,
+    dl.tipo_entidad,
+    dl.z_e,
     dl.id_relacion,
+    dl.nombramiento,
+    dl.grado,
     uc.cct_id,
     ccts.centro_clave_trabajo AS clave_cct,
     z.numero_zona AS zona,

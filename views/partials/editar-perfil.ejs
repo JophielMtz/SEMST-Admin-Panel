@@ -1,0 +1,138 @@
+<div class="container">
+    <div class="row gutters">
+    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="account-settings">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+                    </div>
+                    <h5 class="user-name"><%= profileData.nombre || 'Nombre no disponible' %>
+                        <%= profileData.apellido_paterno || '' %>
+                            <%= profileData.apellido_materno || '' %></h5>
+                </div>
+                <div class="about">
+                    <h5>About</h5>
+                    <p>I'</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+    <div class="card h-100">
+        <div class="card-body">
+            <div class="bd-example">
+                <ul class="nav nav-pills" data-toggle="slider-tab" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#pills-home1" type="button" role="tab" aria-controls="home" aria-selected="true">Personal</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#pills-profile1" type="button" role="tab" aria-controls="profile" aria-selected="false">Laboral</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#pills-contact1" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-home1" role="tabpanel"
+                        aria-labelledby="pills-home-tab1">
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h6 class="mb-2 text-primary">Personal</h6>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" class="form-control" id="fullName" placeholder="Enter full name">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="eMail">Email</label>
+                                    <input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="website">Website URL</label>
+                                    <input type="url" class="form-control" id="website" placeholder="Website url">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h6 class="mt-3 mb-2 text-primary">Address</h6>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="Street">Street</label>
+                                    <input type="name" class="form-control" id="Street" placeholder="Enter Street">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="ciTy">City</label>
+                                    <input type="name" class="form-control" id="ciTy" placeholder="Enter City">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="sTate">State</label>
+                                    <input type="text" class="form-control" id="sTate" placeholder="Enter State">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="zIp">Zip Code</label>
+                                    <input type="text" class="form-control" id="zIp" placeholder="Zip Code">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="tab-pane fade" id="pills-profile1" role="tabpanel"
+                        aria-labelledby="pills-profile-tab1">
+                        <p>
+                            Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat
+                            salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher
+                            voluptate nisi qui.
+                        </p>
+                    </div>
+                    <div class="tab-pane fade" id="pills-contact1" role="tabpanel"
+                        aria-labelledby="pills-contact-tab1">
+                        <p>
+                            Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu
+                            stumptown aliqua, retro synth master cleanse. Mustache cliche tempor,
+                            williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                            dreamcatcher synth.
+                        </p>
+                        <p>
+                            Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu
+                            stumptown aliqua, retro synth master cleanse.
+                        </p>
+                    </div>
+                </div>
+            </div>
+           
+           
+            <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="text-right">
+                        <button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
+                        <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
