@@ -1,0 +1,51 @@
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Fecha Registro:</div>
+    <div class="col-sm-9 text-secondary">
+        <span>
+            <%= dato.fecha_registro ? new Date(dato.fecha_registro).toLocaleDateString('es-MX', { year: 'numeric' , month: '2-digit' ,
+                day: '2-digit' }) : "Sin fecha" %>
+        </span>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Fecha Documento</div>
+    <div class="col-sm-9 text-secondary">
+        <span>
+            <%= dato.fecha_documento ? new Date(dato.fecha_documento).toLocaleDateString('es-MX', { year: 'numeric' , month: '2-digit' ,
+                day: '2-digit' }) : "Sin fecha" %>
+        </span>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Tipo de movimiento:</div>
+    <div class="col-sm-9 text-secondary">
+        <span>
+            <%= dato.tipo_movimiento || "Sin especificar" %>
+        </span>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">CCT:</div>
+    <div class="col-sm-9 text-secondary">
+        <%= dato.nombre_municipio || "N/A" %> -
+            <%= dato.nombre_comunidad || "N/A" %> -
+                <%= dato.cct || "N/A" %>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Tipo Organizacion:</div>
+    <div class="col-sm-9 text-secondary">
+        <span>
+            <%= dato.tipo_organizacion %>
+        </span>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">

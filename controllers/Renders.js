@@ -157,7 +157,31 @@ const obtenerDatosGenericos = async (tabla, columnas = '*', condiciones = '') =>
       ? `, CONCAT(personal.nombre, ' ', personal.apellido_paterno, ' ', personal.apellido_materno) AS nombre_completo`
       : '';
 
-    const query = `SELECT ${columnas}${selectNombre} FROM ${tabla} ${joinPersonal} ${condiciones}`;
+    // NUEVO: Agregar joins y selects si se requiere el id_relacion
+    const includeIdRelacion = columnas.includes('detalle_laboral');
+    const joinUbicaciones = includeIdRelacion
+      ? `LEFT JOIN detalle_laboral ON ${tabla}.personal_id = detalle_laboral.personal_id
+         LEFT JOIN ubic_ccts ON detalle_laboral.id_relacion = ubic_ccts.id_relacion
+         LEFT JOIN comunidad ON ubic_ccts.comunidad_id = comunidad.comunidad_id
+         LEFT JOIN municipio ON ubic_ccts.municipio_id = municipio.municipio_id
+         LEFT JOIN ccts ON ubic_ccts.cct_id = ccts.cct_id`
+      : '';
+
+    const selectUbicaciones = includeIdRelacion
+      ? `, comunidad.nombre AS nombre_comunidad
+         , municipio.nombre AS nombre_municipio
+         , ccts.centro_clave_trabajo AS cct`
+      : '';
+
+    // Consulta final
+    const query = `
+      SELECT ${columnas}${selectNombre}${selectUbicaciones} 
+      FROM ${tabla} 
+      ${joinPersonal} 
+      ${joinUbicaciones} 
+      ${condiciones}
+    `;
+
     const [result] = await pool.query(query);
     return result;
   } catch (error) {
@@ -166,12 +190,13 @@ const obtenerDatosGenericos = async (tabla, columnas = '*', condiciones = '') =>
   }
 };
 
+
 const obtenerHistorialPorTabla = async (tabla, personalId) => {
   const condiciones = `WHERE personal_id = ${personalId}`;
   return await obtenerDatosGenericos(tabla, '*', condiciones);
 };
 
-// Ejemplos de uso:
+
 const HistorialBecas = async (personalId) => {
   return await obtenerHistorialPorTabla('historial_becas', personalId);
 };
@@ -183,7 +208,7 @@ const saludInseguridad = async (personalId) => {
 const solicitudesDeCambio = async (personalId) => {
   return await obtenerHistorialPorTabla('historial_solicitudes_cambios', personalId);
 };
-const incidencias = async (personalId) => {
+const HistorialIncidencias = async (personalId) => {
   return await obtenerHistorialPorTabla('historial_incidencias', personalId);
 };
 
@@ -192,20 +217,62 @@ const incidencias = async (personalId) => {
 // };
 
 const historialSolicitudesGenerales = async (personalId) => {
-  return await obtenerHistorialPorTabla('historial_solicitudes_generales', personalId);
+  const columnas = `
+    historial_solicitudes_generales.*,
+    comunidad.nombre AS nombre_comunidad,
+    municipio.nombre AS nombre_municipio,
+    ccts.centro_clave_trabajo AS cct
+  `;
+
+  const condiciones = `
+    LEFT JOIN detalle_laboral 
+      ON historial_solicitudes_generales.personal_id = detalle_laboral.personal_id
+    LEFT JOIN ubic_ccts 
+      ON detalle_laboral.id_relacion = ubic_ccts.id_relacion
+    LEFT JOIN comunidad 
+      ON ubic_ccts.comunidad_id = comunidad.comunidad_id
+    LEFT JOIN municipio 
+      ON ubic_ccts.municipio_id = municipio.municipio_id
+    LEFT JOIN ccts 
+      ON ubic_ccts.cct_id = ccts.cct_id
+    WHERE historial_solicitudes_generales.personal_id = ${personalId}
+  `;
+
+  return await obtenerDatosGenericos('historial_solicitudes_generales', columnas, condiciones);
 };
+
 
 const historialNombramientos = async (personalId) => {
   return await obtenerHistorialPorTabla('historial_nombramientos', personalId);
 };
 
-const historialMovimientos = async (personalId) => {
+const  historialDocenteDisponible = async (personalId) => {
   return await obtenerHistorialPorTabla('historial_docente_disponible', personalId);
 };
 
 const historialLicenciaSinGoce = async (personalId) => {
-  return await obtenerHistorialPorTabla('historia_licencia_sin_goce', personalId);
+  const columnas = `
+    historia_licencia_sin_goce.*,
+    comunidad.nombre AS nombre_comunidad,
+    municipio.nombre AS nombre_municipio,
+    ccts.centro_clave_trabajo AS cct
+  `;
+
+  const condiciones = `
+    LEFT JOIN ubic_ccts 
+      ON historia_licencia_sin_goce.id_relacion = ubic_ccts.id_relacion
+    LEFT JOIN comunidad 
+      ON ubic_ccts.comunidad_id = comunidad.comunidad_id
+    LEFT JOIN municipio 
+      ON ubic_ccts.municipio_id = municipio.municipio_id
+    LEFT JOIN ccts 
+      ON ubic_ccts.cct_id = ccts.cct_id
+    WHERE historia_licencia_sin_goce.personal_id = ${personalId}
+  `;
+
+  return await obtenerDatosGenericos('historia_licencia_sin_goce', columnas, condiciones);
 };
+
 
 
 
@@ -218,10 +285,10 @@ module.exports = {
   HistorialBecas,
   saludInseguridad,
   solicitudesDeCambio,
-  incidencias,
+  HistorialIncidencias,
+  historialDocenteDisponible,
   // historialSolicitudesPersonal,
   historialSolicitudesGenerales,
   historialNombramientos,
-  historialMovimientos,
   historialLicenciaSinGoce
 };

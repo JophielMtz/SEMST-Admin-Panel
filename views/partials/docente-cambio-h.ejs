@@ -1,0 +1,128 @@
+
+
+<!-- Situacion Condicionales -->
+<% let situacionClass = ""; %>
+    <% if (dato.situacion === "Inseguridad") { %>
+        <% situacionClass = "text-danger"; %>
+    <% } else if (dato.situacion === "Salud") { %>
+        <% situacionClass = "text-warning"; %>
+    <% } else if (dato.situacion === "Sin CT") { %>
+        <% situacionClass = "text-info"; %>
+    <% } else if (dato.situacion === "A disposicion") { %>
+        <% situacionClass = "text-primary"; %>
+        <% } else if (dato.situacion === "Reincorporación") { %>
+            <% situacionClass = "text-primary"; %>
+    <% } else { %>
+        <% situacionClass = "text-secondary"; %>
+    <% } %>
+
+<!-- Estatus_cubierta Condicionales -->
+<% let estatusClass = ""; %>
+<% if (dato.estatus_cubierta === "Cubierta") { estatusClass = "text-success"; }
+else if (dato.estatus_cubierta === "No se justifica") { estatusClass = "text-warning"; }
+else if (dato.estatus_cubierta === "Sin cubrir") { estatusClass = "text-danger"; }
+else { estatusClass = "text-secondary"; } %>
+
+
+
+
+    <!-- Situación -->
+    <% if (historialTipo === "Docentes disponibles" || historialTipo === "Salud e Inseguridad") { %>
+    <div class="row mb-2">
+        <div class="col-sm-3 fw-bold">Situación:</div>
+        <div class="col-sm-9 text-secondary">
+            <span class="<%= situacionClass %>"><%= dato.situacion || "No especificada" %></span>
+        </div>
+    </div>
+    <hr class="mb-2" style="border-top: 1px solid #828282;">
+<% } %>
+
+
+    <!-- Diagnostico-->
+    <% if (historialTipo === "Salud e Inseguridad" || historialTipo === "Licencia sin goce") { %>
+        <% if (dato.diagnostico) { %>
+            <div class="row mb-2">
+                <div class="col-sm-3 fw-bold">Diagnóstico:</div>
+                <div class="col-sm-9 text-secondary">
+                    <span><%= dato.diagnostico || "Estatus no especificado" %></span>
+                </div>
+            </div>
+            <hr class="mb-2" style="border-top: 1px solid #828282;">
+        <% } %>
+    <% } %>
+
+
+    <!-- Fecha de inicio -->
+    <% if (historialTipo === "Salud e Inseguridad") { %>
+        <div class="row mb-2">
+            <div class="col-sm-3 fw-bold">Fecha de Inicio:</div>
+            <div class="col-sm-9 text-secondary">
+                <span>
+                    <%= dato.fecha_inicio 
+                        ? new Date(dato.fecha_inicio).toLocaleDateString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' }) 
+                        : "Sin fecha de inicio" %>
+                </span>
+            </div>
+        </div>
+        <hr class="mb-2" style="border-top: 1px solid #828282;">
+        <!-- Fecha de término -->
+        <div class="row mb-2">
+            <div class="col-sm-3 fw-bold">Fecha de Término:</div>
+            <div class="col-sm-9 text-secondary">
+                <span>
+                    <%= dato.fecha_termino 
+                        ? new Date(dato.fecha_termino).toLocaleDateString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' }) 
+                        : "Sin fecha de término" %>
+                </span>
+            </div>
+        </div>
+        <hr class="mb-2" style="border-top: 1px solid #828282;">
+        <% } %>
+    
+
+
+
+    <!-- Antigüedad -->
+    <div class="row mb-2">
+        <div class="col-sm-3 fw-bold">Antigüedad:</div>
+        <div class="col-sm-9 text-secondary">
+            <%= dato.antiguedad || "No especificada" %>
+        </div>
+    </div>
+    <hr class="mb-2" style="border-top: 1px solid #828282;">
+
+
+    <!-- CCT Sale -->
+    <div class="row mb-2">
+        <div class="col-sm-3 fw-bold">CCT Sale:</div>
+        <div class="col-sm-9 text-secondary">
+            <%= dato.municipio_sale || "N/A" %> - <%= dato.comunidad_sale || "N/A" %> - <%= dato.cct_sale || "N/A" %>
+        </div>
+    </div>
+    <hr class="mb-2" style="border-top: 1px solid #828282;">
+
+
+    <!-- Estatus -->
+    <% if (historialTipo === "Docentes disponibles" || historialTipo === "Salud e Inseguridad") { %>
+        <div class="row mb-2">
+            <div class="col-sm-3 fw-bold">Estatus:</div>
+            <div class="col-sm-9 text-secondary">
+                <span class="<%= estatusClass %>"><%= dato.estatus_cubierta || "Estatus no especificado" %></span>
+            </div>
+        </div>
+        <hr class="mb-2" style="border-top: 1px solid #828282;">
+    <% } %>
+
+
+    <!-- CCT Entra -->
+    <div class="row mb-2">
+        <div class="col-sm-3 fw-bold">CCT Entra:</div>
+        <div class="col-sm-9 text-secondary">
+            <%= dato.municipio_entra || "N/A" %> - <%= dato.comunidad_entra || "N/A" %> - <%= dato.cct_entra || "N/A" %>
+        </div>
+    </div>
+    <hr class="mb-2" style="border-top: 1px solid #828282;">
+
+
+   
+

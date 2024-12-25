@@ -3,11 +3,10 @@ const {
   vistaEditarPersonal, vistaAgregarpersonal, 
   agregarPersonal, actualizarPersonal,
   editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio, editarListaPanelAdministrador, editarUsuario,
-   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,  obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, borrarUsuario,   } = require('../controllers/Pagecontrollers');
+  obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,  obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, borrarUsuario,   } = require('../controllers/Pagecontrollers');
 
 
 const vistasController = require('../controllers/vistas');
-
 const checkRol = require('../src/config/middlewares/checkRol');
 const autenticarToken = require('../src/config/middlewares/autenticarToken');
 const authViews = require('../src/config/middlewares/authViews'); 
@@ -92,6 +91,7 @@ router.get('/getNombramientosDocentes', obtenerNombramientosDocentes);
 router.get('/getSolicitudes', obtenerSolicitudes);
 router.get('/getInternos', obtenerInternos);
 router.get ('/getUbicCCTs', obtenerUbicCCTs);
+
 //======Ruta para obtener el perfil de un personal==========//
 router.get('/getlistaPanelAdm/:personal_id', obtenerPersonal);
 router.get('/perfil/:id', autenticarToken, authViews, checkRol(['super-admin', 'admin', '']), vistasController. vistaIdPerfil);

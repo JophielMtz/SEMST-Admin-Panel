@@ -31,40 +31,24 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <ul class="list-group list-group-flush">
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-globe me-2 icon-inline">
-                                                        <circle cx="12" cy="12" r="10"></circle>
-                                                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                                                        <path
-                                                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                                                        </path>
-                                                    </svg>Cargo</h6>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0">
+                                                    <i class="fas fa-user-tie me-2 icon-inline"></i>Cargo
+                                                </h6>
                                                 <span class="text-secondary">
                                                     <%= detalleLaboral.cargo || "No disponible" %>
                                                 </span>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-globe me-2 icon-inline">
-                                                        <circle cx="12" cy="12" r="10"></circle>
-                                                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                                                        <path
-                                                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                                                        </path>
-                                                    </svg>Tipo Org.</h6>
+                                            
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0">
+                                                    <i class="fas fa-school me-2 icon-inline"></i>Tipo Org.
+                                                </h6>
                                                 <span class="text-secondary">
                                                     <%= detalleLaboral.tipo_organizacion || "No disponible" %>
                                                 </span>
                                             </li>
+                                            
                                             <li
                                                 class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                                 <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -163,7 +147,7 @@
                                 </div>
                             </div>
                         </div>
-
+                            <!-- Datos-->
                         <div class="col-md-12 col-lg-8 col-xl-8">
                             <div class="card mb-3" data-aos="fade-up" data-aos-delay="600">
                                 <div class="card-body">
@@ -245,16 +229,16 @@
                                         </div>
                                     </div>
                                     <hr class="mb-2" style="border-top: 1px solid #828282;">
-                                    
+
                                     <!-- Laboral -->
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">Fecha de ingreso</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.fecha_ingreso 
-                                            ? new Intl.DateTimeFormat('es-MX', { dateStyle: 'long' }).format(new Date(detalleLaboral.fecha_ingreso)) 
-                                            : 'No disponible' %>
+                                            <%= detalleLaboral.fecha_ingreso ? new Intl.DateTimeFormat('es-MX', {
+                                                dateStyle: 'long' }).format(new Date(detalleLaboral.fecha_ingreso))
+                                                : 'No disponible' %>
                                         </div>
                                     </div>
                                     <hr class="mb-2" style="border-top: 1px solid #828282;">
@@ -263,9 +247,9 @@
                                             <h6 class="mb-0">Fecha de nombramiento</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.fecha_nombramiento
-                                            ? new Intl.DateTimeFormat('es-MX', { dateStyle: 'long' }).format(new Date(detalleLaboral.fecha_nombramiento)) 
-                                            : 'No disponible' %>
+                                            <%= detalleLaboral.fecha_nombramiento ? new Intl.DateTimeFormat('es-MX', {
+                                                dateStyle: 'long' }).format(new Date(detalleLaboral.fecha_nombramiento))
+                                                : 'No disponible' %>
                                         </div>
                                     </div>
                                     <hr class="mb-2" style="border-top: 1px solid #828282;">
@@ -328,16 +312,148 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <!-- Botón que activa el modal -->
-                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarPersonalModal">Editar</a>
-                                          </div>
+                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#editarPersonalModal">Editar</a>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-12">
+                        <div class="card mb-3" data-aos="fade-up" data-aos-delay="600">
+                            <div class="card-body" style="height: auto; overflow-y: auto; padding-bottom: 3rem;">
+                                <!-- Título principal -->
+                                <div class="row bg-primary mb-4">
+                                    <h1 class="text-white text-center py-2">Procesos en Tránsito</h1>
+                                </div>
+                                <div class="row mx-0">
+                                    <%- include('partials/perfiles-personal/procesos-tabla-personal') %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+        
+                    <div class="col-12">
+                        <div class="card mb-3" data-aos="fade-up" data-aos-delay="600">
+                            <div class="card-body" style="height: 700px; overflow-y: auto; padding-bottom: 3rem;">
+                                <div class="mb-3">
+                                    <label class="fw-bold">Filtrar por Fecha:</label>
+                                    <input type="text" id="dateRangePicker" class="form-control" placeholder="Selecciona rango de fechas">
+                                </div>
+                                <!-- Título principal -->
+                                <div class="row bg-primary">
+                                    <h1 class="text-white text-center py-2">Historial</h1>
+                                </div>
+                    
+                                <% Object.keys(historiales).forEach(historialTipo => { %>
+                                    <% let historial = historiales[historialTipo] || []; %>
+                                    <% if (historial.length > 0) { %>
+
+                                        <!-- Título del historial -->
+
+                                        <!-- Iteración de datos del historial -->
+                                        <% historial.forEach(dato => { %>
+                                            <div class="tracking-item border-bottom pb-3 mb-3">
+                                                
+                                                <!-- Icono y Fecha -->
+                                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                                    <div class="tracking-icon status-intransit me-2">
+                                                        <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" viewBox="0 0 512 512">
+                                                            <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
+                                                        </svg>
+                                                    </div>
+
+                                                    <div class="tracking-date">
+                                                        <%= dato.fecha ? new Date(dato.fecha).toLocaleDateString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' }) : "Sin fecha" %>
+                                                        <span class="text-muted">
+                                                            <%= dato.fecha_cambio ? new Date(dato.fecha_cambio).toLocaleTimeString('es-MX') : "" %>
+                                                        </span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                                        <!-- Nombre de la Tabla con Badge -->
+                                                        <div class="badge bg-primary text-wrap mb-2">
+                                                            <%= historialTipo %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Estatus Condicionales -->
+                                                <% let estatusClas = ""; %>
+                                                <% if (dato.estatus === "Atendido") { %>
+                                                    <% estatusClas = "text-success"; %>
+                                                <% } else if (dato.estatus === "En Proceso") { %>
+                                                    <% estatusClas = "text-warning"; %>
+                                                <% } else if (dato.estatus === "Entregado A Setel") { %>
+                                                    <% estatusClas = "text-primary"; %>
+                                                <% } else if (dato.estatus === "Sin atender") { %>
+                                                    <% estatusClas = "text-danger"; %>
+                                                <% } else { %>
+                                                    <% estatusClas = "text-secondary"; %>
+                                                <% } %>
+                                                
+                                                <!-- Estatus -->
+                                                <% if (historialTipo !== "Becas" && historialTipo !== "Licencia sin goce") { %>
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-3 fw-bold">Estatus:</div>
+                                                        <div class="col-sm-9 text-secondary">
+                                                            <span class="<%= estatusClas %>">
+                                                                <%= dato.estatus || "Estatus no especificado" %>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
+                                                <% } %>
+                                                
+                                                
+                                                <!-- Docentes Disponibles, Solicitudes de cambio y Salud -->
+                                                <% if (historialTipo === "Docentes disponibles" || historialTipo === "Solicitudes de Cambio" || historialTipo === "Salud e Inseguridad") { %>
+                                                    <%- include('partials/docente-cambio-h', { dato: dato, historialTipo: historialTipo }) %>
+                                                <% } %>
+
+                                                <!-- Solicitudes Generales -->
+                                                <% if (historialTipo === "Solicitudes Generales") { %>
+                                                    <%- include('partials/h-solicitudesGral', { dato: dato, historialTipo: historialTipo }) %>
+                                                <% } %>
+                                                <!-- Becas -->
+                                                <% if (historialTipo === "Becas") { %>
+                                                    <%- include('partials/h-becas', { dato: dato, historialTipo: historialTipo }) %>
+                                                <% } %>
+
+                                                <% if (historialTipo === "Licencia sin goce") { %>
+                                                    <%- include('partials/h-licencias-goce', { dato: dato, historialTipo: historialTipo }) %>
+                                                <% } %>
+
+                                                <% if (historialTipo === "Incidencias") { %>
+                                                    <%- include('partials/h-incidencias', { dato: dato, historialTipo: historialTipo }) %>
+                                                <% } %>
+                                            
+                                                
+                                                <!-- Observaciones -->
+                                                <div class="mt-3">
+                                                    <h6 class="badge bg-primary fs-6">Observaciones</h6>
+                                                    <p class="mb-0"><%= dato.observaciones || "Sin observaciones" %></p>
+                                                </div>
+
+                                                
+                                                
+                                                    
+                                            </div>
+                                        <% }) %>
+                                    <% } %>
+                                <% }) %>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>
 </div>
@@ -346,11 +462,11 @@
 <!-- Modal -->
 <div class="modal fade" id="editarPersonalModal" tabindex="-1" aria-labelledby="editarPersonalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg ">
-      <div class="modal-content">
-        <%- include('partials/editar-perfil.ejs') %>
-      </div>
+        <div class="modal-content">
+            <%- include('partials/editar-perfil.ejs') %>
+        </div>
     </div>
-  </div>
+</div>
 
 <script>
     // Selecciona el elemento del span por su ID
@@ -364,201 +480,29 @@
     }
 </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const trackingItems = document.querySelectorAll(".tracking-item");
 
-<div class="col-12 col-md-8 col-lg-8 col-xl-8">
-    <div class="card" data-aos="fade-up" data-aos-delay="600">
-        <div class="flex-wrap card-header d-flex justify-content-between">
-        </div>
-        <div class="card-body">
-            <ul class="nav nav-pills mb-3 d-flex justify-content-between align-items-center" id="pills-tab"
-                role="tablist">
-                <div class="d-flex">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pills-detalle-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-detalle" type="button" role="tab" aria-controls="pills-detalle"
-                            aria-selected="true">Perfil</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-historial-tab" data-bs-toggle="pill"
-                            data-bs-target="#pills-historial" type="button" role="tab" aria-controls="pills-historial"
-                            aria-selected="false">Historial</button>
-                    </li>
-                </div>
-            </ul>
+        flatpickr("#dateRangePicker", {
+            mode: "range",
+            dateFormat: "Y-m-d",
+            locale: "es",
+            onClose: function (selectedDates) {
+                const [startDate, endDate] = selectedDates;
 
+                trackingItems.forEach(item => {
+                    const dateElement = item.querySelector(".tracking-date");
+                    const itemDate = new Date(dateElement.textContent.trim().split(' ')[0].split('/').reverse().join('-'));
 
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-detalle" role="tabpanel"
-                    aria-labelledby="pills-detalle-tab">
-                    <div class="col-md-12 col-lg-12">
-                        <div class="card" data-aos="fade-up" data-aos-delay="600">
-                            <div class="flex-wrap card-header d-flex justify-content-between">
-                                <div class="header-title">
-                                    <h4 class="mb-2 card-title">Detalles Personales</h4>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">Dirección:</h6> <span class="d-inline">
-                                            <%= profileData.direccion || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">Teléfono:</h6> <span class="d-inline">
-                                            <%= profileData.telefono || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">Correo:</h6> <span class="d-inline">
-                                            <%= profileData.correo || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">RFC:</h6> <span class="d-inline">
-                                            <%= profileData.rfc || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">CURP:</h6> <span class="d-inline">
-                                            <%= profileData.curp || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">Fecha de Nacimiento:</h6>
-                                        <span class="d-inline">
-                                            <%= new Intl.DateTimeFormat('es-MX', { dateStyle: 'long' }).format(new
-                                                Date(profileData.fecha_nacimiento)) || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">Edad:</h6> <span class="d-inline">
-                                            <%= profileData.edad || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex-wrap card-header d-flex justify-content-between">
-                                    <div class="header-title">
-                                        <h4 class="mb-3 card-title">Detalle Laboral</h4>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">Edad:</h6> <span class="d-inline">
-                                            <%= profileData.edad || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">Edad:</h6> <span class="d-inline">
-                                            <%= profileData.edad || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="mb-3 d-flex profile-media align-items-top">
-                                    <div class="mt-1 profile-dots-pills border-primary"></div>
-                                    <div class="ms-4">
-                                        <h6 class="mb-3 d-inline">Edad:</h6> <span class="d-inline">
-                                            <%= profileData.edad || 'No disponible' %>
-                                        </span>
-                                    </div>
-                                </div>
+                    if ((!startDate || itemDate >= startDate) && (!endDate || itemDate <= endDate)) {
+                        item.style.display = "";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            }
+        });
+    });
+</script>
 
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <!------------------- Historial de movimientos ------------------>
-                <div class="tab-pane fade" id="pills-historial" role="tabpanel" aria-labelledby="pills-historial-tab">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                            <div class="header-title">
-                                <h4 class="card-title">Historial de Cambios del Docente</h4>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <!-- Contenedor con overflow habilitado -->
-                            <div class="overflow-auto" style="max-height: 600px;">
-                                <div
-                                    class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
-                                    <ul class="list-inline p-0 m-0">
-                                        <!-- Cambio 1: Registro del Docente -->
-                                        <% Object.entries(historiales).forEach(([tabla, datos])=> { %>
-                                            <% if (datos.length> 0) { %>
-                                                <div class="historial-section">
-                                                    <h5 class="section-title ms-5 mb-3 badge bg-primary"
-                                                        style="font-size: 0.9rem; padding: 10px;">
-                                                        <%= tabla %>
-                                                    </h5>
-                                                    <ul class="list-inline p-0 m-0">
-                                                        <% datos.forEach(dato=> { %>
-                                                            <li>
-                                                                <div
-                                                                    class="timeline-dots timeline-dot1 border-primary text-primary">
-                                                                </div>
-                                                                <h6 class="float-left mb-1">Fecha:</h6>
-                                                                <small class="float-right mt-1">
-                                                                    <%= dato.fecha ? new
-                                                                        Date(dato.fecha).toLocaleDateString('es-MX', {
-                                                                        year: 'numeric' , month: 'long' , day: 'numeric'
-                                                                        }) : "Sin fecha" %>
-                                                                </small>
-
-                                                                <hr class="hr-horizontal">
-                                                                <div class="d-inline-block w-100">
-                                                                    <p class="mb-2">
-                                                                        <%= dato.vacante || "No especificada" %>
-                                                                    </p>
-                                                                    <p class="mb-2">Municipio: <%= dato.municipio_sale
-                                                                            || "No disponible" %>
-                                                                    </p>
-                                                                    <p class="mb-2">Clave CCT: <%= dato.cct_sale
-                                                                            || "No disponible" %>
-                                                                    </p>
-                                                                    <p>Observaciones: <%= dato.observaciones
-                                                                            || "Sin observaciones" %>
-                                                                    </p>
-                                                                </div>
-                                                                <hr class="hr-horizontal mt-3">
-                                                            </li>
-                                                            <% }) %>
-                                                    </ul>
-                                                </div>
-                                                <% } %>
-                                                    <% }) %>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>

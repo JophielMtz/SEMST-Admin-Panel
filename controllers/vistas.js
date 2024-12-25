@@ -6,11 +6,11 @@ const { home,
   HistorialBecas, 
   saludInseguridad, 
   solicitudesDeCambio,
-  incidencias,
+  HistorialIncidencias,
   historialSolicitudesPersonal,
+  historialDocenteDisponible,
   historialSolicitudesGenerales,
   historialNombramientos,
-  historialMovimientos,
   historialLicenciaSinGoce  } = require('../controllers/Renders');
 
 const vistasController = {
@@ -24,14 +24,15 @@ const vistasController = {
 
         // Recolectar los historiales
         const historiales = {
-           "Becas": await HistorialBecas(personalId) || [],
-           "Salud e Inseguridad": await saludInseguridad(personalId) || [],
-           "Solicitudes de Cambio": await solicitudesDeCambio(personalId) || [],
-            // historialSolicitudesPersonal: await historialSolicitudesPersonal(personalId) || [],
-            historialSolicitudesGenerales: await historialSolicitudesGenerales(personalId) || [],
-            "Nombramientos": await historialNombramientos(personalId) || [],
-            "Historial de Movimientos": await historialMovimientos(personalId) || [],
-            historialLicenciaSinGoce: await historialLicenciaSinGoce(personalId) || []
+          "Becas": await HistorialBecas(personalId) || [],
+          "Salud e Inseguridad": await saludInseguridad(personalId) || [],
+          "Solicitudes de Cambio": await solicitudesDeCambio(personalId) || [],
+          "Docentes disponibles": await  historialDocenteDisponible(personalId) || [],
+          "Solicitudes Generales": await historialSolicitudesGenerales(personalId) || [],
+          "Nombramientos": await historialNombramientos(personalId) || [],
+          "Licencia sin goce": await historialLicenciaSinGoce(personalId) || [],
+          "Incidencias": await HistorialIncidencias(personalId) || []
+                        // historialSolicitudesPersonal: await historialSolicitudesPersonal(personalId) || [],
         };
 
         if (!perfil) {

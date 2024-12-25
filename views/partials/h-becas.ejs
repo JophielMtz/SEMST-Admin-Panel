@@ -1,0 +1,21 @@
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Vacante:</div>
+    <div class="col-sm-9 text-secondary">
+        <%= dato.vacante %>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Cubre:</div>
+    <div class="col-sm-9 text-secondary">
+        <%= dato.cubre %>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">CCT:</div>
+    <div class="col-sm-9 text-secondary">
+        <%= dato.municipio_sale || "N/A" %> - <%= dato.comunidad_sale || "N/A" %> - <%= dato.cct_sale || "N/A" %>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">

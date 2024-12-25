@@ -412,21 +412,29 @@ const obtenerListaPanelAdministrador = async (req, res) => {
             'Sin antigüedad'
     END AS antiguedad_compacta,
     dl.tipo_organizacion,
-    dl.z_e AS z_e, -- Cambia el punto a un guion bajo o un alias limpio
+    dl.z_e AS z_e,
     dl.tipo_entidad,
     dl.tipo_direccion,
     dl.plaza_id,
     dl.nombramiento,
-    dl.grado
+    dl.grado,
+    IFNULL(c.centro_clave_trabajo, 'Sin CCT') AS nombre_cct
 FROM
     personal p
 LEFT JOIN
-    detalle_laboral dl ON p.personal_id = dl.personal_id;
+    detalle_laboral dl ON p.personal_id = dl.personal_id
+LEFT JOIN
+    ubic_ccts u ON dl.id_relacion = u.id_relacion
+LEFT JOIN
+    ccts c ON u.cct_id = c.cct_id;
+
+
+
     `);
     res.json(results);
   } catch (error) {
     console.error("Error al obtener lista licencia sin goce:", error);
-    res.status(500).json({ message: "Error al obtener lista licencia sin goce" });
+    res.status(500).json({ message: "Error al obtener personal del panel adm " });
   }
 };
 

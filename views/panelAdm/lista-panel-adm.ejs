@@ -1,5 +1,18 @@
+<div class="container">
+  <div class="card-body"> 
+    <div class="card"></div>
+    
+  </div>
+</div>
+
+
+
 <div class="container-fluid content-inner mt-n5 py-0">
   <div class="row">
+    <div class="card">
+      
+    </div>
+    
       <div class="col-sm-12">
           <div class="card">
               <div class="container text-center">
@@ -23,9 +36,6 @@
                           <i class="fas fa-edit me-1"></i> Activar Edición
                       </button>
                   </div>
-              
-             
-             
               </div>
               
                   
@@ -304,6 +314,7 @@
       cellClass: "centrar-celda",
       width: 180,
     },
+    {...Columnas.cctSale(),field:"nombre_cct", headerName: "CCT"},
     {...Columnas.antiguedad(),field:"tipo_organizacion", headerName:"Tipo Org.",  width: 150,},
     {...Columnas.antiguedad(),field:"z_e", headerName:"Z.E",  width: 80,}
   ];

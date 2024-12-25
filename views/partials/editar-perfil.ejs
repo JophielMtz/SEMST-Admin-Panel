@@ -1,138 +1,291 @@
 <div class="container">
     <div class="row gutters">
-    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-    <div class="card h-100">
-        <div class="card-body">
-            <div class="account-settings">
-                <div class="user-profile">
-                    <div class="user-avatar">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+        <div class="col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="bd-example">
+                        <ul class="nav nav-pills" data-toggle="slider-tab" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#pills-home1" type="button" role="tab" aria-controls="home"
+                                    aria-selected="true">Personal</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                    data-bs-target="#pills-profile1" type="button" role="tab" aria-controls="profile"
+                                    aria-selected="false">Laboral</button>
+                            </li>
+                        </ul>
+                        <form action="#" method="POST" enctype="multipart/form-data">
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-home1" role="tabpanel"
+                                    aria-labelledby="pills-home-tab1">
+                                    <div class="row gutters">
+                                        <!-- Imagen -->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="imagen">Imagen</label>
+                                                <input type="file" class="form-control" id="imagen" name="imagen">
+                                            </div>
+                                        </div>
+
+                                        <!-- Nombre -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="nombre">Nombre</label>
+                                                <input type="text" class="form-control" id="nombre" name="nombre"
+                                                    placeholder="Ingrese Nombre" value="<%= profileData.nombre %>">
+                                            </div>
+                                        </div>
+
+                                        <!-- Apellido Paterno -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="apellido_paterno">Apellido Paterno</label>
+                                                <input type="text" class="form-control" id="apellido_paterno"
+                                                    name="apellido_paterno" placeholder="Ingrese Apellido Paterno"
+                                                    value="<%= profileData.apellido_paterno %>">
+                                            </div>
+                                        </div>
+
+                                        <!-- Apellido Materno -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="apellido_materno">Apellido Materno</label>
+                                                <input type="text" class="form-control" id="apellido_materno"
+                                                    name="apellido_materno" placeholder="Ingrese Apellido Materno"
+                                                    value="<%= profileData.apellido_materno %>">
+                                            </div>
+                                        </div>
+
+                                        <!-- Fecha de Nacimiento -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                                <input type="date" class="form-control" id="fecha_nacimiento"
+                                                    name="fecha_nacimiento" value="<%= profileData.fecha_nacimiento %>">
+                                            </div>
+                                        </div>
+
+                                        <!-- RFC -->
+                                        <div class="form-group">
+                                            <label for="rfc">RFC</label>
+                                            <input type="text" class="form-control" id="rfc" name="rfc"
+                                                placeholder="Ingrese RFC" value="<%= profileData.rfc %>">
+                                        </div>
+
+                                        <!-- CURP -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="curp">CURP</label>
+                                                <input type="text" class="form-control" id="curp" name="curp"
+                                                    placeholder="Ingrese CURP" value="<%= profileData.curp %>">
+                                            </div>
+                                        </div>
+
+                                        <!-- Teléfono -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="telefono">Teléfono</label>
+                                                <input type="text" class="form-control" id="telefono" name="telefono"
+                                                    placeholder="Ingrese Teléfono" value="<%= profileData.telefono %>">
+                                            </div>
+                                        </div>
+
+                                        <!-- Correo -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="correo">Correo Electrónico</label>
+                                                <input type="email" class="form-control" id="correo" name="correo"
+                                                    placeholder="Ingrese Correo" value="<%= profileData.correo %>">
+                                            </div>
+                                        </div>
+
+                                        <!-- Dirección -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="direccion">Dirección</label>
+                                                <input type="text" class="form-control" id="direccion" name="direccion"
+                                                    placeholder="Ingrese Dirección"
+                                                    value="<%= profileData.direccion %>">
+                                            </div>
+                                        </div>
+
+                                        <!-- Sexo -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="sexo">Sexo</label>
+                                                <select class="form-control" id="sexo" name="sexo">
+                                                    <option value="Masculino" <%=profileData.sexo==='Masculino'
+                                                        ? 'selected' : '' %>>Masculino</option>
+                                                    <option value="Femenino" <%=profileData.sexo==='Femenino'
+                                                        ? 'selected' : '' %>>Femenino</option>
+                                                    <option value="Otro" <%=profileData.sexo==='Otro' ? 'selected' : ''
+                                                        %>>Otro</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Dirección Extra -->
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="Street">Street</label>
+                                                <input type="text" class="form-control" id="Street" name="street"
+                                                    placeholder="Enter Street" value="<%= profileData.street %>">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="ciTy">City</label>
+                                                <input type="text" class="form-control" id="ciTy" name="city"
+                                                    placeholder="Enter City" value="<%= profileData.city %>">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="sTate">State</label>
+                                                <input type="text" class="form-control" id="sTate" name="state"
+                                                    placeholder="Enter State" value="<%= profileData.state %>">
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="zIp">Zip Code</label>
+                                                <input type="text" class="form-control" id="zIp" name="zip_code"
+                                                    placeholder="Zip Code" value="<%= profileData.zip_code %>">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Botones -->
+                                    <div class="row gutters">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <div class="text-right">
+                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                                <button type="reset" class="btn btn-secondary">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <form action="#" method="POST" enctype="multipart/form-data">
+                            <div class="tab-pane fade show active" id="pills-profile1" role="tabpanel"
+                                aria-labelledby="pills-profile-tab1">
+                                <div class="row gutters">
+                                    <!-- Cargo -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="cargo">Cargo</label>
+                                            <input type="text" class="form-control" id="cargo" name="cargo"
+                                                placeholder="Ingrese Cargo" value="<%= detalleLaboral.cargo || '' %>" required>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Tipo Organización -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="tipo_organizacion">Tipo de Organización</label>
+                                            <input type="text" class="form-control" id="tipo_organizacion" name="tipo_organizacion"
+                                                placeholder="Ingrese Tipo de Organización" value="<%= detalleLaboral.tipo_organizacion || '' %>" required>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Sector -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="sector">Sector</label>
+                                            <input type="text" class="form-control" id="sector" name="sector"
+                                                placeholder="Ingrese Sector" value="<%= detalleLaboral.sector || '' %>" required>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Zona -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="zona">Zona</label>
+                                            <input type="text" class="form-control" id="zona" name="zona"
+                                                placeholder="Ingrese Zona" value="<%= detalleLaboral.zona || '' %>" required>
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Fecha de Ingreso -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="fecha_ingreso">Fecha de Ingreso</label>
+                                            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso"
+                                                value="<%= detalleLaboral.fecha_ingreso || '' %>">
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Fecha de Nombramiento -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="fecha_nombramiento">Fecha de Nombramiento</label>
+                                            <input type="date" class="form-control" id="fecha_nombramiento" name="fecha_nombramiento"
+                                                value="<%= detalleLaboral.fecha_nombramiento || '' %>">
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Antigüedad -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="antiguedad">Antigüedad</label>
+                                            <input type="number" class="form-control" id="antiguedad" name="antiguedad"
+                                                placeholder="Años de Antigüedad" value="<%= detalleLaboral.antiguedad || '' %>">
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Comunidad -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="comunidad">Comunidad</label>
+                                            <input type="text" class="form-control" id="comunidad" name="comunidad"
+                                                placeholder="Ingrese Comunidad" value="<%= detalleLaboral.comunidad || '' %>">
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Municipio -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="municipio">Municipio</label>
+                                            <input type="text" class="form-control" id="municipio" name="municipio"
+                                                placeholder="Ingrese Municipio" value="<%= detalleLaboral.municipio || '' %>">
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Clave CCT -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="clave_cct">Clave CCT</label>
+                                            <input type="text" class="form-control" id="clave_cct" name="clave_cct"
+                                                placeholder="Ingrese Clave CCT" value="<%= detalleLaboral.clave_cct || '' %>">
+                                        </div>
+                                    </div>
+                        
+                                    <!-- Z.E -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="z_e">Zona Escolar (Z.E)</label>
+                                            <input type="text" class="form-control" id="z_e" name="z_e"
+                                                placeholder="Ingrese Zona Escolar" value="<%= detalleLaboral.z_e || '' %>">
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <!-- Botones -->
+                                <div class="row gutters mt-3">
+                                    <div class="col-12 text-right">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <button type="reset" class="btn btn-secondary">Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
                     </div>
-                    <h5 class="user-name"><%= profileData.nombre || 'Nombre no disponible' %>
-                        <%= profileData.apellido_paterno || '' %>
-                            <%= profileData.apellido_materno || '' %></h5>
-                </div>
-                <div class="about">
-                    <h5>About</h5>
-                    <p>I'</p>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-    <div class="card h-100">
-        <div class="card-body">
-            <div class="bd-example">
-                <ul class="nav nav-pills" data-toggle="slider-tab" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#pills-home1" type="button" role="tab" aria-controls="home" aria-selected="true">Personal</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#pills-profile1" type="button" role="tab" aria-controls="profile" aria-selected="false">Laboral</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#pills-contact1" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
-                    </li>
-                </ul>
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-home1" role="tabpanel"
-                        aria-labelledby="pills-home-tab1">
-                        <div class="row gutters">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <h6 class="mb-2 text-primary">Personal</h6>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="fullName">Full Name</label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="Enter full name">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="eMail">Email</label>
-                                    <input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="website">Website URL</label>
-                                    <input type="url" class="form-control" id="website" placeholder="Website url">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row gutters">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <h6 class="mt-3 mb-2 text-primary">Address</h6>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="Street">Street</label>
-                                    <input type="name" class="form-control" id="Street" placeholder="Enter Street">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="ciTy">City</label>
-                                    <input type="name" class="form-control" id="ciTy" placeholder="Enter City">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="sTate">State</label>
-                                    <input type="text" class="form-control" id="sTate" placeholder="Enter State">
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="zIp">Zip Code</label>
-                                    <input type="text" class="form-control" id="zIp" placeholder="Zip Code">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   
-                    <div class="tab-pane fade" id="pills-profile1" role="tabpanel"
-                        aria-labelledby="pills-profile-tab1">
-                        <p>
-                            Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat
-                            salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher
-                            voluptate nisi qui.
-                        </p>
-                    </div>
-                    <div class="tab-pane fade" id="pills-contact1" role="tabpanel"
-                        aria-labelledby="pills-contact-tab1">
-                        <p>
-                            Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu
-                            stumptown aliqua, retro synth master cleanse. Mustache cliche tempor,
-                            williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                            dreamcatcher synth.
-                        </p>
-                        <p>
-                            Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu
-                            stumptown aliqua, retro synth master cleanse.
-                        </p>
-                    </div>
-                </div>
-            </div>
-           
-           
-            <div class="row gutters">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="text-right">
-                        <button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
-                        <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    </div>
-    </div>
+</div>
