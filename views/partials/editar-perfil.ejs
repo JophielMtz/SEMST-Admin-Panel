@@ -1,6 +1,32 @@
 <div class="container">
     <div class="row gutters">
+<<<<<<< HEAD
         <div class="col-12">
+=======
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="account-settings">
+                        <div class="user-profile">
+                            <div class="user-avatar">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin" />
+                            </div>
+                            <h5 class="user-name">
+                                <%= profileData.nombre || 'Nombre no disponible' %>
+                                    <%= profileData.apellido_paterno || '' %>
+                                        <%= profileData.apellido_materno || '' %>
+                            </h5>
+                        </div>
+                        <div class="about">
+                            <h5>About</h5>
+                            <p>I'</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+>>>>>>> e22bd1df8b8492719bfe1b1006a35ba585f7e039
             <div class="card h-100">
                 <div class="card-body">
                     <div class="bd-example">
@@ -8,11 +34,18 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
                                     data-bs-target="#pills-home1" type="button" role="tab" aria-controls="home"
+<<<<<<< HEAD
                                     aria-selected="true">Personal</button>
+=======
+                                    aria-selected="true">
+                                    Personal
+                                </button>
+>>>>>>> e22bd1df8b8492719bfe1b1006a35ba585f7e039
                             </li>
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
                                     data-bs-target="#pills-profile1" type="button" role="tab" aria-controls="profile"
+<<<<<<< HEAD
                                     aria-selected="false">Laboral</button>
                             </li>
                         </ul>
@@ -283,6 +316,202 @@
                             </div>
                         </form>
                         
+=======
+                                    aria-selected="false">
+                                    Laboral
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                    data-bs-target="#pills-contact1" type="button" role="tab" aria-controls="contact"
+                                    aria-selected="false">
+                                    Contact
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home1" role="tabpanel"
+                                aria-labelledby="pills-home-tab1">
+                                <div class="row gutters">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <h6 class="mb-2 text-primary">Personal</h6>
+                                    </div>
+
+                                    <form action="/updatePersonal" method="POST">
+                                        <!-- Nombre -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="nombre" class="mb-0">Nombre</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" id="nombre" name="nombre" class="form-control"
+                                                    value="<%= profileData.nombre || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- Apellido Paterno -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="apellido_paterno" class="mb-0">Apellido Paterno</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" id="apellido_paterno" name="apellido_paterno"
+                                                    class="form-control"
+                                                    value="<%= profileData.apellido_paterno || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- Apellido Materno -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="apellido_materno" class="mb-0">Apellido Materno</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" id="apellido_materno" name="apellido_materno"
+                                                    class="form-control"
+                                                    value="<%= profileData.apellido_materno || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- Fecha de Nacimiento -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="fecha_nacimiento" class="mb-0">Fecha de Nacimiento</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"
+                                                    class="form-control"
+                                                    value="<%= profileData.fecha_nacimiento || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- Edad -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="edad" class="mb-0">Edad</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="number" id="edad" name="edad" class="form-control"
+                                                    value="<%= profileData.edad || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- RFC -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="rfc" class="mb-0">RFC</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" id="rfc" name="rfc" class="form-control"
+                                                    value="<%= profileData.rfc || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- CURP -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="curp" class="mb-0">CURP</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" id="curp" name="curp" class="form-control"
+                                                    value="<%= profileData.curp || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- Teléfono -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="telefono" class="mb-0">Teléfono</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" id="telefono" name="telefono" class="form-control"
+                                                    value="<%= profileData.telefono || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- Correo -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="correo" class="mb-0">Correo</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="email" id="correo" name="correo" class="form-control"
+                                                    value="<%= profileData.correo || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- Dirección -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="direccion" class="mb-0">Dirección</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" id="direccion" name="direccion" class="form-control"
+                                                    value="<%= profileData.direccion || '' %>" />
+                                            </div>
+                                        </div>
+                                        <hr class="mb-2" />
+
+                                        <!-- Botón Guardar -->
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Guardar Cambios
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <div class="tab-pane fade" id="pills-profile1" role="tabpanel"
+                                        aria-labelledby="pills-profile-tab1">
+                                        <p>
+                                            Cosby sweater eu banh mi, qui irure terry richardson ex
+                                            squid. Aliquip placeat salvia cillum iphone. Seitan
+                                            aliquip quis cardigan american apparel, butcher voluptate
+                                            nisi qui.
+                                        </p>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-contact1" role="tabpanel"
+                                        aria-labelledby="pills-contact-tab1">
+                                        <p>
+                                            Raw denim you probably haven't heard of them jean shorts
+                                            Austin. Nesciunt tofu stumptown aliqua, retro synth master
+                                            cleanse. Mustache cliche tempor, williamsburg carles vegan
+                                            helvetica. Reprehenderit butcher retro keffiyeh
+                                            dreamcatcher synth.
+                                        </p>
+                                        <p>
+                                            Raw denim you probably haven't heard of them jean shorts
+                                            Austin. Nesciunt tofu stumptown aliqua, retro synth master
+                                            cleanse.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row gutters">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="text-right">
+                                        <button type="button" id="submit" name="submit" class="btn btn-secondary">
+                                            Cancel
+                                        </button>
+                                        <button type="button" id="submit" name="submit" class="btn btn-primary">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+>>>>>>> e22bd1df8b8492719bfe1b1006a35ba585f7e039
                     </div>
                 </div>
             </div>
