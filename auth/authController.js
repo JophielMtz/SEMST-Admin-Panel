@@ -64,12 +64,12 @@ const usuarios = {
                 return res.status(401).json({ error: 'Contraseña incorrecta' });
             }
     
-            // Generar el access token (1 hora de validez)
             const accessToken = jwt.sign(
                 { id: usuario.id, usuario: usuario.usuario, rol: usuario.rol, imagen: usuario.imagen },
                 process.env.JWT_SECRET,
-                { expiresIn: '1h' }
+                { expiresIn: '7d' } 
             );
+    
     
             // Generar el refresh token (7 días de validez)
             const refreshToken = jwt.sign(

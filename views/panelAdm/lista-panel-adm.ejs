@@ -1,18 +1,7 @@
-<div class="container">
-  <div class="card-body"> 
-    <div class="card"></div>
-    
-  </div>
-</div>
-
 
 
 <div class="container-fluid content-inner mt-n5 py-0">
   <div class="row">
-    <div class="card">
-      
-    </div>
-    
       <div class="col-sm-12">
           <div class="card">
               <div class="container text-center">
@@ -42,25 +31,7 @@
               </div>
               <div class="card-body">
                   <div class="test-container">
-                      <div class="test-header d-flex align-items-center">
-                          <!-- Radio para 'Todos' -->
-                          <div class="form-check form-check-inline">
-                              <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
-                              <label for="all" class="form-check-label pl-2">Todos</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                              <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
-                              <label for="cctsSaleEntra" class="form-check-label pl-2">CCTs sale y entra</label>
-                          </div>
-                          <% if (role === 'admin' || role === 'super-admin') { %>
-                              <div class="form-check form-check-inline">
-                                  <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
-                                  <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
-                              </div>
-                          <% } %>
-                          
-                          
-                      </div>
+                      
                       <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
                   </div>
               </div>

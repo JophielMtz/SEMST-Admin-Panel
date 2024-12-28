@@ -611,6 +611,11 @@ LEFT JOIN
 
 
 
+
+
+
+
+
 const obtenerUbicCCTs = async (req, res) => {
   const { sector_id } = req.query;
 
@@ -1478,39 +1483,7 @@ const vistaEditarPersonal = async (req, res) => {
     res.status(500).send("Error al cargar la vista de edición");
   }
 };
-// Función para borrar fila
-// Lista de tablas permitidas para prevenir inyecciones SQL
 
-
-
-
-// Función para obtener la lista de empleados
-// const obtenerPersonal = async (req, res) => {
-//   try {
-//     const [results] = await pool.query(`
-//      SELECT
-//         p.personal_id,
-//         p.nombre,
-//         p.apellido_paterno,
-//         p.apellido_materno,
-//         p.imagen, -- Asegúrate de que aquí esté el campo imagen
-//         p.direccion, -- Campo agregado para la dirección
-//         p.telefono,  -- Campo agregado para el teléfono
-//         p.correo,    -- Campo agregado para el correo
-//         c.descripcion AS cargo
-//       FROM
-//         personal AS p
-//       LEFT JOIN
-//         detalle_laboral AS dl ON p.personal_id = dl.personal_id
-//       LEFT JOIN
-//         cargos AS c ON dl.cargo = c.cargo
-//     `);
-//     res.json(results);
-//   } catch (error) {
-//     console.error("Error al obtener el personal:", error);
-//     res.status(500).json({ message: "Error al obtener la lista de personal" });
-//   }
-// };
 
 // Función para obtener detalles de cada empleado ne la lista de empleados
 const obtenerDetallePersonal  = async (req, res) => {
@@ -1610,7 +1583,6 @@ module.exports = {
   obtenerSolicitudesDeCambio,
   obtenerUbicCCTs,
   obtenerListaPanelAdministrador,
-
   borrarFila,
   borrarUsuario,
   actualizarRegistro,

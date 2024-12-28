@@ -2,8 +2,9 @@ const express = require('express');
 const { 
   vistaEditarPersonal, vistaAgregarpersonal, 
   agregarPersonal, actualizarPersonal,
-  editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio, editarListaPanelAdministrador, editarUsuario,
-  obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,  obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, borrarUsuario,   } = require('../controllers/Pagecontrollers');
+  editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio, editarListaPanelAdministrador, editarUsuario, 
+  obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,   obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, borrarUsuario,
+} = require('../controllers/Pagecontrollers');
 
 
 const vistasController = require('../controllers/vistas');
@@ -42,12 +43,12 @@ router.get('/login', vistasController.vistaLogin);
 router.get('/sign-up', vistasController.vistaSignUp);
 
 
-
 //=======Ruta para vistas===========//
 // router.get('/home', autenticarToken, checkRol(['admin']), vistasController.vistaPrincipal);
 router.get('/home', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaPrincipal);
 router.get('/roles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaRoles);
 router.get('/lista-panel-adm', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaListaPanelAdm);
+router.get('/gestion-de-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaGestionPersonal);
 router.get('/agregar-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistaAgregarpersonal);
 router.get('/docentes-disponibles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaDocentesDisponibles);
 router.get('/revisiones', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaReviciones);
@@ -91,6 +92,10 @@ router.get('/getNombramientosDocentes', obtenerNombramientosDocentes);
 router.get('/getSolicitudes', obtenerSolicitudes);
 router.get('/getInternos', obtenerInternos);
 router.get ('/getUbicCCTs', obtenerUbicCCTs);
+
+
+
+
 
 //======Ruta para obtener el perfil de un personal==========//
 router.get('/getlistaPanelAdm/:personal_id', obtenerPersonal);
@@ -667,7 +672,6 @@ router.post('/guardarRegistro', async (req, res) => {
       console.log("Conexión liberada.");
   }
 });
-
 
 
 

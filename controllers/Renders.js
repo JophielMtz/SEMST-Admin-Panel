@@ -212,6 +212,8 @@ const HistorialIncidencias = async (personalId) => {
   return await obtenerHistorialPorTabla('historial_incidencias', personalId);
 };
 
+
+
 // const historialSolicitudesPersonal = async (personalId) => {
 //   return await obtenerHistorialPorTabla('historial_solicitudes_personal', personalId);
 // };
@@ -273,6 +275,63 @@ const historialLicenciaSinGoce = async (personalId) => {
   return await obtenerDatosGenericos('historia_licencia_sin_goce', columnas, condiciones);
 };
 
+const procesosEnTransito = async (personalId) => {
+  try {
+    // Incrementar el límite de GROUP_CONCAT para evitar cortes
+    await pool.query("SET SESSION group_concat_max_len = 1000000");
+
+    // Generar la consulta dinámica ajustada
+    const queryParaGenerar = `
+      SELECT GROUP_CONCAT(
+          CONCAT(
+              'SELECT ''', TABLE_NAME, ''' AS tabla, personal_id, ', 
+              (
+                SELECT COLUMN_NAME 
+                FROM INFORMATION_SCHEMA.COLUMNS 
+                WHERE TABLE_NAME = INFORMATION_SCHEMA.COLUMNS.TABLE_NAME 
+                  AND TABLE_SCHEMA = 'semstdb'
+                  AND COLUMN_NAME LIKE '%observaciones%' 
+                LIMIT 1
+              ), 
+              ' AS observaciones FROM ', TABLE_NAME, 
+              ' WHERE personal_id = ${personalId}'
+          ) SEPARATOR ' UNION ALL '
+      ) AS consulta
+      FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_SCHEMA = 'semstdb'
+        AND COLUMN_NAME = 'personal_id'
+        AND TABLE_NAME NOT LIKE '%historial%'
+        AND TABLE_NAME NOT LIKE '%historia%'
+        AND TABLE_NAME NOT LIKE '%detalle_laboral%'
+        AND TABLE_NAME NOT LIKE '%personal%'
+        AND TABLE_NAME NOT LIKE '%personaintro%'
+        AND TABLE_NAME NOT LIKE '%backup%'
+        AND EXISTS (
+            SELECT 1 
+            FROM INFORMATION_SCHEMA.COLUMNS 
+            WHERE TABLE_NAME = INFORMATION_SCHEMA.COLUMNS.TABLE_NAME 
+              AND TABLE_SCHEMA = 'semstdb'
+              AND COLUMN_NAME LIKE '%observaciones%'
+        );
+    `;
+    const [rows] = await pool.query(queryParaGenerar);
+    const consultaDinamica = rows[0]?.consulta;
+
+    if (!consultaDinamica) {
+      throw new Error("No se pudo generar la consulta dinámica. Verifica que existan tablas válidas con observaciones.");
+    }
+
+    const [resultados] = await pool.query(consultaDinamica);
+    return resultados;
+  } catch (error) {
+    console.error("Error al obtener los procesos en tránsito:", error.message);
+    throw error;
+  }
+};
+
+
+
+
 
 
 
@@ -290,5 +349,6 @@ module.exports = {
   // historialSolicitudesPersonal,
   historialSolicitudesGenerales,
   historialNombramientos,
-  historialLicenciaSinGoce
+  historialLicenciaSinGoce,
+  procesosEnTransito
 };

@@ -66,82 +66,55 @@
                                                     <%= detalleLaboral.sector || "No disponible" %>
                                                 </span>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-github me-2 icon-inline">
-                                                        <path
-                                                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                                                        </path>
-                                                    </svg>Zona</h6>
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0">
+                                                    <i class="fas fa-map-marker-alt me-2"></i>Zona
+                                                </h6>
                                                 <span class="text-secondary">
                                                     <%= detalleLaboral.zona || "No disponible" %>
                                                 </span>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-twitter me-2 icon-inline text-info">
-                                                        <path
-                                                            d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
-                                                        </path>
-                                                    </svg>Municipio</h6>
+                                            
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0">
+                                                    <!-- FontAwesome ícono para Municipio -->
+                                                    <i class="fas fa-city me-2 text-info"></i>Municipio
+                                                </h6>
                                                 <span class="text-secondary">
                                                     <%= detalleLaboral.municipio || "No disponible" %>
                                                 </span>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-instagram me-2 icon-inline text-danger">
-                                                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z">
-                                                        </path>
-                                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                                                    </svg>Comunidad</h6>
+                                            
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0">
+                                                    <!-- FontAwesome ícono para Comunidad -->
+                                                    <i class="fas fa-users me-2 text-danger"></i>Comunidad
+                                                </h6>
                                                 <span class="text-secondary">
                                                     <%= detalleLaboral.comunidad || "No disponible" %>
                                                 </span>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-facebook me-2 icon-inline text-primary">
-                                                        <path
-                                                            d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                        </path>
-                                                    </svg>Clave CCT</h6>
+                                            
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0">
+                                                    <!-- FontAwesome ícono para Clave CCT -->
+                                                    <i class="fas fa-key me-2 text-primary"></i>Clave CCT
+                                                </h6>
                                                 <span class="text-secondary">
                                                     <%= detalleLaboral.clave_cct || "No disponible" %>
                                                 </span>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-facebook me-2 icon-inline text-primary">
-                                                        <path
-                                                            d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z">
-                                                        </path>
-                                                    </svg>Z.E</h6>
+                                            
+                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                                <h6 class="mb-0">
+                                                    <!-- FontAwesome ícono para Zona Escolar -->
+                                                    <i class="fas fa-map-marker-alt me-2 text-primary"></i>Z.E
+                                                </h6>
                                                 <span class="text-secondary">
                                                     <%= detalleLaboral.z_e || "No disponible" %>
                                                 </span>
                                             </li>
+                                            
                                         </ul>
                                     </div>
                                 </div>
@@ -309,13 +282,12 @@
 
 
                                     <!-- Botón Editar -->
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-sm-12">
-                                            <!-- Botón que activa el modal -->
                                             <a href="#" class="btn btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#editarPersonalModal">Editar</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -341,7 +313,8 @@
         
                     <div class="col-12">
                         <div class="card mb-3" data-aos="fade-up" data-aos-delay="600">
-                            <div class="card-body" style="height: 700px; overflow-y: auto; padding-bottom: 3rem;">
+                            <div class="card-body" style="max-height: 650px; overflow-y: auto; padding-bottom: 3rem;"
+                            >
                                 <div class="mb-3">
                                     <label class="fw-bold">Filtrar por Fecha:</label>
                                     <input type="text" id="dateRangePicker" class="form-control" placeholder="Selecciona rango de fechas">
@@ -398,7 +371,7 @@
                                                 <% } %>
                                                 
                                                 <!-- Estatus -->
-                                                <% if (historialTipo !== "Becas" && historialTipo !== "Licencia sin goce") { %>
+                                                <% if (historialTipo !== "Becas" && historialTipo !== "Licencia sin goce" && historialTipo !== "Nombramientos") { %>
                                                     <div class="row mb-2">
                                                         <div class="col-sm-3 fw-bold">Estatus:</div>
                                                         <div class="col-sm-9 text-secondary">
@@ -409,6 +382,7 @@
                                                     </div>
                                                     <hr class="mb-2" style="border-top: 1px solid #828282;">
                                                 <% } %>
+                                                
                                                 
                                                 
                                                 <!-- Docentes Disponibles, Solicitudes de cambio y Salud -->
@@ -429,22 +403,19 @@
                                                     <%- include('partials/h-licencias-goce', { dato: dato, historialTipo: historialTipo }) %>
                                                 <% } %>
 
-                                                <% if (historialTipo === "Incidencias") { %>
+                                                <% if (historialTipo === "Incidencias" ) { %>
                                                     <%- include('partials/h-incidencias', { dato: dato, historialTipo: historialTipo }) %>
                                                 <% } %>
                                             
-                                                
+
                                                 <!-- Observaciones -->
                                                 <div class="mt-3">
                                                     <h6 class="badge bg-primary fs-6">Observaciones</h6>
                                                     <p class="mb-0"><%= dato.observaciones || "Sin observaciones" %></p>
                                                 </div>
-
-                                                
-                                                
-                                                    
                                             </div>
                                         <% }) %>
+                                        
                                     <% } %>
                                 <% }) %>
                             </div>

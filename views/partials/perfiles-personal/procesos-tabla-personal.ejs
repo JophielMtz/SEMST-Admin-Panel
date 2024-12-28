@@ -1,83 +1,54 @@
-<div class="card-body mx-0">
-    <div class="row">
-        <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">Proceso en tránsito</th>
+                    <th class="text-center">Observaciones</th>
+                    <th class="text-center">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (procesos && procesos.length > 0) { %>
+                    <% procesos.forEach(proceso => { %>
+                        <tr>
+                            <td class="text-primary text-center fs-8">
+                                <%= {
+                                    'becas_comision': 'Becas Comisión',
+                                    'docentes_disponibles': 'Docentes Disponibles',
+                                    'incidencias': 'Incidencias',
+                                    'nombramientos': 'Nombramientos',
+                                    'salud_inseguridad': 'Salud e Inseguridad',
+                                    'solicitudes_de_cambio': 'Solicitudes de Cambio',
+                                    'licencia_sin_goce': 'Licencia sin goce',
+                                    'solicitudes_generales': 'Solicitudes Generales'
+                                }[proceso.tabla] || proceso.tabla %>
+                            </td>
+                            <td class="text-wrap">
+                                <% if (proceso.observaciones) { %>
+                                  <%= proceso.observaciones %>
+                                <% } else { %>
+                                  Sin observaciones
+                                <% } %>
+                              </td>
+                            <td class="text-center">
+                                <a href="/<%= proceso.tabla.replace('_', '-')
+                                .replace('becas-comision', 'beca-comision')
+                                .replace('salud-inseguridad', 'salud')
+                                .replace('salud-inseguridad', 'salud')
+                                .replace('licencia-sin_goce', 'licencias-sin-goce') 
+                                .replace('solicitudes-de_cambio', 'cambio') %>"                             
+                                class="btn btn-primary btn-sm">Ver más</a>
+
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="2" class="text-center">No hay procesos en tránsito disponibles.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
     </div>
 </div>
-
-
-
-<script type="module">
-    import { getStatusClass,statusRenderer,  funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
-    import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
-    import * as Columnas from "./js/AgGrid/columNames.js";
-
-    let gridApi;
-    let editMode = false;
-    const estatusValidValues = ["Atendido", "En proceso", "Sin atender"];
-    const SituacionValidValues = ["A disposicion", "Inseguridad", "Salud", "Sin CT"];
-    const EstatusCubiertaValidValues = ["Cubierta", "Sin cubrir", "No se justifica"];
-
-
-    const datos = [
-    { field: "np", headerName: "NP", width: 70, editable: false },
-    {...Columnas.colFecha(), editable: () => editMode,},
-    Columnas.nombreDocente(),
-    Columnas.antiguedad(),
-    {field: "estatus",headerName: "Estatus", editable: () => editMode, width: 120,
-    ...createSelectColumnProps(estatusValidValues),},
-     { ...Columnas.observaciones(), editable: () => editMode, },
-     {field: "situacion",headerName: "Situación", editable: () => editMode, width: 120,
-     ...createSelectColumnProps(SituacionValidValues),},
-     Columnas.municipioSale(),
-     Columnas.comunidadSale(),
-     Columnas.cctSale(),
-     {field: "estatus_cubierta",headerName: "Estatus", editable: () => editMode, width: 120,
-     ...createSelectColumnProps(EstatusCubiertaValidValues),},
-    {...Columnas.municipioEntra(true), editable: () => editMode,},
-    {...Columnas.comunidadEntra(true),editable: () => editMode,},
-    {...Columnas.cctEntra(true),editable: () => editMode,}
-]
-
-    const gridOptions = {
-        columnDefs: datos,
-        defaultColDef: {editable: true,resizable: true,},
-        rowData: [],
-        rowHeight: 60,
-        domLayout: "autoHeight",
-    };
-
-
-    const initializeGrid = async () => {
-        const gridDiv = document.querySelector("#myGrid");
-        gridApi = agGrid.createGrid(gridDiv, gridOptions);
-    
-        try {
-            const municipios = await fetchMunicipios();
-            for (const municipio of municipios) {
-                municipio.comunidades = await fetchComunidades(municipio.municipio_id);
-            }
-            gridOptions.context.municipios = municipios;
-    
-            // Obtén los datos desde el backend
-            const data = await fetch("/getDocentesDisponibles").then((response) =>
-                response.json()
-            );
-    
-            // Agrega el campo `tabla` dinámicamente
-            const rowData = data.map((row) => ({
-                ...row,
-                tabla: "docentes_disponibles", // Nombre de la tabla a la que pertenece esta fila
-            }));
-    
-            // Establece los datos en la tabla
-            gridApi.setGridOption("rowData", rowData);
-    
-            // Aplica el filtro inicial (opcional)
-            externalFilterChanged("all");
-        } catch (error) {
-            console.error("Error inicializando la tabla:", error);
-        }
-    };
-    
-    document.addEventListener("DOMContentLoaded", initializeGrid);
-</script>

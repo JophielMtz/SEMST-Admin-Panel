@@ -1,6 +1,8 @@
 const pool = require("../src/config/db");
 
-const { home, 
+const { 
+  home, 
+  procesosEnTransito,
   obtenerPerfilPorId, 
   obtenerDetalleCompleto,
   HistorialBecas, 
@@ -11,49 +13,67 @@ const { home,
   historialDocenteDisponible,
   historialSolicitudesGenerales,
   historialNombramientos,
-  historialLicenciaSinGoce  } = require('../controllers/Renders');
+  historialLicenciaSinGoce
+} = require('../controllers/Renders');
 
 const vistasController = {
-    
+  vistaLogin: async (req, res) => {
+    try {
+      // Renderizar la vista de login
+      res.render("login");
+    } catch (error) {
+      console.error("Error al cargar la vista de login:", error.message);
+      res.status(500).send("Error en el servidor");
+    }
+  },
+
+  // Otros métodos dentro de vistasController
   vistaIdPerfil: async (req, res) => {
     const personalId = req.params.id;
-
+  
     try {
-        const perfil = await obtenerPerfilPorId(personalId);
-        const detalle = await obtenerDetalleCompleto(personalId);
-
-        // Recolectar los historiales
-        const historiales = {
-          "Becas": await HistorialBecas(personalId) || [],
-          "Salud e Inseguridad": await saludInseguridad(personalId) || [],
-          "Solicitudes de Cambio": await solicitudesDeCambio(personalId) || [],
-          "Docentes disponibles": await  historialDocenteDisponible(personalId) || [],
-          "Solicitudes Generales": await historialSolicitudesGenerales(personalId) || [],
-          "Nombramientos": await historialNombramientos(personalId) || [],
-          "Licencia sin goce": await historialLicenciaSinGoce(personalId) || [],
-          "Incidencias": await HistorialIncidencias(personalId) || []
-                        // historialSolicitudesPersonal: await historialSolicitudesPersonal(personalId) || [],
-        };
-
-        if (!perfil) {
-            return res.status(404).send("Perfil no encontrado");
-        }
-
-        if (!detalle) {
-            return res.status(404).send("Detalles laborales no encontrados");
-        }
-
-        // Renderizar vista con datos dinámicos
-        res.render("perfil-de-personal", { 
-            profileData: perfil, 
-            detalleLaboral: detalle,
-            historiales,
-        });
+      // Obtener el perfil y los detalles laborales del personal
+      const perfil = await obtenerPerfilPorId(personalId);
+      const detalle = await obtenerDetalleCompleto(personalId);
+  
+      if (!perfil) {
+        return res.status(404).send("Perfil no encontrado");
+      }
+  
+      if (!detalle) {
+        return res.status(404).send("Detalles laborales no encontrados");
+      }
+  
+      // Obtener los procesos en tránsito del usuario
+      const procesos = await procesosEnTransito(personalId);
+  
+      // Obtener los historiales relacionados
+      const historiales = {
+        "Becas": await HistorialBecas(personalId) || [],
+        "Salud e Inseguridad": await saludInseguridad(personalId) || [],
+        "Solicitudes de Cambio": await solicitudesDeCambio(personalId) || [],
+        "Docentes disponibles": await historialDocenteDisponible(personalId) || [],
+        "Solicitudes Generales": await historialSolicitudesGenerales(personalId) || [],
+        "Nombramientos": await historialNombramientos(personalId) || [],
+        "Licencia sin goce": await historialLicenciaSinGoce(personalId) || [],
+        "Incidencias": await HistorialIncidencias(personalId) || [],
+      };
+  
+      // Renderizar la vista del perfil con los datos obtenidos
+      res.render("perfil-de-personal", {
+        profileData: perfil,
+        detalleLaboral: detalle,
+        historiales,
+        procesos, // Pasar los procesos dinámicos al EJS
+      });
     } catch (error) {
-        console.error('Error al obtener el perfil o los detalles laborales:', error);
-        res.status(500).send("Error en el servidor");
+      console.error("Error al obtener el perfil o los detalles laborales:", error.message);
+      res.status(500).send("Error en el servidor");
     }
-},
+  },
+  
+  
+
 
 
 
@@ -105,9 +125,9 @@ const vistasController = {
     }
   },
 
-
-
-
+  vistaGestionPersonal: (req, res) => {
+    res.render("panelAdm/gestion-de-personal");
+  },
   vistaReviciones: (req, res) => {
         res.render("revisiones");
       },
