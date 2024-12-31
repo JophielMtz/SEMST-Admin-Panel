@@ -30,17 +30,85 @@ const obtenerPersonal = async (req, res) => {
 
 const obtenerPendientes = async (req, res) => {
   try {
-    const [results] = await pool.query(`
-      SELECT
-        np, fecha, estatus, tramite, departamento,
-        observaciones_conflictos, observaciones_secretaria_general FROM pendientes
+    // Obtén las columnas que comienzan con "np_"
+    const [columns] = await pool.query(`
+      SELECT COLUMN_NAME 
+      FROM INFORMATION_SCHEMA.COLUMNS 
+      WHERE TABLE_NAME = 'pendientes' 
+        AND COLUMN_NAME LIKE 'np_%';
     `);
+
+    // Extrae los nombres de las columnas
+    const columnNames = columns.map(row => row.COLUMN_NAME);
+
+    if (columnNames.length === 0) {
+      throw new Error("No se encontraron columnas con prefijo 'np_' en la tabla pendientes.");
+    }
+
+    // Tablas con mapeos personalizados
+    const mapeoTablas = {
+      "np_licencia_sin_goce": "licencias-sin-goce",
+      "np_nombramientos": "nombramientos-docentes",
+      "np_solicitudes_de_personal": "solicitudes-personal",
+      "np_becas_comision": "beca-comision",       
+      "np_solicitudes_de_cambio": "cambio"     
+    };
+
+    // Log para verificar las columnas y el mapeo
+    console.log("Columnas detectadas:", columnNames);
+    console.log("Mapeo personalizado:", mapeoTablas);
+
+    // Genera el CASE dinámico con lógica estándar y mapeos personalizados
+    const caseStatements = columnNames
+      .map(col => {
+        // Verifica si la columna está en el mapeo personalizado
+        if (mapeoTablas[col]) {
+          console.log(`Usando mapeo personalizado para columna: ${col} -> ${mapeoTablas[col]}`);
+          return `WHEN ${col} IS NOT NULL THEN '${mapeoTablas[col]}'`;
+        }
+        // Lógica estándar si no hay un mapeo personalizado
+        console.log(`Usando lógica estándar para columna: ${col}`);
+        return `WHEN ${col} IS NOT NULL THEN '${col.replace('np_', '').replace('_', '-')}'`;
+      })
+      .join(' ');
+
+    // Log para verificar el CASE generado
+    console.log("CASE generado:", caseStatements);
+
+    // Genera el COALESCE dinámico
+    const coalesceColumns = `COALESCE(${columnNames.join(', ')}) AS np`;
+
+    // Crea la consulta final
+    const query = `
+      SELECT
+        ${coalesceColumns},
+        fecha,
+        tipo_proceso,
+        estatus,
+        tramite,
+        departamento,
+        observaciones_conflictos,
+        observaciones_secretaria_general,
+        CASE ${caseStatements} ELSE 'desconocido' END AS tabla_origen
+      FROM pendientes;
+    `;
+
+    // Log para verificar la consulta generada
+    console.log("Consulta generada:", query);
+
+    // Ejecuta la consulta generada
+    const [results] = await pool.query(query);
+
+    // Devuelve los resultados en formato JSON
     res.json(results);
   } catch (error) {
     console.error("Error al obtener lista pendientes:", error);
     res.status(500).json({ message: "Error al obtener lista pendientes" });
   }
 };
+
+
+
 
 const obtenerDocentesDisponibles = async (req, res) => {
   try {

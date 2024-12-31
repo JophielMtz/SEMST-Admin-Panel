@@ -2,8 +2,6 @@
   position: relative; /* Asegura que los elementos posicionados dentro se alineen correctamente */
 }
 
-
-
 .list-group-item {
   white-space: nowrap; /* Asegura que el texto esté en una sola línea */
   overflow: hidden; /* Oculta cualquier contenido que exceda el ancho */
@@ -21,9 +19,6 @@
 .list-group-item-action:hover {
   background-color: #f8f9fa; /* Cambia el fondo al pasar el cursor */
 }
-
-
-
 
 
 
@@ -219,6 +214,10 @@ td:first-child {
   border-color: #ce4257;
 }
 
+
+AG 
+
+
 .test-container {
   height: 100%;
   display: flex;
@@ -271,7 +270,10 @@ boton de trash roles */
 /* AG Grid style */
 
 .centrar-celda {
-  margin: 10px;
+  text-align: center;  /* Centra el texto horizontalmente */
+  display: flex;
+  justify-content: center;  /* Centra el contenido de manera flexible */
+  align-items: center;  /* Centra el contenido verticalmente */
 }
 
 .ag-header-cell {
@@ -282,6 +284,9 @@ boton de trash roles */
 .ag-background-color {
   background-color: #050709;  /* Color de fondo para todos los encabezados */
 }
+
+
+
 
 #suggestionsList {
   max-height: 600px;

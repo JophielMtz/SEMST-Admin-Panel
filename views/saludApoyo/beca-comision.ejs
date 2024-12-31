@@ -4,28 +4,28 @@
             <div class="card">
                 <div class="container text-center">
                     <h4 class="text-responsive mb-3 mt-3">Beca Comisións</h4>
-                    <div class="row justify-content-center gx-2" 
-                    <<% if (role !== 'admin' && role !== 'super-admin') { %> style="display: none;" <% } %> 
+                    <div class="row justify-content-center gx-2" <<% if (role !=='admin' && role !=='super-admin' ) { %>
+                        style="display: none;" <% } %>
 
-                    <!-- Botón Nuevo -->
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-primary rounded-pill w-auto"
-                            data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"
-                            style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
-                            Nuevo
-                        </button>
+                            <!-- Botón Nuevo -->
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-primary rounded-pill w-auto" data-bs-toggle="modal"
+                                    data-bs-target="#nuevoRegistroModal" data-action="nuevo"
+                                    style="padding: 4px 12px; font-size: 12px;" class="btn-sm">
+                                    Nuevo
+                                </button>
+                            </div>
+
+                            <!-- Botón Activar Edición -->
+                            <div class="col-auto">
+                                <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
+                                    style="padding: 4px 12px; font-size: 12px;">
+                                    <i class="fas fa-edit me-1"></i> Activar Edición
+                                </button>
+                            </div>
                     </div>
-                
-                    <!-- Botón Activar Edición -->
-                    <div class="col-auto">
-                        <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
-                            style="padding: 4px 12px; font-size: 12px;">
-                            <i class="fas fa-edit me-1"></i> Activar Edición
-                        </button>
-                    </div>
-                </div>
-                
-                    
+
+
                 </div>
                 <div class="card-body">
                     <div class="test-container">
@@ -36,17 +36,17 @@
                                 <label for="all" class="form-check-label pl-2">Todos</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra" onchange="externalFilterChanged('cctsSaleEntra')">
+                                <input type="radio" class="form-check-input" name="filter" id="cctsSaleEntra"
+                                    onchange="externalFilterChanged('cctsSaleEntra')">
                                 <label for="cctsSaleEntra" class="form-check-label pl-2">Filtro</label>
                             </div>
-                            <% if (role === 'admin' || role === 'super-admin') { %>
+                            <% if (role==='admin' || role==='super-admin' ) { %>
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
+                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete"
+                                        onchange="externalFilterChanged('funcionDelete')">
                                     <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
                                 </div>
-                            <% } %>
-                            
-                            
+                                <% } %>
                         </div>
                         <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
                     </div>
@@ -55,210 +55,168 @@
         </div>
     </div>
 </div>
-    <!--Crear-->
-<div class="modal fade" id="nuevoRegistroModal"  tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <!-- Se usa modal-xl para más espacio -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="nuevoRegistroModalLabel">
-                        Nueva entrada
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <!-- Columna izquierda para el perfil -->
-                        <div class="col-xl-3 col-lg-4 mb-3">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="header-title">
-                                        <h4 class="card-title">Perfil</h4>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <div class="profile-img-edit position-relative text-center">
-                                            <img src="images/avatars/01.png" alt="profile-pic"
-                                                class="profile-pic rounded-circle img-fluid w-100 mb-3" />
-                                        </div>
-                                        <div class="img-extension mt-3">
-                                            <small class="text-muted text-center">Datos adicionales</small>
-                                        </div>
+
+<!--Crear-->
+<div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <!-- Se usa modal-xl para más espacio -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nuevoRegistroModalLabel">
+                    Nueva entrada
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Columna izquierda para el perfil -->
+                    <div class="col-12 mb-3">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="profile-img-edit position-relative text-center">
+                                        <!-- Imagen centrada y tamaño ajustado a 200x200px -->
+                                        <img src="images/avatars/01.png" alt="profile-pic"
+                                            class="profile-pic rounded-circle img-fluid mb-3"
+                                            style="width: 200px; height: 200px; object-fit: cover;" />
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Columna derecha para el formulario -->
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between">
-                                    <div class="header-title">
-                                        <h4 class="card-title">Información del nuevo usuario</h4>
-                                    </div>
+
+                    <!-- Columna derecha para el formulario -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Información</h4>
                                 </div>
+                            </div>
 
-                                <div class="card-body">
-                                    <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
-                                        <input type="hidden" name="tabla" value="becas_comision" />
+                            <div class="card-body">
+                                <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
+                                    <input type="hidden" name="tabla" value="becas_comision" />
+                                    <div class="row">
+
+                                        <!-- Personal ID y Nombre del Docente -->
                                         <div class="row">
-                                
-                                            <!-- Personal ID y Nombre del Docente -->
-                                            <div class="row">
-                                                <div class="form-group col-md-2">
-                                                    <label for="personal_id" class="form-label">ID:</label>
-                                                    <input type="text" class="form-control" id="personal_id"
-                                                        name="personal_id" placeholder="" autocomplete="off" />
-                                                </div>
-                                                <div class="form-group col-md-10">
-                                                    <label for="nombre_docente" class="form-label">Nombre del
-                                                        personal:</label>
-                                                    <input type="text" class="form-control" id="nombre_docente"
-                                                        name="nombre_docente" placeholder="Escriba un nombre"
-                                                        autocomplete="off" />
-                                                    <ul id="suggestionsList" class="list-group position-absolute w-100"
-                                                        style="z-index: 1000"></ul>
-                                                </div>
+                                            <div class="form-group col-md-2">
+                                                <label for="personal_id" class="form-label">ID:</label>
+                                                <input type="text" class="form-control" id="personal_id"
+                                                    name="personal_id" placeholder="" autocomplete="off" />
                                             </div>
+                                            <div class="form-group col-md-10">
+                                                <label for="nombre_docente" class="form-label">Nombre del
+                                                    personal:</label>
+                                                <input type="text" class="form-control" id="nombre_docente"
+                                                    name="nombre_docente" placeholder="Escriba un nombre"
+                                                    autocomplete="off" />
+                                                <ul id="suggestionsList" class="list-group position-absolute w-100"
+                                                    style="z-index: 1000"></ul>
+                                            </div>
+                                        </div>
 
-                                            <!-- Fecha, Antigüedad y Teléfono -->
-                                          
-                                            <div class="form-group col-md-6 col-lg-6">
-                                                <label for="telefono" class="form-label">Teléfono:</label>
-                                                <input type="text" class="form-control" id="telefono" name="telefono"
-                                                    placeholder="" />
-                                            </div>
-                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                                <label for="antiguedad" class="form-label">Antigüedad:</label>
-                                                <input type="text" class="form-control" id="antiguedad"
-                                                    name="antiguedad" placeholder="" />
-                                            </div>
-                                            
-                                            
-                                            <hr class="hr-horizontal mb-4" />
-                                            <div class="form-group col-md-4">
-                                                <label for="municipio_sale" class="form-label">Municipio:</label>
-                                                <input type="text" class="form-control" id="municipio_sale"
-                                                    placeholder="" readonly />
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="comunidad_sale" class="form-label">Comunidad:</label>
-                                                <input type="text" class="form-control" id="comunidad_sale"
-                                                    placeholder="" readonly />
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label for="cct_sale" class="form-label">Clave CCT:</label>
-                                                <input type="text" class="form-control" id="cct_sale"
-                                                    placeholder="Clave CCT" readonly />
-                                            </div>
-                                            <hr class="hr-horizontal mb-4" />
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="fecha" class="form-label">Fecha:</label>
+                                            <input type="date" class="form-control" id="fecha" name="fecha" />
+                                        </div>
 
-                                     <!------------------------ Fin Datos por default------------------------------->       
-                                            
-                                     <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                        <label for="fecha" class="form-label">Fecha:</label>
-                                        <input type="date" class="form-control" id="fecha" name="fecha" />
+                                        <!-- Cobertura -->
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="vacante" class="form-label">Vacante:</label>
+                                            <select class="form-select form-select-sm" id="vacante" name="vacante">
+                                                <option value="" selected disabled>Selecciona una opción</option>
+                                                <option value="Cubierta">Cubierta</option>
+                                                <option value="Sin cubrir">Sin cubrir</option>
+                                                <option value="Sin validar">Sin validar</option>
+                                            </select>
+                                        </div>
+
+                                        <hr class="hr-horizontal mb-4" />
+
+                                        <div class="form-group col-md-4">
+                                            <label for="municipio_sale" class="form-label">Municipio:</label>
+                                            <input type="text" class="form-control" id="municipio_sale" placeholder=""
+                                                readonly />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="comunidad_sale" class="form-label">Comunidad:</label>
+                                            <input type="text" class="form-control" id="comunidad_sale" placeholder=""
+                                                readonly />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="cct_sale" class="form-label">Clave CCT:</label>
+                                            <input type="text" class="form-control" id="cct_sale"
+                                                placeholder="Clave CCT" readonly />
+                                        </div>
+                                        <hr class="hr-horizontal mb-4" />
+
+                                        <!------------------------ Fin Datos por default------------------------------->
+                                        
+                                        <div class="form-group col-md-12">
+                                            <label for="cubre" class="form-label">Cubre:</label>
+                                            <textarea class="form-control" id="cubre" name="cubre"
+                                                placeholder="Escriba observaciones aquí"></textarea>
+                                        </div>
+
+                                        <hr class="hr-horizontal mb-4" />
+
+
+                                        <!-- Observaciones -->
+                                        <div class="form-group col-md-12">
+                                            <label for="observaciones" class="form-label">Observaciones:</label>
+                                            <textarea class="form-control" id="observaciones" name="observaciones"
+                                                placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
+                                        </div>
                                     </div>
-                                     
-                                                <!-- Cobertura -->
-                                            <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                                <label for="vacante" class="form-label">Vacante:</label>
-                                                <select class="form-select form-select-sm" id="vacante" name="vacante">
-                                                    <option value="" selected disabled>Selecciona una opción</option>
-                                                    <option value="Cubierta">Cubierta</option>
-                                                    <option value="Sin cubrir">Sin cubrir</option>
-                                                    <option value="Sin validar">Sin validar</option>
-                                                </select>
-                                            </div>
-                                            
-                                            
+                                    <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
+                                        Guardar
+                                    </button>
+                                </form>
 
-                                            <!-- Estatus y Situación -->
-                                            <div class="form-group col-md-6">
-                                                <label for="estatus" class="form-label">Estatus:</label>
-                                                <select class="form-select form-select-sm" id="estatus" name="estatus">
-                                                    <option value="" selected disabled>
-                                                        Selecciona un estatus
-                                                    </option>
-                                                    <option value="Atendido">Atendido</option>
-                                                    <option value="En proceso">En proceso</option>
-                                                    <option value="Sin atender">Sin atender</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="situacion" class="form-label">Situación:</label>
-                                                <select class="form-select form-select-sm" id="situacion"
-                                                    name="situacion">
-                                                    <option value="" selected disabled>
-                                                        Selecciona una opción
-                                                    </option>
-                                                    <option value="Inseguridad">Inseguridad</option>
-                                                    <option value="Salud">Salud</option>
-                                                    <option value="Sin CT">Sin CT</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group col-md-12">
-                                                <label for="cubre" class="form-label">Cubre:</label>
-                                                <textarea class="form-control" id="cubre" name="cubre"
-                                                    placeholder="Escriba observaciones aquí" ></textarea>
-                                            </div>
-                                            
-                                            <hr class="hr-horizontal mb-4" />
-                                            
-
-                                            <!-- Observaciones -->
-                                            <div class="form-group col-md-12">
-                                                <label for="observaciones" class="form-label">Observaciones:</label>
-                                                <textarea class="form-control" id="observaciones" name="observaciones"
-                                                    placeholder="Escriba observaciones aquí" maxlength="50"></textarea>
-                                            </div>
+                                <div id="seccionConfirmacion" class="mt-4" style="display: none">
+                                    <h5>Confirmar Datos Ingresados</h5>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <!-- Aquí mostraremos el resumen de los datos -->
+                                            <div id="resumenDatos"></div>
                                         </div>
-                                        <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
-                                            Guardar
-                                        </button>
-                                    </form>
+                                    </div>
 
-                                    <div id="seccionConfirmacion" class="mt-4" style="display: none">
-                                        <h5>Confirmar Datos Ingresados</h5>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <!-- Aquí mostraremos el resumen de los datos -->
-                                                <div id="resumenDatos"></div>
-                                            </div>
-                                        </div>
-    
-                                       <!--Campo entra para que no se joda el sistema--> 
-                                        <div id="hiddenFields" style="display: none;">
+                                    <!--Campo entra para que no se joda el sistema-->
+                                    <div id="hiddenFields" style="display: none;">
+                                        <div>
                                             <div>
-                                                <div>
-                                                    <label for="municipio_entra" class="form-label">Municipio:</label>
-                                                    <input type="text" id="municipio_entra" name="municipio_entra" disabled>
-                                                </div>
-                                            
-                                                <div>
-                                                    <label for="comunidad_entra" class="form-label">Comunidad:</label>
-                                                    <input type="text" id="comunidad_entra" name="comunidad_entra" disabled>
-                                                </div>
-                                            
-                                                <div>
-                                                    <label for="cct_entra" class="form-label">Clave CCT:</label>
-                                                    <input type="text" id="cct_entra" name="cct_entra" disabled>
-                                                </div>
+                                                <label for="municipio_entra" class="form-label">Municipio:</label>
+                                                <input type="text" id="municipio_entra" name="municipio_entra" disabled>
                                             </div>
-                                            
+
+                                            <div>
+                                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
+                                                <input type="text" id="comunidad_entra" name="comunidad_entra" disabled>
+                                            </div>
+
+                                            <div>
+                                                <label for="cct_entra" class="form-label">Clave CCT:</label>
+                                                <input type="text" id="cct_entra" name="cct_entra" disabled>
+                                            </div>
                                         </div>
-                                       <!---Acaba campo pendejo para que no se joda el sistema-->
-                                        <div class="d-flex justify-content-end mt-3">
-                                            <button type="button" id="btnEditar" class="btn btn-secondary me-2">
-                                                Editar
-                                            </button>
-                                            <button type="button" id="btnConfirmar" class="btn btn-success">
-                                                Confirmar
-                                            </button>
-                                        </div>
+
+                                    </div>
+                                    <!---Acaba campo pendejo para que no se joda el sistema-->
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <button type="button" id="btnEditar" class="btn btn-secondary me-2">
+                                            Editar
+                                        </button>
+                                        <button type="button" id="btnConfirmar" class="btn btn-success">
+                                            Confirmar
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -267,55 +225,59 @@
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 
 
 <script type="module">
-    import {fetchMunicipios,fetchComunidades,fetchCCTs,} from "./js/AgGrid/cargaDatos.js";
-    import { getStatusClass,statusRenderer,  funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
+    import { fetchMunicipios, fetchComunidades, fetchCCTs, } from "./js/AgGrid/cargaDatos.js";
+    import { getStatusClass, statusRenderer, funcionPost, borrarColumna, editarCelda, createValidatedValueSetter, createSelectColumnProps, } from "./js/AgGrid/config.js";
     import * as Columnas from "./js/AgGrid/columNames.js";
 
     let gridApi;
     let editMode = false;
-    
+
     const OrgValidValues = ["Cubierta", "Sin cubrir", "Sin validar"];
-    
+
     const datos = [
         borrarColumna('/api/deleteRecord'),
+        Columnas.Perfil,
         { field: "np", headerName: "NP", width: 70, editable: false },
         Columnas.colFecha(),
         Columnas.nombreDocente(),
-        Columnas.antiguedad(),
-        Columnas.telefono(),
-        Columnas.municipioSale(),
-        Columnas.comunidadSale(),
-        Columnas.cctSale(),
-        {field: "vacante",headerName: "vacante", cellClass: "centrar-celda",  wrapHeaderText: true,  editable: () => editMode, width: 120,
-            ...createSelectColumnProps(OrgValidValues),},
-        { headerName: "Cubre", field: "cubre", editable: () => editMode,
-        minWidth: 300, 
-        wrapHeaderText: true, 
-        autoHeaderHeight: true, 
-        autoHeight: true,  
-        cellStyle: { "white-space": "normal", "line-height": "1.7" }, 
-        autoHeight: true,  },
+        { ...Columnas.municipioSale(), headerName: "Municipio" },
+        { ...Columnas.comunidadSale(), headerName: "Comunidad" },
+        { ...Columnas.cctSale(), headerName: "CCT" },
+        {
+            field: "vacante", headerName: "vacante", cellClass: "centrar-celda", wrapHeaderText: true, editable: () => editMode, width: 120,
+            ...createSelectColumnProps(OrgValidValues),
+        },
+        {
+            headerName: "Cubre", field: "cubre", editable: () => editMode,
+            minWidth: 300,
+            wrapHeaderText: true,
+            autoHeaderHeight: true,
+            autoHeight: true,
+            cellStyle: { "white-space": "normal", "line-height": "1.7" },
+            autoHeight: true,
+        },
         { ...Columnas.observaciones(), editable: () => editMode, },
     ]
 
     const gridOptions = {
         columnDefs: datos,
-        defaultColDef: {editable: true,resizable: true,},
+        defaultColDef: { editable: true, resizable: true, },
         rowData: null,
         pagination: true,
         paginationPageSize: 10,
         cacheBlockSize: 10,
         rowHeight: 60,
         domLayout: "autoHeight",
-        context: {endpoint: "/editarBecas",},
+        context: { endpoint: "/editarBecas", },
         onCellValueChanged: editarCelda,
     };
- 
+
     const columnVisibilityConfig = {
         cctsSaleEntra: [
             "np",
@@ -324,126 +286,90 @@
             "municipio_sale",
             "cct_sale",
             "estatus_cubierta",
-           "vacante",
+            "vacante",
         ],
         funcionDelete: [
             "Accion",
             "np",
             "nombre_docente",
-            "fecha",
-            "vacante",
-            "cubre",
-            "antiguedad",
-            "telefono",
-            "situacion",
-            "diagnostico",
-            "fecha_inicio",
-            "fecha_termino",
-            "municipio_sale",
-            "comunidad_sale",
-            "cct_sale",
-            "estatus_cubierta",
-            "funcion_docente",
-            "observaciones",
-
         ],
         all: [
-            "np",
-            "nombre_docente",
-            "fecha",
-            "vacante",
-            "cubre",
-            "antiguedad",
-            "telefono",
-            "situacion",
-            "diagnostico",
-            "fecha_inicio",
-            "fecha_termino",
-            "municipio_sale",
-            "comunidad_sale",
-            "cct_sale",
-            "estatus_cubierta",
-            "funcion_docente",
-            "observaciones",
-            
-        ],
-    };
-    
-    window.externalFilterChanged = function (filterType) {
-        if (!gridApi) {
-            console.error("Grid API no está inicializado.");
-            return;
-        }
-    
-        if (filterType in columnVisibilityConfig) {
-            const columnsToShow = columnVisibilityConfig[filterType];
-    
-            if (columnsToShow) {
-                const allColumns = gridOptions.columnDefs.map((colDef) =>
-                    colDef.field ? colDef.field : null
-                );
-    
-                const columnsToHide = allColumns.filter(
-                    (col) => col && !columnsToShow.includes(col)
-                );
-    
-                columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
-                columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
-            } else {
-                gridOptions.columnDefs.forEach((colDef) => {
-                    gridApi.setColumnVisible(colDef.field, true);
-                });
-            }
-        } else {
-            console.warn(`Tipo de filtro desconocido: ${filterType}`);
-        }
+                "np",
+                "fecha"
+            ],
     };
 
-    
- 
-    const initializeGrid = async () => {
-     const gridDiv = document.querySelector("#myGrid");
-     gridApi = agGrid.createGrid(gridDiv, gridOptions);
- 
-     try {
-         // Obtén los datos desde el backend
-         const data = await fetch("/getBecas").then((response) => response.json());
- 
-         // Agrega el campo `tabla` dinámicamente
-         const rowData = data.map((row) => ({
-             ...row,
-             tabla: "becas_comision", // Nombre de la tabla
-         }));
- 
-         // Asigna los datos al grid
-         gridApi.setGridOption("rowData", rowData);
-         externalFilterChanged("all"); 
-     } catch (error) {
-         console.error("Error inicializando la tabla:", error);
-     }
- };
- 
- 
-    // Alternar el modo edición
-    document.querySelector("#toggleEditMode").addEventListener("click", async () => {
-        if (editMode) {
-            if (confirm("¿Estás seguro de los cambios?")) {
-                editMode = false;
-                const button = document.querySelector("#toggleEditMode");
-                button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
-                gridApi.refreshCells({ force: true }); // Refrescar las celdas
-    
-                // Recargar datos desde el servidor
-                await reloadData();
+    window.externalFilterChanged = function (filterType) {
+            if (!gridApi) {
+                console.error("Grid API no está inicializado.");
+                return;
             }
-        } else {
-            editMode = true;
+        
+            if (filterType in columnVisibilityConfig) {
+                const columnsToShow = columnVisibilityConfig[filterType];
+        
+                if (columnsToShow) {
+                    const allColumns = gridOptions.columnDefs.map((colDef) =>
+                        colDef.field ? colDef.field : null
+                    );
+        
+                    const columnsToHide = allColumns.filter(
+                        (col) => col && !columnsToShow.includes(col)
+                    );
+        
+                    columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
+                    columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
+                } else {
+                    gridOptions.columnDefs.forEach((colDef) => {
+                        gridApi.setColumnVisible(colDef.field, true);
+                    });
+                }
+            } else {
+                console.warn(`Tipo de filtro desconocido: ${filterType}`);
+            }
+        };
+
+
+
+
+    const initializeGrid = async () => {
+    const gridDiv = document.querySelector("#myGrid");
+    gridApi = agGrid.createGrid(gridDiv, gridOptions);
+
+    try {
+        const data = await fetch("/getBecas").then((response) => response.json());
+        const rowData = data.map((row) => ({
+            ...row,
+            tabla: "becas_comision",
+        }));
+
+        gridApi.setGridOption("rowData", rowData);
+        
+        // Aplica el filtro inicial (opcional)
+        externalFilterChanged("all");
+    } catch (error) {
+        console.error("Error inicializando la tabla:", error);
+    }
+};
+
+document.querySelector("#toggleEditMode").addEventListener("click", async () => {
+    if (editMode) {
+        if (confirm("¿Estás seguro de los cambios?")) {
+            editMode = false;
             const button = document.querySelector("#toggleEditMode");
-            button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
-            gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
+            button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
+            gridApi.refreshCells({ force: true });
+
+            await reloadData();
         }
-    });
- 
+    } else {
+        editMode = true;
+        const button = document.querySelector("#toggleEditMode");
+        button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
+        gridApi.refreshCells({ force: true });
+    }
+});
+
+
     document.addEventListener("DOMContentLoaded", initializeGrid);
- </script>
- 
+</script>

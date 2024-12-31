@@ -31,25 +31,7 @@
                     
                 </div>
                 <div class="card-body">
-                    <div class="test-container">
-                        <div class="test-header d-flex align-items-center">
-                            <!-- Radio para 'Todos' -->
-                            <div class="form-check form-check-inline">
-                                <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
-                                <label for="all" class="form-check-label pl-2">Todos</label>
-                            </div>
-                            
-                            <% if (role === 'admin' || role === 'super-admin') { %>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="filter" id="funcionDelete" onchange="externalFilterChanged('funcionDelete')">
-                                    <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
-                                </div>
-                            <% } %>
-                            
-                            
-                        </div>
-                        <div id="mygrid" class="ag-theme-quartz" style="width: 100%"></div>
-                    </div>
+                    <div id="mygrid" class="ag-theme-quartz" style="width: 100%"></div>
                 </div>
             </div>
         </div>
@@ -195,11 +177,31 @@
    let editMode = false;
 
    const estatusValidValues = ["Terminado", "En proceso", "No se atiende"];
+
+
+   function BotonRenderer() {}
+
+BotonRenderer.prototype.init = function(params) {
+    this.eGui = document.createElement('button');
+    this.eGui.innerHTML = 'Hacer algo';
+    this.eGui.addEventListener('click', function() {
+        alert('¡Botón presionado!');
+    });
+};
+
+BotonRenderer.prototype.getGui = function() {
+    return this.eGui;
+};
+
+
    
 
    const datos = [
+
    borrarColumna('/api/deleteRecord'),
+   Columnas.VerMas,
    { field: "np", headerName: "NP", width: 70, editable: false },
+   Columnas.Proceso(),
    {...Columnas.colFecha(), editable: () => editMode,},
    {field: "estatus",headerName: "Estatus", editable: () => editMode, width: 120,
             ...createSelectColumnProps(estatusValidValues),},
@@ -243,46 +245,7 @@
         onCellValueChanged: editarCelda,
     };
 
-    const columnVisibilityConfig = {
-    
-    funcionDelete: [
-    "Accion",
-    "np", "estatus", "tramite", "departamento", "observaciones_conflictos", "observaciones_secretaria_general",
-    ],
-    all: [
-    "np", "fecha","estatus", "tramite", "departamento", "observaciones_conflictos", "observaciones_secretaria_general",
-],
-};
 
-window.externalFilterChanged = function (filterType) {
-    if (!gridApi) {
-        console.error("Grid API no está inicializado.");
-        return;
-    }
-
-    if (filterType in columnVisibilityConfig) {
-        const columnsToShow = columnVisibilityConfig[filterType];
-
-        if (columnsToShow) {
-            const allColumns = gridOptions.columnDefs.map((colDef) =>
-                colDef.field ? colDef.field : null
-            );
-
-            const columnsToHide = allColumns.filter(
-                (col) => col && !columnsToShow.includes(col)
-            );
-
-            columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
-            columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
-        } else {
-            gridOptions.columnDefs.forEach((colDef) => {
-                gridApi.setColumnVisible(colDef.field, true);
-            });
-        }
-    } else {
-        console.warn(`Tipo de filtro desconocido: ${filterType}`);
-    }
-};
 
    const initializeGrid = async () => {
     const gridDiv = document.querySelector("#mygrid");
@@ -301,7 +264,7 @@ window.externalFilterChanged = function (filterType) {
         // Asigna los datos al grid
         gridApi.setGridOption("rowData", rowData);
 
-        externalFilterChanged("all");
+    
     } catch (error) {
         console.error("Error inicializando la tabla:", error);
     }

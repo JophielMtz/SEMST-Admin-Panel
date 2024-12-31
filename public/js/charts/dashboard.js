@@ -168,7 +168,7 @@ if (document.querySelectorAll('#d-main').length) {
           lines: {
               show: false  //or just here to disable only x axis grids
           },
-          categories: ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug"]
+          categories: ["Enero", "Feb", "Mar", "Apr", "Jun", "Jul", "Ago"]
       },
       grid: {
           show: false,
