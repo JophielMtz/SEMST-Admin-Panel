@@ -145,6 +145,143 @@
          </div>
       </div>
 
+      <div class="card-body">
+         <!-- Contenedor principal para las dos columnas -->
+         <div class="row">
+             <!-- Tabla Procesos en Tránsito (se mantiene en la columna de la izquierda) -->
+             <div class="col-lg-8 col-md-12">
+                 <div class="card card-block card-stretch card-height">
+                     <nav class="tab-bottom-bordered">
+                         <div class="mb-0 nav nav-tabs justify-content-around" id="nav-tab1" role="tablist">
+                             <button class="nav-link py-3" id="nav-home-11-tab" data-bs-toggle="tab" data-bs-target="#nav-home-11" type="button" role="tab" aria-controls="nav-home-11" aria-selected="false" tabindex="-1">Procesos Pentiendes</button>
+                             <button class="nav-link py-3 active" id="nav-profile-11-tab" data-bs-toggle="tab" data-bs-target="#nav-profile-11" type="button" role="tab" aria-controls="nav-profile-11" aria-selected="true">Becas</button>
+                             <button class="nav-link py-3" id="nav-contact-11-tab" data-bs-toggle="tab" data-bs-target="#nav-contact-11" type="button" role="tab" aria-controls="nav-contact-11" aria-selected="false" tabindex="-1">Docentes Disponibles</button>
+                             <button class="nav-link py-3" id="nav-contact-11-tab" data-bs-toggle="tab" data-bs-target="#nav-contact-11" type="button" role="tab" aria-controls="nav-contact-11" aria-selected="false" tabindex="-1">Nombramientos</button>
+                             <button class="nav-link py-3" id="nav-contact-11-tab" data-bs-toggle="tab" data-bs-target="#nav-contact-11" type="button" role="tab" aria-controls="nav-contact-11" aria-selected="false" tabindex="-1">Salud Inseguridad</button>
+                         </div>
+                     </nav>
+                     <div class="tab-content iq-tab-fade-up" id="nav-tabContent">
+                         <div class="tab-pane fade" id="nav-home-11" role="tabpanel" aria-labelledby="nav-home-11-tab">
+                             <div class="table-responsive">
+                                 <table id="transaction-table" class="table mb-0 table-striped" role="grid">
+                                     <tbody>
+                                         <tr>
+                                             <td>
+                                                 <div class="d-flex align-items-center">
+                                                     <h6 class="mb-0">$2,334</h6>
+                                                 </div>
+                                             </td>
+                                             <td class="text-primary">hui_wmdvzpfavx</td>
+                                             <td class="text-dark">3 month ago</td>
+                                             <td class="text-end">
+                                                 <span class="badge rounded-pill bg-success">Refunded</span>
+                                             </td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+                         <div class="tab-pane fade active show" id="nav-profile-11" role="tabpanel" aria-labelledby="nav-profile-11-tab">
+                             <div class="table-responsive">
+                                 <table id="transaction-table-1" class="table mb-0 table-striped" role="grid">
+                                     <tbody>
+                                         <tr>
+                                             <td>
+                                                 <div class="d-flex align-items-center">
+                                                     <h6 class="mb-0">$2,334</h6>
+                                                 </div>
+                                             </td>
+                                             <td class="text-primary">hui_wmdvzpfavx</td>
+                                             <td class="text-dark">3 month ago</td>
+                                             <td class="text-end">
+                                                 <span class="badge rounded-pill bg-success">Refunded</span>
+                                             </td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+                         <div class="tab-pane fade" id="nav-contact-11" role="tabpanel" aria-labelledby="nav-contact-11-tab">
+                             <div class="table-responsive">
+                                 <table id="transaction-table-2" class="table mb-0 table-striped" role="grid">
+                                     <tbody>
+                                         <tr>
+                                             <td>
+                                                 <div class="d-flex align-items-center">
+                                                     <h6 class="mb-0">$2,334</h6>
+                                                 </div>
+                                             </td>
+                                             <td class="text-primary">hui_wmdvzpfavx</td>
+                                             <td class="text-dark">3 month ago</td>
+                                             <td class="text-end">
+                                                 <span class="badge rounded-pill bg-success">Refunded</span>
+                                             </td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="card-footer text-end">
+                         <a href="javascript:void(0);">
+                             <span class="me-2">
+                                 View all Settlements
+                             </span>
+                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                 <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                             </svg>
+                         </a>
+                     </div>
+                 </div>
+             </div>
+     
+             <!-- Columna Procesos Pendientes (se coloca a la derecha con col-lg-4) -->
+             <div class="col-md-12 col-lg-4">
+                 <div class="card" data-aos="fade-up" data-aos-delay="600">
+                     <div class="flex-wrap card-header d-flex justify-content-between">
+                         <div class="header-title">
+                             <h4 class="mb-2 card-title">Procesos Pendientes</h4>
+                             <h4 class="counter">
+                                 <%= totalPendientes %>
+                             </h4>
+                             <p class="mb-0">
+                                 <svg class="me-2 icon-24" width="24" height="24" viewBox="0 0 24 24">
+                                     <path fill="#17904b"
+                                         d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
+                                 </svg>
+                             </p>
+                         </div>
+                     </div>
+                     <div class="card-body" style="height: 700px; overflow: hidden; padding-bottom: 3rem;">
+                         <!-- Contenedor para los pendientes -->
+                         <div class="overflow-auto" style="max-height: 600px;">
+                             <% pendientes.forEach(pendiente=> { %>
+                                 <div class="mb-2 d-flex profile-media align-items-top">
+                                     <div class="mt-1 profile-dots-pills border-primary"></div>
+                                     <div class="ms-4">
+                                         <h6 class="mb-1">
+                                             <%= pendiente.tramite %>
+                                         </h6>
+                                         <span class="mb-0">
+                                             <%= new Date(pendiente.fecha).toLocaleDateString('es-MX', { weekday: 'short' ,
+                                                 year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                             <%= pendiente.estatus %>
+                                         </span>
+                                     </div>
+                                 </div>
+                             <% }) %>
+                         </div>
+                         <a href="/pendientes" class="w-100">
+                             <button class="btn btn-primary rounded-pill mt-4 d-block mx-auto">Ver Más</button>
+                         </a>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     
+      
+
       <!--Grafica de procesos en transito-->
       <div class="col-md-12 col-lg-8">
          <div class="row">
@@ -194,7 +331,7 @@
                      </div>
                   </div>
                   <div class="card-body">
-                  <div id="d-main" class="d-main"></div>
+                     <div id="d-main" class="d-main"></div>
                   </div>
                </div>
             </div>
@@ -285,53 +422,447 @@
          <div class="row">
             <div class="col-md-12 col-lg-12">
             </div>
-            <!--Procesos Pendientes-->
-            <div class="col-md-12 col-lg-12">
-               <div class="card" data-aos="fade-up" data-aos-delay="600">
-                  <div class="flex-wrap card-header d-flex justify-content-between">
-                     <div class="header-title">
-                        <h4 class="mb-2 card-title">Procesos Pendientes</h4>
-                        <h4 class="counter">
-                           <%= totalPendientes %>
-                        </h4>
-                        <p class="mb-0">
-                           <svg class="me-2 icon-24" width="24" height="24" viewBox="0 0 24 24">
-                              <path fill="#17904b"
-                                 d="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" />
-                           </svg>
-                           <!-- 16% this month -->
-                        </p>
-                     </div>
-                  </div>
-                  <div class="card-body" style="height: 700px; overflow: hidden; padding-bottom: 3rem;">
-                     <!-- Contenedor para los pendientes -->
-                     <div class="overflow-auto" style="max-height: 600px;">
-                        <% pendientes.forEach(pendiente=> { %>
-                           <div class="mb-2 d-flex profile-media align-items-top">
-                              <div class="mt-1 profile-dots-pills border-primary"></div>
-                              <div class="ms-4">
-                                 <h6 class="mb-1">
-                                    <%= pendiente.tramite %>
-                                 </h6>
-                                 <span class="mb-0">
-                                    <%= new Date(pendiente.fecha).toLocaleDateString('es-MX', { weekday: 'short' ,
-                                       year: 'numeric' , month: 'long' , day: 'numeric' }) %>
-                                       <%= pendiente.estatus %>
-                                 </span>
-                              </div>
-                           </div>
-                           <% }) %>
-                     </div>
-                     <!-- Botón al final -->
-                     <a href="/pendientes" class="w-100">
-                        <button class="btn btn-primary rounded-pill mt-4 d-block mx-auto">Ver Más</button>
-                     </a>
-                  </div>
-               </div>
-            </div>
+
+            
+           
 
 
          </div>
       </div>
+
+
+      <div class="container col-8">
+         <div class="card">
+            <div class="card-body">
+               <div class="bd-example">
+                  <!-- Pestañas centradas usando Flexbox -->
+                  <ul class="nav nav-pills justify-content-around mb-3" id="myTab" role="tablist">
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#pills-home1" type="button" role="tab" aria-controls="home" aria-selected="true">Procesos en Tránsito</a>
+                     </li>
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link" id="becas-tab" data-bs-toggle="tab" data-bs-target="#pills-becas" type="button" role="tab" aria-controls="becas" aria-selected="false">Becas</a>
+                     </li>
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link" id="docentes-tab" data-bs-toggle="tab" data-bs-target="#pills-docentes" type="button" role="tab" aria-controls="docentes" aria-selected="false">Docentes</a>
+                     </li>
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link" id="nombramientos-tab" data-bs-toggle="tab" data-bs-target="#pills-nombramientos" type="button" role="tab" aria-controls="nombramientos" aria-selected="false">Nombramientos</a>
+                     </li>
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link" id="salud-tab" data-bs-toggle="tab" data-bs-target="#pills-salud" type="button" role="tab" aria-controls="salud" aria-selected="false">Salud</a>
+                     </li>
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link" id="incidencias-tab" data-bs-toggle="tab" data-bs-target="#pills-incidencias" type="button" role="tab" aria-controls="incidencias" aria-selected="false">Incidencias</a>
+                     </li>
+                     <li class="nav-item" role="presentation">
+                         <a class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+                     </li>
+                 </ul>
+                 
+                 
+                  <div class="tab-content" id="pills-tabContent">
+                     <div class="tab-pane fade show active" id="pills-home1" role="tabpanel" aria-labelledby="home-tab">
+                        <table id="user-list-table" class="table table-striped" role="grid" data-bs-toggle="data-table">
+                           <thead>
+                              <tr class="ligth">
+                                 <th>Np</th>
+                                 <th>Fecha</th>
+                                 <th>Nombre</th>
+                                 <th>Vacante</th>
+                                 <th style="min-width: 100px">Action</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td class="text-center"><img class="bg-soft-primary rounded img-fluid avatar-40 me-3"
+                                       src="../../assets/images/shapes/03.png" alt="profile"></td>
+                                 <td>Dan Druff</td>
+                                 <td>+55 6523 456 856</td>
+                                 <td>dandruff@gmail.com</td>
+                                 <td>Brazil</td>
+                                 <td><span class="badge bg-warning">Pending</span></td>
+                                 <td>
+                                    <div class="flex align-items-center list-user-action">
+                                       <a class="btn btn-sm btn-icon btn-success" data-bs-toggle="tooltip"
+                                          data-bs-placement="top" title="Add" href="#">
+                                          <span class="btn-inner">
+                                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                   d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
+                                                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                   stroke-linejoin="round"></path>
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                   d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
+                                                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                   stroke-linejoin="round"></path>
+                                                <path d="M19.2036 8.66919V12.6792" stroke="currentColor"
+                                                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                </path>
+                                                <path d="M21.2497 10.6741H17.1597" stroke="currentColor"
+                                                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                </path>
+                                             </svg>
+                                          </span>
+                                       </a>
+                                       <a class="btn btn-sm btn-icon btn-warning" data-bs-toggle="tooltip"
+                                          data-bs-placement="top" title="Edit" href="#">
+                                          <span class="btn-inner">
+                                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                   d="M11.4925 2.78906H7.75349C4.67849 2.78906 2.75049 4.96606 2.75049 8.04806V16.3621C2.75049 19.4441 4.66949 21.6211 7.75349 21.6211H16.5775C19.6625 21.6211 21.5815 19.4441 21.5815 16.3621V12.3341"
+                                                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                   stroke-linejoin="round"></path>
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                   d="M8.82812 10.921L16.3011 3.44799C17.2321 2.51799 18.7411 2.51799 19.6721 3.44799L20.8891 4.66499C21.8201 5.59599 21.8201 7.10599 20.8891 8.03599L13.3801 15.545C12.9731 15.952 12.4211 16.181 11.8451 16.181H8.09912L8.19312 12.401C8.20712 11.845 8.43412 11.315 8.82812 10.921Z"
+                                                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                   stroke-linejoin="round"></path>
+                                                <path d="M15.1655 4.60254L19.7315 9.16854" stroke="currentColor"
+                                                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                </path>
+                                             </svg>
+                                          </span>
+                                       </a>
+                                       <a class="btn btn-sm btn-icon btn-danger" data-bs-toggle="tooltip"
+                                          data-bs-placement="top" title="Delete" href="#">
+                                          <span class="btn-inner">
+                                             <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+                                                <path
+                                                   d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826"
+                                                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                   stroke-linejoin="round"></path>
+                                                <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5"
+                                                   stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path
+                                                   d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973"
+                                                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                   stroke-linejoin="round"></path>
+                                             </svg>
+                                          </span>
+                                       </a>
+                                    </div>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <div class="tab-pane fade" id="pills-profile1" role="tabpanel" aria-labelledby="profile-tab">
+                        <p>
+                           Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat
+                           salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher
+                           voluptate nisi qui.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12">
+         <div class="card card-block card-stretch card-height">
+             <nav class="tab-bottom-bordered">
+                 <div class="mb-0 nav nav-tabs justify-content-around" id="nav-tab1" role="tablist">
+                     <button class="nav-link py-3" id="nav-home-11-tab" data-bs-toggle="tab" data-bs-target="#nav-home-11" type="button" role="tab" aria-controls="nav-home-11" aria-selected="false" tabindex="-1">Payments</button>
+                     <button class="nav-link py-3 active" id="nav-profile-11-tab" data-bs-toggle="tab" data-bs-target="#nav-profile-11" type="button" role="tab" aria-controls="nav-profile-11" aria-selected="true">Settlements</button>
+                     <button class="nav-link py-3" id="nav-contact-11-tab" data-bs-toggle="tab" data-bs-target="#nav-contact-11" type="button" role="tab" aria-controls="nav-contact-11" aria-selected="false" tabindex="-1">Refunds</button>
+                 </div>
+             </nav>
+             <div class="tab-content iq-tab-fade-up" id="nav-tabContent">
+                 <div class="tab-pane fade" id="nav-home-11" role="tabpanel" aria-labelledby="nav-home-11-tab">
+                     <div class="table-responsive">
+                         <table id="transaction-table" class="table mb-0 table-striped" role="grid">
+                             <tbody>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$1,833</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_vxnnjigakm
+                                     </td>
+                                     <td class="text-dark">1 Hour Ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success ">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$1,204</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_uwsxaiuhhs
+                                     </td>
+                                     <td class="text-dark">23 Days Ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,833</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_taxrcfzhny
+                                     </td>
+                                     <td class="text-dark">1 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,235</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_pknfotsmhl
+                                     </td>
+                                     <td class="text-dark">1 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,442</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_xqgczqbgto
+                                     </td>
+                                     <td class="text-dark">3 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$1,924</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_eoasrkizdw
+                                     </td>
+                                     <td class="text-dark">4 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                     </div>
+                 </div>
+                 <div class="tab-pane fade active show" id="nav-profile-11" role="tabpanel" aria-labelledby="nav-profile-11-tab">
+                     <div class="table-responsive">
+                         <table id="transaction-table-1" class="table mb-0 table-striped" role="grid">
+                             <tbody>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,298</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_ufsoishqbw
+                                     </td>
+                                     <td class="text-dark">7 Days Ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success ">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,032</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_fescijfgbb
+                                     </td>
+                                     <td class="text-dark">23 Days </td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$1,514</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_eihghndltk
+                                     </td>
+                                     <td class="text-dark">1 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$1,425</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_bvihnfpdfq
+                                     </td>
+                                     <td class="text-dark">2 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,838</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_afrtmvdyjp
+                                     </td>
+                                     <td class="text-dark">2 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,613</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_jterqcvjxz
+                                     </td>
+                                     <td class="text-dark">5 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Processed</span>
+                                     </td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                     </div>
+                 </div>
+                 <div class="tab-pane fade" id="nav-contact-11" role="tabpanel" aria-labelledby="nav-contact-11-tab">
+                     <div class="table-responsive">
+                         <table id="transaction-table-2" class="table mb-0 table-striped" role="grid">
+                             <tbody>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,866</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_odqethdqye
+                                     </td>
+                                     <td class="text-dark">3 Days Ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-info ">Process</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$1,637</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_nmngvsosnh
+                                     </td>
+                                     <td class="text-dark">22 Days Ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Refunded</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,922</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_uikgtphcpo
+                                     </td>
+                                     <td class="text-dark">1 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Refunded</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,563</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_cieqrdyqkp
+                                     </td>
+                                     <td class="text-dark">2 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-info">Process</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,334</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_wmdvzpfavx
+                                     </td>
+                                     <td class="text-dark">3 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-success">Refunded</span>
+                                     </td>
+                                 </tr>
+                                 <tr>
+                                     <td>
+                                         <div class="d-flex align-items-center">
+                                             <h6 class="mb-0">$2,632</h6>
+                                         </div>
+                                     </td>
+                                     <td class="text-primary">
+                                         hui_jplpprjzbr
+                                     </td>
+                                     <td class="text-dark">5 month ago</td>
+                                     <td class="text-end">
+                                         <span class="badge rounded-pill bg-danger">Failed</span>
+                                     </td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                     </div>
+                 </div>
+             </div>
+             <div class="card-footer text-end">
+                 <a href="javascript:void(0);">
+                     <span class="me-2">
+                         View all Settlements
+                     </span>
+                     <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <path d="M8.5 5L15.5 12L8.5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                     </svg>
+                 </a>
+             </div>
+         </div>
+     </div>
+
+
+
+
    </div>
-</div>
