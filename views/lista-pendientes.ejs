@@ -1,0 +1,268 @@
+<div class="conatiner-fluid content-inner mt-n5 py-0">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between text-center">
+                    <div class="header-title">
+                        <h4 class="card-title">Pendientes</h4>
+                    </div>
+                    <!-- Agregar el botón "Ver Historial" a la derecha -->
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verHistorialModal">Ver Historial</button>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-start mb-3">
+                        <button type="button" class="btn btn-outline-primary  w-auto"
+                            data-bs-toggle="modal" data-bs-target="#nuevoRegistroModal" data-action="nuevo"class="btn-sm">
+                            Nuevo
+                        </button>--
+                        <button type="button" class="btn btn-outline-primary w-auto btn-sm" id="toggleEditModeButton">
+                            Activar Modo Edición
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <div class="table-responsive">
+                            <table id="datatable" class="table " data-toggle="data-table" data-editable-table data-tabla="lista_pendientes">
+                                <thead class="table-primary"> 
+                                    <tr>
+                                        <th class="text-center" style="width: 30px;">NP</th>
+                                        <th class="text-center" style="width: 50px;">Fecha</th>
+                                        <th class="text-center" style="max-width: 100px;">Estatus</th>
+                                        <th class="text-center" style="width: 150px;">Trámite</th>
+                                        <th class="text-center d-none d-md-table-cell" style="width: 120px;">Departamento</th> <!-- Oculto en pantallas pequeñas -->
+                                        <th class="text-center d-none d-lg-table-cell">Observaciones</th> <!-- Oculto en pantallas medianas -->
+                                        <th class="text-center" style="width: 50px;">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (listaPendientes.length > 0) { %>
+                                        <% listaPendientes.forEach((pendiente, index) => { %>
+                                            <tr data-np="<%= pendiente.np %>">
+                                                <td class="text-gray fw-bold text-center" style="width: 30px;"><%= pendiente.np %></td>
+                                                <td class="text-gray text-center">
+                                                    <% if (pendiente.fecha) { 
+                                                        const fecha = new Date(pendiente.fecha); 
+                                                        const opciones = { day: '2-digit', month: 'short', year: '2-digit' };
+                                                        const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones).replace(/^\w/, c => c.toUpperCase());
+                                                    %>
+                                                        <%= fechaFormateada.replace('.', '') %>
+                                                    <% } else { %>
+                                                        Sin fecha
+                                                    <% } %>
+                                                </td>
+                                                <td class="text-center" data-editable data-columna="estatus">
+                                                    <span class="badge rounded-pill 
+                                                        <%= pendiente.estatus?.trim() === 'En proceso' ? 'bg-primary' : 
+                                                            pendiente.estatus?.trim() === 'Terminado' ? 'bg-success' : 
+                                                            pendiente.estatus?.trim() === 'No se atiende' ? 'bg-info' : 
+                                                            'bg-secondary' %>">
+                                                        <%= pendiente.estatus || 'Sin estatus' %>
+                                                    </span>
+                                                </td>
+                                                <td class="text-gray" data-editable data-columna="tramite" style="max-width: 150px; white-space: normal; word-wrap: break-word;">
+                                                    <span><%= pendiente.tramite || 'Sin trámite' %></span>
+                                                </td>
+                                                <td class="text-center text-gray d-none d-md-table-cell" data-editable data-columna="departamento">
+                                                    <span><%= pendiente.departamento || 'Sin departamento' %></span>
+                                                </td>
+                                                <td class=" text-gray d-none d-lg-table-cell" data-editable data-columna="observaciones_conflictos" style="max-width: 250px; white-space: normal; word-wrap: break-word;">
+                                                    <span><%= pendiente.observaciones_conflictos || 'Sin observaciones' %></span>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="flex align-items-center list-user-action text-center">
+                                                        <a class="btn btn-sm btn-icon btn-primary" data-bs-toggle="tooltip"
+                                                           data-bs-placement="top" title="Ver Perfil" href="#">
+                                                            <span class="btn-inner">
+                                                                <svg class="icon-15" width="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    
+                                                                    <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="7" class="text-center">No hay pendientes</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <<th class="text-center" style="width: 30px;">NP</th>
+                                        <th class="text-center" style="width: 50px;">Fecha</th>
+                                        <th class="text-center" style="max-width: 100px;">Estatus</th>
+                                        <th class="text-center" style="width: 150px;">Trámite</th>
+                                        <th class="text-center d-none d-md-table-cell" style="width: 120px;">Departamento</th> <!-- Oculto en pantallas pequeñas -->
+                                        <th class="text-center d-none d-lg-table-cell">Observaciones</th> <!-- Oculto en pantallas medianas -->
+                                        <th class="text-center" style="width: 50px;">Acción</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="verHistorialModal" tabindex="-1" aria-labelledby="verHistorialModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"> <!-- Usamos modal-dialog modal-xl para tamaño extra grande -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="verHistorialModalLabel">Historial de Pendientes</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%- include('partials/modal/h-lista-pendientes') %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<!--Crear-->
+<div class="modal fade" id="nuevoRegistroModal" tabindex="-1" aria-labelledby="nuevoRegistroModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <!-- Se usa modal-xl para más espacio -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="nuevoRegistroModalLabel">
+                    Nueva entrada
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">Información del nuevo usuario</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <form id="formRegistro" action="/guardarRegistro" method="POST" class="small">
+                                    <input type="hidden" name="tabla" value="lista_pendientes" />
+                                    <div class="row">
+                                        <!-- Fecha -->
+                                        <div class="form-group col-md-12 col-lg-6">
+                                            <label for="fecha" class="form-label">Fecha:</label>
+                                            <input type="date" class="form-control" id="fecha" name="fecha" />
+                                        </div>
+
+                                        <!-- Estatus -->
+                                        <div class="form-group col-md-6 col-lg-6">
+                                            <label for="estatus" class="form-label">Estatus:</label>
+                                            <select class="form-select form-select-sm" id="estatus" name="estatus">
+                                                <option value="" selected disabled>Selecciona un estatus</option>
+                                                <option value="Terminado">Terminado</option>
+                                                <option value="En proceso">En proceso</option>
+                                                <option value="No se atiende">No se atiende</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Trámite -->
+                                        <div class="form-group col-md-12">
+                                            <label for="tramite" class="form-label">Trámite:</label>
+                                            <input type="text" class="form-control" id="tramite" name="tramite"
+                                                placeholder="Escribe el trámite" />
+                                        </div>
+
+                                        <!-- Departamento -->
+                                        <div class="form-group col-md-12">
+                                            <label for="departamento" class="form-label">Departamento:</label>
+                                            <select class="form-control" id="departamento" name="departamento">
+                                                <option value="Subdireccion De Planeacion">Subdireccion De Planeacion
+                                                </option>
+                                                <option value="Subdireccion De Administracion">Subdireccion De
+                                                    Administracion</option>
+                                                <option value="Recursos Humanos">Recursos Humanos</option>
+                                                <option value="Usicamm">Usicamm</option>
+                                                <option value="Operacion Escolar">Operacion Escolar</option>
+                                                <option value="Juridico">Juridico</option>
+                                                <option value="Sin Definir">Sin Definir</option>
+                                                <option value="Subdireccion Académica">Subdireccion Académica</option>
+                                                <option value="Semst">Semst</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Observaciones Conflictos -->
+                                        <div class="form-group col-md-12">
+                                            <label for="observaciones_conflictos" class="form-label">Observaciones
+                                                Conflictos:</label>
+                                            <textarea class="form-control" id="observaciones"
+                                                name="observaciones_conflictos"
+                                                placeholder="Escribe las observaciones de conflictos"></textarea>
+                                        </div>
+
+                                        <!-- Observaciones Secretaría General -->
+                                        <div class="form-group col-md-12">
+                                            <label for="observaciones_secretaria_general"
+                                                class="form-label">Observaciones Secretaría General:</label>
+                                            <textarea class="form-control" id="observaciones_secretaria_general"
+                                                name="observaciones_secretaria_general"
+                                                placeholder="Escribe las observaciones para la secretaría general"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" id="btnMostrarConfirmacion" class="btn btn-primary mt-3">
+                                        Guardar
+                                    </button>
+                                </form>
+
+                                <div id="seccionConfirmacion" class="mt-4" style="display: none">
+                                    <h5>Confirmar Datos Ingresados</h5>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <!-- Aquí mostraremos el resumen de los datos -->
+                                            <div id="resumenDatos"></div>
+                                        </div>
+                                    </div>
+
+                                    <!--Campo entra para que no se joda el sistema-->
+                                    <div id="hiddenFields" style="display: none;">
+                                        <div>
+                                            <div>
+                                                <label for="municipio_entra" class="form-label">Municipio:</label>
+                                                <input type="text" id="municipio_entra" name="municipio_entra" disabled>
+                                            </div>
+
+                                            <div>
+                                                <label for="comunidad_entra" class="form-label">Comunidad:</label>
+                                                <input type="text" id="comunidad_entra" name="comunidad_entra" disabled>
+                                            </div>
+
+                                            <div>
+                                                <label for="cct_entra" class="form-label">Clave CCT:</label>
+                                                <input type="text" id="cct_entra" name="cct_entra" disabled>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <button type="button" id="btnEditar" class="btn btn-secondary me-2"> Editar
+                                        </button>
+                                        <button type="button" id="btnConfirmar" class="btn btn-success"> Confirmar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/js/components/table/table-init.js"></script>
+

@@ -2,7 +2,10 @@ const pool = require("../src/config/db");
 
 const { 
   home, 
+  tablasHome,
+  tablaListaPendientes,
   procesosEnTransito,
+  tablaProcesosPendientes,
   obtenerPerfilPorId, 
   obtenerDetalleCompleto,
   HistorialBecas, 
@@ -16,6 +19,8 @@ const {
   historialLicenciaSinGoce
 } = require('../controllers/Renders');
 
+
+
 const vistasController = {
   vistaLogin: async (req, res) => {
     try {
@@ -27,7 +32,6 @@ const vistasController = {
     }
   },
 
-  // Otros métodos dentro de vistasController
   vistaIdPerfil: async (req, res) => {
     const personalId = req.params.id;
   
@@ -72,11 +76,6 @@ const vistasController = {
     }
   },
   
-  
-
-
-
-
   vistaLogin: async (req, res) => {
       res.render('Login/login', { 
           title: 'Inicio-de-Sesión',
@@ -100,12 +99,13 @@ const vistasController = {
 
   vistaPrincipal: async (req, res) => {
     try {
-      const { personal, pendientes, procesos } = await home();
+      const { personal, listaPendientes,} = await home();
+      const pendientes = await tablaProcesosPendientes();
+      const { becas, docentesDisponibles, nombramientos, salud, cambio  } = await tablasHome();
   
       // Renderizamos la vista pasando ambos conjuntos de datos
       res.render("home", { 
         totalPersonal: personal.total_personal, 
-        totalPendientes:personal.pendientes,
         totalDirectores: personal.total_directores, 
         totalDocentes: personal.total_docentes, 
         totalAuxiliares: personal.total_auxiliares, 
@@ -116,9 +116,15 @@ const vistasController = {
         totalDocenteSubdir: personal.total_docente_subdir,
         totalEstatal: personal.total_estatal, 
         totalFederal: personal.total_federal,
-        pendientes: pendientes, 
-        totalProcesos: procesos 
+        listaPendientes:listaPendientes,
+        becas: becas,
+        salud: salud,
+        cambio:cambio,
+        docentesDisponibles: docentesDisponibles,
+        nombramientos: nombramientos,
+        pendientes
       });
+      
     } catch (error) {
       console.error("Error al cargar la vista principal:", error);
       res.status(500).send("Error al cargar la página");
@@ -128,9 +134,21 @@ const vistasController = {
   vistaGestionPersonal: (req, res) => {
     res.render("panelAdm/gestion-de-personal");
   },
+
+  vistaListaPendientes: async (req, res) => {
+    try {
+      const { listaPendientes, historialPendientes } = await tablaListaPendientes(); // Llamamos la función que retorna ambas listas
+      res.render("lista-pendientes", { listaPendientes, historialPendientes }); // Renderizamos ambas listas
+    } catch (error) {
+      console.error("Error al cargar la vista de pendientes:", error);
+      res.render("lista-pendientes", { listaPendientes: [], historialPendientes: [], error: "No se pudieron cargar los pendientes" });
+    }
+  },
+  
+
   vistaReviciones: (req, res) => {
         res.render("revisiones");
-      },
+  },
     vistaCambio: async (req, res) => {
       res.render("solicitudes/cambio");
     },

@@ -25,7 +25,7 @@ if (document.querySelectorAll("#apex-basic").length) {
           align: "left"
       },
       xaxis: {
-          categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"]
+          categories: ["Jan", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Aug", "Sep"]
       }
   };
   if(typeof ApexCharts !== undefined){

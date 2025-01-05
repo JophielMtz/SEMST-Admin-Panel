@@ -1,0 +1,68 @@
+<div class="table-responsive">
+    <table id="datatable" class="table table-striped" data-toggle="data-table">
+        <thead>
+            <tr>
+                <th class="text-center" style="width: 100px;">Acción</th>
+                <th class="text-center">NP</th>
+                <th class="text-center">Tipo de Proceso</th>
+                <th class="text-center">Fecha</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Estatus</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (pendientes && pendientes.length> 0) { %>
+                <% pendientes.forEach(pendiente=> { %>
+                    <tr>
+                        <td class="text-center">
+                            <div class="flex align-items-center list-user-action">
+                                <a 
+                                    class="btn btn-sm btn-icon btn-primary" 
+                                    data-bs-toggle="tooltip" 
+                                    data-bs-placement="top" 
+                                    title="Ver más" 
+                                    href="/<%= pendiente.tabla_origen %>">
+                                    <i class="fas fa-external-link-alt"></i> 
+                                </a>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <%= pendiente.np %>
+                        </td>
+                        <td class="text-center text-primary">
+                            <%= pendiente.tipo_proceso %>
+                        </td>
+                        <td class="text-center text-dark">
+                            <% if (pendiente.fecha) {const fecha=new
+                                Date(pendiente.fecha); const opciones={ day: '2-digit' ,
+                                month: 'short' , year: '2-digit' }; const
+                                fechaFormateada=fecha.toLocaleDateString('es-ES',
+                                opciones).replace(/^\w/, c=> c.toUpperCase());
+                                %>
+                                <%= fechaFormateada.replace('.', '' ) %>
+                                    <% } %>
+                        </td>
+                        <td class="text-center text-primary">
+                            <%= pendiente.nombre %>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge rounded-pill 
+                    <%= pendiente.estatus === 'En proceso' ? 'bg-primary' : 
+                        pendiente.estatus === 'Terminado' ? 'bg-success' : 
+                        pendiente.estatus === 'No se atiende' ? 'bg-warning' : 
+                        'bg-secondary' %>">
+                                <%= pendiente.estatus %>
+                            </span>
+                        </td>
+
+                    </tr>
+                    <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="text-center">No hay pendientes
+                                    disponibles.</td>
+                            </tr>
+                    <% } %>
+        </tbody>
+    </table>
+</div>

@@ -1,6 +1,5 @@
 const pool = require("../src/config/db");
 
-
 //=========Gets de las APIS==========//
 const obtenerPersonal = async (req, res) => {
   const personalId = req.params.personal_id;
@@ -26,8 +25,6 @@ const obtenerPersonal = async (req, res) => {
   }
 };
 
-
-
 const obtenerPendientes = async (req, res) => {
   try {
     // Obtén las columnas que comienzan con "np_"
@@ -51,7 +48,14 @@ const obtenerPendientes = async (req, res) => {
       "np_nombramientos": "nombramientos-docentes",
       "np_solicitudes_de_personal": "solicitudes-personal",
       "np_becas_comision": "beca-comision",       
-      "np_solicitudes_de_cambio": "cambio"     
+      "np_solicitudes_de_cambio": "cambio",
+      "np_salud_inseguridad": "salud",
+      "np_escuelas_disponibles": "escuelas-disponibles",
+      "np_internos": "internos",
+      "np_incidencias": "incidencias",
+      "np_solicitudes_generales": "solicitudes-generales",
+      "np_docentes_disponibles": "docentes-disponibles",
+           
     };
 
     // Log para verificar las columnas y el mapeo
@@ -106,9 +110,6 @@ const obtenerPendientes = async (req, res) => {
     res.status(500).json({ message: "Error al obtener lista pendientes" });
   }
 };
-
-
-
 
 const obtenerDocentesDisponibles = async (req, res) => {
   try {
@@ -676,13 +677,6 @@ LEFT JOIN
     res.status(500).json({ message: "Error al obtener lista internos" });
   }
 };
-
-
-
-
-
-
-
 
 const obtenerUbicCCTs = async (req, res) => {
   const { sector_id } = req.query;
@@ -1440,12 +1434,6 @@ const borrarUsuario = async (req, res) => {
 module.exports = borrarUsuario;
 
 
-
-
-
-
-
-
 const vistaAgregarpersonal = async (req, res) => {
     const sectorId = req.body.sector_id || null;
 
@@ -1490,9 +1478,6 @@ const vistaAgregarpersonal = async (req, res) => {
         res.status(500).send("Error en una de las consultas de base de datos");
     }
 };
-
-
-
 
 
 const vistaEditarPersonal = async (req, res) => {
@@ -1552,8 +1537,6 @@ const vistaEditarPersonal = async (req, res) => {
   }
 };
 
-
-// Función para obtener detalles de cada empleado ne la lista de empleados
 const obtenerDetallePersonal  = async (req, res) => {
   const { personal_id} =  req.params;
 

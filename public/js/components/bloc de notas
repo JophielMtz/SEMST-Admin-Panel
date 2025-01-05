@@ -1,0 +1,99 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleEditModeButton = document.getElementById("toggleEditModeButton");
+    let isEditModeEnabled = false;
+
+    const toggleEditMode = async () => {
+        if (isEditModeEnabled && !(await confirmarGuardarCambios())) return;
+
+        isEditModeEnabled = !isEditModeEnabled;
+        toggleEditModeButton.textContent = isEditModeEnabled ? "Desactivar Modo Edición" : "Activar Modo Edición";
+        document.querySelectorAll("[data-editable]").forEach(cell => {
+            cell.style.pointerEvents = isEditModeEnabled ? "auto" : "none";
+            cell.classList.toggle("editable-highlight", isEditModeEnabled);
+        });
+    };
+
+    const confirmarGuardarCambios = () => Swal.fire({
+        title: '¿Desea guardar los cambios?',
+        text: "Se enviarán los datos actualizados al servidor",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, guardar cambios',
+        cancelButtonText: 'Cancelar',
+    }).then(result => result.isConfirmed);
+
+    const actualizarCelda = async (cell, tablaNombre, columna, np) => {
+        const nuevoValor = cell.querySelector("input, select").value;
+        const datos = { tabla: tablaNombre, datos: { [columna]: nuevoValor, np } };
+
+        try {
+            const respuesta = await fetch("/editarTabla", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datos),
+            });
+
+            if (respuesta.ok) {
+                cell.querySelector("span").textContent = nuevoValor;
+                alert("Cambio guardado con éxito");
+            } else alert("Error al guardar el cambio");
+        } catch (error) {
+            console.error("Error de red:", error);
+            alert("Error de red al guardar el cambio");
+        } finally {
+            cell.querySelector("input, select").style.display = "none";
+            cell.querySelector("span").style.display = "block";
+        }
+    };
+
+    const crearInput = (value, columna) => {
+        if (columna === "estatus") {
+            return crearSelect(["En proceso", "Terminado", "No se atiende", "Pendiente"], value);
+        }
+        const input = document.createElement("input");
+        input.className = "form-control form-control-sm";
+        input.value = value;
+        return input;
+    };
+
+    const crearSelect = (options, selectedValue) => {
+        const select = document.createElement("select");
+        select.className = "form-select form-select-sm";
+        options.forEach(option => {
+            const opt = document.createElement("option");
+            opt.value = option;
+            opt.textContent = option;
+            if (option === selectedValue) opt.selected = true;
+            select.appendChild(opt);
+        });
+        return select;
+    };
+
+    // Inicializar las celdas editables
+    document.querySelectorAll("[data-editable-table]").forEach(table => {
+        const tablaNombre = table.dataset.tabla;
+        table.querySelectorAll("td[data-editable]").forEach(cell => {
+            const originalValue = cell.textContent.trim();
+            const columna = cell.dataset.columna;
+            const np = cell.closest("tr").dataset.np;
+
+            let span = cell.querySelector("span") || (cell.innerHTML = "<span>" + originalValue + "</span>");
+            const input = crearInput(originalValue, columna);
+            input.style.display = "none";
+            cell.appendChild(input);
+
+            // Editar celda al hacer clic
+            cell.addEventListener("click", () => {
+                if (!isEditModeEnabled) return;
+                span.style.display = "none";
+                input.style.display = "block";
+                input.focus();
+            });
+
+            // Guardar el cambio al hacer un cambio
+            input.addEventListener("change", () => actualizarCelda(cell, tablaNombre, columna, np));
+        });
+    });
+
+    toggleEditModeButton.addEventListener("click", toggleEditMode);
+});

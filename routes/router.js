@@ -6,7 +6,7 @@ const {
   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,   obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, borrarUsuario,
 } = require('../controllers/Pagecontrollers');
 
-
+const editarTablas = require('../public/js/components/table/table-controller'); 
 const vistasController = require('../controllers/vistas');
 const checkRol = require('../src/config/middlewares/checkRol');
 const autenticarToken = require('../src/config/middlewares/autenticarToken');
@@ -17,9 +17,6 @@ const pool = require('../src/config/db');
 const multer = require('multer');
 const path = require('path');
 const Joi = require('joi');
-
-
-
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -69,7 +66,7 @@ router.get('/info-personal', autenticarToken, authViews, checkRol(['super-admin'
 router.get('/solicitudes', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.VistaSolicitudes);
 router.get('/calendario', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaCalendario);
 router.get('/403', vistasController.vista403);
-
+router.get('/lista-pendientes', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaListaPendientes);
 
 
 router.get('/profile', vistasController.vistaProfile);
@@ -93,10 +90,6 @@ router.get('/getSolicitudes', obtenerSolicitudes);
 router.get('/getInternos', obtenerInternos);
 router.get ('/getUbicCCTs', obtenerUbicCCTs);
 
-
-
-
-
 //======Ruta para obtener el perfil de un personal==========//
 router.get('/getlistaPanelAdm/:personal_id', obtenerPersonal);
 router.get('/perfil/:id', autenticarToken, authViews, checkRol(['super-admin', 'admin', '']), vistasController. vistaIdPerfil);
@@ -118,6 +111,7 @@ router.put('/editarSolicitudes', editarSolicitudes);
 router.put('/editarInternos', editarInternos);
 router.put('/editarListaPanelAdm', editarListaPanelAdministrador);
 router.patch('/editarUsuario', editarUsuario);
+router.patch('/editarTabla', editarTablas.editar);
 
 
 
@@ -134,6 +128,7 @@ router.post('/guardarRegistro', async (req, res) => {
   const tablasPermitidas = [
       'docentes_disponibles',
       'solicitudes_de_cambio',
+      'lista_pendientes',
       'pendientes',
       'nombramientos',
       'licencia_sin_goce',

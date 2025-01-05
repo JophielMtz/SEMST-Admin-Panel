@@ -2,7 +2,6 @@ const pool = require("../src/config/db");
 
 const home = async () => {
   try {
-    // Ejecutamos todas las consultas en paralelo
     const [resultsPersonal] = await pool.query(`
     SELECT
     (SELECT COUNT(*) FROM personal) AS total_personal,
@@ -16,55 +15,157 @@ const home = async () => {
     COUNT(CASE WHEN detalle_laboral.cargo = 'SUBDIR DE GESTION' THEN 1 END) AS total_docente_subdir,
     COUNT(CASE WHEN detalle_laboral.tipo_entidad = 'Estatal' THEN 1 END) AS total_estatal,
     COUNT(CASE WHEN detalle_laboral.tipo_entidad = 'Federal' THEN 1 END) AS total_federal
-FROM 
+    FROM 
     detalle_laboral
-WHERE 
+    WHERE 
     detalle_laboral.cargo IN (
     'DIRECTOR', 'DOCENTE', 'AUXILIAR ADMVO', 'AUXILIAR SERVICIO', 
     'DOCENTE DE APOYO', 'DOCENTE/CAMB/ACT', 'SUBDIR DE GESTION');
-
-
-
     `);
-
-    const [resultsPendientes] = await pool.query(`
-      SELECT np, fecha, estatus, tramite, departamento, observaciones_conflictos
-      FROM pendientes;
-    `);
-
 
     const [tablaRoles] = await pool.query(`
-     SELECT
+    SELECT
       id,
       CONCAT(usuario, ' ', apellido) AS nombre, rol, email AS correo
       FROM usuarios
       WHERE rol IN ('admin', 'usuario');
-
     `);
 
-
-    const [procesos_en_transito] = await pool.query(`
-      SELECT 
-          ( SELECT COUNT(*) FROM becas_comision ) +
-          ( SELECT COUNT(*) FROM docentes_disponibles ) +
-          ( SELECT COUNT(*) FROM solicitudes_generales ) +
-          ( SELECT COUNT(*) FROM solicitudes_de_personal ) +
-          ( SELECT COUNT(*) FROM solicitudes_de_cambio ) +
-          ( SELECT COUNT(*) FROM salud_inseguridad ) +
-          ( SELECT COUNT(*) FROM nombramientos ) +
-          ( SELECT COUNT(*) FROM licencia_sin_goce ) +
-          ( SELECT COUNT(*) FROM incidencias ) AS total_procesos;
-  `);
+    const [listaPendientes] = await pool.query(`
+      SELECT np, fecha, estatus, tramite, departamento, observaciones_conflictos
+      FROM lista_pendientes;
+    `);
 
     return {
       personal: resultsPersonal[0],
-      pendientes: resultsPendientes,
       roles: tablaRoles,
-      procesos: procesos_en_transito[0].total_procesos
+      listaPendientes,
     };
   } catch (error) {
     console.error("Error al obtener totales de personal, pendientes y roles:", error);
     throw new Error("Error al obtener totales de personal, pendientes y roles");
+  }
+};
+
+const generarConsultaBase = (tabla, camposAdicionales = "") => `
+  SELECT
+    ${tabla}.personal_id,
+    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
+    ${tabla}.fecha,
+    ${tabla}.${camposAdicionales}
+    p.imagen
+  FROM ${tabla}
+  JOIN personal p ON ${tabla}.personal_id = p.personal_id
+`;
+
+const tablasHome = async () => {
+  try {
+    const [becas] = await pool.query(
+      generarConsultaBase("becas_comision", "cct_sale, vacante, ")
+    );
+
+    const [docentesDisponibles] = await pool.query(
+      generarConsultaBase("docentes_disponibles", "estatus, cct_sale, cct_entra, ")
+    );
+
+    const [nombramientos] = await pool.query(
+      generarConsultaBase("nombramientos", "antiguedad, cct_sale, ")
+    );
+
+    const [salud] = await pool.query(
+      generarConsultaBase("salud_inseguridad", "estatus, cct_sale, cct_entra, situacion, ")
+    );
+
+    const [cambio] = await pool.query(
+      generarConsultaBase("solicitudes_de_cambio", "estatus, cct_sale, cct_entra, ")
+    );
+
+    return { becas, docentesDisponibles, nombramientos, salud, cambio };
+  } catch (error) {
+    console.error("Error al obtener las tablas:", error);
+    throw new Error("Error al obtener los datos de las tablas");
+  }
+};
+
+
+const tablaProcesosPendientes = async () => {
+  try {
+    const [columns] = await pool.query(`
+      SELECT COLUMN_NAME 
+      FROM INFORMATION_SCHEMA.COLUMNS 
+      WHERE TABLE_NAME = 'pendientes' 
+        AND COLUMN_NAME LIKE 'np_%';
+    `);
+
+    const columnNames = columns.map(row => row.COLUMN_NAME);
+
+    if (columnNames.length === 0) {
+      throw new Error("No se encontraron columnas con prefijo 'np_' en la tabla pendientes.");
+    }
+
+    const mapeoTablas = {
+      "np_licencia_sin_goce": "licencias-sin-goce",
+      "np_nombramientos": "nombramientos-docentes",
+      "np_solicitudes_de_personal": "solicitudes-personal",
+      "np_becas_comision": "beca-comision",       
+      "np_solicitudes_de_cambio": "cambio",
+      "np_salud_inseguridad": "salud-apoyo",
+      "np_incidencias": "incidencias",
+      "np_docentes_disponibles": "docentes-disponibles",
+      "np_solicitudes_generales": "solicitudes-generales"
+    };
+
+    const caseStatements = columnNames
+      .map(col => {
+        if (mapeoTablas[col]) {
+          return `WHEN ${col} IS NOT NULL THEN '${mapeoTablas[col]}'`;
+        }
+        return `WHEN ${col} IS NOT NULL THEN '${col.replace('np_', '').replace('_', '-')}'`;
+      })
+      .join(' ');
+
+    const coalesceColumns = `COALESCE(${columnNames.join(', ')}) AS np`;
+
+    const query = `
+      SELECT
+        ${coalesceColumns},
+        fecha,
+        tipo_proceso,
+        estatus,
+        tramite,
+        departamento,
+        observaciones_conflictos,
+        observaciones_secretaria_general,
+        CASE ${caseStatements} ELSE 'desconocido' END AS tabla_origen
+      FROM pendientes;
+    `;
+
+    const [results] = await pool.query(query);
+    return results;
+  } catch (error) {
+    console.error("Error al obtener lista pendientes:", error);
+    throw error;
+  }
+};
+
+const tablaListaPendientes = async () => {
+  try {
+    // Consulta de lista_pendientes
+    const [resultsLista] = await pool.query(`
+      SELECT np, fecha, estatus, tramite, departamento, observaciones_conflictos
+      FROM lista_pendientes;
+    `);
+
+    // Consulta de historial_lista_pendientes
+    const [resultsHistorial] = await pool.query(`
+      SELECT np, fecha, estatus, tramite, departamento, observaciones_conflictos, observaciones_secretaria_general, fecha_termino
+      FROM historial_lista_pendientes;
+    `);
+
+    return { listaPendientes: resultsLista, historialPendientes: resultsHistorial }; // Retornamos ambas listas en un objeto
+  } catch (error) {
+    console.error("Error al obtener los pendientes:", error);
+    throw new Error("Error al obtener la lista de pendientes");
   }
 };
 
@@ -128,9 +229,6 @@ LEFT JOIN
     comunidad AS cdt ON uc.comunidad_id = cdt.comunidad_id
 WHERE
     dl.personal_id = ?;
-
-
-
     `, [personalId]);
 
     if (detalleCompleto.length === 0) {
@@ -330,15 +428,11 @@ const procesosEnTransito = async (personalId) => {
 };
 
 
-
-
-
-
-
-
 // Exportando correctamente las funciones
 module.exports = {
   home,
+  tablasHome,
+  tablaListaPendientes,
   obtenerPerfilPorId,
   obtenerDetalleCompleto,
   HistorialBecas,
@@ -350,5 +444,7 @@ module.exports = {
   historialSolicitudesGenerales,
   historialNombramientos,
   historialLicenciaSinGoce,
-  procesosEnTransito
+  procesosEnTransito,
+  tablaProcesosPendientes
+
 };
