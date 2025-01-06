@@ -1,0 +1,710 @@
+<div class="conatiner-fluid  mt-n5 py-0">
+    <div class="row">
+       <div class="col-md-12 col-lg-12">
+          <div class="row row-cols-1">
+             <div class="overflow-hidden d-slider1 ">
+                <ul  class="p-0 m-0 mb-2 swiper-wrapper list-inline">
+                   <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="700">
+                      <div class="card-body">
+                         <div class="progress-widget">
+                            <div id="circle-progress-01" class="text-center circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="100" data-value="90" data-type="percent">
+                               <svg class="card-slie-arrow icon-24" width="24"  viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                               </svg>
+                            </div>
+                            <div class="progress-detail">
+                               <p  class="mb-2">Total Sales</p>
+                               <h4 class="counter">$560K</h4>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                   <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="800">
+                      <div class="card-body">
+                         <div class="progress-widget">
+                            <div id="circle-progress-02" class="text-center circle-progress-01 circle-progress circle-progress-info" data-min-value="0" data-max-value="100" data-value="80" data-type="percent">
+                               <svg class="card-slie-arrow icon-24" width="24" viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                               </svg>
+                            </div>
+                            <div class="progress-detail">
+                               <p  class="mb-2">Total Profit</p>
+                               <h4 class="counter">$185K</h4>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                   <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="900">
+                      <div class="card-body">
+                         <div class="progress-widget">
+                            <div id="circle-progress-03" class="text-center circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="100" data-value="70" data-type="percent">
+                               <svg class="card-slie-arrow icon-24" width="24" viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                               </svg>
+                            </div>
+                            <div class="progress-detail">
+                               <p  class="mb-2">Total Cost</p>
+                               <h4 class="counter">$375K</h4>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                   <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1000">
+                      <div class="card-body">
+                         <div class="progress-widget">
+                            <div id="circle-progress-04" class="text-center circle-progress-01 circle-progress circle-progress-info" data-min-value="0" data-max-value="100" data-value="60" data-type="percent">
+                               <svg class="card-slie-arrow icon-24" width="24px"  viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                               </svg>
+                            </div>
+                            <div class="progress-detail">
+                               <p  class="mb-2">Revenue</p>
+                               <h4 class="counter">$742K</h4>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                   <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1100">
+                      <div class="card-body">
+                         <div class="progress-widget">
+                            <div id="circle-progress-05" class="text-center circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="100" data-value="50" data-type="percent">
+                               <svg class="card-slie-arrow icon-24" width="24px"  viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M5,17.59L15.59,7H9V5H19V15H17V8.41L6.41,19L5,17.59Z" />
+                               </svg>
+                            </div>
+                            <div class="progress-detail">
+                               <p  class="mb-2">Net Income</p>
+                               <h4 class="counter">$150K</h4>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                   <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1200">
+                      <div class="card-body">
+                         <div class="progress-widget">
+                            <div id="circle-progress-06" class="text-center circle-progress-01 circle-progress circle-progress-info" data-min-value="0" data-max-value="100" data-value="40" data-type="percent">
+                               <svg class="card-slie-arrow icon-24" width="24" viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                               </svg>
+                            </div>
+                            <div class="progress-detail">
+                               <p  class="mb-2">Today</p>
+                               <h4 class="counter">$4600</h4>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                   <li class="swiper-slide card card-slide" data-aos="fade-up" data-aos-delay="1300">
+                      <div class="card-body">
+                         <div class="progress-widget">
+                            <div id="circle-progress-07" class="text-center circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="100" data-value="30" data-type="percent">
+                               <svg class="card-slie-arrow icon-24 " width="24" viewBox="0 0 24 24">
+                                  <path fill="currentColor" d="M19,6.41L17.59,5L7,15.59V9H5V19H15V17H8.41L19,6.41Z" />
+                               </svg>
+                            </div>
+                            <div class="progress-detail">
+                               <p  class="mb-2">Members</p>
+                               <h4 class="counter">11.2M</h4>
+                            </div>
+                         </div>
+                      </div>
+                   </li>
+                </ul>
+                <div class="swiper-button swiper-button-next"></div>
+                <div class="swiper-button swiper-button-prev"></div>
+             </div>
+          </div>
+       </div>
+    </div>
+</div>
+          
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="header-title">
+                        <h4 class="card-title">Búsqueda Avanzada</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="nav nav-tabs custom-nav gap-5 mb-5 d-flex" id="myTab" role="tablist">
+                        <!-- Filtro de tabla -->
+                        <button class="nav-link active ms-3" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">
+                            <!-- SVG va aquí -->
+                            <div class="icon-container">
+                            </div>
+                            <span class="mt-2">Tabla</span>
+                        </button>
+                    
+                        <!-- Filtro de órdenes -->
+                        <button class="nav-link" id="order-tab" data-bs-toggle="tab" data-bs-target="#order" type="button" role="tab" aria-controls="order" aria-selected="false">
+                            <!-- SVG va aquí -->
+                            <div class="icon-container">
+                                <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <span class="mt-2">Your Orders</span>
+                        </button>
+                    
+                        <!-- Filtro de dirección -->
+                        <button class="nav-link" id="adress-tab" data-bs-toggle="tab" data-bs-target="#adress" type="button" role="tab" aria-controls="adress" aria-selected="false">
+                            <!-- SVG va aquí -->
+                            <div class="icon-container">
+                                <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <span class="mt-2">Your Address</span>
+                        </button>
+                    
+                        <!-- Filtro de tarjeta -->
+                        <button class="nav-link" id="card-tab" data-bs-toggle="tab" data-bs-target="#card" type="button" role="tab" aria-controls="card" aria-selected="false">
+                            <!-- SVG va aquí -->
+                            <div class="icon-container">
+                                <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <span class="mt-2">Your Cards</span>
+                        </button>
+                    </div>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="content-container">
+                                <div class="card border shadow-none">
+                                    <div class="card-header border-bottom py-4 px-0 mx-4">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h4 class="mb-0">Profile Details</h4>
+                                            <button class="btn btn-primary">
+                                                <span class="d-none d-md-block">
+                                                    Ver mas
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0 pt-3">
+                                            <div class="table-responsive">
+                                                <table id="datatable" class="table table-striped" data-toggle="data-table">
+                                                  <thead>
+                                                     <tr class="ligth">
+                                                        <th>Name</th>
+                                                        <th>Contact</th>
+                                                        <th>Email</th>
+                                                        <th>Country</th>
+                                                     </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                     <tr>
+                                                        <td>aasssssx</td>
+                                                        <td>(760) 765 2658</td>
+                                                        <td>budwiser@ymail.com</td>
+                                                        <td>USA</td>
+                                                     </tr>
+                                                     <tr>
+                                                        <td>aaasssddddaaronottix</td>
+                                                        <td>(760) 765 2658</td>
+                                                        <td>budwiser@ymail.com</td>
+                                                        <td>USA</td>
+                                                     </tr>
+                                                  </tbody>
+                                               </table>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Filtro de órdenes -->
+                        <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
+                            <div class="content-container">
+                                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                        <h5 class="mb-0 pb-3">Perfiles </h5>
+                                        <div class="dropdown text-end pb-3">
+                                            <button class="dropdown btn btn-primary-subtle" id="dropdownMenuButton2"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                Last 90 Days
+                                                <svg width="12" class="ms-2" viewBox="0 0 12 8" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                                        d="M6 5.08579L10.2929 0.792893C10.6834 0.402369 11.3166 0.402369 11.7071 0.792893C12.0976 1.18342 12.0976 1.81658 11.7071 2.20711L6.70711 7.20711C6.31658 7.59763 5.68342 7.59763 5.29289 7.20711L0.292893 2.20711C-0.0976311 1.81658 -0.0976311 1.18342 0.292893 0.792893C0.683418 0.402369 1.31658 0.402369 1.70711 0.792893L6 5.08579Z"
+                                                        fill="currentColor"></path>
+                                                </svg>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-soft-primary"
+                                                aria-labelledby="dropdownMenuButton2">
+                                                <li><a class="dropdown-item active" href="#">Last 30 Days</a></li>
+                                                <li><a class="dropdown-item" href="#">Last 90 Days</a></li>
+                                                <li><a class="dropdown-item" href="#">Last 180 Days</a></li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><a class="dropdown-item" href="#">Last 1 Year</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="card shadow-none border iq-product-order-placed">
+                                        <div class="card-header user-details-bg-color bg-light p-4">
+                                            <div class="iq-order-content">
+                                                <div
+                                                    class="iq-order-user-details d-flex gap-4 justify-content-between align-items-center">
+                                                    <div>
+                                                        <p>Order Placed</p>
+                                                        <h6 class="mb-0">01 Jan 2022</h6>
+                                                    </div>
+                                                    <div>
+                                                        <p>Total</p>
+                                                        <h6 class="mb-0">$950.00</h6>
+                                                    </div>
+                                                    <div>
+                                                        <p>Ship to</p>
+                                                        <h6 class="mb-0 text-primary">Elon Musk</h6>
+                                                    </div>
+                                                </div>
+                                                <h6 class="mb-xl-0 mb-2 iq-order-id">Order ID:
+                                                    <a href="#">#405-653265-0876343</a>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="../e-commerce/assets/images/app/02.png" alt="user-profile"
+                                                        class="img-fluid rounded object-contain avatar-100 iq-product-bg p-3"
+                                                        loading="lazy">
+                                                    <div>
+                                                        <a href="../e-commerce/product-detail.html">
+                                                            <h5 class="mb-3">Pink Sweater</h5>
+                                                        </a>
+                                                        <h6 class="text-primary mb-0">
+                                                            $26.00
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 mt-xl-0 mt-3 mt-md-0">
+                                                    <div class="dropdown text-end">
+                                                        <button class="dropdown btn btn-primary mb-3" id="buy-drop"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Buy It Again
+                                                            <svg width="12" class="ms-2" viewBox="0 0 12 8" fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg">
+                                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                    d="M6 5.08579L10.2929 0.792893C10.6834 0.402369 11.3166 0.402369 11.7071 0.792893C12.0976 1.18342 12.0976 1.81658 11.7071 2.20711L6.70711 7.20711C6.31658 7.59763 5.68342 7.59763 5.29289 7.20711L0.292893 2.20711C-0.0976311 1.81658 -0.0976311 1.18342 0.292893 0.792893C0.683418 0.402369 1.31658 0.402369 1.70711 0.792893L6 5.08579Z"
+                                                                    fill="currentColor"></path>
+                                                            </svg>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-soft-primary"
+                                                            aria-labelledby="buy-drop">
+                                                            <li><a class="dropdown-item active" href="#">Buy It Again</a></li>
+                                                            <li><a class="dropdown-item" href="#">Replace</a></li>
+                                                            <li><a class="dropdown-item" href="#">View</a></li>
+                                                            <li>
+                                                                <hr class="dropdown-divider">
+                                                            </li>
+                                                            <li><a class="dropdown-item" href="#">Cancel Order</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <a href="../e-commerce/invoice.html">Invoice</a>
+                                                        <span>|</span>
+                                                        <a href="../e-commerce/product-detail.html">Write a Review</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <a href="javascript:void(0);" class="btn btn-primary">Load More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Filtro de dirección -->
+                        <div class="tab-pane fade" id="adress" role="tabpanel" aria-labelledby="adress-tab">
+                            <!-- Contenido de dirección -->
+                            <div class="content-container">
+                                <!-- Aquí puedes colocar el contenido relacionado con la dirección -->
+                                <p>Contenido de la Dirección</p>
+                            </div>
+                        </div>
+                    
+                        <!-- Filtro de tarjeta -->
+                        <div class="tab-pane fade" id="card" role="tabpanel" aria-labelledby="card-tab">
+                            <!-- Contenido de tarjetas -->
+                            <div class="content-container">
+                                <!-- Aquí puedes colocar el contenido relacionado con las tarjetas -->
+                                <p>Contenido de las Tarjetas</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--Tabla-->
+            
+                    
+                    <!-- Perfiles -->
+                    <div class="tab-content iq-tab-fade-up">
+                        
+                        <div class="tab-pane fade" id="adress" role="tabpanel" aria-labelledby="adress-tab">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="border border-3 border-dashed p-2 mb-4">
+                                        <div class="text-center">
+                                            <a href="#" class="d-flex align-items-center justify-content-center gap-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                    class="text-gray icon-20" viewBox="0 0 30 30" fill="none">
+                                                    <path
+                                                        d="M12.6035 27H17.3787V17.3787H27V12.6036H17.3787V3H12.6035V12.6036H3V17.3787H12.6035V27Z"
+                                                        fill="currentColor"></path>
+                                                </svg>
+                                                <h6 class="mb-0">Add Address</h6>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card ">
+                                        <div class="card-header bg-soft-secondary user-details-bg-color px-3 py-2">
+                                            <h6 class="text-muted mb-0">Default</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between flex-wrap">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-2 d-flex align-items-center gap-2">Elon Musk
+                                                        <span class="badge bg-primary">Home</span>
+                                                    </h6>
+                                                    <p class="mb-2">265, Hill View, Rochester Avenue. Kentucky - 40062
+                                                    </p>
+                                                    <h6>Contact: <span class="text-muted">(303) 555-0105</span> </h6>
+                                                </div>
+                                                <div class="small mt-2 mt-xl-0 mt-lg-0 mt-md-0">
+                                                    <a href="#">Edit</a>
+                                                    <span>|</span>
+                                                    <a href="#">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card border iq-user-address">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between flex-wrap">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-2 d-flex align-items-center gap-2">Christopher Nolan
+                                                        <span class="badge bg-primary">Office</span>
+                                                    </h6>
+                                                    <p class="mb-2">265, Hill View, Rochester Avenue. Kentucky - 40062
+                                                    </p>
+                                                    <h6>Contact: <span class="text-muted">(+994) 569-05210</span> </h6>
+                                                </div>
+                                                <div class="small mt-2 mt-xl-0 mt-lg-0 mt-md-0">
+                                                    <a href="#">Edit</a>
+                                                    <span>|</span>
+                                                    <a href="#">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card border iq-user-address">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between flex-wrap">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-2 d-flex align-items-center gap-2">Christopher Nolan
+                                                        <span class="badge bg-primary">Home</span>
+                                                    </h6>
+                                                    <p class="mb-2">265, Hill View, Rochester Avenue. Kentucky - 40062
+                                                    </p>
+                                                    <h6>Contact: <span class="text-muted">(+994) 569-05210</span> </h6>
+                                                </div>
+                                                <div class="small mt-2 mt-xl-0 mt-lg-0 mt-md-0">
+                                                    <a href="#">Edit</a>
+                                                    <span>|</span>
+                                                    <a href="#">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="card border iq-user-address mb-0">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between flex-wrap">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-2 d-flex align-items-center gap-2">Christopher Nolan
+                                                        <span class="badge bg-primary">Office</span>
+                                                    </h6>
+                                                    <p class="mb-2">265, Hill View, Rochester Avenue. Kentucky - 40062
+                                                    </p>
+                                                    <h6>Contact: <span class="text-muted">(+994) 569-05210</span> </h6>
+                                                </div>
+                                                <div class="small mt-2 mt-xl-0 mt-lg-0 mt-md-0">
+                                                    <a href="#">Edit</a>
+                                                    <span>|</span>
+                                                    <a href="#">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade active show" id="card" role="tabpanel" aria-labelledby="card-tab">
+                            <h4 class="mb-4">Your Payment Options</h4>
+                            <div class="border rounded">
+                                <div class="card shadow-none mb-0">
+                                    <div
+                                        class="card-header border-bottom d-flex flex-wrap justify-content-between py-4 px-0 mx-4">
+                                        <h5 class="mb-0">Your Default Payment Preference </h5>
+                                        <a href="#">Update preference</a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-2">
+                                                <h6>Name: </h6>
+                                                <h6 class="mt-2">Elon Musk</h6>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Address:</h6>
+                                                <p class="mt-2 mb-0">265, Hill View, Rochester Avenue. Kentucky - 40062
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Payment Method:</h6>
+                                                <p class="mt-2 mb-0">Bank Of America Debit Card ending in 0654</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border rounded mt-4">
+                                <div class="card shadow-none mb-0">
+                                    <div
+                                        class="card-header border-bottom d-flex flex-wrap justify-content-between py-4 px-0 mx-4">
+                                        <h5>Your Saved Debit &amp; Credit Cards </h5>
+                                        <a href="#" class="text-dark">Expires On</a>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="credit-cards">
+                                            <div class="accordion" id="accordionExample">
+                                                <div class="accordion-item shadow-none border-0 mb-4">
+                                                    <div class="accordion-header" id="headingOne">
+                                                        <div class="accordion-button bg-body" role="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                            aria-expanded="true" aria-controls="collapseOne">
+                                                            <div class="d-flex flex-grow-1 align-items-center ">
+                                                                <img src="../e-commerce/assets/images/user-cards/01.png"
+                                                                    alt="image" class="img-fluid" loading="lazy">
+                                                                <h6 class="ms-3 card-details mb-0">BOA Debit Card 0654
+                                                                </h6>
+                                                            </div>
+                                                            <div>
+                                                                <h6 class="mx-2 mb-0">03 / 2022</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="collapseOne" class="accordion-collapse collapse show"
+                                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-2">Elon Musk</h6>
+                                                                <p>255, Hill View, Rochester Avenue. Kentucky - 40062
+                                                                </p>
+                                                                <a href="#">
+                                                                    <small class="text-primary">Edit | Remove</small>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item shadow-none border-0 mb-4">
+                                                    <div class="accordion-header" id="headingTwo">
+                                                        <div class="accordion-button bg-body collapsed" role="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                            aria-expanded="false" aria-controls="collapseTwo">
+                                                            <div class="d-flex flex-grow-1 align-items-center">
+                                                                <img src="../e-commerce/assets/images/user-cards/01.png"
+                                                                    alt="image" class="img-fluid" loading="lazy">
+                                                                <h6 class="ms-3 card-details mb-0">CB Credit Card 6549
+                                                                </h6>
+                                                            </div>
+                                                            <div>
+                                                                <h6 class="mx-2 mb-0">05 / 2026</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-2">Elon Musk</h6>
+                                                                <p>255, Hill View, Rochester Avenue.Kentucky - 40062
+                                                                </p>
+                                                                <a href="#">
+                                                                    <small class="text-primary">Edit | Remove</small>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item shadow-none border-0 mb-4">
+                                                    <div class="accordion-header" id="headingThree">
+                                                        <div class="accordion-button bg-body collapsed" role="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                            aria-expanded="false" aria-controls="collapseThree">
+                                                            <div class="d-flex flex-grow-1 align-items-center">
+                                                                <img src="../e-commerce/assets/images/user-cards/02.png"
+                                                                    alt="image" class="img-fluid" loading="lazy">
+                                                                <h6 class="ms-3 card-details mb-0">BB Debit Card 7852
+                                                                </h6>
+                                                            </div>
+                                                            <div>
+                                                                <h6 class="mx-2 mb-0">06 / 2030</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingThree"
+                                                        data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-2">Elon Musk</h6>
+                                                                <p>255, Hill View, Rochester Avenue.Kentucky - 40062
+                                                                </p>
+                                                                <a href="#">
+                                                                    <small class="text-primary">Edit | Remove</small>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="accordion-item shadow-none border-0">
+                                                    <div class="accordion-header" id="headingFour">
+                                                        <div class="accordion-button bg-body collapsed" role="button"
+                                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                                            aria-expanded="false" aria-controls="collapseFour">
+                                                            <div class="d-flex flex-grow-1 align-items-center">
+                                                                <img src="../e-commerce/assets/images/user-cards/01.png"
+                                                                    alt="image" class="img-fluid" loading="lazy">
+                                                                <h6 class="ms-3 card-details mb-0">BOA Debit Card 6555
+                                                                </h6>
+                                                            </div>
+                                                            <div>
+                                                                <h6 class="text-danger mx-2 mb-0">Expired 08/2021</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="collapseFour" class="accordion-collapse collapse"
+                                                        aria-labelledby="headingFour"
+                                                        data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-2">Elon Musk</h6>
+                                                                <p>255, Hill View, Rochester Avenue.Kentucky - 40062
+                                                                </p>
+                                                                <a href="#">
+                                                                    <small class="text-primary">Edit | Remove</small>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border rounded mt-4">
+                                <div class="card shadow-none mb-0">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h5 class="mb-3">Add a New Payment Method</h5>
+                                                <h5 class="mb-1">Credit or Debit Cards</h5>
+                                                <p>We accept all major credit and debit card</p>
+                                            </div>
+                                            <div>
+                                                <img src="../e-commerce/assets/images/user-cards/01.png"
+                                                    alt="user-profile" class="img-fluid mt-3 me-3" loading="lazy">
+                                                <img src="../e-commerce/assets/images/user-cards/03.png"
+                                                    alt="user-profile" class="img-fluid mt-3 me-3" loading="lazy">
+                                                <img src="../e-commerce/assets/images/user-cards/05.png"
+                                                    alt="user-profile" class="img-fluid mt-3 me-3" loading="lazy">
+                                                <img src="../e-commerce/assets/images/user-cards/04.png"
+                                                    alt="user-profile" class="img-fluid mt-3 me-3" loading="lazy">
+                                                <img src="../e-commerce/assets/images/user-cards/02.png"
+                                                    alt="user-profile" class="img-fluid mt-3 me-3" loading="lazy">
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary mt-3">Add a credit or debit card</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Filtro avanzado</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Barra de Búsqueda -->
+                    <div class="mb-4">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Buscar producto..." />
+                    </div>
+        
+                    <!-- Filtros adicionales (puedes agregar más según sea necesario) -->
+                    <div class="mb-4">
+                        <label for="categoryFilter" class="form-label">Categoría</label>
+                        <select class="form-select" id="categoryFilter">
+                            <option value="">Seleccione una categoría</option>
+                            <option value="clothing">Ropa</option>
+                            <option value="accessories">Accesorios</option>
+                            <option value="footwear">Calzado</option>
+                        </select>
+                    </div>
+        
+                    <div class="mb-4">
+                        <label for="priceFilter" class="form-label">Rango de precio</label>
+                        <input type="range" class="form-range" id="priceFilter" min="0" max="100" step="5" />
+                        <div class="d-flex justify-content-between">
+                            <span>$0</span>
+                            <span>$100</span>
+                        </div>
+                    </div>
+        
+                    <!-- Botón para aplicar los filtros -->
+                    <div class="text-center">
+                        <button class="btn btn-primary" id="applyFiltersBtn">Aplicar filtros</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Inicializar DataTable
+        var table = $('#datatable').DataTable();
+
+        // Evento de la barra de búsqueda
+        $('#searchInput').on('keyup', function() {
+            // Filtrar la tabla según el valor de la barra de búsqueda
+            table.search(this.value).draw();
+        });
+    });
+</script>

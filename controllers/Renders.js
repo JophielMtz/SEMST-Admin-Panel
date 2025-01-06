@@ -87,7 +87,6 @@ const tablasHome = async () => {
   }
 };
 
-
 const tablaProcesosPendientes = async () => {
   try {
     const [columns] = await pool.query(`
@@ -242,8 +241,6 @@ WHERE
   }
 };
 
-
-
 const obtenerDatosGenericos = async (tabla, columnas = '*', condiciones = '') => {
   try {
     const includeNombre = columnas.includes('personal_id');
@@ -288,12 +285,10 @@ const obtenerDatosGenericos = async (tabla, columnas = '*', condiciones = '') =>
   }
 };
 
-
 const obtenerHistorialPorTabla = async (tabla, personalId) => {
   const condiciones = `WHERE personal_id = ${personalId}`;
   return await obtenerDatosGenericos(tabla, '*', condiciones);
 };
-
 
 const HistorialBecas = async (personalId) => {
   return await obtenerHistorialPorTabla('historial_becas', personalId);
@@ -309,8 +304,6 @@ const solicitudesDeCambio = async (personalId) => {
 const HistorialIncidencias = async (personalId) => {
   return await obtenerHistorialPorTabla('historial_incidencias', personalId);
 };
-
-
 
 // const historialSolicitudesPersonal = async (personalId) => {
 //   return await obtenerHistorialPorTabla('historial_solicitudes_personal', personalId);

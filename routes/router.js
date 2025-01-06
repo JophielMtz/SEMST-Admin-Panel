@@ -113,8 +113,6 @@ router.put('/editarListaPanelAdm', editarListaPanelAdministrador);
 router.patch('/editarUsuario', editarUsuario);
 router.patch('/editarTabla', editarTablas.editar);
 
-
-
 router.get('/api/listaGeneral', obtenerListaGeneral);
 
 router.get('/editar-personal', vistaEditarPersonal);

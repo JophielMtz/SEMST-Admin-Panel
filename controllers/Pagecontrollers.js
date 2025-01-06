@@ -496,9 +496,6 @@ LEFT JOIN
     ubic_ccts u ON dl.id_relacion = u.id_relacion
 LEFT JOIN
     ccts c ON u.cct_id = c.cct_id;
-
-
-
     `);
     res.json(results);
   } catch (error) {

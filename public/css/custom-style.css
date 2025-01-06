@@ -529,3 +529,40 @@ ul.timeline > li:before {
    background-color:transparent
   }
  }
+
+
+ /* Seccion de nav busqueda avanzada */
+ .custom-nav .nav-link {
+  background-color: #e1e4e8; /* Gris claro similar al de la imagen */
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px;
+  flex: 1; /* Asegura que cada botón ocupe el mismo espacio */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  margin-bottom: 0; /* Elimina el margen extra debajo de los botones */
+  max-width: 25%; /* Limita a que cada botón ocupe como máximo un 25% */
+  box-sizing: border-box;
+}
+
+.custom-nav .nav-link:hover {
+  background-color: #d0d4d9; /* Gris oscuro al hacer hover */
+}
+
+.custom-nav .icon-container {
+  margin-bottom: 8px; /* Espacio entre el icono y el texto */
+}
+
+.custom-nav .nav-link span {
+  color: #5c6b77;
+  font-size: 14px;
+}
+
+.custom-nav .d-flex {
+  display: flex; 
+  justify-content: space-between; /* Asegura que los botones se distribuyan de manera uniforme */
+  flex-wrap: nowrap; /* Evita que los botones se envuelvan */
+}
