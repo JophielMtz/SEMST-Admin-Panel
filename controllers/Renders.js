@@ -61,7 +61,7 @@ const generarConsultaBase = (tabla, camposAdicionales = "") => `
 const tablasHome = async () => {
   try {
     const [becas] = await pool.query(
-      generarConsultaBase("becas_comision", "cct_sale, vacante, ")
+      generarConsultaBase("becas_comision",  "cct_sale, vacante, ")
     );
 
     const [docentesDisponibles] = await pool.query(

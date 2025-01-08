@@ -58,7 +58,12 @@
                   </div>
                 </td>
                 <td class="text-end">
-                    <span class="badge rounded-pill bg-success"><%= saludItem.situacion ? saludItem.situacion : 'sin movimiento' %></span>
+                    <span class="badge rounded-pill 
+                    <%= (saludItem.situacion === 'Interinato') ? 'bg-primary' :
+                         (saludItem.situacion === 'Inseguridad') ? 'bg-danger' :
+                         (saludItem.situacion === 'Salud') ? 'bg-pink' :
+                         (saludItem.situacion === 'Otro') ? 'bg-warning' :
+                         (saludItem.situacion === 'Reincorporacion') ? 'bg-secondary' : 'bg-light' %>""><%= saludItem.situacion ? saludItem.situacion : 'sin movimiento' %></span>
                 </td>
                 <td class="text-dark">
                   <%= saludItem.cct_sale ? saludItem.cct_sale : 'sin movimiento' %>

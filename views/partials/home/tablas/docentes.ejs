@@ -50,15 +50,30 @@
                 </td>
                 <td class="text-primary fz-5">
                     <div class="d-flex align-items-center">
-                        <img src="/uploads/<%= docente.imagen ? docente.imagen : 'avatar-default.png' %>" alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">
+                        <img src="<%= docente.imagen ? '/uploads/' + docente.imagen : '/images/avatars/avatar-default.png' %>" alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">
                         <div>
                             <span class="fw-bold" style="font-size: 14px;"><%= docente.nombre_docente %></span>
                         </div>
                     </div>
                 </td>
                 <td class="text-end">
-                    <span class="badge rounded-pill bg-success"><%= docente.estatus %></span>
+                    <span class="badge rounded-pill 
+                      <%= (docente.estatus === 'Atendido') ? 'bg-success' :
+                           (docente.estatus === 'En proceso') ? 'bg-info' :
+                           (docente.estatus === 'Sin atender') ? 'bg-warning' : 'bg-secondary' %> badge-consistent-width">
+                      <%= docente.estatus %>
+                    </span>
                 </td>
+                <style>
+                    .badge-consistent-width {
+                      width: 80px; /* Ajusta el valor según el tamaño que desees */
+                      text-align: center; /* Centra el texto dentro del badge */
+                      display: inline-block; /* Asegura que el badge no se expanda más de lo necesario */
+                    }
+                  </style>
+                  
+                  
+                  
                 <td class="text-dark">
                     <%= docente.cct_sale ? docente.cct_sale : 'sin movimiento' %>
                 </td>

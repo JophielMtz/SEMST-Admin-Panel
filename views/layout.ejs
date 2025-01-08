@@ -1206,8 +1206,11 @@
                             <li class="nav-item dropdown">
                                 <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img id="imagen-perfil" src="/uploads/<%= usuario.imagen %>" alt="Perfil"
-                                        class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
+                                    <img id="imagen-perfil" 
+                                    src="<%= usuario.imagen ? '/uploads/' + usuario.imagen : '/images/avatars/avatar-default.png' %>" 
+                                    alt="Perfil" 
+                                    class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
+                               
                                     <div class="caption ms-3 d-none d-md-block">
                                             <h6 id="usuario" class="mb-0 caption-title">
                                                 <%= usuario.usuario %>

@@ -305,6 +305,7 @@
 
     const datos = [
         borrarColumna('/api/deleteRecord'),
+        Columnas.Perfil,
         { field: "np", headerName: "NP", width: 70, editable: false },
         {...Columnas.colFechaRegistro(), editable: () => editMode,},
         {...Columnas.colFechaDocumento(), editable: () => editMode,},

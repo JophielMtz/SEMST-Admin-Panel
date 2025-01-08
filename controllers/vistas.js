@@ -54,7 +54,7 @@ const vistasController = {
       // Obtener los procesos en tránsito del usuario
       const procesos = await procesosEnTransito(personalId);
   
-      // Obtener los historiales relacionados
+      // Obtener los historiales relacionados para renderizar en cada perfil
       const historiales = {
         "Becas": await HistorialBecas(personalId) || [],
         "Salud e Inseguridad": await saludInseguridad(personalId) || [],

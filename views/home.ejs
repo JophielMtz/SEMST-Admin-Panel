@@ -161,7 +161,7 @@
                                 Selecciona una opción
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="navDropdown">
-                                <li><a class="dropdown-item" id="nav-home-11-tab" data-bs-toggle="tab" data-bs-target="#nav-home-11" type="button" role="tab" aria-controls="nav-home-11" aria-selected="true">Procesos Pendientes</a></li>
+                                <li><a class="dropdown-item active" id="nav-home-11-tab" data-bs-toggle="tab" data-bs-target="#nav-home-11" type="button" role="tab" aria-controls="nav-home-11" aria-selected="true">Procesos Pendientes</a></li>
                                 <li><a class="dropdown-item" id="nav-profile-11-tab" data-bs-toggle="tab" data-bs-target="#nav-profile-11" type="button" role="tab" aria-controls="nav-profile-11" aria-selected="false">Becas</a></li>
                                 <li><a class="dropdown-item" id="nav-docentes-11-tab" data-bs-toggle="tab" data-bs-target="#nav-docentes-11" type="button" role="tab" aria-controls="nav-docentes-11" aria-selected="false">Docentes Disponibles</a></li>
                                 <li><a class="dropdown-item" id="nav-nombramientos-11-tab" data-bs-toggle="tab" data-bs-target="#nav-nombramientos-11" type="button" role="tab" aria-controls="nav-nombramientos-11" aria-selected="false">Nombramientos</a></li>
@@ -173,36 +173,45 @@
                 </nav>
                 
                 
+                
 
-                <div class="tab-content iq-tab-fade-up" id="nav-tabContent" style="height: 700px; overflow-y: auto;">
+                <div class="tab-content iq-tab-fade-up" id="nav-tabContent" style="height: auto; overflow-y: auto;">
                     <!-- Tabla Procesos pendientes -->
+                   
                     <div class="tab-pane fade show active" id="nav-home-11" role="tabpanel" aria-labelledby="nav-home-11-tab">
+                        <h4 class="text-center text-gray mb-3">Procesos En transito</h4>
                         <%- include('partials/home/tablas/procesos-pendientes', { pendientes: pendientes }) %>
                     </div>
                 
                     <div class="tab-pane fade" id="nav-profile-11" role="tabpanel" aria-labelledby="nav-profile-11-tab">
+                        <h4 class="text-center text-gray mb-3">Becas Comisión</h4>
                         <div class="table-responsive">
                             <%- include('partials/home/tablas/becas', { becas: becas }) %>
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="nav-docentes-11" role="tabpanel" aria-labelledby="nav-profile-11-tab">
+                        <!-- Agregar un encabezado h4 con el texto "Docentes" -->
+                        <h4 class="text-center text-gray mb-3">Docentes Disponibles</h4>
                         <div class="table-responsive">
                             <%- include('partials/home/tablas/docentes', { docentesDisponibles: docentesDisponibles }) %>
                         </div>
                     </div>
 
                     <div class="tab-pane fade" id="nav-nombramientos-11" role="tabpanel" aria-labelledby="nav-nombramientos-11">
+                        <h4 class="text-center text-gray mb-3">Nombramientos Docentes</h4>
                         <div class="table-responsive">
                             <%- include('partials/home/tablas/nombramientos', { nombramientos: nombramientos }) %>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-salud-11" role="tabpanel" aria-labelledby="nav-salud-11">
+                        <h4 class="text-center text-gray mb-3">Salud & Inseguridad</h4>
                         <div class="table-responsive">
                             <%- include('partials/home/tablas/salud', { salud:salud}) %>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-cambio-11" role="tabpanel" aria-labelledby="nav-cambio-11">
+                        <h4 class="text-center text-gray mb-3">Solicitudes De Cambio</h4>
                         <div class="table-responsive">
                             <%- include('partials/home/tablas/cambio', { cambio:cambio}) %>
                         </div>

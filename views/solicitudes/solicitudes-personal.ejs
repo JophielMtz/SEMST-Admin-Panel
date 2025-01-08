@@ -478,9 +478,6 @@
         { ...Columnas.comunidadSale(), headerName: "Comunidad", field: "comunidad", },
         { ...Columnas.cctSale(), headerName: "Clave CCT", field: "centro_clave_trabajo", },
         { ...Columnas.observaciones(), editable: () => editMode, },
-        { ...Columnas.municipioEntra(true), field: "MUNICIPIO CCT", headerName: "Municipio", editable: () => editMode, resizable: true, width: 150, },
-        { ...Columnas.comunidadEntra(true), field: "COMUNIDAD CCT", headerName: "Municipio", editable: () => editMode, },
-        { ...Columnas.cctEntra(true), editable: () => editMode, },
         ...zonaColumns.map(col => ({
             ...col, editable: col.field === "sector_id" || col.field === "zona_id" ? false : () => editMode
         })),

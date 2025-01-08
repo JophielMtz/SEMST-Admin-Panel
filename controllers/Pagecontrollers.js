@@ -148,6 +148,7 @@ const obtenerSolicitudesDeCambio = async (req, res) => {
     const [results] = await pool.query(`
     SELECT
     np,
+    p.personal_id,
     fecha,
     sc.estatus AS estatus, -- Estatus de la solicitud
     CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
@@ -352,7 +353,8 @@ LEFT JOIN
 const obtenerIncidencias = async (req, res) => {
   try {
     const [results] = await pool.query(`
-     SELECT
+    SELECT
+    p.personal_id,
     i.np,
     i.fecha,
     i.estatus,
@@ -416,6 +418,7 @@ const obtenerLicenciaSinGoce = async (req, res) => {
     const [results] = await pool.query(`
      SELECT
       np,
+      p.personal_id,
       lsg.fecha_registro,
       lsg.fecha_documento,
       CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS "nombre_docente",
@@ -544,6 +547,7 @@ const obtenerNombramientosDocentes = async (req, res) => {
    SELECT
     n.np,
     n.fecha,
+    p.personal_id,
     CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
     n.antiguedad,
     p.telefono,
@@ -634,49 +638,51 @@ const obtenerInternos = async (req, res) => {
 const obtenerSolicitudesGenerales = async (req, res) => {
   try {
     const [results] = await pool.query(`
-     SELECT
-    solicitudes_generales.np,
-    solicitudes_generales.fecha,
-    CONCAT(personal.nombre, ' ', personal.apellido_paterno, ' ', personal.apellido_materno) AS nombre_docente,
-    solicitudes_generales.estatus,
-    solicitudes_generales.tipo_solicitud,
-    solicitudes_generales.fecha_documento,
-    solicitudes_generales.observaciones,
-    solicitudes_generales.departamento,
-    personal.telefono,
-    ccts.centro_clave_trabajo,
-    comunidad.nombre AS comunidad,
-    municipio.nombre AS municipio,
-    zona.numero_zona AS zona_id,
-    sector.sector_numero AS sector_id,
-    solicitudes_generales.tipo_organizacion,
-    solicitudes_generales.no_alumnos,
-    solicitudes_generales.grado_1,
-    solicitudes_generales.grado_2,
-    solicitudes_generales.grado_3,
-    solicitudes_generales.funcion_docente,
-    solicitudes_generales.inicio_movimiento,
-    solicitudes_generales.termino_movimiento,
-    solicitudes_generales.propuesta,
-    solicitudes_generales.observaciones_secretaria_general
+   SELECT
+    p.personal_id,  -- Alias "p" para personal_id
+    sg.np,
+    sg.fecha,
+    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
+    sg.estatus,
+    sg.tipo_solicitud,
+    sg.fecha_documento,
+    sg.observaciones,
+    sg.departamento,
+    p.telefono,
+    c.centro_clave_trabajo,
+    com.nombre AS comunidad,
+    m.nombre AS municipio,
+    z.numero_zona AS zona_id,
+    s.sector_numero AS sector_id,
+    sg.tipo_organizacion,
+    sg.no_alumnos,
+    sg.grado_1,
+    sg.grado_2,
+    sg.grado_3,
+    sg.funcion_docente,
+    sg.inicio_movimiento,
+    sg.termino_movimiento,
+    sg.propuesta,
+    sg.observaciones_secretaria_general
 FROM
-    solicitudes_generales
+    solicitudes_generales sg
 JOIN
-    personal ON solicitudes_generales.personal_id = personal.personal_id
+    personal p ON sg.personal_id = p.personal_id  -- Alias "p" para la tabla "personal"
 LEFT JOIN
-    detalle_laboral ON solicitudes_generales.detalle_laboral_id = detalle_laboral.detalle_laboral_id
+    detalle_laboral dl ON sg.detalle_laboral_id = dl.detalle_laboral_id
 LEFT JOIN
-    ubic_ccts ON detalle_laboral.id_relacion = ubic_ccts.id_relacion
+    ubic_ccts uc ON dl.id_relacion = uc.id_relacion
 LEFT JOIN
-    ccts ON ubic_ccts.cct_id = ccts.cct_id
+    ccts c ON uc.cct_id = c.cct_id
 LEFT JOIN
-    comunidad ON ubic_ccts.comunidad_id = comunidad.comunidad_id
+    comunidad com ON uc.comunidad_id = com.comunidad_id
 LEFT JOIN
-    municipio ON ubic_ccts.municipio_id = municipio.municipio_id
+    municipio m ON uc.municipio_id = m.municipio_id
 LEFT JOIN
-    zona ON ubic_ccts.zona_id = zona.zona_id
+    zona z ON uc.zona_id = z.zona_id
 LEFT JOIN
-    sector ON ubic_ccts.sector_id = sector.sector_id;
+    sector s ON uc.sector_id = s.sector_id;
+
 
     `);
 

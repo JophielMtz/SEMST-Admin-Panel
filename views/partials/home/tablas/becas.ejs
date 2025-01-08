@@ -3,7 +3,6 @@
         <thead>
             <tr>
                 <th class="text-center" style="width: 50px;">Acción</th>
-                <th class="text-center">NP</th>
                 <th class="text-center">Fecha</th>
                 <th class="text-center">Nombre</th>
                 <th class="text-center">CCT</th>
@@ -43,11 +42,6 @@
                         </a>
                     </div>
                 </td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <h6 class="mb-0"><%= beca.np %></h6>
-                    </div>
-                </td>
                 <td class="text-center text-dark">
                     <% if (beca.fecha) {const fecha=new
                         Date(beca.fecha); const opciones={ day: '2-digit' ,
@@ -60,7 +54,7 @@
                 </td>
                 <td class="text-primary fz-5">
                     <div class="d-flex align-items-center">
-                        <img src="/uploads/<%= beca.imagen ? beca.imagen : 'avatar-default.png' %>" alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">
+                        <img src="<%= beca.imagen ? '/uploads/' + beca.imagen : '/images/avatars/avatar-default.png' %>" alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">
 
                         <div>
                             <span class="fw-bold" style="font-size: 14px;"><%= beca.nombre_docente %></span><br>

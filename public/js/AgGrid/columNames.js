@@ -77,6 +77,9 @@ export const colFechaInicio = () => ({
   autoHeaderHeight: true,
   cellEditor: "agDateCellEditor",
   valueFormatter: (params) => {
+    if (!params.value) {
+      return "Sin fecha"; // Manejo de valores nulos o indefinidos
+    }
     const date = new Date(params.value);
     return date.toLocaleDateString("es-MX", {
       day: "numeric",
@@ -170,7 +173,7 @@ export const nombreDocente = () => ({
   field: "nombre_docente",
   headerName: "Nombre",
   editable: false,
-  width: 230,
+  width: 280,
   wrapHeaderText: true,
   autoHeaderHeight: true,
   // cellClass: "centrar-celda"
@@ -244,7 +247,7 @@ export const comunidadSale = () => ({
   wrapHeaderText: true,
   autoHeaderHeight: true,
   width: 150,
-  cellStyle: { "white-space": "normal", "line-height": "1.7" },
+  // cellStyle: { "white-space": "normal", "line-height": "1.7" },
 });
 
 export const municipioEntra = () => ({
@@ -453,35 +456,86 @@ export const Zona = () => ({
 
 //============Botones=======//
 export const Perfil = {
-    field: "perfil",
-    headerName: "Perfil",
-    editable: false,
-    width: 109,
-    headerClass: "text-center",
-    cellRenderer: (params) => {
-      if (!params.data || !params.data.personal_id) {
-        return null;
-      }
-  
-      // Crear el contenedor del botón
-      const viewButton = document.createElement("button");
-      viewButton.classList.add("btn", "btn-primary", "btn-sm", "rounded-pill");
-      viewButton.textContent = "Ver Perfil";
-  
-      // Agregar evento al botón
-      viewButton.addEventListener("click", () => {
-        const personalId = params.data.personal_id; // Obtener el personal_id
-        if (!personalId) {
-          alert("Error: ID del personal no encontrado.");
-          return;
-        }
-        // Redirigir al perfil
-        window.location.href = `/perfil/${personalId}`;
-      });
-  
-      return viewButton;
-    },
-  };
+  field: "perfil",
+  headerName: "Perfil",
+  editable: false,
+  width: 65,
+  headerClass: "text-center",
+  cellRenderer: (params) => {
+    console.log("Datos de la celda:", params.data);  // Agregamos el log para ver los datos
+
+    if (!params.data || !params.data.personal_id) {
+      console.log("ID de personal no encontrado o no disponible.");
+      return null;
+    }
+
+    // Crear el contenedor del botón
+    const viewButton = document.createElement("a");
+    viewButton.classList.add("btn", "btn-sm", "btn-icon", "btn-primary");
+    viewButton.setAttribute("data-bs-toggle", "tooltip");
+    viewButton.setAttribute("data-bs-placement", "top");
+    viewButton.setAttribute("title", "Ver Perfil");
+    viewButton.href = `/perfil/${params.data.personal_id}`;
+
+    // Crear el ícono dentro del botón
+    const btnInner = document.createElement("span");
+    btnInner.classList.add("btn-inner");
+
+    const svgIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgIcon.setAttribute("class", "icon-20");
+    svgIcon.setAttribute("width", "20");
+    svgIcon.setAttribute("viewBox", "0 0 24 24");
+    svgIcon.setAttribute("fill", "none");
+
+    // Crear las rutas dentro del SVG
+    const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path1.setAttribute("fill-rule", "evenodd");
+    path1.setAttribute("clip-rule", "evenodd");
+    path1.setAttribute("d", "M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z");
+    path1.setAttribute("stroke", "currentColor");
+    path1.setAttribute("stroke-width", "1.5");
+    path1.setAttribute("stroke-linecap", "round");
+    path1.setAttribute("stroke-linejoin", "round");
+
+    const path2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path2.setAttribute("fill-rule", "evenodd");
+    path2.setAttribute("clip-rule", "evenodd");
+    path2.setAttribute("d", "M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z");
+    path2.setAttribute("stroke", "currentColor");
+    path2.setAttribute("stroke-width", "1.5");
+    path2.setAttribute("stroke-linecap", "round");
+    path2.setAttribute("stroke-linejoin", "round");
+
+    const path3 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path3.setAttribute("d", "M19.2036 8.66919V12.6792");
+    path3.setAttribute("stroke", "currentColor");
+    path3.setAttribute("stroke-width", "1.5");
+    path3.setAttribute("stroke-linecap", "round");
+    path3.setAttribute("stroke-linejoin", "round");
+
+    const path4 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path4.setAttribute("d", "M21.2497 10.6741H17.1597");
+    path4.setAttribute("stroke", "currentColor");
+    path4.setAttribute("stroke-width", "1.5");
+    path4.setAttribute("stroke-linecap", "round");
+    path4.setAttribute("stroke-linejoin", "round");
+
+    // Añadir las rutas al SVG
+    svgIcon.appendChild(path1);
+    svgIcon.appendChild(path2);
+    svgIcon.appendChild(path3);
+    svgIcon.appendChild(path4);
+
+    // Añadir el ícono dentro del botón
+    btnInner.appendChild(svgIcon);
+    
+    // Añadir el contenido al botón
+    viewButton.appendChild(btnInner);
+
+    return viewButton;
+  },
+};
+
   
 
   export const VerMas = {

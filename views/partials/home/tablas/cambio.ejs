@@ -41,14 +41,14 @@
                         </svg>
                       </span>
                     </a>
-                    <a 
+                    <!-- <a 
                     class="btn btn-sm btn-icon btn-primary" 
                     data-bs-toggle="tooltip" 
                     data-bs-placement="top" 
                     title="Ver más" 
                     href="/<%= cambioItem.tabla_origen %>">
                     <i class="fas fa-external-link-alt"></i> 
-                </a>
+                </a> -->
                   </div>
                 </td>
                 <td class="text-center text-dark">
@@ -73,8 +73,14 @@
                   </div>
                 </td>
                 <td class="text-end">
-                  <span class="badge rounded-pill bg-success"><%= cambioItem.estatus %></span>
+                  <span class="badge rounded-pill 
+                    <%= (cambioItem.estatus === 'Atendido') ? 'bg-success' :
+                         (cambioItem.estatus === 'En proceso') ? 'bg-info' :
+                         (cambioItem.estatus === 'Sin atender') ? 'bg-warning' : 'bg-secondary' %> badge-consistent-width">
+                    <%= cambioItem.estatus %>
+                  </span>
                 </td>
+                
                 <td class="text-dark">
                   <%= cambioItem.cct_sale ? cambioItem.cct_sale : 'sin movimiento' %>
                 </td>
