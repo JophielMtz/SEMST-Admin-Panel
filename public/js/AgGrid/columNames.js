@@ -28,7 +28,14 @@ export const colFechaRegistro = () => ({
   cellStyle: { "white-space": "normal", "line-height": "1.7" },
   cellEditor: "agDateCellEditor",
   valueFormatter: (params) => {
+    if (!params.value) {
+      return "Sin fecha"; // Manejo de valores nulos o indefinidos
+    }
     const date = new Date(params.value);
+    if (isNaN(date)) {
+      return "N/A"; // Si no es una fecha válida, retorna "N/A"
+    }
+    // Si es una fecha válida, formatea la fecha
     return date.toLocaleDateString("es-MX", {
       day: "numeric",
       month: "short",
@@ -37,6 +44,7 @@ export const colFechaRegistro = () => ({
     });
   },
 });
+
 
 export const colFechaDocumento = () => ({
   headerName: "Fecha Documento",
@@ -47,6 +55,10 @@ export const colFechaDocumento = () => ({
   cellStyle: { "white-space": "normal", "line-height": "1.7" },
   cellEditor: "agDateCellEditor",
   valueFormatter: (params) => {
+    if (!params.value) {
+      return "Sin fecha"; // Manejo de valores nulos o indefinidos
+    }
+    
     const date = new Date(params.value);
     return date.toLocaleDateString("es-MX", {
       day: "numeric",
@@ -463,7 +475,6 @@ export const Perfil = {
           alert("Error: ID del personal no encontrado.");
           return;
         }
-  
         // Redirigir al perfil
         window.location.href = `/perfil/${personalId}`;
       });

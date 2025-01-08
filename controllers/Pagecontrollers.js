@@ -466,8 +466,10 @@ const obtenerListaPanelAdministrador = async (req, res) => {
   SELECT
     p.personal_id,
     p.rfc,
+    p.curp,
     CONCAT(IFNULL(p.nombre, ''), ' ', IFNULL(p.apellido_paterno, ''), ' ', IFNULL(p.apellido_materno, '')) AS nombre,
     p.edad,
+    p.fecha_nacimiento,
     p.telefono,
     p.correo,
     p.imagen,
@@ -487,7 +489,11 @@ const obtenerListaPanelAdministrador = async (req, res) => {
     dl.plaza_id,
     dl.nombramiento,
     dl.grado,
-    IFNULL(c.centro_clave_trabajo, 'Sin CCT') AS nombre_cct
+     IFNULL(c.centro_clave_trabajo, 'Sin CCT') AS nombre_cct,
+    IFNULL(m.nombre, 'Sin municipio') AS municipio,
+    IFNULL(co.nombre, 'Sin comunidad') AS comunidad,
+    IFNULL(z.numero_zona, 'Sin zona') AS zona,
+    IFNULL(s.sector_numero, 'Sin sector') AS sector
 FROM
     personal p
 LEFT JOIN
@@ -495,7 +501,15 @@ LEFT JOIN
 LEFT JOIN
     ubic_ccts u ON dl.id_relacion = u.id_relacion
 LEFT JOIN
-    ccts c ON u.cct_id = c.cct_id;
+    ccts c ON u.cct_id = c.cct_id
+LEFT JOIN
+    municipio m ON u.municipio_id = m.municipio_id
+LEFT JOIN
+    comunidad co ON u.comunidad_id = co.comunidad_id
+LEFT JOIN
+    zona z ON u.zona_id = z.zona_id  -- Agregando la tabla zona
+LEFT JOIN
+    sector s ON u.sector_id = s.sector_id;
     `);
     res.json(results);
   } catch (error) {

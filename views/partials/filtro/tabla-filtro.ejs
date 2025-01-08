@@ -1,0 +1,70 @@
+<div>
+<table id="datatable-specific" class="table table-striped"
+data-toggle="data-table">
+<thead>
+    <tr>
+        <th class="nombre">Nombre</th>
+        <th class="telefono">Teléfono</th>
+        <th class="edad">Edad</th>
+        <th class="rfc">RFC</th>
+        <th class="curp">CURP</th>
+        <th class="fecha_nacimiento">Fecha de nacimiento</th>
+        <th class="correo">Correo</th>
+        <th class="direccion">Dirección</th>
+        <th class="sexo">Sexo</th>
+        <!-- Campos del detalle laboral -->
+        <th class="cargo">Cargo</th>
+        <!-- <th class="tipo_organizacion">Tipo de Organización</th>
+        <!-- <th class="activo">Activo</th>
+        <th class="pausa">Pausa</th> -->
+        <!-- <th class="fecha_ingreso">Fecha de Ingreso</th>
+        <th class="fecha_nombramiento">Fecha de Nombramiento</th>
+        <th class="antiguedad">Antigüedad</th>
+        <th class="tipo_direccion">Tipo de Dirección</th>
+        <th class="plaza_id">Plaza ID</th>
+        <th class="id_relacion">ID Relación</th>  -->
+    </tr>
+</thead>
+
+<tbody>
+    <% listaGeneral.forEach(personal => { %>
+        <tr>
+            <td class="nombre">
+                <div class="d-flex align-items-center">
+                    <img 
+                        src="/uploads/<%= personal.imagen %>" 
+                        onerror="this.onerror=null; this.src='/images/avatars/avatar-default.png';" 
+                        alt="Foto del docente" 
+                        class="rounded-circle me-3" 
+                        style="width: 40px; height: 40px;">
+                    <div>
+                        <span class="" style="font-size: 14px;"><%= personal.nombre %></span>
+                    </div>
+                </div>
+            </td>
+            <td class="telefono"><%= personal.telefono %></td>
+            <td class="edad"><%= personal.edad %></td>
+            <td class="rfc"><%= personal.rfc %></td>
+            <td class="curp"><%= personal.curp %></td>
+            <td class="fecha_nacimiento">
+                <% if (personal.fecha_nacimiento) { 
+                    const fecha = new Date(personal.fecha_nacimiento); 
+                    const opciones = { day: '2-digit', month: 'short', year: '2-digit' }; 
+                    const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones).replace(/^\w/, c => c.toUpperCase());
+                %>
+                    <%= fechaFormateada.replace('.', '') %>
+                <% } else { %>
+                    Sin fecha
+                <% } %>
+            </td>
+            
+            <td class="correo"><%= personal.correo %></td>
+            <td class="direccion"><%= personal.direccion %></td>
+            <td class="sexo"><%= personal.sexo %></td>
+            <td class="cargo"><%= personal.tipo_organizacion %></td>
+            
+        </tr>
+    <% }) %>
+</tbody>
+</table>
+</div>

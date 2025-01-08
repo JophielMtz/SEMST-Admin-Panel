@@ -99,13 +99,6 @@
                                             </div>
 
                                             <!-- Fecha, Antigüedad y Teléfono -->
-                                            
-                                            <div class="form-group col-12">
-                                                <label for="antiguedad" class="form-label">Antigüedad:</label>
-                                                <input type="text" class="form-control" id="antiguedad"
-                                                    name="antiguedad" placeholder="" />
-                                            </div>
-                                            
                                             <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                                 <label for="fecha" class="form-label">Fecha:</label>
                                                 <input type="date" class="form-control" id="fecha" name="fecha" />
@@ -121,6 +114,12 @@
                                                     <option value="En proceso">En proceso</option>
                                                     <option value="Sin atender">Sin atender</option>
                                                 </select>
+                                            </div>
+
+                                            <div class="form-group col-12">
+                                                <label for="antiguedad" class="form-label">Antigüedad:</label>
+                                                <input type="text" class="form-control" id="antiguedad"
+                                                    name="antiguedad" placeholder="" />
                                             </div>
 
                                             <!-- Sección de CCT Sale -->
@@ -230,6 +229,7 @@
 
     const datos = [
     borrarColumna('/api/deleteRecord'),
+    Columnas.Perfil,
     { field: "np", headerName: "NP", width: 70, editable: false },
     {...Columnas.colFecha(), editable: () => editMode,},
     Columnas.nombreDocente(),

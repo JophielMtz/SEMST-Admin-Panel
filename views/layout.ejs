@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans&display=swap" rel="stylesheet">
 
@@ -40,10 +41,8 @@
     <!-- CSS base de AG Grid -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ag-grid-community/core/dist/styles/ag-grid.css">
 
-    <link rel='stylesheet' href='/vendor/fullcalendar/core/main.css' />
-    <link rel='stylesheet' href='/vendor/fullcalendar/daygrid/main.css' />
-    <link rel='stylesheet' href='/vendor/fullcalendar/timegrid/main.css' />
-    <link rel='stylesheet' href='/vendor/fullcalendar/list/main.css' />
+
+    
 
 
     <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
@@ -127,7 +126,7 @@
                         </a>
                     </li>
                     <!--Revisiones-->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link " href="/calendario">
                             <i class="icon">
                                 <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none"
@@ -142,7 +141,7 @@
                             </i>
                             <span class="item-name">Calendario</span>
                         </a>
-                    </li>
+                    </li> -->
                     <!--VIsta Panel Adm-->
                     <!-- Aquí se muestra solo si el rol es "admin" -->
                     <% if (role === 'super-admin'  || role === 'admin') { %>   
@@ -1582,6 +1581,22 @@
             </div>
         </div>
     </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Incluye DataTables JS si es necesario -->
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <!-- Incluye jsPDF y AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <!-- DataTables Buttons JS -->
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<!-- Dependencias de Buttons para exportar (PDF, Excel, etc.) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
 
     <!--sweet Alert-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -106,6 +106,15 @@
                                                     style="z-index: 1000"></ul>
                                             </div>
                                           </div>
+
+                                          <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="fecha" class="form-label">Fecha Registro:</label>
+                                            <input type="date" class="form-control" id="fecha_registro" name="fecha_registro" placeholder="" />
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                          <label for="fecha" class="form-label">Fecha Documento:</label>
+                                          <input type="date" class="form-control" id="fecha_documento" name="fecha_documento" placeholder="" />
+                                      </div>
                                            <!-- Fecha, Antigüedad y Teléfono -->
                                         <div class="form-group col-12">
                                             <label for="antiguedad" class="form-label">Antigüedad:</label>
@@ -138,14 +147,7 @@
                                           
 
                                          
-                                          <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                              <label for="fecha" class="form-label">Fecha Registro:</label>
-                                              <input type="date" class="form-control" id="fecha_registro" name="fecha_registro" placeholder="" />
-                                          </div>
-                                          <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label for="fecha" class="form-label">Fecha Documento:</label>
-                                            <input type="date" class="form-control" id="fecha_documento" name="fecha_documento" placeholder="" />
-                                        </div>
+                                         
                                           
                                          
 
@@ -307,8 +309,8 @@
         {...Columnas.colFechaRegistro(), editable: () => editMode,},
         {...Columnas.colFechaDocumento(), editable: () => editMode,},
         Columnas.nombreDocente(),
-        Columnas.antiguedad(),
-        Columnas.telefono(),
+        // Columnas.antiguedad(),
+        // Columnas.telefono(),
         {field: "tipo_movimiento",headerName: "Tipo de Movimiento",  wrapHeaderText: true, 
         autoHeaderHeight: true,  cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, width: 120,
              ...createSelectColumnProps(estatusValidValues),},

@@ -97,21 +97,17 @@
                                         </div>
     
                                         <!-- Fecha, Antigüedad y Teléfono -->
-    
-                                        <div class="form-group col-md-6 col-lg-6">
-                                            <label for="telefono" class="form-label">Teléfono:</label>
-                                            <input type="text" class="form-control" id="telefono" name="telefono"
-                                                placeholder="" />
-                                        </div>
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label for="antiguedad" class="form-label">Antigüedad:</label>
-                                            <input type="text" class="form-control" id="antiguedad" name="antiguedad"
-                                                placeholder="" />
-                                        </div>
+                                        
                                         <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                             <label for="fecha" class="form-label">Fecha:</label>
                                             <input type="date" class="form-control" id="fecha" name="fecha" />
                                         </div>
+                                        <div class="form-group col-md-6 col-lg-6 d-none">
+                                            <label for="telefono" class="form-label">Teléfono:</label>
+                                            <input type="text" class="form-control" id="telefono" name="telefono"
+                                                placeholder="" />
+                                        </div>
+                                        
                                         <div class="form-group col-md-6">
                                             <label for="estatus" class="form-label">Estatus:</label>
                                             <select class="form-select form-select-sm" name="estatus" id="estatus">
@@ -123,24 +119,46 @@
                                                 </select>
                                             </select>
                                         </div>
+                                        <!-- Departamento -->
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <label for="departamento" class="form-label">Departamento:</label>
+                                                <select class="form-select" id="departamento" name="departamento">
+                                                    <option value="" selected disabled>Selecciona una opción</option>
+                                                    <option value="Subdireccion Academica">Subdirección Académica</option>
+                                                    <option value="Subdireccion De Planeacion">Subdirección de Planeación</option>
+                                                    <option value="Subdireccion De Administracion">Subdirección de Administración</option>
+                                                    <option value="Juridico">Jurídico</option>
+                                                    <option value="Recursos Humanos">Recursos Humanos</option>
+                                                    <option value="Usicamm">Usicamm</option>
+                                                    <option value="Operacion Escolar">Operación Escolar</option>
+                                                    <option value="Sin Definir">Sin Definir</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="tipo_solicitud" class="form-label">Tipo de Solicitud:</label>
+                                                <input type="text" class="form-control" id="tipo_solicitud" name="tipo_solicitud" placeholder="" />
+                                            </div>
+                                        </div>
+                                        
                                         
     
     
-                                        <div class="form-group col-md-4">
-                                            <label for="municipio_sale" class="form-label">Municipio:</label>
-                                            <input type="text" class="form-control" id="municipio_sale" placeholder=""
-                                                readonly />
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label for="municipio_sale" class="form-label">Municipio:</label>
+                                                <input type="text" class="form-control" id="municipio_sale" placeholder="" readonly />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="comunidad_sale" class="form-label">Comunidad:</label>
+                                                <input type="text" class="form-control" id="comunidad_sale" placeholder="" readonly />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="cct_sale" class="form-label">Clave CCT:</label>
+                                                <input type="text" class="form-control" id="cct_sale" placeholder="Clave CCT" readonly />
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="comunidad_sale" class="form-label">Comunidad:</label>
-                                            <input type="text" class="form-control" id="comunidad_sale" placeholder=""
-                                                readonly />
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="cct_sale" class="form-label">Clave CCT:</label>
-                                            <input type="text" class="form-control" id="cct_sale" placeholder="Clave CCT"
-                                                readonly />
-                                        </div>
+                                        
 
 
                                         <hr class="hr-horizontal mb-4" />
@@ -191,20 +209,21 @@
                                                 </div>
     
                                                 <!-- ZONA y SECTOR -->
-                                                <div class="row">
+                                                <div class="row d-none">
                                                     <div class="col-md-2">
                                                         <label for="zona" class="form-label mt-1 mb-1">ZONA:</label>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="text" class="form-control" id="zona" name="zona"  />
+                                                        <input type="text" class="form-control" id="zona" name="zona" />
                                                     </div>
                                                     <div class="col-md-2">
                                                         <label for="sector" class="form-label mt-1 mb-1">SECTOR:</label>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <input type="text" class="form-control" id="sector" name="sector"  />
-                                                 </div>
+                                                        <input type="text" class="form-control" id="sector" name="sector" />
+                                                    </div>
                                                 </div>
+                                                
     
                                                 <!-- ORG y NO DE ALUMNOS -->
                                                 <div class="row mt-2">
@@ -280,22 +299,13 @@
                                                         <input type="date" class="form-control" id="termino_movimiento" name="termino_movimiento" />
                                                     </div>
                                                 </div>
-                                                <hr class="hr-horizontal mt-3 mb-1" />
-                                                <!-- Departamento -->
-                                                <div class="form-group col-md-6">
-                                                    <label for="departamento" class="form-label">Departamento:</label>
-                                                    <select class="form-select" id="departamento" name="departamento" >
-                                                        <option value="" selected disabled>Selecciona una opción</option>
-                                                        <option value="Subdireccion Academica">Subdirección Académica</option>
-                                                        <option value="Subdireccion De Planeacion">Subdirección de Planeación</option>
-                                                        <option value="Subdireccion De Administracion">Subdirección de Administración</option>
-                                                        <option value="Juridico">Jurídico</option>
-                                                        <option value="Recursos Humanos">Recursos Humanos</option>
-                                                        <option value="Usicamm">Usicamm</option>
-                                                        <option value="Operacion Escolar">Operación Escolar</option>
-                                                        <option value="Sin Definir">Sin Definir</option>
-                                                    </select>
+                                                <div class="form-group col-sm-6 col-md-6 col-lg-12">
+                                                    <label for="antiguedad" class="form-label">Antigüedad:</label>
+                                                    <input type="text" class="form-control" id="antiguedad" name="antiguedad"
+                                                        placeholder="" />
                                                 </div>
+                                                <hr class="hr-horizontal mt-3 mb-1" />
+                                                
                                                 <div class="row mt-3">
                                                     <div class="col-md-12">
                                                         <label for="subdireccion_administracion" class="form-label">Propuesta:</label>

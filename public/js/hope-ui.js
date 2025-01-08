@@ -228,11 +228,40 @@ if (typeof Scrollbar !== typeof null) {
 -----------------------------------------------------------------------*/
 if ($.fn.DataTable) {
   if ($('[data-toggle="data-table"]').length) {
-    const table = $('[data-toggle="data-table"]').DataTable({
-      "dom": '<"row align-items-center"<"col-md-6" l><"col-md-6" f>><"table-responsive border-bottom my-3" rt><"row align-items-center" <"col-md-6" i><"col-md-6" p>><"clear">',
-    });
+      const table = $('[data-toggle="data-table"]').DataTable({
+          "dom": '<"row align-items-center"<"col-md-6" l><"col-md-6" f>><"table-responsive border-bottom my-3" rt><"row align-items-center" <"col-md-6" i><"col-md-6" p>><"clear">',
+      });
   }
 }
+
+// Funcionalidad para exportar a PDF
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof jspdf === 'undefined') {
+      console.error('jsPDF no está cargado.');
+      return;
+  }
+
+  const downloadPdfButton = document.getElementById('download-pdf');
+
+  downloadPdfButton.addEventListener('click', function () {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.autoTable({ 
+          html: '#datatable',
+          styles: { fontSize: 8 },
+          headStyles: { fillColor: [22, 160, 133] },
+          margin: { top: 20 }, // Opcional: Ajusta el margen superior
+          didDrawPage: function (data) {
+              // Opcional: Agrega un título o encabezado en cada página del PDF
+              doc.setFontSize(14);
+              doc.text('Lista General', data.settings.margin.left, 15);
+          }
+      });
+
+      doc.save('Lista_General.pdf');
+  });
+});
 /*---------------------------------------------------------------------
   Active Class for Pricing Table
 -----------------------------------------------------------------------*/

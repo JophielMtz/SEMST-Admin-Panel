@@ -19,6 +19,9 @@ const {
   historialLicenciaSinGoce
 } = require('../controllers/Renders');
 
+const { 
+  obtenerListaPanelAdministrador,
+} = require('../controllers/Renders/Panel-Adm');
 
 
 const vistasController = {
@@ -132,8 +135,17 @@ const vistasController = {
   },
 
   vistaGestionPersonal: (req, res) => {
-    res.render("panelAdm/gestion-de-personal");
-  },
+    try {
+        res.render("panelAdm/gestion-de-personal");  // No necesitas enviar `listaGeneral` directamente
+    } catch (error) {
+        console.error("Error al renderizar la vista:", error);
+        res.status(500).json({ message: "Error al cargar la vista de gestión de personal" });
+    }
+},
+
+
+
+  
 
   vistaListaPendientes: async (req, res) => {
     try {

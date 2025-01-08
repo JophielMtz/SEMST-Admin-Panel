@@ -566,3 +566,5 @@ ul.timeline > li:before {
   justify-content: space-between; /* Asegura que los botones se distribuyan de manera uniforme */
   flex-wrap: nowrap; /* Evita que los botones se envuelvan */
 }
+
+

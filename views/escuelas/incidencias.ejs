@@ -135,9 +135,10 @@
                                     <div class="row mt-1 mb-4">
                                         <div class="col-md-12">
                                             <label for="situacion" class="form-label">Situación:</label>
-                                            <input type="text" class="form-control" id="situacion" name="situacion" />
+                                            <textarea class="form-control" id="situacion" name="situacion"></textarea>
                                         </div>
                                     </div>
+                                    
 
                                     <div class="div">
                                         <h2 class="h6 mb-3  text-center">Detalles de Movimiento</h2>
@@ -158,10 +159,13 @@
                                                     <label for="escuela" class="form-label mb-0">Escuela:</label>
                                                 </div>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" id="escuela" name="escuela"
-                                                        placeholder="Nombre de la escuela" />
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">No.</span>
+                                                        <input type="text" class="form-control" id="escuela" name="escuela" placeholder="Número de la escuela" />
+                                                    </div>
                                                 </div>
                                             </div>
+                                            
 
                                             <!-- ZONA y SECTOR -->
                                             <div class="row">
@@ -200,7 +204,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <input type="text" class="form-control" id="no_alumnos"
-                                                        name="no_alumnos" value="100" />
+                                                        name="no_alumnos" />
                                                 </div>
                                             </div>
 
@@ -211,7 +215,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <input type="text" class="form-control mt-1 mb-1" id="grado_1"
-                                                        name="grado_1" value="30" />
+                                                        name="grado_1" />
                                                 </div>
                                                 <div class="col-md-2">
                                                     <label for="grado_2" class="form-label mt-1 mb-1">2°

@@ -119,7 +119,7 @@ router.get('/editar-personal', vistaEditarPersonal);
 
 //=======Endpoint para guardar registros en tablas===========//
 router.post('/guardarRegistro', async (req, res) => {
-  console.log("Datos recibidos en req.body:", req.body);
+  console.log("Datos recibidos en req.body antes de limpiar:", req.body);
 
   const { tabla, ...data } = req.body;
 
@@ -144,24 +144,29 @@ router.post('/guardarRegistro', async (req, res) => {
       return res.status(400).send("Tabla no válida o no especificada.");
   }
 
+  // Limpiar datos
   Object.keys(data).forEach((key) => {
-    if (data[key] === '' ||
-        data[key] === 'Seleccione un estatus' || 
-        data[key] === 'Selecciona una opción' 
+      if (
+          data[key] === '' ||  // Valores vacíos
+          data[key] === 'Seleccione un estatus' || 
+          data[key] === 'Selecciona una opción' || 
+          data[key] === 'Seleccione Municipio' ||  // Convertir "Seleccione Municipio" a null
+          data[key] === 'Seleccione Comunidad' ||  // Convertir "Seleccione Comunidad" a null
+          data[key] === 'Seleccione Clave CCT'     // Convertir "Seleccione Clave CCT" a null
       ) {
-        data[key] = null; // Convertir valores inválidos a NULL
-    }
-});
+          data[key] = null;  // Convertir valores inválidos a NULL
+      }
+  });
+
+  console.log("Datos después de limpiar:", data);  // Verifica cómo quedan los datos después de limpiar
 
   const connection = await pool.getConnection();
   try {
-      // Manejar `detalle_laboral_id` solo si la tabla es `solicitudes_de_cambio`
       if (tabla === 'solicitudes_de_cambio') {
           if (!data.personal_id) {
               return res.status(400).send("Falta el campo `personal_id` para calcular `detalle_laboral_id`.");
           }
 
-          // Obtener `detalle_laboral_id` para `solicitudes_de_cambio`
           const [result] = await connection.query(
               `SELECT detalle_laboral_id FROM detalle_laboral WHERE personal_id = ? LIMIT 1`,
               [data.personal_id]
@@ -171,23 +176,19 @@ router.post('/guardarRegistro', async (req, res) => {
               return res.status(400).send("No se encontró un `detalle_laboral_id` para el `personal_id` proporcionado.");
           }
 
-          // Agregar `detalle_laboral_id` al conjunto de datos
           data.detalle_laboral_id = result[0].detalle_laboral_id;
       }
 
-      // Obtener las columnas válidas de la tabla
       const [columns] = await connection.query(`DESCRIBE ${tabla}`);
       const columnasValidas = columns.map(col => col.Field);
 
-      // Filtrar los datos para incluir solo las columnas válidas
       const datosInsertar = Object.keys(data)
-            .filter(key => columnasValidas.includes(key))
-            .reduce((obj, key) => {
-                obj[key] = data[key] === '' ? null : data[key]; // Convertir valores vacíos a NULL
-                return obj;
-            }, {});
+          .filter(key => columnasValidas.includes(key))
+          .reduce((obj, key) => {
+              obj[key] = data[key] === '' ? null : data[key];
+              return obj;
+          }, {});
 
-      // Verificar si faltan columnas requeridas
       const columnasRequeridas = columns
           .filter(col => col.Null === 'NO' && col.Default === null && col.Extra !== 'auto_increment')
           .map(col => col.Field);
@@ -197,7 +198,6 @@ router.post('/guardarRegistro', async (req, res) => {
           return res.status(400).send(`Faltan los siguientes campos requeridos: ${camposFaltantes.join(', ')}`);
       }
 
-      // Construir la consulta de inserción
       const campos = Object.keys(datosInsertar);
       const valores = Object.values(datosInsertar);
       const placeholders = campos.map(() => '?').join(', ');
@@ -216,6 +216,7 @@ router.post('/guardarRegistro', async (req, res) => {
       connection.release();
   }
 });
+
 
 
 

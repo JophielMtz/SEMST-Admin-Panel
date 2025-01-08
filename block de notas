@@ -1,0 +1,547 @@
+  <!-- Filtro de órdenes -->
+                                <div class="tab-pane fade" id="order" role="tabpanel" aria-labelledby="order-tab">
+                                    <div class="content-container">
+                                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                                <h5 class="mb-0 pb-3">Perfiles </h5>
+                                                <div class="dropdown text-end pb-3">
+                                                    <button class="dropdown btn btn-primary-subtle" id="dropdownMenuButton2"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Last 90 Days
+                                                        <svg width="12" class="ms-2" viewBox="0 0 12 8" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                d="M6 5.08579L10.2929 0.792893C10.6834 0.402369 11.3166 0.402369 11.7071 0.792893C12.0976 1.18342 12.0976 1.81658 11.7071 2.20711L6.70711 7.20711C6.31658 7.59763 5.68342 7.59763 5.29289 7.20711L0.292893 2.20711C-0.0976311 1.81658 -0.0976311 1.18342 0.292893 0.792893C0.683418 0.402369 1.31658 0.402369 1.70711 0.792893L6 5.08579Z"
+                                                                fill="currentColor"></path>
+                                                        </svg>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-soft-primary"
+                                                        aria-labelledby="dropdownMenuButton2">
+                                                        <li><a class="dropdown-item active" href="#">Last 30 Days</a></li>
+                                                        <li><a class="dropdown-item" href="#">Last 90 Days</a></li>
+                                                        <li><a class="dropdown-item" href="#">Last 180 Days</a></li>
+                                                        <li>
+                                                            <hr class="dropdown-divider">
+                                                        </li>
+                                                        <li><a class="dropdown-item" href="#">Last 1 Year</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card shadow-none border iq-product-order-placed">
+                                                <div class="card-header user-details-bg-color bg-light p-4">
+                                                    <div class="iq-order-content">
+                                                        <div
+                                                            class="iq-order-user-details d-flex gap-4 justify-content-between align-items-center">
+                                                            <div>
+                                                                <p>Order Placed</p>
+                                                                <h6 class="mb-0">01 Jan 2022</h6>
+                                                            </div>
+                                                            <div>
+                                                                <p>Total</p>
+                                                                <h6 class="mb-0">$950.00</h6>
+                                                            </div>
+                                                            <div>
+                                                                <p>Cargo</p>
+                                                                <h6 class="mb-0 badge bg-primary text-white">tipo cargo</h6>
+                                                            </div>
+                                                        </div>
+                                                        <h6 class="mb-xl-0 mb-2 iq-order-id">Order ID:
+                                                            <a href="#">#405-653265-0876343</a>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <img src="/images/avatars/avatar-default.png" alt="user-profile"
+                                                                class="img-fluid rounded object-contain avatar-100 iq-product-bg p-3"
+                                                                loading="lazy">
+                                                            <div>
+                                                                <a href="../e-commerce/product-detail.html">
+                                                                    <h5 class="mb-3">nombre</h5>
+                                                                </a>
+                                                                <h6 class="text-primary mb-0">
+                                                                   Edad
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-3 mt-xl-0 mt-3 mt-md-0">
+                                                            <div class="dropdown text-end">
+                                                                <button class="dropdown btn btn-primary mb-3" id="buy-drop"
+                                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Ver más
+                                                                    <svg width="12" class="ms-2" viewBox="0 0 12 8" fill="none"
+                                                                        xmlns="http://www.w3.org/2000/svg">
+                                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                            d="M6 5.08579L10.2929 0.792893C10.6834 0.402369 11.3166 0.402369 11.7071 0.792893C12.0976 1.18342 12.0976 1.81658 11.7071 2.20711L6.70711 7.20711C6.31658 7.59763 5.68342 7.59763 5.29289 7.20711L0.292893 2.20711C-0.0976311 1.81658 -0.0976311 1.18342 0.292893 0.792893C0.683418 0.402369 1.31658 0.402369 1.70711 0.792893L6 5.08579Z"
+                                                                            fill="currentColor"></path>
+                                                                    </svg>
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-soft-primary"
+                                                                    aria-labelledby="buy-drop">
+                                                                    <li><a class="dropdown-item active" href="#">$</a></li>
+                                                                    <li><a class="dropdown-item" href="#">Replace</a></li>
+                                                                    <li><a class="dropdown-item" href="#">View</a></li>
+                                                                    <li>
+                                                                        <hr class="dropdown-divider">
+                                                                    </li>
+                                                                    <li><a class="dropdown-item" href="#">Cancel Order</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="text-center">
+                                                                <a href="../e-commerce/invoice.html">Invoice</a>
+                                                                <span>|</span>
+                                                                <a href="../e-commerce/product-detail.html">Write a Review</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 text-center">
+                                                <a href="javascript:void(0);" class="btn btn-primary">Load More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Filtro de dirección -->
+                                <div class="tab-pane fade" id="adress" role="tabpanel" aria-labelledby="adress-tab">
+                                    <!-- Contenido de dirección -->
+                                    <div class="content-container">
+                                        <!-- Aquí puedes colocar el contenido relacionado con la dirección -->
+                                        <p>Contenido de la Dirección</p>
+                                    </div>
+                                </div>
+
+                                <!-- Filtro de tarjeta -->
+                                <div class="tab-pane fade" id="card" role="tabpanel" aria-labelledby="card-tab">
+                                    <!-- Contenido de tarjetas -->
+                                    <div class="content-container">
+                                        <!-- Aquí puedes colocar el contenido relacionado con las tarjetas -->
+                                        <p>Contenido de las Tarjetas</p>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+                                <div class="conatiner-fluid content-inner mt-n5 py-0">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-8">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <div class="header-title">
+                                                                <h4 class="card-title">Búsqueda Avanzada</h4>
+                                                            </div>
+                                                        </div>
+                                
+                                                        <div class="card-body">
+                                                            <div class="nav nav-tabs custom-nav gap-5 mb-5 d-flex" id="myTab" role="tablist">
+                                                                <!-- Filtro de tabla -->
+                                                                <button class="nav-link active ms-3" id="profile-tab" data-bs-toggle="tab"
+                                                                    data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                                                                    aria-selected="true">
+                                                                    <!-- SVG va aquí -->
+                                                                    <div class="icon-container">
+                                                                    </div>
+                                                                    <span class="mt-2">Tabla</span>
+                                                                </button>
+                                
+                                                                <!-- Filtro de órdenes -->
+                                                                <button class="nav-link" id="order-tab" data-bs-toggle="tab" data-bs-target="#order"
+                                                                    type="button" role="tab" aria-controls="order" aria-selected="false">
+                                                                    <!-- SVG va aquí -->
+                                                                    <div class="icon-container">
+                                                                        <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                    <span class="mt-2">Personal</span>
+                                                                </button>
+                                
+                                                                <!-- Filtro de dirección -->
+                                                                <button class="nav-link" id="adress-tab" data-bs-toggle="tab" data-bs-target="#adress"
+                                                                    type="button" role="tab" aria-controls="adress" aria-selected="false">
+                                                                    <!-- SVG va aquí -->
+                                                                    <div class="icon-container">
+                                                                        <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                    <span class="mt-2">Your Address</span>
+                                                                </button>
+                                
+                                                                <!-- Filtro de tarjeta -->
+                                                                <button class="nav-link" id="card-tab" data-bs-toggle="tab" data-bs-target="#card"
+                                                                    type="button" role="tab" aria-controls="card" aria-selected="false">
+                                                                    <!-- SVG va aquí -->
+                                                                    <div class="icon-container">
+                                                                        <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                                                            xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </div>
+                                                                    <span class="mt-2">Your Cards</span>
+                                                                </button>
+                                                            </div>
+                                
+                                                            
+                                                            <div class="tab-content" id="myTabContent">
+                                                                <!-- Filtro de tabla -->
+                                                                <div class="tab-pane fade show active" id="profile" role="tabpanel"
+                                                                    aria-labelledby="profile-tab">
+                                                                    <div class="content-container">
+                                                                        <div class="card border shadow-none">
+                                                                            <div class="card-header border-bottom py-4 px-0 mx-4">
+                                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                                    <h4 class="mb-0">Lista General</h4>
+                                                                                    <button class="btn btn-primary" id="download-pdf">
+                                                                                        <span class="d-none d-md-block">
+                                                                                            Guardar como PDF
+                                                                                        </span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                
+                                                                            </div>
+                                                                            
+                                                                            <div class="card-body p-0 pt-3">
+                                                                                <div class="table-responsive">
+                                                                                    <table id="datatable-specific" class="table table-striped" data-toggle="data-table">
+                                                                                        <thead>
+                                                                                            <tr>
+                                                                                                <th class="nombre" data-column="nombre" style="width: 1px;">Nombre</th>
+                                        <th class="fecha_nacimiento" data-column="fecha_nacimiento" style="width: 10%;">Fecha de nacimiento</th>
+                                        <th class="edad" data-column="edad" style="width: 5%;">Edad</th>
+                                        <th class="rfc" data-column="rfc" style="width: 10%;">RFC</th>
+                                        <th class="curp" data-column="curp" style="width: 10%;">CURP</th>
+                                        <th class="telefono" data-column="telefono" style="width: 10%;">Teléfono</th>
+                                        <th class="correo" data-column="correo" style="width: 15%;">Correo</th>
+                                        <th class="direccion" data-column="direccion" style="width: 20%;">Dirección</th>
+                                        <th class="sexo" data-column="sexo" style="width: 5%;">Sexo</th>
+                                        <th class="nombre_cct" data-column="nombre_cct" style="width: auto;">CCT</th>
+                                        <th class="cargo" data-column="cargo" style="width: 10%;">Cargo</th>
+                                        <th class="antiguedad_compacta" data-column="antiguedad_compacta" style="width: 10%;">Antigüedad Compacta</th>
+                                        <th class="tipo_organizacion" data-column="tipo_organizacion" style="width: 15%;">Tipo de Organización</th>
+                                        <th class="z_e" data-column="z_e" style="width: 10%;">Zona Escolar (Z_E)</th>
+                                        <th class="tipo_entidad" data-column="tipo_entidad" style="width: 10%;">Tipo de Entidad</th>
+                                        <th class="tipo_direccion" data-column="tipo_direccion" style="width: 15%;">Tipo de Dirección</th>
+                                        <th class="nombramiento" data-column="nombramiento" style="width: 15%;">Nombramiento</th>
+                                
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            <% listaGeneral.forEach(personal => { %>
+                                                                                                <tr>
+                                                                                                    <td class="nombre" data-column="nombre" >
+                                                                                                        <div class="d-flex align-items-center">
+                                                                                                            <img 
+                                                                                                                src="/uploads/<%= personal.imagen %>" 
+                                                                                                                onerror="this.onerror=null; this.src='/images/avatars/avatar-default.png';" 
+                                                                                                                alt="Foto del docente" 
+                                                                                                                class="rounded-circle me-3" 
+                                                                                                                style="width: 40px; height: 40px;">
+                                                                                                            <div>
+                                                                                                                <span class="" style="font-size: 14px;"><%= personal.nombre %></span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                    <td class="fecha_nacimiento" data-column="fecha_nacimiento">
+                                                                                                        <% if (personal.fecha_nacimiento) { 
+                                                                                                            const fecha = new Date(personal.fecha_nacimiento); 
+                                                                                                            const opciones = { day: '2-digit', month: 'short', year: '2-digit' }; 
+                                                                                                            const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones).replace(/^\w/, c => c.toUpperCase());
+                                                                                                        %>
+                                                                                                            <%= fechaFormateada.replace('.', '') %>
+                                                                                                        <% } else { %>
+                                                                                                            Sin fecha
+                                                                                                        <% } %>
+                                                                                                    </td>
+                                                                                                    <td class="edad" data-column="edad"><%= personal.edad %></td>
+                                                                                                    <td class="rfc" data-column="rfc"><%= personal.rfc %></td>
+                                                                                                    <td class="curp" data-column="curp"><%= personal.curp %></td>
+                                                                                                    <td class="telefono" data-column="telefono"><%= personal.telefono %></td>
+                                                                                                    <td class="correo" data-column="correo"><%= personal.correo %></td>
+                                                                                                    <td class="direccion" data-column="direccion"><%= personal.direccion %></td>
+                                                                                                    <td class="sexo" data-column="sexo"><%= personal.sexo %></td>
+                                                                                                    <td class="nombre_cct" data-column="nombre_cct"><%= personal.nombre_cct %></td>
+                                                                                                    <td class="cargo" data-column="cargo"><%= personal.cargo %></td>
+                                                                                                    <td class="antiguedad_compacta" data-column="antiguedad_compacta"><%= personal.antiguedad_compacta ? personal.antiguedad_compacta : 'N/A' %></td>
+                                                                                                    <td class="tipo_organizacion" data-column="tipo_organizacion"><%= personal.tipo_organizacion %></td>
+                                                                                                    <td class="z_e" data-column="z_e"><%= personal.z_e ? personal.z_e : 'N/A' %></td>
+                                                                                                    <td class="tipo_entidad" data-column="tipo_entidad"><%= personal.tipo_entidad ? personal.tipo_entidad : 'N/A' %></td>
+                                                                                                    <td class="tipo_direccion" data-column="tipo_direccion"><%= personal.tipo_direccion ? personal.tipo_direccion : 'N/A' %></td>
+                                                                                                    <td class="nombramiento" data-column="nombramiento"><%= personal.nombramiento ? personal.nombramiento : 'N/A' %></td>
+                                
+                                                                                                </tr>
+                                                                                            <% }) %>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 ">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h4 class="mb-0">Filtro avanzado</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <!-- Barra de Búsqueda -->
+                                                    <div class="mb-4">
+                                                        <input type="text" class="form-control" id="searchInput" placeholder="Buscar producto..." />
+                                                    </div>
+                                                    
+                                                    <p class="text-end">
+                                                        <a class="btn btn-link w-100" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Datos Personales</a>
+                                                    </p>
+                                                    <hr class="hr-horizontal">
+                                                    
+                                                    <div class="collapse" id="collapseExample">
+                                                        <div class=" card-body">
+                                                            <div class="d-flex flex-column">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2 text-end" type="checkbox" value="nombre" id="nombre" onchange="toggleColumn('nombre')" checked>
+                                                                    <label class="form-check-label" for="nombre">Nombre</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="edad" id="edad" ">
+                                                                    <label class="form-check-label" for="edad">Edad</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="telefono" id="telefono" onchange="toggleColumn('telefono')" >
+                                                                    <label class="form-check-label" for="telefono">Teléfono</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="rfc" id="rfc" onchange="toggleColumn('rfc')" 
+                                                                    <label class="form-check-label" for="rfc">RFC</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="curp" id="curp" onchange="toggleColumn('curp')">
+                                                                    <label class="form-check-label" for="curp">CURP</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="correo" id="correo" onchange="toggleColumn('correo')">
+                                                                    <label class="form-check-label" for="correo">Correo</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="direccion" id="direccion" onchange="toggleColumn('direccion')">
+                                                                    <label class="form-check-label" for="direccion">Dirección</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="sexo" id="sexo" onchange="toggleColumn('sexo')">
+                                                                    <label class="form-check-label" for="sexo">Sexo</label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="fecha_nacimiento" id="fecha_nacimiento" onchange="toggleColumn('fecha_nacimiento')">
+                                                                    <label class="form-check-label" for="fecha_nacimiento">Fecha de nacimiento</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                
+                                                    <p class="text-end">
+                                                        <a class="btn btn-link w-100" data-bs-toggle="collapse" href="#Laboral" role="button" aria-expanded="false" aria-controls="collapseExample">Datos Laborales</a>
+                                                    </p>
+                                                    <hr class="hr-horizontal">
+                                                    
+                                                    <div class="collapse" id="Laboral">
+                                                        <div class="card-body">
+                                                            <div class="d-flex flex-column">
+                                                                <div class="form-check d-flex justify-content-start align-items-center">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="cargo" id="cargo" onchange="toggleColumn('cargo')" checked>
+                                                                    <label class="form-check-label" for="cargo">Cargo</label>
+                                                                </div>
+                                                                <div class="form-check d-flex justify-content-start align-items-center">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="antiguedad_compacta" id="antiguedad_compacta" onchange="toggleColumn('antiguedad_compacta')">
+                                                                    <label class="form-check-label" for="antiguedad_compacta">Antigüedad Compacta</label>
+                                                                </div>
+                                                                <div class="form-check d-flex justify-content-start align-items-center">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="tipo_organizacion" id="tipo_organizacion" onchange="toggleColumn('tipo_organizacion')" checked>
+                                                                    <label class="form-check-label" for="tipo_organizacion">Tipo de Organización</label>
+                                                                </div>
+                                                                <div class="form-check d-flex justify-content-start align-items-center">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="z_e" id="z_e" onchange="toggleColumn('z_e')">
+                                                                    <label class="form-check-label" for="z_e">Zona Escolar (Z_E)</label>
+                                                                </div>
+                                                                <div class="form-check d-flex justify-content-start align-items-center">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="tipo_entidad" id="tipo_entidad" onchange="toggleColumn('tipo_entidad')">
+                                                                    <label class="form-check-label" for="tipo_entidad">Tipo de Entidad</label>
+                                                                </div>
+                                                                <div class="form-check d-flex justify-content-start align-items-center">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="tipo_direccion" id="tipo_direccion" onchange="toggleColumn('tipo_direccion')">
+                                                                    <label class="form-check-label" for="tipo_direccion">Tipo de Dirección</label>
+                                                                </div>
+                                                                <div class="form-check d-flex justify-content-start align-items-center">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="nombramiento" id="nombramiento" onchange="toggleColumn('nombramiento')">
+                                                                    <label class="form-check-label" for="nombramiento">Nombramiento</label>
+                                                                </div>
+                                                                <div class="form-check d-flex justify-content-start align-items-center">
+                                                                    <input class="form-check-input me-2" type="checkbox" value="nombre_cct" id="nombre_cct" onchange="toggleColumn('nombre_cct')" checked>
+                                                                    <label class="form-check-label" for="nombre_cct">CCT</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                    
+                                        
+                                                    <!-- Datos Laborales -->
+                                                    <div class="mt-4">
+                                                        <p class="h5">Datos Laborales</p>
+                                                        <hr>
+                                                        
+                                                    </div>
+                                        
+                                                    <!-- Botón para aplicar los filtros -->
+                                                    <div class="text-center mt-4">
+                                                        <button class="btn btn-primary" id="applyFiltersBtn">Aplicar filtros</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                                </div>
+                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                <script>
+                                    $(document).ready(function() {
+                                     // Inicializar DataTable
+                                     var table = $.fn.dataTable.isDataTable('#datatable-specific') ? 
+                                         $('#datatable-specific').DataTable() : 
+                                         $('#datatable-specific').DataTable({
+                                             "searching": true,
+                                             "paging": true,
+                                             "pageLength": 10,
+                                             "lengthMenu": [5, 10, 25, 50, 100],
+                                             "ordering": true,
+                                             "stateSave": true,
+                                             "autoWidth": false,
+                                             "scrollX": true,  // Desactiva auto-ajuste de ancho
+                                             "language": {
+                                                 "paginate": {
+                                                     "first": "Primero",
+                                                     "last": "Último",
+                                                     "next": "Siguiente",
+                                                     "previous": "Anterior"
+                                                 },
+                                                 "lengthMenu": "Mostrar _MENU_ filas",
+                                                 "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                                                 "infoEmpty": "No hay datos disponibles",
+                                                 "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+                                                 "zeroRecords": "No se encontraron resultados",
+                                                 "search": "Buscar:"
+                                             },
+                                          
+                                         });
+                                 
+                                     // Ocultar columnas que no están en defaultVisible
+                                     const defaultVisible = ['nombre', 'nombre_cct', 'cargo', 'tipo_organizacion'];
+                                     table.columns().every(function(index) {
+                                         const column = table.column(index);
+                                         const columnClass = column.header().getAttribute('data-column');
+                                         if (!defaultVisible.includes(columnClass)) {
+                                             column.visible(false);
+                                         }
+                                     });
+                                 
+                                     // Controlar visibilidad con checkboxes
+                                     $('.form-check-input').on('change', function() {
+                                         const columnClass = $(this).val();
+                                         const columnIndex = table.column(`[data-column="${columnClass}"]`).index();
+                                 
+                                         if (columnIndex !== undefined) {
+                                             const column = table.column(columnIndex);
+                                             column.visible(!column.visible());  // Alternar visibilidad de la columna
+                                         }
+                                     });
+                                 
+                                     // Búsqueda personalizada
+                                     $('#searchInput').on('keyup', function() {
+                                         table.search(this.value).draw();
+                                     });
+                                 });
+                                 </script>
+                                 
+                                
+                                
+                                <!-- Filtro de datos -->
+                                <!-- <script>
+                                    $(document).ready(function() {
+                                        // Cambiar contenido según la categoría seleccionada
+                                        $('#categoryFilter').on('change', function() {
+                                            var selectedCategory = $(this).val();
+                                            
+                                            // Ocultar ambas secciones al inicio
+                                            $('#personalFields').hide();
+                                            $('#laboralFields').hide();
+                                
+                                            // Mostrar campos correspondientes según la categoría seleccionada
+                                            if (selectedCategory === 'personal') {
+                                                $('#personalFields').show();
+                                            } else if (selectedCategory === 'laboral') {
+                                                $('#laboralFields').show();
+                                            }
+                                        });
+                                
+                                        // Agregar lógica de filtro al botón de aplicar filtros
+                                        $('#applyFiltersBtn').on('click', function() {
+                                            var selectedCategory = $('#categoryFilter').val();
+                                            var selectedOption = null;
+                                
+                                            // Obtener la opción seleccionada para 'Datos Personales' o 'Datos Laborales'
+                                            if (selectedCategory === 'personal') {
+                                                selectedOption = $("input[name='personalOptions']:checked").val();
+                                            } else if (selectedCategory === 'laboral') {
+                                                selectedOption = $("input[name='laboralOptions']:checked").val();
+                                            }
+                                
+                                            // Aplicar el filtro según la selección
+                                            if (selectedOption) {
+                                                console.log('Aplicando filtro por:', selectedOption);
+                                                // Aquí debes implementar la lógica para filtrar los datos en la tabla
+                                                // Dependiendo de lo seleccionado, puedes enviar esta opción al servidor o filtrar en el frontend
+                                            } else {
+                                                console.log('No se seleccionó ninguna opción');
+                                            }
+                                        });
+                                    });
+                                </script> -->
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                

@@ -420,7 +420,6 @@ const procesosEnTransito = async (personalId) => {
   }
 };
 
-
 // Exportando correctamente las funciones
 module.exports = {
   home,
