@@ -262,7 +262,7 @@
     try {
       const results = await Promise.all(
         cambios.map(async (cambio) => {
-          const response = await fetch('/editarUsuario', {
+          const response = await fetch('/editarRol', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',

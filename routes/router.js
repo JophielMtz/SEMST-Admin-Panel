@@ -1,10 +1,12 @@
 const express = require('express');
-const { 
-  vistaEditarPersonal, vistaAgregarpersonal, 
+const { vistaAgregarpersonal, 
   agregarPersonal, actualizarPersonal,
-  editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio, editarListaPanelAdministrador, editarUsuario, 
+  editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio, editarListaPanelAdministrador,  
   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,   obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, borrarUsuario,
+  editarRol,
 } = require('../controllers/Pagecontrollers');
+
+const { EditarPerfilPersonal } = require('../controllers/Api-Patch/editar-perfil-personal');
 
 const editarTablas = require('../public/js/components/table/table-controller'); 
 const vistasController = require('../controllers/vistas');
@@ -97,6 +99,8 @@ router.get('/perfil/:id', autenticarToken, authViews, checkRol(['super-admin', '
 ///========Ruta Endpoints funcion Editar==========//
 router.put('/editarDocente', editarDocente);
 router.post('/editarCCTS', editarCCTS);
+
+///========Ruta Editar Tablas==========//
 router.put('/editarPendientes', editarPendientes)
 router.put('/editarBecas', editarBecas)
 router.put('/editarSalud', editarSalud)
@@ -110,12 +114,21 @@ router.put('/editarNombramientosDocentes', editarNombramientosDocentes);
 router.put('/editarSolicitudes', editarSolicitudes);
 router.put('/editarInternos', editarInternos);
 router.put('/editarListaPanelAdm', editarListaPanelAdministrador);
-router.patch('/editarUsuario', editarUsuario);
+
+///========Ruta Roles==========//
+router.patch('/editarRol', editarRol);
 router.patch('/editarTabla', editarTablas.editar);
+
+///========Ruta Editar-Perfil-personal==========//
+router.patch('/editar-personal/:id', upload.single('imagen'), EditarPerfilPersonal);
+
+
+
+
 
 router.get('/api/listaGeneral', obtenerListaGeneral);
 
-router.get('/editar-personal', vistaEditarPersonal);
+
 
 //=======Endpoint para guardar registros en tablas===========//
 router.post('/guardarRegistro', async (req, res) => {

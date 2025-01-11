@@ -184,6 +184,7 @@ export const antiguedad = () => ({
   headerName: "Antigüedad",
   editable: false,
   width: 109,
+  cellClass: "centrar-celda",
 });
 export const telefono = () => ({
   field: "telefono",
@@ -460,16 +461,13 @@ export const Perfil = {
   headerName: "Perfil",
   editable: false,
   width: 65,
+  cellClass: "centrar-celda",
   headerClass: "text-center",
   cellRenderer: (params) => {
-    console.log("Datos de la celda:", params.data);  // Agregamos el log para ver los datos
-
     if (!params.data || !params.data.personal_id) {
-      console.log("ID de personal no encontrado o no disponible.");
       return null;
     }
 
-    // Crear el contenedor del botón
     const viewButton = document.createElement("a");
     viewButton.classList.add("btn", "btn-sm", "btn-icon", "btn-primary");
     viewButton.setAttribute("data-bs-toggle", "tooltip");
@@ -477,7 +475,6 @@ export const Perfil = {
     viewButton.setAttribute("title", "Ver Perfil");
     viewButton.href = `/perfil/${params.data.personal_id}`;
 
-    // Crear el ícono dentro del botón
     const btnInner = document.createElement("span");
     btnInner.classList.add("btn-inner");
 
@@ -487,7 +484,6 @@ export const Perfil = {
     svgIcon.setAttribute("viewBox", "0 0 24 24");
     svgIcon.setAttribute("fill", "none");
 
-    // Crear las rutas dentro del SVG
     const path1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path1.setAttribute("fill-rule", "evenodd");
     path1.setAttribute("clip-rule", "evenodd");
@@ -520,21 +516,19 @@ export const Perfil = {
     path4.setAttribute("stroke-linecap", "round");
     path4.setAttribute("stroke-linejoin", "round");
 
-    // Añadir las rutas al SVG
     svgIcon.appendChild(path1);
     svgIcon.appendChild(path2);
     svgIcon.appendChild(path3);
     svgIcon.appendChild(path4);
 
-    // Añadir el ícono dentro del botón
     btnInner.appendChild(svgIcon);
     
-    // Añadir el contenido al botón
     viewButton.appendChild(btnInner);
 
     return viewButton;
   },
 };
+
 
   
 

@@ -6,293 +6,72 @@
                     <div class="row">
                         <div class="col-12 col-md-12 col-lg-4 col-xl-4">
                             <div class="card card-hover mb-3" data-aos="fade-up" data-aos-delay="500">
-                                <div class="card-body text-center p-0 bg-image ">
-                                    <!-- Imagen de perfil -->
-                                    <img src="<%= profileData.imagen ? `/uploads/${profileData.imagen}` : '/images/avatars/avatar-default.png' %>"
-                                        alt="<%= profileData.nombre || 'Usuario' %>"
-                                        class="av-border img-fluid rounded-circle mb-4 mt-3"
-                                        style="object-fit: cover; width: 200px; height: 200px;">
+                                <div class="card-body text-center p-0 bg-image">
+                                    <!-- Contenedor de la imagen -->
+                                    <div class="position-relative d-flex justify-content-center align-items-center"
+                                        style="width: 220px; height: 220px; background: linear-gradient(135deg, #f0f0f0, #ffffff); border-radius: 50%;">
+                                        <img id="profileImage"
+                                            src="<%= profileData.imagen ? `/uploads/${profileData.imagen}` : '/images/avatars/avatar-default.png' %>"
+                                            alt="<%= profileData.nombre || 'Usuario' %>"
+                                            class="av-border img-fluid rounded-circle mb-4 mt-3"
+                                            style="object-fit: contain; width: 100%; height: 100%;">
+                                        <i id="editImageIcon"
+                                            class="fas fa-camera text-primary position-absolute bottom-0 end-0 p-2 bg-white rounded-circle d-none"
+                                            style="cursor: pointer;"
+                                            onclick="document.getElementById('fileInput').click()"></i>
+                                        <input type="file" id="fileInput" class="d-none" accept="image/*"
+                                            onchange="previewImage(event)">
+                                    </div>
                                 </div>
-
                                 <hr class="hr-horizontal mb-3">
-                                <div class="card-body ms-4 pt-1 p-0 pb-1">
-                                    <h5 class="h5 card-title mb-4">Nombre:
-                                        <span id="nombreCompleto" class="fs-5 ms-2">
-                                            <%= profileData.nombre || 'Nombre no disponible' %>
-                                                <%= profileData.apellido_paterno || '' %>
-                                                    <%= profileData.apellido_materno || '' %>
+                                <div class="card-body  text-center">
+                                    <h5 class="h5 card-title mb-4">
+                                        <span class="d-block">Nombre:</span>
+                                        <span id="nombreCompleto" class="fs-4 fs-sm-8 fs-md-6 fs-lg-7 ms-2 d-block">
+                                            <%= profileData.nombre || 'Nombre no disponible' %><br class="d-sm-none">
+                                            <%= profileData.apellido_paterno || '' %><br class="d-sm-none">
+                                            <%= profileData.apellido_materno || '' %>
                                         </span>
                                     </h5>
                                 </div>
-
                             </div>
 
-                            <div class="card" data-aos="fade-up" data-aos-delay="500">
+                            <div class="card" id="cardUbicacion" data-aos="fade-up" data-aos-delay="500">
                                 <div class="card-body">
                                     <div class="row">
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">
-                                                    <i class="fas fa-user-tie me-2 icon-inline"></i>Cargo
-                                                </h6>
-                                                <span class="text-secondary">
-                                                    <%= detalleLaboral.cargo || "No disponible" %>
-                                                </span>
-                                            </li>
-                                            
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">
-                                                    <i class="fas fa-school me-2 icon-inline"></i>Tipo Org.
-                                                </h6>
-                                                <span class="text-secondary">
-                                                    <%= detalleLaboral.tipo_organizacion || "No disponible" %>
-                                                </span>
-                                            </li>
-                                            
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-globe me-2 icon-inline">
-                                                        <circle cx="12" cy="12" r="10"></circle>
-                                                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                                                        <path
-                                                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                                                        </path>
-                                                    </svg>Sector</h6>
-                                                <span class="text-secondary">
-                                                    <%= detalleLaboral.sector || "No disponible" %>
-                                                </span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">
-                                                    <i class="fas fa-map-marker-alt me-2"></i>Zona
-                                                </h6>
-                                                <span class="text-secondary">
-                                                    <%= detalleLaboral.zona || "No disponible" %>
-                                                </span>
-                                            </li>
-                                            
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">
-                                                    <!-- FontAwesome ícono para Municipio -->
-                                                    <i class="fas fa-city me-2 text-info"></i>Municipio
-                                                </h6>
-                                                <span class="text-secondary">
-                                                    <%= detalleLaboral.municipio || "No disponible" %>
-                                                </span>
-                                            </li>
-                                            
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">
-                                                    <!-- FontAwesome ícono para Comunidad -->
-                                                    <i class="fas fa-users me-2 text-danger"></i>Comunidad
-                                                </h6>
-                                                <span class="text-secondary">
-                                                    <%= detalleLaboral.comunidad || "No disponible" %>
-                                                </span>
-                                            </li>
-                                            
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">
-                                                    <!-- FontAwesome ícono para Clave CCT -->
-                                                    <i class="fas fa-key me-2 text-primary"></i>Clave CCT
-                                                </h6>
-                                                <span class="text-secondary">
-                                                    <%= detalleLaboral.clave_cct || "No disponible" %>
-                                                </span>
-                                            </li>
-                                            
-                                            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                                <h6 class="mb-0">
-                                                    <!-- FontAwesome ícono para Zona Escolar -->
-                                                    <i class="fas fa-map-marker-alt me-2 text-primary"></i>Z.E
-                                                </h6>
-                                                <span class="text-secondary">
-                                                    <%= detalleLaboral.z_e || "No disponible" %>
-                                                </span>
-                                            </li>
-                                            
-                                        </ul>
+                                        <hr class="mb-2 mt-2 d-sm-block d-md-block d-lg-none" style="border-top: 1px solid #828282;">
+                                        <ul class="list-group list-group-flush" id="perfilUbicacion"></ul>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                            <!-- Datos-->
+                        <!-- Datos-->
                         <div class="col-md-12 col-lg-8 col-xl-8">
                             <div class="card mb-3" data-aos="fade-up" data-aos-delay="600">
                                 <div class="card-body">
-                                    <!-- Dirección -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Dirección</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= profileData.direccion || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- Teléfono -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Teléfono</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= profileData.telefono || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- Correo -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Correo</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= profileData.correo || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- RFC -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">RFC</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= profileData.rfc || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- CURP -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">CURP</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= profileData.curp || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- Fecha de nacimiento -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Fecha de Nacimiento</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= profileData.fecha_nacimiento ? new Intl.DateTimeFormat('es-MX', {
-                                                dateStyle: 'long' }).format(new Date(profileData.fecha_nacimiento))
-                                                : 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- Edad -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Edad</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= profileData.edad || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- Laboral -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Fecha de ingreso</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.fecha_ingreso ? new Intl.DateTimeFormat('es-MX', {
-                                                dateStyle: 'long' }).format(new Date(detalleLaboral.fecha_ingreso))
-                                                : 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Fecha de nombramiento</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.fecha_nombramiento ? new Intl.DateTimeFormat('es-MX', {
-                                                dateStyle: 'long' }).format(new Date(detalleLaboral.fecha_nombramiento))
-                                                : 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Antiguedad</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.antiguedad_compacta || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- Correo -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Nivel de Gobierno</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.tipo_entidad || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- RFC -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Tipo de Dirección</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.tipo_direccion || 'No aplica' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- CURP -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Nombramiento</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.nombramiento || 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-                                    <!-- Fecha de nacimiento -->
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <h6 class="mb-0">Grado</h6>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <%= detalleLaboral.grado|| 'No disponible' %>
-                                        </div>
-                                    </div>
-                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
-
-
                                     <!-- Botón Editar -->
-                                    <!-- <div class="row">
-                                        <div class="col-sm-12">
-                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#editarPersonalModal">Editar</a>
+                                    <div class="row justify-content-end" id="editarContenedor">
+                                        <div class="col-sm-3 text-end">
+                                            <!-- Enlace con el mismo diseño que el botón -->
+                                            <div class="flex align-items-center list-user-action">
+                                                <a href="javascript:void(0)" id="btnToggleEdicion" onclick="toggleEdicionGlobal()" class="btn btn-sm btn-icon btn-primary">
+                                                    <i class="fas fa-edit me-2"></i> Editar
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div> -->
+                                    </div>
+                                    <hr class="mb-2" style="border-top: 1px solid #828282;">
+                                    <!-- Contenedor dinámico donde se mostrarán los campos -->
+                                    <div id="profileFieldsContainer"></div>
+                                    <script>
+                                        const profileData = <%- JSON.stringify(profileData) %>;
+                                        const detalleLaboral = <%- JSON.stringify(detalleLaboral) %>;
+                                    </script>
                                 </div>
                             </div>
                         </div>
                     </div>
-
 
 
                     <div class="col-12">
@@ -309,12 +88,9 @@
                         </div>
                     </div>
 
-
-        
                     <div class="col-12">
                         <div class="card mb-3" data-aos="fade-up" data-aos-delay="600">
-                            <div class="card-body" style="max-height: 650px; overflow-y: auto; padding-bottom: 3rem;"
-                            >
+                            <div class="card-body" style="max-height: 650px; overflow-y: auto; padding-bottom: 3rem;">
                                 <div class="mb-3">
                                     <label class="fw-bold">Filtrar por Fecha:</label>
                                     <input type="text" id="dateRangePicker" class="form-control" placeholder="Selecciona rango de fechas">
@@ -327,13 +103,13 @@
                                 <% Object.keys(historiales).forEach(historialTipo => { %>
                                     <% let historial = historiales[historialTipo] || []; %>
                                     <% if (historial.length > 0) { %>
-
+                    
                                         <!-- Título del historial -->
-
+                    
                                         <!-- Iteración de datos del historial -->
                                         <% historial.forEach(dato => { %>
                                             <div class="tracking-item border-bottom pb-3 mb-3">
-                                                
+                    
                                                 <!-- Icono y Fecha -->
                                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                                     <div class="tracking-icon status-intransit me-2">
@@ -341,9 +117,11 @@
                                                             <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
                                                         </svg>
                                                     </div>
-
+                    
                                                     <div class="tracking-date">
-                                                        <%= dato.fecha ? new Date(dato.fecha).toLocaleDateString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' }) : "Sin fecha" %>
+                                                        <%= dato.fecha ? new Date(dato.fecha).toLocaleDateString('es-MX', {
+                                                            year: 'numeric', month: '2-digit', day: '2-digit'
+                                                        }) : "Sin fecha" %>
                                                         <span class="text-muted">
                                                             <%= dato.fecha_cambio ? new Date(dato.fecha_cambio).toLocaleTimeString('es-MX') : "" %>
                                                         </span>
@@ -355,7 +133,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
+                    
                                                 <!-- Estatus Condicionales -->
                                                 <% let estatusClas = ""; %>
                                                 <% if (dato.estatus === "Atendido") { %>
@@ -369,11 +147,13 @@
                                                 <% } else { %>
                                                     <% estatusClas = "text-secondary"; %>
                                                 <% } %>
-                                                
+                    
                                                 <!-- Estatus -->
                                                 <% if (historialTipo !== "Becas" && historialTipo !== "Licencia sin goce" && historialTipo !== "Nombramientos") { %>
                                                     <div class="row mb-2">
-                                                        <div class="col-sm-3 fw-bold">Estatus:</div>
+                                                        <div class="col-sm-3 fw-bold">
+                                                            Estatus:
+                                                        </div>
                                                         <div class="col-sm-9 text-secondary">
                                                             <span class="<%= estatusClas %>">
                                                                 <%= dato.estatus || "Estatus no especificado" %>
@@ -382,54 +162,53 @@
                                                     </div>
                                                     <hr class="mb-2" style="border-top: 1px solid #828282;">
                                                 <% } %>
-                                                
-                                                
-                                                
+                    
                                                 <!-- Docentes Disponibles, Solicitudes de cambio y Salud -->
                                                 <% if (historialTipo === "Docentes disponibles" || historialTipo === "Solicitudes de Cambio" || historialTipo === "Salud e Inseguridad") { %>
                                                     <%- include('partials/docente-cambio-h', { dato: dato, historialTipo: historialTipo }) %>
                                                 <% } %>
-
+                    
                                                 <!-- Solicitudes Generales -->
                                                 <% if (historialTipo === "Solicitudes Generales") { %>
                                                     <%- include('partials/h-solicitudesGral', { dato: dato, historialTipo: historialTipo }) %>
                                                 <% } %>
+                    
                                                 <!-- Becas -->
                                                 <% if (historialTipo === "Becas") { %>
                                                     <%- include('partials/h-becas', { dato: dato, historialTipo: historialTipo }) %>
                                                 <% } %>
-
+                    
                                                 <% if (historialTipo === "Licencia sin goce") { %>
                                                     <%- include('partials/h-licencias-goce', { dato: dato, historialTipo: historialTipo }) %>
                                                 <% } %>
-
-                                                <% if (historialTipo === "Incidencias" ) { %>
+                    
+                                                <% if (historialTipo === "Incidencias") { %>
                                                     <%- include('partials/h-incidencias', { dato: dato, historialTipo: historialTipo }) %>
                                                 <% } %>
-                                            
-
+                    
                                                 <!-- Observaciones -->
                                                 <div class="mt-3">
                                                     <h6 class="badge bg-primary fs-6">Observaciones</h6>
-                                                    <p class="mb-0"><%= dato.observaciones || "Sin observaciones" %></p>
+                                                    <p class="mb-0">
+                                                        <%= dato.observaciones || "Sin observaciones" %>
+                                                    </p>
                                                 </div>
                                             </div>
                                         <% }) %>
-                                        
+                    
                                     <% } %>
                                 <% }) %>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
     </div>
-    </div>
 </div>
 </div>
-
-
+</div>
 <!-- Modal -->
 <div class="modal fade" id="editarPersonalModal" tabindex="-1" aria-labelledby="editarPersonalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg ">
@@ -438,6 +217,46 @@
         </div>
     </div>
 </div>
+
+<script src="/js/Forms/editar-perfil-personal.js"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Llamada inicial para mover el contenido correctamente al cargar la página
+        window.addEventListener('resize', moverContenido);
+        moverContenido(); // Llamar al cargar para verificar el estado de la pantalla
+    });
+    
+    function moverContenido() {
+        // Obtener los elementos del DOM
+        const editarContenedor = document.getElementById('editarContenedor');
+        const cardUbicacion = document.getElementById('cardUbicacion');
+    
+        // Verificar que ambos elementos existen antes de mover
+        if (!editarContenedor || !cardUbicacion) return;
+    
+        const breakpointMd = 991; // Tamaño de pantalla para md hacia abajo (Bootstrap)
+    
+        // Si el tamaño de la pantalla es md o más pequeño
+        if (window.innerWidth <= breakpointMd) {
+            // Mover el div con el enlace "Editar" al contenedor de la tarjeta si aún no está allí
+            if (!cardUbicacion.contains(editarContenedor)) {
+                cardUbicacion.querySelector('.card-body').insertBefore(editarContenedor, cardUbicacion.querySelector('.card-body').firstChild);
+            }
+        } else {
+            // Si la pantalla es más grande que md, mover el contenido de vuelta
+            const originalContainer = document.querySelector('.row.justify-content-end');
+            if (originalContainer && !originalContainer.contains(editarContenedor)) {
+                originalContainer.appendChild(editarContenedor);
+            }
+        }
+    }
+    
+    
+    
+                            </script>
+
 
 <script>
     // Selecciona el elemento del span por su ID
@@ -449,31 +268,5 @@
             .toLowerCase() // Convierte todo a minúsculas
             .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitaliza la primera letra de cada palabra
     }
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const trackingItems = document.querySelectorAll(".tracking-item");
-
-        flatpickr("#dateRangePicker", {
-            mode: "range",
-            dateFormat: "Y-m-d",
-            locale: "es",
-            onClose: function (selectedDates) {
-                const [startDate, endDate] = selectedDates;
-
-                trackingItems.forEach(item => {
-                    const dateElement = item.querySelector(".tracking-date");
-                    const itemDate = new Date(dateElement.textContent.trim().split(' ')[0].split('/').reverse().join('-'));
-
-                    if ((!startDate || itemDate >= startDate) && (!endDate || itemDate <= endDate)) {
-                        item.style.display = "";
-                    } else {
-                        item.style.display = "none";
-                    }
-                });
-            }
-        });
-    });
 </script>
 

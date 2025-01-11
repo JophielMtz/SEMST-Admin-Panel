@@ -19,9 +19,6 @@ const {
   historialLicenciaSinGoce
 } = require('../controllers/Renders');
 
-const { 
-  obtenerListaPanelAdministrador,
-} = require('../controllers/Renders/Panel-Adm');
 
 
 const vistasController = {

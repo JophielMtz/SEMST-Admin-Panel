@@ -215,7 +215,7 @@ td:first-child {
 }
 
 
-AG 
+
 
 
 .test-container {
@@ -269,8 +269,7 @@ boton de trash roles */
 
 /* AG Grid style */
 
-.centrar-celda {
-  text-align: center;  /* Centra el texto horizontalmente */
+.centrar-celda {  /* Centra el texto horizontalmente */
   display: flex;
   justify-content: center;  /* Centra el contenido de manera flexible */
   align-items: center;  /* Centra el contenido verticalmente */

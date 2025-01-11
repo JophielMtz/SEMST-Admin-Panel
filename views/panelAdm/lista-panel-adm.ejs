@@ -26,60 +26,32 @@
                       </button>
                   </div>
               </div>
-              
-                  
               </div>
+
               <div class="card-body">
-                  <div class="test-container">
-                      
-                      <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
-                  </div>
+                <div class="mb-3 mt-4 col-10 d-flex justify-content-center align-items-center mx-auto">
+                  <input type="text" class="form-control" id="searchInput" placeholder="Buscar personal..." />
+                </div>           
+                <div class="test-container">
+                    <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
+                </div>
               </div>
           </div>
       </div>
   </div>
 </div>
 
-<!-- Modal de Perfil -->
-<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="profileModalLabel">Perfil de Personal</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="profileContent">
-        <!-- Los datos del perfil se insertarán aquí -->
-        <p><strong>Nombre:</strong> <span id="personalName"></span></p>
-        <p><strong>Edad:</strong> <span id="personalAge"></span></p>
-        <p><strong>Correo:</strong> <span id="personalEmail"></span></p>
-        <!-- Agrega más campos según sea necesario -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
 
 <!--Crear-->
 <script type="module">
-  import {
-    getStatusClass,
-    statusRenderer,
-    funcionPost,
-    editarCelda,
-    createValidatedValueSetter,
-    createSelectColumnProps,
-    borrarColumna,
-  } from "./js/AgGrid/config.js";
+  import {getStatusClass,statusRenderer,funcionPost,editarCelda,createValidatedValueSetter,createSelectColumnProps,borrarColumna,} from "./js/AgGrid/config.js";
   import * as Columnas from "./js/AgGrid/columNames.js";
 
   let gridApi;
   let editMode = false;
+
+
+
 
   const notyf = new Notyf();
 
@@ -113,178 +85,14 @@
   }
 
   const datos = [
-  {
-      field: "Accion",
-      headerName: "Ver perfil",
-      width: 100,
-      editable: false,
-      cellClass: "centrar-celda",
-      cellRenderer: (params) => {
-        if (!params.data || !params.data.personal_id) {
-          return null;
-        }
-
-        // Crear el contenedor que mantendrá ambos botones
-        const actionContainer = document.createElement("div");
-        actionContainer.className = "d-flex"; // Usar flexbox para alinear los botones
-
-        // Primer botón: Ver Perfil
-        const viewProfileButton = document.createElement("a");
-        viewProfileButton.className = "btn btn-sm btn-icon text-primary me-4";
-        viewProfileButton.setAttribute("data-bs-toggle", "tooltip");
-        viewProfileButton.setAttribute("title", "Ver Perfil");
-        viewProfileButton.style.cursor = "pointer";
-
-        viewProfileButton.innerHTML = `
-        <span class="btn-inner">
-          <!-- Primer SVG con margen a la derecha (me-2) -->
-                                          <svg class="icon-32" width="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9849 15.3462C8.11731 15.3462 4.81445 15.931 4.81445 18.2729C4.81445 20.6148 8.09636 21.2205 11.9849 21.2205C15.8525 21.2205 19.1545 20.6348 19.1545 18.2938C19.1545 15.9529 15.8735 15.3462 11.9849 15.3462Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9849 12.0059C14.523 12.0059 16.5801 9.94779 16.5801 7.40969C16.5801 4.8716 14.523 2.81445 11.9849 2.81445C9.44679 2.81445 7.3887 4.8716 7.3887 7.40969C7.38013 9.93922 9.42394 11.9973 11.9525 12.0059H11.9849Z" stroke="currentColor" stroke-width="1.42857" stroke-linecap="round" stroke-linejoin="round"></path>                                </svg>                            
-        </span>
-      `;
-
-
-      viewProfileButton.addEventListener("click", async () => {
-        const personalId = params.data.personal_id;
-    
-        try {
-            // Hacer una solicitud para obtener los detalles del perfil
-            const response = await fetch(`/getlistaPanelAdm/${personalId}`);
-            if (response.ok) {
-                const profileData = await response.json();
-    
-                // Modificar el enlace para redirigir al perfil
-                const profileLink = `/perfil/${personalId}`;
-                window.location.href = profileLink;  // Redirigir a la nueva página con el perfil
-            } else {
-                alert("No se pudo obtener el perfil.");
-            }
-        } catch (error) {
-            alert("Error al obtener el perfil.");
-        }
-    });
-    
-
-        // Segundo botón: Eliminar Personal
-        const deleteButton = document.createElement("a");
-        deleteButton.className = "btn btn-sm btn-icon text-primary";
-        deleteButton.setAttribute("data-bs-toggle", "tooltip");
-        deleteButton.setAttribute("title", "Eliminar Personal");
-        deleteButton.style.cursor = "pointer";
-
-        deleteButton.innerHTML = `
-        <!-- <span class="btn-inner">
-          <svg class="icon-20" width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
-            <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </span> -->
-      `;
-
-        // Lógica del evento de Eliminar Personal
-        deleteButton.addEventListener("click", async () => {
-          const result = await Swal.fire({
-            title: "¿Deseas eliminar este personal?",
-            text: "Esta acción no se puede deshacer.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sí, eliminar",
-            cancelButtonText: "Cancelar",
-            reverseButtons: true,
-          });
-
-          if (result.isConfirmed) {
-            try {
-              const personalId = params.data.personal_id;
-
-              const response = await fetch("/deletePersonal", {
-                method: "DELETE",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ personal_id: personalId }),
-              });
-
-              if (response.ok) {
-                params.api.applyTransaction({ remove: [params.node.data] });
-
-                notyf.success({
-                  message: "Personal eliminado exitosamente",
-                  duration: 2000,
-                  position: { x: "right", y: "top" },
-                });
-              } else {
-                const error = await response.json();
-                alert(`Error: ${error.message}`);
-              }
-            } catch {
-              alert("Error al comunicarse con el servidor.");
-            }
-          }
-        });
-
-        // Agregar los botones al contenedor
-        actionContainer.appendChild(viewProfileButton);
-        actionContainer.appendChild(deleteButton);
-
-        // Retornar el contenedor con ambos botones
-        return actionContainer;
-      },
-    },
-    {
-      field: "personal_id",
-      headerName: "ID",
-      width: 70,
-      editable: false,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "imagen",
-      headerName: "Imagen",
-      width: 100,
-      editable: false,
-      cellRenderer: ImageRenderer,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "nombre",
-      headerName: "Nombre",
-      width: 300,
-      editable: () => editMode,
-      cellClass: "centrar-celda",
-      filter: "agTextColumnFilter",
-    
-    },
-    {
-      field: "edad",
-      headerName: "Edad",
-      width: 70,
-      wrapHeaderText: true,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "telefono",
-      headerName: "Teléfono",
-      editable: () => editMode,
-      minWidth: 100,
-      wrapHeaderText: true,
-      cellClass: "centrar-celda",
-    },
-    {
-      field: "rfc",
-      headerName: "RFC",
-      width: 150,
-      editable: false,
-      cellClass: "centrar-celda",
-    },
+    Columnas.Perfil,
+    {field: "personal_id",headerName: "ID",width: 60,editable: false,cellClass: "centrar-celda",},
+    {field: "imagen",headerName: "Imagen",width: 100,editable: false,cellRenderer: ImageRenderer,cellClass: "centrar-celda",},
+    {field: "nombre",headerName: "Nombre",width: 300,editable: () => editMode,cellClass: "centrar-celda",filter: "agTextColumnFilter",},
+    {field: "edad",headerName: "Edad",width: 70,wrapHeaderText: true,cellClass: "centrar-celda",},
+    {field: "rfc",headerName: "RFC",width: 150,editable: false,cellClass: "centrar-celda", },
     {...Columnas.antiguedad(),field:"antiguedad_compacta", headerName: "Antiguedad"},
-    {
-      field: "cargo",
-      headerName: "cargo",
-      editable: () => editMode,
-      cellClass: "centrar-celda",
-      width: 180,
-    },
+    {field: "cargo",headerName: "cargo",editable: () => editMode,cellClass: "centrar-celda",width: 180,},
     {...Columnas.cctSale(),field:"nombre_cct", headerName: "CCT"},
     {...Columnas.antiguedad(),field:"tipo_organizacion", headerName:"Tipo Org.",  width: 150,},
     {...Columnas.antiguedad(),field:"z_e", headerName:"Z.E",  width: 80,}
@@ -357,35 +165,7 @@
     ],
 };
 
-window.externalFilterChanged = function (filterType) {
-    if (!gridApi) {
-        console.error("Grid API no está inicializado.");
-        return;
-    }
 
-    if (filterType in columnVisibilityConfig) {
-        const columnsToShow = columnVisibilityConfig[filterType];
-
-        if (columnsToShow) {
-            const allColumns = gridOptions.columnDefs.map((colDef) =>
-                colDef.field ? colDef.field : null
-            );
-
-            const columnsToHide = allColumns.filter(
-                (col) => col && !columnsToShow.includes(col)
-            );
-
-            columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
-            columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
-        } else {
-            gridOptions.columnDefs.forEach((colDef) => {
-                gridApi.setColumnVisible(colDef.field, true);
-            });
-        }
-    } else {
-        console.warn(`Tipo de filtro desconocido: ${filterType}`);
-    }
-};
 
 
 
@@ -409,7 +189,6 @@ window.externalFilterChanged = function (filterType) {
 
       // Asigna los datos al grid
       gridApi.setGridOption("rowData", rowData); 
-      externalFilterChanged("all");
     } catch (error) {
       console.error("Error inicializando la tabla:", error);
     }
@@ -437,4 +216,28 @@ window.externalFilterChanged = function (filterType) {
     });
 
   document.addEventListener("DOMContentLoaded", initializeGrid);
+
+  const searchInput = document.getElementById('searchInput');
+
+// Evento para capturar la entrada del usuario
+searchInput.addEventListener('input', function () {
+  if (gridApi) { // Verifica que gridApi esté lista
+    const filterText = searchInput.value;
+
+    // Aplica el filtro solo a la columna "nombre"
+    gridApi.setFilterModel({
+      nombre: {
+        type: 'contains', // Tipo de coincidencia: "contiene"
+        filter: filterText // Texto ingresado
+      }
+    });
+
+    // Refresca los filtros para aplicar los cambios
+    gridApi.onFilterChanged();
+  }
+});
+
+  
+
+;
 </script>

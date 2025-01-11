@@ -10,10 +10,7 @@
                                     aria-labelledby="pills-home-tab1">
                                     <div class="row gutters">
                                         <div class="row">
-                                            
-
                                             <hr class="w-100">
-
                                             <!-- Nombre -->
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                 <div class="form-group">
@@ -111,49 +108,73 @@
                                                 </div>
                                             </div>
 
+                                            
+
                                             <div class="row mb-4 mt-3">
                                                 <!-- Imagen -->
                                                 <div class="col-3 text-center mb-3">
-                                                    <img 
-                                                        id="profile-img" 
-                                                        src="<%= profileData.imagen ? `/uploads/${profileData.imagen}` : '/images/avatars/avatar-default.png' %>" 
-                                                        alt="Imagen de perfil" 
-                                                        class="img-fluid rounded-circle shadow"
+                                                    <img id="profile-img"
+                                                        src="<%= profileData.imagen ? `/uploads/${profileData.imagen}` : '/images/avatars/avatar-default.png' %>"
+                                                        alt="Imagen de perfil" class="img-fluid rounded-circle shadow"
                                                         style="max-width: 100px; height: auto;">
                                                 </div>
                                                 <!-- Campo para subir la imagen -->
                                                 <div class="col-9">
                                                     <div class="form-group">
-                                                        <label for="imagen" class="form-label">Subir nueva imagen</label>
-                                                        <input type="file" class="form-control" id="file-upload" name="imagen">
+                                                        <label for="imagen" class="form-label">Subir nueva
+                                                            imagen</label>
+                                                        <input type="file" class="form-control" id="file-upload"
+                                                            name="imagen">
                                                     </div>
                                                 </div>
                                             </div>
 
-<!--  -->
-                                       
 
                                             <!-- Cargo -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="cargo">Cargo</label>
-                                                    <input type="text" class="form-control" id="cargo" name="cargo"
-                                                        placeholder="Ingrese Cargo"
-                                                        value="<%= detalleLaboral.cargo || '' %>" required>
+                                                    <select class="form-control" id="cargo" name="cargo" required>
+                                                        <!-- Opción seleccionada previamente -->
+                                                        <option value="<%= detalleLaboral.cargo || '' %>" selected>
+                                                            <%= detalleLaboral.cargo || 'Selecciona un cargo' %>
+                                                        </option>
+                                                        <!-- Opciones adicionales -->
+                                                        <option value="DIRECTOR">Director</option>
+                                                        <option value="SUBDIR DE GESTION">Subdir de Gestion</option>
+                                                        <option value="DOCENTE">Docente</option>
+                                                        <option value="AUXILIAR ADMVO">Auxiliar Admvo</option>
+                                                        <option value="AUXILIAR SERVICIO">Auxiliar Servicio</option>
+                                                        <option value="DOCENTE/CAMB/ACT">Docente/Camb/Act</option>
+                                                        <option value="DOCENTE DE APOYO">Docente de Apoyo</option>
+                                                        <option value="VELADOR">Velador</option>
+                                                        <option value="DOCENTE/ATP">Docente/ATP</option>
+
+                                                    </select>
                                                 </div>
                                             </div>
+
 
                                             <!-- Tipo Organización -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="tipo_organizacion">Tipo de Organización</label>
-                                                    <input type="text" class="form-control" id="tipo_organizacion"
-                                                        name="tipo_organizacion"
-                                                        placeholder="Ingrese Tipo de Organización"
-                                                        value="<%= detalleLaboral.tipo_organizacion || '' %>" required>
+                                                    <select class="form-control" id="tipo_organizacion"
+                                                        name="tipo_organizacion" required>
+                                                        <!-- Opción seleccionada previamente -->
+                                                        <option value="<%= detalleLaboral.tipo_organizacion || '' %>"
+                                                            selected>
+                                                            <%= detalleLaboral.tipo_organizacion
+                                                                || 'Selecciona una opción' %>
+                                                        </option>
+                                                        <!-- Opciones adicionales -->
+                                                        <option value="Unitaria">Unitaria</option>
+                                                        <option value="Bidocente">Bidocente</option>
+                                                        <option value="Tridocente">Tridocente</option>
+                                                        <option value="Org. Com.">Org. Com.</option>
+                                                    </select>
                                                 </div>
                                             </div>
-
                                             <!-- Sector -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -173,6 +194,39 @@
                                                         value="<%= detalleLaboral.zona || '' %>" required>
                                                 </div>
                                             </div>
+
+                                            <!-- Municipio -->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="municipio">Municipio</label>
+                                                    <input type="text" class="form-control" id="municipio"
+                                                        name="municipio" placeholder="Ingrese Municipio"
+                                                        value="<%= detalleLaboral.municipio || '' %>">
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Comunidad -->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="comunidad">Comunidad</label>
+                                                    <input type="text" class="form-control" id="comunidad"
+                                                        name="comunidad" placeholder="Ingrese Comunidad"
+                                                        value="<%= detalleLaboral.comunidad || '' %>">
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Clave CCT -->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="clave_cct">Clave CCT</label>
+                                                    <input type="text" class="form-control" id="clave_cct"
+                                                        name="clave_cct" placeholder="Ingrese Clave CCT"
+                                                        value="<%= detalleLaboral.clave_cct || '' %>">
+                                                </div>
+                                            </div>
+
 
                                             <!-- Fecha de Ingreso -->
                                             <div class="col-md-6">
@@ -194,16 +248,6 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Antigüedad -->
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="antiguedad">Antigüedad</label>
-                                                    <input type="number" class="form-control" id="antiguedad"
-                                                        name="antiguedad" placeholder="Años de Antigüedad"
-                                                        value="<%= detalleLaboral.antiguedad || '' %>">
-                                                </div>
-                                            </div>
-
                                             <!-- Z.E -->
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -213,66 +257,22 @@
                                                         value="<%= detalleLaboral.z_e || '' %>">
                                                 </div>
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                        <form action="#" method="POST" enctype="multipart/form-data">
-                            <div class="tab-pane fade show active" id="pills-profile1" role="tabpanel"
-                                aria-labelledby="pills-profile-tab1">
-                                <div class="row gutters">
-
-                                    <!-- Comunidad -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="comunidad">Comunidad</label>
-                                            <input type="text" class="form-control" id="comunidad" name="comunidad"
-                                                placeholder="Ingrese Comunidad"
-                                                value="<%= detalleLaboral.comunidad || '' %>">
-                                        </div>
-                                    </div>
-
-                                    <!-- Municipio -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="municipio">Municipio</label>
-                                            <input type="text" class="form-control" id="municipio" name="municipio"
-                                                placeholder="Ingrese Municipio"
-                                                value="<%= detalleLaboral.municipio || '' %>">
-                                        </div>
-                                    </div>
-
-                                    <!-- Clave CCT -->
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="clave_cct">Clave CCT</label>
-                                            <input type="text" class="form-control" id="clave_cct" name="clave_cct"
-                                                placeholder="Ingrese Clave CCT"
-                                                value="<%= detalleLaboral.clave_cct || '' %>">
-                                        </div>
-                                    </div>
-
-                                    
-                                </div>
-
-                                <!-- Botones -->
-                                <div class="row gutters mt-3">
-                                    <div class="col-12 text-right">
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
-                                        <button type="reset" class="btn btn-secondary">Cancelar</button>
-                                    </div>
+                            <div class="row gutters mt-3">
+                                <div class="col-12 text-right">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <button type="reset" class="btn btn-secondary">Cancelar</button>
                                 </div>
                             </div>
                         </form>
-                        </div>
+                        <!-- Botones -->
+                        
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>
-
-
-

@@ -19,15 +19,22 @@ $(document).ready(function() {
             var table = $('#datatable').DataTable({
                 "data": data,
                 "columns": [
-                    { "data": "imagen", "render": function(data, type, row) {
-                        var imgSrc = data ? "/uploads/" + data : "/images/avatars/avatar-default.png";
-                        return `
-                            <div class="d-flex align-items-center">
-                                <img src="${imgSrc}" alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">
-                                <div><span style="font-size: 14px;">${row.nombre}</span></div>
-                            </div>
-                        `;
-                    }, "title": "Nombre" },
+                    { 
+                        "data": "imagen", 
+                        "render": function(data, type, row) {
+                            var imgSrc = data ? "/uploads/" + data : "/images/avatars/avatar-default.png";
+                            return `
+                                <div class="d-flex align-items-center" style="max-width: 5000000px; overflow: hidden; white-space: normal;">
+                                    <img src="${imgSrc}" alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">
+                                    <div style="word-wrap: break-word; max-width: 5000px;"> 
+                                        <span style="font-size: 14px;">${row.nombre}</span>
+                                    </div>
+                                </div>
+                            `;
+                        }, 
+                        "title": "Nombre", 
+                    },
+                    
                     { 
                         "data": "fecha_nacimiento", 
                         "title": "Fecha de nacimiento",
@@ -87,7 +94,9 @@ $(document).ready(function() {
                     });
                 },
                 "pageLength": 20,  // Cantidad de registros por página
-                "responsive": true, // Permite que la tabla sea responsive
+                "responsive": true, 
+                "autoWidth": true, // Ajusta el ancho de las columnas según el contenido
+                "scrollX": false,  // Desactiva el scroll horizontal
                 "columnDefs": [
                     {
                         "targets": "_all",  // Aseguramos que todas las columnas estén visibles por defecto
@@ -95,7 +104,7 @@ $(document).ready(function() {
                     }
                 ]
             });
-// Función genérica para filtrar por cualquier columna
+
 // Función genérica para filtrar por cualquier columna
 function filterColumn(selectId, columnDataName, checkboxId) {
     $(selectId).on('change', function () {

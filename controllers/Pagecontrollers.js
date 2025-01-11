@@ -1128,7 +1128,7 @@ const editarInternos = async (req, res) => {
   return actualizarRegistro("internos", "np", np, field, value, validFields, res);
 };
 
-const editarUsuario = async (req, res) => {
+const editarRol = async (req, res) => {
   try {
     const { id, rol } = req.body;
 
@@ -1192,7 +1192,7 @@ const agregarPersonal = async (req, res) => {
       tipo_organizacion,
       fecha_ingreso,
       fecha_nombramiento,
-      tipo_direccion_id,
+      tipo_direccion,
       plaza_id,
       activo,
       pausa,
@@ -1236,7 +1236,7 @@ const agregarPersonal = async (req, res) => {
       tipo_organizacion,
       fecha_ingreso,
       fecha_nombramiento,
-      tipo_direccion_id,
+      tipo_direccion,
       plaza_id,
       activo,
       pausa,
@@ -1319,7 +1319,7 @@ const agregarPersonal = async (req, res) => {
     }
 
     const insertDetalleLaboral = `
-      INSERT INTO detalle_laboral (personal_id, cargo, id_relacion, tipo_organizacion, fecha_ingreso, fecha_nombramiento, tipo_direccion_id, plaza_id, activo, pausa)
+      INSERT INTO detalle_laboral (personal_id, cargo, id_relacion, tipo_organizacion, fecha_ingreso, fecha_nombramiento, tipo_direccion, plaza_id, activo, pausa)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     await pool.query(insertDetalleLaboral, [
@@ -1329,7 +1329,7 @@ const agregarPersonal = async (req, res) => {
       tipo_organizacion,
       fecha_ingreso,
       fecha_nombramiento,
-      tipo_direccion_id,
+      tipo_direccion,
       plaza_id,
       activo || 1,
       pausa || 0,
@@ -1497,62 +1497,8 @@ const vistaAgregarpersonal = async (req, res) => {
 };
 
 
-const vistaEditarPersonal = async (req, res) => {
-  const { id } = req.params;
 
-  try {
-    const [personalData] = await pool.query(
-      `SELECT
-          p.personal_id,
-          p.nombre,
-          p.apellido_paterno,
-          p.apellido_materno,
-          p.direccion,
-          p.correo,
-          p.rfc,
-          p.curp,
-          p.fecha_nacimiento,
-          p.telefono,
-          p.sexo,
-          p.imagen,
-          dl.cargo,
-          dl.tipo_direccion_id,
-          dl.tipo_organizacion,
-          dl.plaza_id,
-          dl.fecha_ingreso,
-          dl.fecha_nombramiento,
-          dl.activo,
-          uc.zona_id,
-          uc.sector_id,
-          uc.municipio_id,
-          uc.comunidad_id,
-          uc.cct_id
-       FROM personal p
-       LEFT JOIN detalle_laboral dl ON p.personal_id = dl.personal_id
-       LEFT JOIN ubic_ccts uc ON dl.id_relacion = uc.id_relacion
-       WHERE p.personal_id = ?
-      `,
-      [id]
-    );
 
-    // Verificar si se encontró el personal
-    if (personalData.length === 0) {
-      return res.status(404).send("Personal no encontrado");
-    }
-
-    // Detectar si la solicitud es AJAX
-    if (req.headers['x-requested-with'] === 'XMLHttpRequest') {
-      // Renderizar solo el formulario parcial sin layout
-      return res.render("partials/form-editar-personal", { layout: false, personal: personalData[0] });
-    }
-
-    // Renderizar la vista completa con layout
-    return res.render("editar-personal", { personal: personalData[0] });
-  } catch (error) {
-    console.error("Error al obtener los datos del personal:", error);
-    res.status(500).send("Error al cargar la vista de edición");
-  }
-};
 
 const obtenerDetallePersonal  = async (req, res) => {
   const { personal_id} =  req.params;
@@ -1627,11 +1573,10 @@ module.exports = {
   editarSolicitudesGenerales,
   editarSolicitudesDeCambio,
   editarListaPanelAdministrador,
-  editarUsuario,
+  editarRol,
 
   vistaAgregarpersonal,
   agregarPersonal,
-  vistaEditarPersonal,
   // obtenerPersonalTotal,
   obtenerSalud,
   obtenerIncidencias,

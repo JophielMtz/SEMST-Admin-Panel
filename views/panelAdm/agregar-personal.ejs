@@ -206,14 +206,14 @@
 
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="tipo_direccion_id" class="form-label">Tipo de Dirección</label>
-                    <select class="form-select mb-3 shadow-none" id="tipo_direccion_id" name="tipo_direccion_id">
+                    <label for="tipo_direccion" class="form-label">Tipo de Dirección</label>
+                    <select class="form-select mb-3 shadow-none" id="tipo_direccion" name="tipo_direccion">
                       <option value="">
                         Selecciona el tipo de dirección
                       </option>
-                      <option value="1">D/comisionado</option>
-                      <option value="2">D/frente a grupo</option>
-                      <option value="3">D/técnico</option>
+                      <option value="D/COMISIONADO">D/comisionado</option>
+                      <option value="D/FRENTE A GRUPO">D/frente a grupo</option>
+                      <option value="D/TECNICO">D/técnico</option>
                     </select>
                     <div class="invalid-feedback">
                       Por favor selecciona el tipo de dirección.
@@ -240,7 +240,7 @@
                 <div class="col-md-6 mx-auto mt-2">
                   <div class="form-group">
                     <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
-                    <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required />
+                    <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" />
                     <div class="invalid-feedback">
                       Por favor ingresa la fecha de ingreso.
                     </div>
@@ -256,7 +256,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-4 mx-auto">
+                <!-- <div class="col-md-4 mx-auto">
                   <div class="form-group">
                     <label for="plaza_id" class="form-label">Plaza</label>
                     <select class="form-select mb-3 shadow-none" id="plaza_id" name="plaza_id" required>
@@ -279,7 +279,7 @@
                       caracteres.
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="w-100"></div>
 
 
@@ -442,7 +442,7 @@
     const curpInput = document.getElementById('curp');
     const telefonoInput = document.getElementById('telefono');
     const cargoSelect = document.querySelector('[name="cargo"]');
-    const tipoDirectorSelect = document.querySelector('[name="tipo_direccion_id"]');
+    const tipoDirectorSelect = document.querySelector('[name="tipo_direccion"]');
     const tipoOrganizacionSelect = document.querySelector('[name="tipo_organizacion"]');
 
     const validarTexto = (input) => {
