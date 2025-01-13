@@ -271,7 +271,7 @@ boton de trash roles */
 
 .centrar-celda {  /* Centra el texto horizontalmente */
   display: flex;
-  justify-content: center;  /* Centra el contenido de manera flexible */
+  /* justify-content: center;   */
   align-items: center;  /* Centra el contenido verticalmente */
 }
 

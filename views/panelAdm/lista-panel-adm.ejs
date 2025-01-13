@@ -43,6 +43,246 @@
 
 
 <!--Crear-->
+<!-- <script type="module">
+  import {getStatusClass,statusRenderer,funcionPost,editarCelda,createValidatedValueSetter,createSelectColumnProps,borrarColumna,} from "./js/AgGrid/config.js";
+  import * as Columnas from "./js/AgGrid/columNames.js";
+
+  let gridApi;
+  let editMode = false;
+
+  const notyf = new Notyf();
+
+  class ImageNameRenderer {
+  eGui;
+
+  init(params) {
+    // Elemento raíz principal
+    const rootElement = document.createElement("div");
+    rootElement.setAttribute(
+      "style",
+      `
+      display: flex;
+      align-items: center;  /* Centrar verticalmente */
+      justify-content: flex-start;  /* Alinear el texto y la imagen a la izquierda */
+      height: 100%;
+      `
+    );
+
+    // Contenedor para la imagen
+    const imageContainer = document.createElement("div");
+    imageContainer.setAttribute(
+      "style",
+      `
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;  /* Hace que el contenedor sea circular */
+      overflow: hidden;
+      background-color: #f0f0f0;
+      margin-right: 10px;
+      `
+    );
+
+    // Imagen responsiva y circular
+    const personalImage = document.createElement("img");
+personalImage.src = params.data.imagen
+  ? `/uploads/Fotos-de-perfil-personal/${params.data.imagen}`  // Cambiar la ruta para que apunte a la subcarpeta Fotos-de-perfil
+  : "/images/avatars/avatar-default.png"; // Imagen predeterminada
+    personalImage.setAttribute(
+      "style",
+      `
+      width: 100%;
+      height: 100%;
+      object-fit: cover;  /* Asegura que la imagen llene el contenedor sin deformarse */
+      border-radius: 50%;  /* Mantiene la imagen circular */
+      `
+    );
+
+    // Añadir la imagen al contenedor
+    imageContainer.appendChild(personalImage);
+
+    // Contenedor para el texto del nombre
+    const personalName = document.createElement("div");
+    personalName.textContent = `${params.data.nombre} ${params.data.apellido_paterno || ''} ${params.data.apellido_materno || ''}`;
+    personalName.setAttribute(
+      "style",
+      `
+      font-size: 14px;
+      text-align: left;
+      white-space: break-spaces;
+      word-wrap: break-word;
+      line-height: 1.2;
+      `
+    );
+
+    // Añadir imagen y nombre al elemento raíz
+    rootElement.appendChild(imageContainer);
+    rootElement.appendChild(personalName);
+
+    this.eGui = rootElement;
+  }
+
+  getGui() {
+    return this.eGui;
+  }
+
+  refresh(params) {
+    return false;
+  }
+}
+
+
+
+
+
+  const datos = [
+    Columnas.Perfil,
+    {field: "personal_id",headerName: "ID",width: 60,editable: false,cellClass: "centrar-celda",},
+    {
+      headerName: "Personal",
+    field: "personal", // Campo para el filtro (valor textual)
+    width: 300,
+    filter: "agTextColumnFilter", // Activa el filtro solo sobre el texto
+    valueGetter: (params) => {
+      // El valor que será usado para el filtro
+      return `${params.data.nombre} ${params.data.apellido_paterno || ''} ${params.data.apellido_materno || ''}`;
+    },
+    cellRenderer: ImageNameRenderer, // Mantén el renderizador para la imagen y el texto
+    editable: false,
+  },
+    {field: "edad",headerName: "Edad",width: 70,wrapHeaderText: true,cellClass: "centrar-celda",},
+    {field: "rfc",headerName: "RFC",width: 150,editable: false,cellClass: "centrar-celda", },
+    {...Columnas.antiguedad(),field:"antiguedad_compacta", headerName: "Antiguedad"},
+    {field: "cargo",headerName: "cargo",editable: () => editMode,cellClass: "centrar-celda",width: 180,},
+    {...Columnas.cctSale(),field:"nombre_cct", headerName: "CCT"},
+    {...Columnas.antiguedad(),field:"tipo_organizacion", headerName:"Tipo Org.",  width: 150,},
+    {...Columnas.antiguedad(),field:"z_e", headerName:"Z.E",  width: 80,}
+  ];
+
+  const gridOptions = {
+    columnDefs: datos,
+    defaultColDef: { editable: true, resizable: true },
+    cellStyle: { textAlign: "center" },
+    sortable: true, // Habilita la ordenación
+    filter: true, // Habilita filtros por defecto
+    pagination: true,
+    paginationPageSize: 20,
+    cacheBlockSize: 10,
+    rowData: null,
+    rowHeight: 75,
+    domLayout: "autoHeight",
+    context: {
+      endpoint: "/editarListaPanelAdm",
+    },
+    onCellValueChanged: editarCelda,
+  };
+
+
+
+  const columnVisibilityConfig = {
+    cctsSaleEntra: [
+        "nombre_docente",
+        "fecha",
+        "estatus",
+        "municipio_sale",
+        "cct_sale",
+        "estatus_cubierta",
+        "municipio_entra",
+        "cct_entra",
+    ],
+    funcionDelete: [
+    "Accion",
+    "np",
+        "nombre_docente",
+        "fecha",
+        "estatus",
+        "situacion",
+        "antiguedad",
+        "municipio_sale",
+        "comunidad_sale",
+        "cct_sale",
+        "estatus_cubierta",
+        "observaciones",
+        "municipio_entra",
+        "comunidad_entra",
+        "cct_entra",
+
+    ],
+    all: [
+        "Accion",
+        "personal_id",
+        "nombre",
+        "imagen",
+        "cargo",
+        "edad",
+        "rfc",
+        "correo",
+        "curp",
+        "telefono",
+        "estatus_cubierta",
+        "observaciones",
+        "municipio_entra",
+        "comunidad_entra",
+        "cct_entra",
+    ],
+};
+
+
+  const initializeGrid = async () => {
+    const gridDiv = document.querySelector("#myGrid");
+    gridApi = agGrid.createGrid(gridDiv, gridOptions);
+
+    try {
+      // Obtén los datos desde el backend
+      const data = await fetch("/getlistaPanelAdm").then((response) =>
+        response.json()
+      );
+      const rowData = data.map((row) => ({
+        ...row,
+        tabla: "personal", // Nombre de la tabla a la que pertenece esta fila
+      }));
+      gridApi.setGridOption("rowData", rowData); 
+    } catch (error) {
+      console.error("Error inicializando la tabla:", error);
+    }
+  };
+
+  document
+    .querySelector("#toggleEditMode")
+    .addEventListener("click", async () => {
+      if (editMode) {
+        if (confirm("¿Estás seguro de los cambios?")) {
+          editMode = false;
+          const button = document.querySelector("#toggleEditMode");
+          button.innerHTML = '<i class="fas fa-edit me-2"></i>Activar Edición';
+          gridApi.refreshCells({ force: true }); // Refrescar las celdas
+          await reloadData();
+        }
+      } else {
+        editMode = true;
+        const button = document.querySelector("#toggleEditMode");
+        button.innerHTML = '<i class="fas fa-times me-2"></i>Finalizar Edición';
+        gridApi.refreshCells({ force: true }); // Refrescar las celdas para aplicar edición
+      }
+    });
+
+  document.addEventListener("DOMContentLoaded", initializeGrid);
+
+
+
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", (event) => {
+    const searchText = event.target.value;
+    gridOptions.api.setQuickFilter(searchText); // Aplica el texto como filtro global
+  });
+
+  
+
+;
+</script> -->
+
 <script type="module">
   import {getStatusClass,statusRenderer,funcionPost,editarCelda,createValidatedValueSetter,createSelectColumnProps,borrarColumna,} from "./js/AgGrid/config.js";
   import * as Columnas from "./js/AgGrid/columNames.js";
@@ -62,17 +302,16 @@
       const personalImage = document.createElement("img");
 
       if (params.value) {
-        personalImage.src = `/uploads/${params.value}`;
+        personalImage.src = `/uploads/Fotos-de-perfil-personal/${params.value}`;
       } else {
         personalImage.src = "/images/avatars/avatar-default.png"; // Imagen predeterminada
       }
 
-      personalImage.setAttribute(
-        "style",
-        "display: block; width: 50px; height: 50px; border-radius: 50%; margin: auto;"
-      );
-
-      this.eGui = personalImage;
+        personalImage.classList.add("img-fluid", "rounded-circle", "mx-auto", "d-block");
+        personalImage.style.width = "50px";
+        personalImage.style.height = "50px";
+        personalImage.style.objectFit = "cover"; // Asegura que la imagen conserve su relación de aspecto
+        this.eGui = personalImage;
     }
 
     getGui() {
@@ -93,7 +332,7 @@
     {field: "rfc",headerName: "RFC",width: 150,editable: false,cellClass: "centrar-celda", },
     {...Columnas.antiguedad(),field:"antiguedad_compacta", headerName: "Antiguedad"},
     {field: "cargo",headerName: "cargo",editable: () => editMode,cellClass: "centrar-celda",width: 180,},
-    {...Columnas.cctSale(),field:"nombre_cct", headerName: "CCT"},
+    {...Columnas.cctSale(),field:"nombre_cct", headerName: "CCT",cellClass: "centrar-celda",},
     {...Columnas.antiguedad(),field:"tipo_organizacion", headerName:"Tipo Org.",  width: 150,},
     {...Columnas.antiguedad(),field:"z_e", headerName:"Z.E",  width: 80,}
   ];

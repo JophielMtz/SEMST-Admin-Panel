@@ -22,7 +22,7 @@ $(document).ready(function() {
                     { 
                         "data": "imagen", 
                         "render": function(data, type, row) {
-                            var imgSrc = data ? "/uploads/" + data : "/images/avatars/avatar-default.png";
+                            var imgSrc = data ? "/uploads/Fotos-de-perfil-personal/" + data : "/images/avatars/avatar-default.png";
                             return `
                                 <div class="d-flex align-items-center" style="max-width: 5000000px; overflow: hidden; white-space: normal;">
                                     <img src="${imgSrc}" alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">

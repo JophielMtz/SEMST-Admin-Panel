@@ -33,7 +33,7 @@ const camposConfiguracion = {
         { label: "Fecha de Nombramiento", field: "fecha_nombramiento" },
         { label: "Antigüedad", field: "antiguedad_compacta" },
         { label: "Delegación", field: "delegacion" },
-        { label: "Nivel de Gobffffierno", field: "tipo_entidad", type: "select", options: [ "Estatal", "Federal"]},
+        { label: "Nivel de Gobierno", field: "tipo_entidad", type: "select", options: [ "Estatal", "Federal"]},
         { label: "Grado", field: "grado" },
         { label: "Nombramiento", field: "nombramiento" },
         { label: "Tipo de Dirección", field: "tipo_direccion", type: "select",  options: ["D/Tecnico","D/Frente a grupo","D/Comisionado"]}
