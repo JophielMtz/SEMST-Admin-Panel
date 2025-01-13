@@ -530,8 +530,6 @@ export const Perfil = {
 };
 
 
-  
-
   export const VerMas = {
     field: "ver_mas",
     headerName: "Ver Más",
@@ -581,6 +579,9 @@ export const Perfil = {
       return viewButton;
     },
   };
+
+
+  
   
   
   

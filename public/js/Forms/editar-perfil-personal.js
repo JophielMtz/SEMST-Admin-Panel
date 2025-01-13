@@ -277,30 +277,52 @@ function toggleEdicionGlobal() {
 
 async function actualizarImagen(file) {
     const formData = new FormData();
-    const id = profileData?.personal_id || detalleLaboral?.personal_id; // ID del usuario
-    formData.append("imagen", file); // Agregar la imagen al FormData
+    const id = profileData?.personal_id || detalleLaboral?.personal_id;
+    formData.append("imagen", file);
 
     try {
         const response = await fetch(`/editar-personal/${id}`, {
             method: "PATCH",
-            body: formData // Solo se envía la imagen
+            body: formData
         });
 
         if (response.ok) {
-            // Mostrar SweetAlert con mensaje genérico y que se cierre automáticamente
+            const data = await response.json(); // Parsea la respuesta JSON
+            const rutaImagen = data.ruta; // Obtiene la ruta de la imagen desde la respuesta
+
+            // Actualiza la imagen en el frontend (ejemplo con un elemento <img>)
+            const imgElement = document.getElementById('imagen-de-perfil'); // Reemplaza 'imagen-de-perfil' con el ID real de tu elemento <img>
+            if (imgElement) {
+                imgElement.src = rutaImagen; // Establece el atributo src con la nueva ruta
+            } else {
+                console.warn("No se encontró el elemento con ID 'imagen-de-perfil'");
+            }
+
             Swal.fire({
                 title: 'Éxito',
                 text: 'Cambios guardados',
                 icon: 'success',
-                showConfirmButton: false, // Quita el botón de confirmación
-                timer: 1500, // El mensaje se cierra automáticamente después de 1.5 segundos
-                timerProgressBar: true // Muestra la barra de progreso del tiempo
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true
             });
         } else {
-            console.error(`Error al actualizar la imagen: ${response.statusText}`);
+            const errorData = await response.json();//Intenta obtener información de error del servidor
+            const errorMessage = errorData?.message || `Error al actualizar la imagen: ${response.status} ${response.statusText}`; //Mensaje de error más descriptivo
+            console.error(errorMessage);
+            Swal.fire({
+                title: 'Error',
+                text: errorMessage,
+                icon: 'error',
+            });
         }
     } catch (error) {
         console.error("Error al intentar actualizar la imagen:", error);
+        Swal.fire({
+            title: 'Error',
+            text: 'Error al intentar actualizar la imagen',
+            icon: 'error',
+        });
     }
 }
 

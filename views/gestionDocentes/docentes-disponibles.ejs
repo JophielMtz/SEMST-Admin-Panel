@@ -23,9 +23,12 @@
                             <i class="fas fa-edit me-1"></i> Activar Edición
                         </button>
                     </div>
-                
-               
-               
+                    <div class="col-auto">
+                        <button id="borrarColumna" class="btn btn-primary rounded-pill w-auto"
+                            style="padding: 4px 12px; font-size: 12px;">
+                            Borrar Columna
+                        </button>
+                    </div>
                 </div>
                 
                     
@@ -48,11 +51,9 @@
                                     <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
                                 </div>
                             <% } %>
-                            
-                            
                         </div>
-                        <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
                     </div>
+                     <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
                 </div>
             </div>
         </div>
@@ -257,7 +258,7 @@
 
 
         const datos = [
-        borrarColumna('/api/deleteRecord'),
+        { ...borrarColumna('/api/deleteRecord'), hide: true, colId: "Accion" },
         Columnas.Perfil,
         { field: "np", headerName: "NP", width: 70, editable: false },
         {...Columnas.colFecha(), editable: () => editMode,},
@@ -278,140 +279,91 @@
         {...Columnas.cctEntra(true),editable: () => editMode,}
     ]
 
-        const gridOptions = {
-            columnDefs: datos,
-            defaultColDef: {editable: true,resizable: true,},
-            rowData: [],
-            pagination: true,
-            paginationPageSize: 20,
-            cacheBlockSize: 10,
-            rowHeight: 60,
-            domLayout: "autoHeight",
-            context: {
-                endpoint: "/editarDocente", // Funcion post
-                municipios: [], // Lista de municipios
-                comunidades: [], // Lista global de comunidades
-                ccts: [], // Lista global de CCTs
-                currentComunidades: [], // Para "sale"
-                currentCCTs: [], // Para "sale"
-                currentComunidadesEntra: [], // Nueva clave para "entra"
-                currentCCTsEntra: [], // Nueva clave para "entra"
-            },
-         
-            onCellValueChanged: editarCelda,
-        };
+    const gridOptions = {
+    columnDefs: datos,
+    defaultColDef: {editable: true, resizable: true},
+    rowData: [],
+    pagination: true,
+    paginationPageSize: 20,
+    cacheBlockSize: 10,
+    rowHeight: 60,
+    domLayout: "autoHeight",
+    context: {
+        endpoint: "/editarDocente", 
+        municipios: [], 
+        comunidades: [], 
+        ccts: [], 
+        currentComunidades: [], 
+        currentCCTs: [], 
+        currentComunidadesEntra: [], 
+        currentCCTsEntra: [], 
+    },
+    onCellValueChanged: editarCelda,
+    onGridReady: (params) => {
+            // Esto asegura que gridApi y columnApi estén disponibles
+            console.log("Grid is ready");
 
-       
-        const columnVisibilityConfig = {
-            cctsSaleEntra: [
-                "nombre_docente",
-                "fecha",
-                "estatus",
-                "municipio_sale",
-                "cct_sale",
-                "estatus_cubierta",
-                "municipio_entra",
-                "cct_entra",
-            ],
-            funcionDelete: [
-            "Accion",
-            "np",
-                "nombre_docente",
-                "fecha",
-                "estatus",
-                "situacion",
-                "antiguedad",
-                "municipio_sale",
-                "comunidad_sale",
-                "cct_sale",
-                "estatus_cubierta",
-                "observaciones",
-                "municipio_entra",
-                "comunidad_entra",
-                "cct_entra",
+            const { api, columnApi } = params;
 
-            ],
-            all: [
-                "np",
-                "nombre_docente",
-                "fecha",
-                "estatus",
-                "situacion",
-                "antiguedad",
-                "municipio_sale",
-                "comunidad_sale",
-                "cct_sale",
-                "estatus_cubierta",
-                "observaciones",
-                "municipio_entra",
-                "comunidad_entra",
-                "cct_entra",
-            ],
-        };
-        
-        window.externalFilterChanged = function (filterType) {
-            if (!gridApi) {
-                console.error("Grid API no está inicializado.");
-                return;
-            }
-        
-            if (filterType in columnVisibilityConfig) {
-                const columnsToShow = columnVisibilityConfig[filterType];
-        
-                if (columnsToShow) {
-                    const allColumns = gridOptions.columnDefs.map((colDef) =>
-                        colDef.field ? colDef.field : null
-                    );
-        
-                    const columnsToHide = allColumns.filter(
-                        (col) => col && !columnsToShow.includes(col)
-                    );
-        
-                    columnsToHide.forEach((col) => gridApi.setColumnVisible(col, false));
-                    columnsToShow.forEach((col) => gridApi.setColumnVisible(col, true));
-                } else {
-                    gridOptions.columnDefs.forEach((colDef) => {
-                        gridApi.setColumnVisible(colDef.field, true);
-                    });
+            // Lógica para el botón de mostrar la columna "Accion"
+            document.getElementById("borrarColumna").addEventListener("click", () => {
+                if (!columnApi) {
+                    console.error("No se puede acceder a columnApi.");
+                    return;
                 }
-            } else {
-                console.warn(`Tipo de filtro desconocido: ${filterType}`);
-            }
-        };
-        
-        
 
-        const initializeGrid = async () => {
-            const gridDiv = document.querySelector("#myGrid");
-            gridApi = agGrid.createGrid(gridDiv, gridOptions);
+                const colId = "Accion"; // ID de la columna que queremos mostrar/ocultar
+
+                // Verifica si la columna está oculta y alterna su visibilidad
+                const isHidden = columnApi.getColumnState().find((col) => col.colId === colId)?.hide;
+                columnApi.setColumnVisible(colId, !isHidden); // Alternar visibilidad
+            });
+
+            // Cargar datos desde el backend
+            loadData(api);
+        }
+    };
+
+
+const initializeGrid = async () => {
+    const gridDiv = document.querySelector("#myGrid");
+    
+    // Inicializa el grid
+    gridApi = agGrid.createGrid(gridDiv, gridOptions);
+
+    // Ya no necesitamos este código aquí, ya está en onGridReady
+    // Definir el evento onGridReady
+    // gridOptions.onGridReady = () => { ... }
+
+    try {
+        // Obtén los municipios y comunidades desde el backend
+        const municipios = await fetchMunicipios();
+        for (const municipio of municipios) {
+            municipio.comunidades = await fetchComunidades(municipio.municipio_id);
+        }
+        gridOptions.context.municipios = municipios;
+
+        // Obtén los datos desde el backend
+        const data = await fetch("/getDocentesDisponibles").then((response) => response.json());
+
+        // Agrega el campo `tabla` dinámicamente
+        const rowData = data.map((row) => ({
+            ...row,
+            tabla: "docentes_disponibles", // Nombre de la tabla a la que pertenece esta fila
+        }));
+
+        // Establece los datos en la tabla
+        gridApi.setGridOption("rowData", rowData);
+
+        // Aplica el filtro inicial (opcional)
+    } catch (error) {
+        console.error("Error inicializando la tabla:", error);
+    }
+};
+
+
+
         
-            try {
-                const municipios = await fetchMunicipios();
-                for (const municipio of municipios) {
-                    municipio.comunidades = await fetchComunidades(municipio.municipio_id);
-                }
-                gridOptions.context.municipios = municipios;
-        
-                // Obtén los datos desde el backend
-                const data = await fetch("/getDocentesDisponibles").then((response) =>
-                    response.json()
-                );
-        
-                // Agrega el campo `tabla` dinámicamente
-                const rowData = data.map((row) => ({
-                    ...row,
-                    tabla: "docentes_disponibles", // Nombre de la tabla a la que pertenece esta fila
-                }));
-        
-                // Establece los datos en la tabla
-                gridApi.setGridOption("rowData", rowData);
-        
-                // Aplica el filtro inicial (opcional)
-                externalFilterChanged("all");
-            } catch (error) {
-                console.error("Error inicializando la tabla:", error);
-            }
-        };
         
         // Alternar el modo edición
         document.querySelector("#toggleEditMode").addEventListener("click", async () => {
@@ -434,4 +386,6 @@
         });
 
         document.addEventListener("DOMContentLoaded", initializeGrid);
+     
+
 </script>

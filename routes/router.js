@@ -19,17 +19,37 @@ const pool = require('../src/config/db');
 const multer = require('multer');
 const path = require('path');
 const Joi = require('joi');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, '..', 'uploads')); 
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + '-' + file.originalname); // Nombre del archivo
-    }
-  });
+  destination: function (req, file, cb) {
+      const uploadPath = path.join(__dirname, '..', 'uploads', 'Fotos-de-perfil-personal');
 
-const upload = multer({ storage: storage });
+      // Crea el directorio principal si no existe (solo una vez)
+      fs.mkdirSync(uploadPath, { recursive: true });
+      cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+      const idUsuario = req.params.id;
+      const nombreUsuario = req.body.nombre || "sin_nombre"; // Manejo si no viene el nombre
+      const sanitizedNombre = nombreUsuario.replace(/[^a-zA-Z0-9]/g, '_'); // Sanitiza el nombre
+
+      const nombreArchivo = `${idUsuario}-${sanitizedNombre}${path.extname(file.originalname)}`;
+      cb(null, nombreArchivo);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+      if (allowedMimeTypes.includes(file.mimetype)) {
+          cb(null, true);
+      } else {
+          cb(new Error('Tipo de archivo no válido. Solo se permiten imágenes JPEG, JPG, PNG y GIF.'), false);
+      }
+  }
+});
 
 //=======Ruta para registros de usuarios===========//
 router.post('/registrar', upload.single('imagen'), usuarios.registroUsuario);
