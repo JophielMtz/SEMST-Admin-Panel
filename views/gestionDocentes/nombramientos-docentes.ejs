@@ -69,37 +69,35 @@
                                 <input type="hidden" name="tabla" value="nombramientos" />
                                 <div class="row">
                                     <div class="row">
-                                        <div class="form-group col-md-2">
+                                        <div class="form-group col-md-2 d-none">
                                             <label for="personal_id" class="form-label">ID:</label>
-                                            <input type="text" class="form-control" id="personal_id" name="personal_id"
-                                                placeholder="" autocomplete="off" />
+                                            <input type="hidden" class="form-control" id="personal_id"
+                                                name="personal_id" placeholder="" autocomplete="off" />
                                         </div>
-                                        <div class="form-group col-md-10">
+                                        <div class="form-group col-md-7">
                                             <label for="nombre_docente" class="form-label">Nombre del personal:</label>
                                             <input type="text" class="form-control" id="nombre_docente"
                                                 name="nombre_docente" placeholder="Escriba un nombre"
                                                 autocomplete="off" />
                                             <ul id="suggestionsList" class="list-group position-absolute w-100"
-                                                style="z-index: 1000"></ul>
+                                                style="z-index: 1000">
+                                            </ul>
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-5">
+                                            <label for="fecha" class="form-label">Fecha:</label>
+                                            <input type="date" class="form-control" id="fecha" name="fecha" />
                                         </div>
                                     </div>
 
                                     <!-- Fecha, Antigüedad y Teléfono -->
-
-                                    <div class="form-group col-md-6 col-lg-4">
-                                        <label for="telefono" class="form-label">Teléfono:</label>
-                                        <input type="text" class="form-control" id="telefono" name="telefono"
-                                            placeholder="" />
-                                    </div>
-                                    <div class="form-group col-sm-6 col-md-6 col-lg-4">
+                                   
+                                    
+                                    <div class="form-group col-sm-6 col-md-6 col-lg-12">
                                         <label for="antiguedad" class="form-label">Antigüedad:</label>
                                         <input type="text" class="form-control" id="antiguedad" name="antiguedad"
                                             placeholder="" />
                                     </div>
-                                    <div class="form-group col-sm-6 col-md-6 col-lg-4">
-                                        <label for="fecha" class="form-label">Fecha:</label>
-                                        <input type="date" class="form-control" id="fecha" name="fecha" />
-                                    </div>
+                                   
 
 
                                     <div class="form-group col-md-4">

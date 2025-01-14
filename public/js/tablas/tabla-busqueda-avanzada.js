@@ -19,19 +19,19 @@ $(document).ready(function() {
             var table = $('#datatable').DataTable({
                 "data": data,
                 "columns": [
-                    { 
-                        "data": "imagen", 
+                    {
+                        "data": "imagen",
                         "render": function(data, type, row) {
-                            var imgSrc = data ? "/uploads/Fotos-de-perfil-personal/" + data : "/images/avatars/avatar-default.png";
-                            return `
-                                <div class="d-flex align-items-center" style="max-width: 5000000px; overflow: hidden; white-space: normal;">
-                                    <img src="${imgSrc}" alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">
-                                    <div style="word-wrap: break-word; max-width: 5000px;"> 
-                                        <span style="font-size: 14px;">${row.nombre}</span>
-                                    </div>
-                                </div>
-                            `;
-                        }, 
+                          var imgSrc = data ? "/uploads/Fotos-de-perfil-personal/" + data : "/images/avatars/avatar-default.png";
+                          return `
+                            <div class="d-flex align-items-center" style="max-width: 5000000px; overflow: hidden; white-space: normal;">
+                              <img src="${imgSrc}" alt="Foto del docente" class="rounded-circle me-3 img-fluid" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                              <div style="word-wrap: break-word; max-width: 5000px;">
+                                <span style="font-size: 14px;">${row.nombre}</span>
+                              </div>
+                            </div>
+                          `;
+                        },
                         "title": "Nombre", 
                     },
                     

@@ -25,7 +25,7 @@ export const colFechaRegistro = () => ({
   width: 115,
   wrapHeaderText: true,
   autoHeaderHeight: true,
-  cellStyle: { "white-space": "normal", "line-height": "1.7" },
+  cellClass: "centrar-celda",
   cellEditor: "agDateCellEditor",
   valueFormatter: (params) => {
     if (!params.value) {
@@ -52,7 +52,7 @@ export const colFechaDocumento = () => ({
   width: 115,
   wrapHeaderText: true,
   autoHeaderHeight: true,
-  cellStyle: { "white-space": "normal", "line-height": "1.7" },
+  cellClass: "centrar-celda",
   cellEditor: "agDateCellEditor",
   valueFormatter: (params) => {
     if (!params.value) {
@@ -176,7 +176,7 @@ export const nombreDocente = () => ({
   width: 280,
   wrapHeaderText: true,
   autoHeaderHeight: true,
-  // cellClass: "centrar-celda"
+  cellClass: "centrar-celda"
 });
 
 export const antiguedad = () => ({
@@ -184,7 +184,7 @@ export const antiguedad = () => ({
   headerName: "Antigüedad",
   editable: false,
   width: 109,
-  cellClass: "centrar-celda",
+  // cellClass: "centrar-celda",
 });
 export const telefono = () => ({
   field: "telefono",

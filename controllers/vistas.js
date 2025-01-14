@@ -19,6 +19,9 @@ const {
   historialLicenciaSinGoce
 } = require('../controllers/Renders');
 
+const { obtenerHistorialTablas } = require('./tabla-historiales-controller/historial-tabla'); // Importación correcta
+
+
 
 
 const vistasController = {
@@ -150,7 +153,6 @@ const vistasController = {
     }
   },
   
-
   vistaReviciones: (req, res) => {
         res.render("revisiones");
   },
@@ -161,7 +163,14 @@ const vistasController = {
       res.render("pendientes");
     },
     vistaDocentesDisponibles: async (req, res) => {
-      res.render("gestionDocentes/docentes-disponibles");
+      try {
+        const datosDocentes = await obtenerHistorialTablas("historial_docente_disponible");
+        console.log("Datos obtenidos:", datosDocentes); // Para verificar que llegan los datos
+        res.render("gestionDocentes/docentes-disponibles", { datos: datosDocentes });
+      } catch (error) {
+        console.error("Error al renderizar la vista de docentes disponibles:", error);
+        res.status(500).send("Error al cargar la lista de docentes disponibles.");
+      }
     },
     vistaListaGeneral: async (req, res) => {
       res.render("personal/lista-general");

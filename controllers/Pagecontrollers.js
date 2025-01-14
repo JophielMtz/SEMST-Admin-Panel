@@ -114,28 +114,30 @@ const obtenerPendientes = async (req, res) => {
 const obtenerDocentesDisponibles = async (req, res) => {
   try {
     const [results] = await pool.query(`
-   SELECT
-    dd.np,
-    dd.personal_id,
-    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
-    dd.fecha,
-    dd.estatus,
-    dd.situacion,
-    dd.antiguedad,
-    dd.municipio_sale,
-    dd.comunidad_sale,
-    dd.cct_sale,
-    dd.municipio_entra,
-    dd.comunidad_entra,
-    dd.cct_entra,
-    dd.estatus_cubierta,
-    dd.observaciones,
-    dd.observaciones_conflictos,
-    p.telefono
-FROM
-    docentes_disponibles dd
-LEFT JOIN
-    personal p ON dd.personal_id = p.personal_id;
+      SELECT
+        dd.np,
+        dd.personal_id,
+        CONCAT(p.apellido_paterno, ' ', p.apellido_materno, ' ', p.nombre) AS nombre_docente,
+        dd.fecha,
+        dd.estatus,
+        dd.situacion,
+        dd.antiguedad,
+        dd.municipio_sale,
+        dd.comunidad_sale,
+        dd.cct_sale,
+        dd.municipio_entra,
+        dd.comunidad_entra,
+        dd.cct_entra,
+        dd.estatus_cubierta,
+        dd.observaciones,
+        dd.observaciones_conflictos,
+        p.telefono
+      FROM
+        docentes_disponibles dd
+      LEFT JOIN
+        personal p ON dd.personal_id = p.personal_id
+      WHERE
+        dd.estatus != 'Atendido';  -- Excluir registros "Atendido"
     `);
     res.json(results);
   } catch (error) {
@@ -143,6 +145,7 @@ LEFT JOIN
     res.status(500).json({ message: "Error al obtener la lista de personal" });
   }
 };
+
 const obtenerSolicitudesDeCambio = async (req, res) => {
   try {
     const [results] = await pool.query(`
