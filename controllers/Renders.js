@@ -152,7 +152,8 @@ const tablaListaPendientes = async () => {
     // Consulta de lista_pendientes
     const [resultsLista] = await pool.query(`
       SELECT np, fecha, estatus, tramite, departamento, observaciones_conflictos
-      FROM lista_pendientes;
+      FROM lista_pendientes
+       WHERE estatus != 'Terminado';
     `);
 
     // Consulta de historial_lista_pendientes

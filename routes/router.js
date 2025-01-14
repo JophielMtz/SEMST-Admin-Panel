@@ -67,7 +67,7 @@ router.get('/sign-up', vistasController.vistaSignUp);
 router.get('/home', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaPrincipal);
 router.get('/roles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaRoles);
 router.get('/lista-panel-adm', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaListaPanelAdm);
-router.get('/gestion-de-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaGestionPersonal);
+router.get('/busqueda-avanzada', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaBusquedaAvanzada);
 router.get('/agregar-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistaAgregarpersonal);
 router.get('/docentes-disponibles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaDocentesDisponibles);
 router.get('/revisiones', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaReviciones);

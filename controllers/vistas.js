@@ -131,18 +131,14 @@ const vistasController = {
     }
   },
 
-  vistaGestionPersonal: (req, res) => {
+  vistaBusquedaAvanzada: (req, res) => {
     try {
-        res.render("panelAdm/gestion-de-personal");  // No necesitas enviar `listaGeneral` directamente
+        res.render("panelAdm/busqueda-avanzada");  
     } catch (error) {
         console.error("Error al renderizar la vista:", error);
         res.status(500).json({ message: "Error al cargar la vista de gestión de personal" });
     }
 },
-
-
-
-  
 
   vistaListaPendientes: async (req, res) => {
     try {

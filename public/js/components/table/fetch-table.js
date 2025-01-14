@@ -32,20 +32,20 @@ export const actualizarCelda = async (cell, tablaNombre, columna, np) => {
 };
 
 // Función para actualizar toda la tabla (fetch completo al contenedor de la tabla)
-export const actualizarTablaCompleta = async (selectorTabla) => {
+export const actualizarTablaCompleta = async () => {
     try {
         const respuesta = await fetch("/lista-pendientes"); // Cambia la ruta si es necesario
         if (!respuesta.ok) throw new Error("Error al obtener la tabla");
 
-        const htmlTabla = await respuesta.text(); // Recibe el HTML actualizado de la tabla
-        const tablaContainer = document.querySelector(selectorTabla);
-        
-        if (tablaContainer) {
-            tablaContainer.innerHTML = htmlTabla; // Reemplaza todo el contenido de la tabla
-            Swal.fire("¡Tabla actualizada!", "La tabla se ha actualizado con los datos más recientes", "success");
-        } else {
-            console.error(`No se encontró el contenedor: ${selectorTabla}`);
-        }
+        Swal.fire({
+            icon: "success",
+            title: "¡Tabla actualizada!",
+            text: "La tabla se ha actualizado con los datos más recientes",
+            showConfirmButton: false,
+            timer: 1500,
+        }).then(() => {
+            window.location.reload(); // Recarga toda la página
+        });
     } catch (error) {
         console.error("Error al actualizar la tabla:", error);
         Swal.fire("Error", "No se pudo actualizar la tabla", "error");

@@ -6,7 +6,6 @@
                     <h4 class="text-responsive mb-3 mt-3">Docentes Disponibles</h4>
                     <div class="row justify-content-center gx-2" 
                     <<% if (role !== 'admin' && role !== 'super-admin') { %> style="display: none;" <% } %> 
-
                     <!-- Botón Nuevo -->
                     <div class="col-auto">
                         <button type="button" class="btn btn-primary rounded-pill w-auto"
@@ -15,7 +14,6 @@
                             Nuevo
                         </button>
                     </div>
-                
                     <!-- Botón Activar Edición -->
                     <div class="col-auto">
                         <button id="toggleEditMode" class="btn btn-primary rounded-pill w-auto"
@@ -24,19 +22,18 @@
                         </button>
                     </div>
                     <div class="col-auto">
-                        <button id="borrarColumna" class="btn btn-primary rounded-pill w-auto"
+                        <button  class="btn btn-primary rounded-pill w-auto" data-bs-toggle="modal" data-bs-target="#verHistorialModal"
                             style="padding: 4px 12px; font-size: 12px;">
-                            Borrar Columna
+                            Historial
                         </button>
                     </div>
                 </div>
                 
-                    
-                </div>
+            </div>
                 <div class="card-body">
                     <div class="test-container">
-                        <div class="test-header d-flex align-items-center">
-                            <!-- Radio para 'Todos' -->
+                        <!-- <div class="test-header d-flex align-items-center">
+                       
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="filter" id="all" onchange="externalFilterChanged('all')" checked>
                                 <label for="all" class="form-check-label pl-2">Todos</label>
@@ -51,12 +48,33 @@
                                     <label for="funcionDelete" class="form-check-label pl-2">Borrar entradas</label>
                                 </div>
                             <% } %>
-                        </div>
+                        </div> -->
                     </div>
                      <div id="myGrid" class="ag-theme-quartz" style="width: 100%"></div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="verHistorialModal" tabindex="-1" aria-labelledby="verHistorialModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl"> <!-- Usamos modal-dialog modal-xl para tamaño extra grande -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="verHistorialModalLabel">Historial de Pendientes</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <%- include('../partials/modal/Tablas-historial/h-docentes-disponibles') %>
+
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
     </div>
 </div>
     <!--Crear-->
@@ -258,7 +276,7 @@
 
 
         const datos = [
-        { ...borrarColumna('/api/deleteRecord'), hide: true, colId: "Accion" },
+        borrarColumna('/api/deleteRecord'), 
         Columnas.Perfil,
         { field: "np", headerName: "NP", width: 70, editable: false },
         {...Columnas.colFecha(), editable: () => editMode,},
