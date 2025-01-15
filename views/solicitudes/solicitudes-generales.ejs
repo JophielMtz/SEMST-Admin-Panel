@@ -391,11 +391,11 @@
 
     const datos = [
 
-        borrarColumna('/api/deleteRecord'),
+      
         Columnas.Perfil,
-        { field: "np", headerName: "NP", width: 52, editable: false },
+        { field: "np", headerName: "NP", width: 52, editable: false,  cellClass: "centrar-celda" },
         {...Columnas.colFecha(), headerName: "Fecha Registro"},
-        {field: "estatus",headerName: "Estatus", editable: () => editMode, width: 120,
+        {field: "estatus",headerName: "Estatus", editable: () => editMode, width: 120, cellClass: "centrar-celda",
             ...createSelectColumnProps(estatusValidValues),},
         Columnas.nombreDocente(),
             // Columnas.antiguedad(),
@@ -405,12 +405,12 @@
              autoHeight: true,  },
              {...Columnas.colFecha(), headerName: "Fecha Documento", field: "fecha_documento", editable: () => editMode, resizable: true, width: 115, },
         { ...Columnas.observaciones(), editable: () => editMode, },
-        {field: "departamento",headerName: "Departamento",  wrapHeaderText: true,
+        {field: "departamento",headerName: "Departamento",  wrapHeaderText: true, cellClass: "centrar-celda",
          ...createSelectColumnProps(departamentoValidValues),},
          {...Columnas.municipioSale(), headerName: "Municipio", field: "municipio",},
          {...Columnas.comunidadSale(), headerName: "Comunidad", field: "comunidad",},
          {...Columnas.cctSale(), headerName: "Clave CCT", field: "centro_clave_trabajo",},
-         ...zonaColumns.map(col => ({...col, editable: col.field === "sector_id" || col.field === "zona_id" ? false : () => editMode
+         ...zonaColumns.map(col => ({...col, editable: col.field === "sector_id" || col.field === "zona_id" ? false : () => editMode,cellClass: "centrar-celda"
         })),
         {field: "tipo_organizacion",headerName: "Organizació",  wrapHeaderText: true, 
         autoHeaderHeight: true,  cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, width: 120,
@@ -420,6 +420,7 @@
         Columnas.colTerminoMovimiento(),
     { headerName: "Propuesta", field: "propuesta", editable: () => editMode, resizable: true },
     { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode, resizable: true },
+    borrarColumna('/api/deleteRecord'),
 
     ];
 

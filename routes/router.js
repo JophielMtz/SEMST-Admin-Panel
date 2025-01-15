@@ -3,7 +3,7 @@ const { vistaAgregarpersonal,
   agregarPersonal, actualizarPersonal,
   editarDocente, editarPendientes, editarBecas, editarSalud, editarCCTS, editarSolicitudesPersonal, editarIncidencias, editarLicenciaSinGoce, editarEscuelasDisponibles, editarNombramientosDocentes, editarSolicitudes, editarInternos, editarSolicitudesGenerales,editarSolicitudesDeCambio, editarListaPanelAdministrador,  
   obtenerSolicitudesDeCambio, obtenerPersonal, obtenerDetallePersonal, obtenerPendientes,obtenerListaGeneral, obtenerDocentesDisponibles, obtenerBecas, obtenerSalud, obtenerSolicitudesPersonal,  obtenerIncidencias, obtenerLicenciaSinGoce, obtenerEscuelasDisponibles, obtenerNombramientosDocentes, obtenerSolicitudes, obtenerInternos,   obtenerSolicitudesGenerales, obtenerUbicCCTs,  obtenerListaPanelAdministrador, borrarFila, borrarUsuario,
-  editarRol,
+  editarRol, borrarController
 } = require('../controllers/Pagecontrollers');
 
 const { EditarPerfilPersonal } = require('../controllers/Api-Patch/editar-perfil-personal');
@@ -67,7 +67,7 @@ router.get('/sign-up', vistasController.vistaSignUp);
 router.get('/home', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaPrincipal);
 router.get('/roles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaRoles);
 router.get('/lista-panel-adm', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaListaPanelAdm);
-router.get('/gestion-de-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaGestionPersonal);
+router.get('/busqueda-avanzada', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaBusquedaAvanzada);
 router.get('/agregar-personal', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistaAgregarpersonal);
 router.get('/docentes-disponibles', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaDocentesDisponibles);
 router.get('/revisiones', autenticarToken, authViews, checkRol(['super-admin', 'admin', 'usuario']), vistasController.vistaReviciones);
@@ -141,6 +141,13 @@ router.patch('/editarTabla', editarTablas.editar);
 
 ///========Ruta Editar-Perfil-personal==========//
 router.patch('/editar-personal/:id', upload.single('imagen'), EditarPerfilPersonal);
+
+//delete
+router.delete('/deleteRecord', autenticarToken, authViews, checkRol(['admin', 'super-admin']), borrarFila);
+router.delete('/deleteUser',  borrarUsuario);
+router.delete ('/deleteFila', autenticarToken, authViews, checkRol(['admin', 'super-admin']), borrarController);
+
+
 
 
 
@@ -388,10 +395,6 @@ router.get('/obtener-ccts', async (req, res) => {
 });
 
 
-
-//delete
-router.delete('/deleteRecord', autenticarToken, authViews, checkRol(['admin', 'super-admin']), borrarFila);
-router.delete('/deleteUser',  borrarUsuario);
 
 
 

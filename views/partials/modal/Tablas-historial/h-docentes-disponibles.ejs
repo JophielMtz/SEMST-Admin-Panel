@@ -1,0 +1,32 @@
+<div class="table-responsive mt-4">
+  <table id="datatable" class="table table-striped mb-0" data-toggle="data-table" role="grid">
+     <thead>
+        <tr>
+           <th class="text-secondary">Np</th>
+           <th class="text-secondary">Nombre</th>
+           <th class="text-secondary">Fecha</th>
+           <th class="text-secondary">Estatus</th>
+           <th class="text-secondary">Situación</th>
+           <th class="text-secondary">Antiguedad</th>
+           <th class="text-secondary">Observaciones</th>
+        </tr>
+     </thead>
+     <tbody>
+      <% datos.forEach((docente) => { %>
+        <tr>
+          <td><%= docente.np %></td>
+          <!-- <td><%= docente.personal_id %></td> -->
+          <td><%= docente.nombre_completo %></td>
+          <td class="text-info"><%= new Date(docente.fecha).toLocaleDateString('es-MX') %></td>
+          <td><%= docente.estatus %></td>
+          <td class="text-gray"><%= docente.situacion %></td>
+          <td><%= docente.antiguedad || 'Sin antigüedad' %></td>
+          <td><%= docente.observaciones || 'Sin observaciones' %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+
+

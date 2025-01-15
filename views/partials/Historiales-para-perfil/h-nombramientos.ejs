@@ -1,0 +1,35 @@
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Fecha :</div>
+    <div class="col-sm-9 text-secondary">
+        <span>
+            <%= dato.fecha ? new Date(dato.fecha).toLocaleDateString('es-MX', { year: 'numeric' , month: '2-digit' ,
+                day: '2-digit' }) : "Sin fecha" %>
+        </span>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Observaciones de Nombramiento</div>
+    <div class="col-sm-9 text-secondary">
+        <span>
+            <%= dato.antiguedad %>
+        </span>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+
+<div class="row mb-2">
+    <div class="col-sm-3 fw-bold">Tipo de movimiento:</div>
+    <div class="col-sm-9 text-secondary">
+        <span>
+            <%= dato.tipo_movimiento || "Sin especificar" %>
+        </span>
+    </div>
+</div>
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+
+
+<hr class="mb-2" style="border-top: 1px solid #828282;">
+
+

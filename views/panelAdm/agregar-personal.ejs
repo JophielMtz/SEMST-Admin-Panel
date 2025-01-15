@@ -50,8 +50,8 @@
                     <label class="form-label">Género:</label>
                     <select name="sexo" class="selectpicker form-control" data-style="py-0">
                       <option>Seleccione Género</option>
-                      <option>Masculino</option>
-                      <option>Femenino</option>
+                      <option value="M">Masculino</option>
+                      <option value="F">Femenino</option>
                     </select>
                   </div>
                   <div class="form-group col-md-7">
@@ -256,30 +256,27 @@
                   </div>
                 </div>
 
-                <!-- <div class="col-md-4 mx-auto">
+                <div class="col-md-4 mx-auto">
                   <div class="form-group">
-                    <label for="plaza_id" class="form-label">Plaza</label>
-                    <select class="form-select mb-3 shadow-none" id="plaza_id" name="plaza_id" required>
-                      <option value="">Selecciona la Plaza</option>
-                      <option value="1">071040</option>
+                    <label for="tipo_entidad" class="form-label">Nivel de gobierno</label>
+                    <select class="form-select mb-3 shadow-none" id="tipo_entidad" name="tipo_entidad" >
+                      <option value="">Seleccione una opción</option>
+                      <option value="ESTATAL">Estatal</option>
+                      <option value="FEDERAL">Federal</option>
                     </select>
                     <div class="invalid-feedback">
                       Por favor selecciona la Plaza.
                     </div>
                   </div>
-                </div>
+                </div> 
 
                 <div class="col-md-4 mx-auto">
                   <div class="form-group">
-                    <label for="esquema" class="form-label">Esquema</label>
-                    <input type="text" class="form-control mb-3 shadow-none" id="esquema" name="esquema"
-                      placeholder="Escribe el Esquema" required pattern=".{14,14}" />
-                    <div class="invalid-feedback">
-                      Por favor ingresa el Esquema con exactamente 14
-                      caracteres.
-                    </div>
+                    <label for="Nombramiento" class="form-label">Nombramiento</label>
+                    <input type="text" class="form-control mb-3 shadow-none" id="Nombramiento" name="Nombramiento"
+                      placeholder="Ingrese el nombramiento"  />
                   </div>
-                </div> -->
+                </div> 
                 <div class="w-100"></div>
 
 
@@ -506,9 +503,9 @@
     };
 
     const manejarHabilitacionCampos = () => {
-      if (cargoSelect.value !== '1') {
+      if (cargoSelect.value !== 'DIRECTOR') {
         tipoDirectorSelect.disabled = true;
-        tipoOrganizacionSelect.disabled = true;
+       
         tipoDirectorSelect.classList.add('is-disabled');
         tipoOrganizacionSelect.classList.add('is-disabled');
       } else {
@@ -852,7 +849,7 @@
                   formLaboral.reset();
                 } else {
                   // Redirigir al inicio
-                  window.location.href = '/home';
+                  window.location.href = '/lista-panel-adm';
                 }
               });
             } else {

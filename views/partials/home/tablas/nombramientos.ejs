@@ -40,16 +40,20 @@
             </div>
           </td>
           <td class="text-center text-dark">
-            <% if (nombramiento.fecha) { const fecha=new Date(nombramiento.fecha); const opciones={ day: '2-digit' ,
-              month: 'short' , year: '2-digit' }; const fechaFormateada=fecha.toLocaleDateString('es-ES',
-              opciones).replace(/^\w/, c=> c.toUpperCase()); %>
-              <%= fechaFormateada.replace('.', '' ) %>
-                <% } %>
+            <% if (nombramiento.fecha) { 
+                  const fecha = new Date(nombramiento.fecha); 
+                  const opciones = { day: '2-digit', month: 'short', year: '2-digit' }; 
+                  const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones).replace(/^\w/, c => c.toUpperCase()); 
+            %>
+              <%= fechaFormateada.replace('.', '') %>
+            <% } else { %>
+              <%= 'Sin fecha' %> 
+            <% } %>
           </td>
           <td class="text-primary fz-5">
             <div class="d-flex align-items-center">
               <img
-                src="<%= nombramiento.imagen ? '/uploads/' + nombramiento.imagen : '/images/avatars/avatar-default.png' %>"
+                src="<%= nombramiento.imagen ? '/uploads/Fotos-de-perfil-personal/' + nombramiento.imagen : '/images/avatars/avatar-default.png' %>"
                 alt="Foto del docente" class="rounded-circle me-3" style="width: 40px; height: 40px;">
               <div>
                 <span class="fw-bold" style="font-size: 14px;">

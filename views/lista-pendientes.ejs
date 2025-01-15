@@ -69,18 +69,22 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="flex align-items-center list-user-action text-center">
-                                                        <a class="btn btn-sm btn-icon btn-primary" data-bs-toggle="tooltip"
-                                                           data-bs-placement="top" title="Ver Perfil" href="#">
-                                                            <span class="btn-inner">
-                                                                <svg class="icon-15" width="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    
-                                                                    <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                    <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                    <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                </svg>
-                                                            </span>
-                                                        </a>
+                                                        <% if (role === 'super-admin'  || role === 'admin') { %>   
+                                                            <a class="btn btn-sm btn-icon btn-primary" data-bs-toggle="tooltip"
+                                                               data-bs-placement="top" title="Eliminar Registro" href="#" onclick="deleteRow(<%= pendiente.np %>)">
+                                                                <span class="btn-inner">
+                                                                    <svg class="icon-15" width="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                                    
+                                                                        <path d="M19.3248 9.46826C19.3248 9.46826 18.7818 16.2033 18.4668 19.0403C18.3168 20.3953 17.4798 21.1893 16.1088 21.2143C13.4998 21.2613 10.8878 21.2643 8.27979 21.2093C6.96079 21.1823 6.13779 20.3783 5.99079 19.0473C5.67379 16.1853 5.13379 9.46826 5.13379 9.46826" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M20.708 6.23975H3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                        <path d="M17.4406 6.23973C16.6556 6.23973 15.9796 5.68473 15.8256 4.91573L15.5826 3.69973C15.4326 3.13873 14.9246 2.75073 14.3456 2.75073H10.1126C9.53358 2.75073 9.02558 3.13873 8.87558 3.69973L8.63258 4.91573C8.47858 5.68473 7.80258 6.23973 7.01758 6.23973" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                                    </svg>
+                                                                </span>
+                                                            </a>
+                                                        <% } %>
                                                     </div>
                                                 </td>
+                                                
+                                                
                                             </tr>
                                         <% }); %>
                                     <% } else { %>
@@ -117,14 +121,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <%- include('partials/modal/h-lista-pendientes') %>
+          <%- include('partials/modal/Tablas-historial/h-lista-pendientes') %>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
-  </div>
+</div>
   
 
 <!--Crear-->
@@ -265,4 +269,65 @@
 </div>
 
 <script type="module" src="/js/components/table/table-init.js"></script>
+
+<script>
+    window.onload = function() {
+        const notyf = new Notyf({
+            duration: 2000,
+            position: { x: 'right', y: 'top' }
+        });
+
+        // Función deleteRow
+        window.deleteRow = async function(np) {
+            console.log('np enviado al backend:', np);  // Log para verificar qué np se envía
+
+            // Notificación de confirmación de eliminación con SweetAlert2
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esta acción.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch('/deleteFila', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify({ np })  // Enviar el `np` al backend
+                    });
+
+                    const result = await response.json();
+                    console.log('Respuesta del servidor:', result);  // Log para ver la respuesta
+
+                    if (response.ok) {
+                        // Notificación de éxito
+                        notyf.success('Registro eliminado exitosamente');
+
+                        // Eliminar la fila del DOM sin recargar la página
+                        const fila = document.querySelector(`tr[data-np="${np}"]`);
+                        if (fila) {
+                            fila.remove();  // Remueve la fila de la tabla
+                        }
+                    } else {
+                        // Notificación de error
+                        notyf.error(`Error: ${result.message || 'No se pudo eliminar el registro'}`);
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar el registro:', error);
+                    notyf.error('Error al comunicarse con el servidor.');
+                }
+            }
+        };
+    };
+</script>
+
+
 

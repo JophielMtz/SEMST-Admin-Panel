@@ -115,6 +115,32 @@
                                           <label for="fecha" class="form-label">Fecha Documento:</label>
                                           <input type="date" class="form-control" id="fecha_documento" name="fecha_documento" placeholder="" />
                                       </div>
+
+                                        <!-- Cobertura -->
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label for="estatus_cubierta" class="form-label">Tipo de movimiento:</label>
+                                            <select class="form-select form-select-sm" id="tipo_movimiento"
+                                                name="tipo_movimiento">
+                                                <option value="" selected disabled>
+                                                   selecciona una opción
+                                                </option>
+                                                <option value="LSG">LSG</option>
+                                                <option value="Incapacidad">Incapacidad</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Estatus y Situación -->
+                                        <div class="form-group col-md-6">
+                                          <label for="estatus" class="form-label">Organización:</label>
+                                          <select class="form-select form-select-sm" id="tipo_organizacion" name="tipo_organizacion">
+                                              <option value="">Selecciona una opción</option>
+                                                  <option value="UNITARIA">UNITARIA</option>
+                                                  <option value="BIDOCENTE">BIDOCENTE</option>
+                                                  <option value="TRIDOCENTE">TRIDOCENTE</option>
+                                                  <option value="ORG.COM.">ORG.COM.</option>
+                                              </select>                                                                             
+                                          </select>
+                                      </div>
                                            <!-- Fecha, Antigüedad y Teléfono -->
                                         <div class="form-group col-12">
                                             <label for="antiguedad" class="form-label">Antigüedad:</label>
@@ -145,38 +171,6 @@
 
                                         <hr class="hr-horizontal mb-3">
                                           
-
-                                         
-                                         
-                                          
-                                         
-
-                                          <!-- Cobertura -->
-                                          <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                              <label for="estatus_cubierta" class="form-label">Tipo de movimiento:</label>
-                                              <select class="form-select form-select-sm" id="tipo_movimiento"
-                                                  name="tipo_movimiento">
-                                                  <option value="" selected disabled>
-                                                     selecciona una opción
-                                                  </option>
-                                                  <option value="LSG">LSG</option>
-                                                  <option value="Incapacidad">Incapacidad</option>
-                                              </select>
-                                          </div>
-
-                                          <!-- Estatus y Situación -->
-                                          <div class="form-group col-md-6">
-                                            <label for="estatus" class="form-label">Organización:</label>
-                                            <select class="form-select form-select-sm" id="tipo_organizacion" name="tipo_organizacion">
-                                                <option value="">Selecciona una opción</option>
-                                                    <option value="UNITARIA">UNITARIA</option>
-                                                    <option value="BIDOCENTE">BIDOCENTE</option>
-                                                    <option value="TRIDOCENTE">TRIDOCENTE</option>
-                                                    <option value="ORG.COM.">ORG.COM.</option>
-                                                </select>                                                                             
-                                            </select>
-                                        </div>
-                                        
                                           <div class="form-group col-md-6">
                                               <label for="situacion" class="form-label">Justifica:</label>
                                               <select class="form-select form-select-sm" id="justifica" name="justifica">
@@ -304,21 +298,21 @@
     const vacanteValidValues = ["Cubierta", "Sin cubrir", "Sin validar"];
 
     const datos = [
-        borrarColumna('/api/deleteRecord'),
+      
         Columnas.Perfil,
-        { field: "np", headerName: "NP", width: 70, editable: false },
+        { field: "np", headerName: "NP", width: 70, editable: false, cellClass: "centrar-celda" },
         {...Columnas.colFechaRegistro(), editable: () => editMode,},
         {...Columnas.colFechaDocumento(), editable: () => editMode,},
         Columnas.nombreDocente(),
         // Columnas.antiguedad(),
         // Columnas.telefono(),
         {field: "tipo_movimiento",headerName: "Tipo de Movimiento",  wrapHeaderText: true, 
-        autoHeaderHeight: true,  cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, width: 120,
+        autoHeaderHeight: true,  cellClass: "centrar-celda", editable: () => editMode, width: 120,
              ...createSelectColumnProps(estatusValidValues),},
-        Columnas.municipioSale(),
-        Columnas.comunidadSale(),
-        Columnas.cctSale(),
-        {field: "tipo_organizacion",headerName: "Organizació",  wrapHeaderText: true, 
+        {...Columnas.municipioSale(), headerName: "Municipio",},
+        {...Columnas.comunidadSale(), headerName: "Comunidad",},
+        {...Columnas.cctSale(), headerName: "Clave CCT",},
+        {field: "tipo_organizacion",headerName: "Organizació",  wrapHeaderText: true, cellClass: "centrar-celda" ,
         autoHeaderHeight: true,  cellStyle: { "white-space": "normal", "line-height": "1.7" }, editable: () => editMode, width: 120,
              ...createSelectColumnProps(OrgValidValues),},
       { headerName: "Justifica", field: "JUSTIFICA", editable: () => editMode, resizable: true, width: 90, cellEditor: 
@@ -333,6 +327,7 @@
       { headerName: "Observaciones", field: "OBSERVACIONES", editable: () => editMode, resizable: true },           
       { headerName: "Observaciones Conflictos", field: "observaciones_conflictos", editable: () => editMode, resizable: true        },
     { headerName: "Observaciones Secretaría General", field: "observaciones_secretaria_general", editable: () => editMode,        resizable: true },
+    borrarColumna('/api/deleteRecord'), 
     ];
 
     const gridOptions = {

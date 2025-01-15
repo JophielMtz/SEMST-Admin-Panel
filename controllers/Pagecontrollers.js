@@ -114,28 +114,30 @@ const obtenerPendientes = async (req, res) => {
 const obtenerDocentesDisponibles = async (req, res) => {
   try {
     const [results] = await pool.query(`
-   SELECT
-    dd.np,
-    dd.personal_id,
-    CONCAT(p.nombre, ' ', p.apellido_paterno, ' ', p.apellido_materno) AS nombre_docente,
-    dd.fecha,
-    dd.estatus,
-    dd.situacion,
-    dd.antiguedad,
-    dd.municipio_sale,
-    dd.comunidad_sale,
-    dd.cct_sale,
-    dd.municipio_entra,
-    dd.comunidad_entra,
-    dd.cct_entra,
-    dd.estatus_cubierta,
-    dd.observaciones,
-    dd.observaciones_conflictos,
-    p.telefono
-FROM
-    docentes_disponibles dd
-LEFT JOIN
-    personal p ON dd.personal_id = p.personal_id;
+      SELECT
+        dd.np,
+        dd.personal_id,
+        CONCAT(p.apellido_paterno, ' ', p.apellido_materno, ' ', p.nombre) AS nombre_docente,
+        dd.fecha,
+        dd.estatus,
+        dd.situacion,
+        dd.antiguedad,
+        dd.municipio_sale,
+        dd.comunidad_sale,
+        dd.cct_sale,
+        dd.municipio_entra,
+        dd.comunidad_entra,
+        dd.cct_entra,
+        dd.estatus_cubierta,
+        dd.observaciones,
+        dd.observaciones_conflictos,
+        p.telefono
+      FROM
+        docentes_disponibles dd
+      LEFT JOIN
+        personal p ON dd.personal_id = p.personal_id
+      WHERE
+        dd.estatus != 'Atendido';  -- Excluir registros "Atendido"
     `);
     res.json(results);
   } catch (error) {
@@ -143,6 +145,7 @@ LEFT JOIN
     res.status(500).json({ message: "Error al obtener la lista de personal" });
   }
 };
+
 const obtenerSolicitudesDeCambio = async (req, res) => {
   try {
     const [results] = await pool.query(`
@@ -1181,7 +1184,7 @@ const agregarPersonal = async (req, res) => {
     const {
       rfc,
       nombre,
-      apellido, // Campo con apellidos concatenados
+      apellido,
       fecha_nacimiento,
       sexo,
       curp,
@@ -1190,8 +1193,8 @@ const agregarPersonal = async (req, res) => {
       direccion,
       cargo,
       tipo_organizacion,
-      fecha_ingreso,
-      fecha_nombramiento,
+      fecha_ingreso = null,
+      fecha_nombramiento = null,
       tipo_direccion,
       plaza_id,
       activo,
@@ -1202,6 +1205,13 @@ const agregarPersonal = async (req, res) => {
       municipio_id,
       comunidad_id,
     } = req.body;
+
+    // Función para limpiar campos vacíos y convertirlos en null si es necesario
+    const limpiarValor = (valor) => (valor === '' || valor === undefined ? null : valor);
+
+    // Limpiar valores vacíos de las fechas antes de la inserción
+    const fechaIngresoLimpia = limpiarValor(fecha_ingreso);
+    const fechaNombramientoLimpia = limpiarValor(fecha_nombramiento);
 
     // Dividir apellidos
     let apellido_paterno = "";
@@ -1215,38 +1225,10 @@ const agregarPersonal = async (req, res) => {
       apellido_materno = apellidoParts[1];
     } else {
       apellido_paterno = apellidoParts.slice(0, -1).join(" "); // Todas las palabras menos la última
-      apellido_materno = apellidoParts.slice(-1).join(" ");    // Solo la última palabra
+      apellido_materno = apellidoParts.slice(-1).join(" "); // Solo la última palabra
     }
 
     const imagen = req.file ? req.file.filename : null;
-
-    console.log("=== Valores extraídos del body ===");
-    console.log({
-      rfc,
-      nombre,
-      apellido_paterno,
-      apellido_materno,
-      fecha_nacimiento,
-      sexo,
-      curp,
-      telefono,
-      correo,
-      direccion,
-      cargo,
-      tipo_organizacion,
-      fecha_ingreso,
-      fecha_nombramiento,
-      tipo_direccion,
-      plaza_id,
-      activo,
-      pausa,
-      cct_id,
-      zona_id,
-      sector_id,
-      municipio_id,
-      comunidad_id,
-      imagen,
-    });
 
     await pool.query("START TRANSACTION");
 
@@ -1254,32 +1236,17 @@ const agregarPersonal = async (req, res) => {
       INSERT INTO personal (rfc, nombre, apellido_paterno, apellido_materno, fecha_nacimiento, sexo, curp, telefono, correo, direccion, imagen)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    console.log("Query para 'personal':", insertPersonal);
-    console.log("Valores para 'personal':", [
-      rfc,
-      nombre,
-      apellido_paterno,
-      apellido_materno,
-      fecha_nacimiento,
-      sexo,
-      curp,
-      telefono,
-      correo,
-      direccion,
-      imagen,
-    ]);
-
     const [resultPersonal] = await pool.query(insertPersonal, [
-      rfc,
-      nombre,
-      apellido_paterno,
-      apellido_materno,
-      fecha_nacimiento,
-      sexo,
-      curp,
-      telefono,
-      correo,
-      direccion,
+      limpiarValor(rfc),
+      limpiarValor(nombre),
+      limpiarValor(apellido_paterno),
+      limpiarValor(apellido_materno),
+      limpiarValor(fecha_nacimiento),
+      limpiarValor(sexo),
+      limpiarValor(curp),
+      limpiarValor(telefono),
+      limpiarValor(correo),
+      limpiarValor(direccion),
       imagen,
     ]);
 
@@ -1291,11 +1258,11 @@ const agregarPersonal = async (req, res) => {
       WHERE cct_id = ? AND zona_id = ? AND sector_id = ? AND municipio_id = ? AND comunidad_id = ?
     `;
     const [existingUbicCcts] = await pool.query(selectUbicCcts, [
-      cct_id,
-      zona_id,
-      sector_id,
-      municipio_id,
-      comunidad_id,
+      limpiarValor(cct_id),
+      limpiarValor(zona_id),
+      limpiarValor(sector_id),
+      limpiarValor(municipio_id),
+      limpiarValor(comunidad_id),
     ]);
 
     let id_relacion;
@@ -1308,11 +1275,11 @@ const agregarPersonal = async (req, res) => {
         VALUES (?, ?, ?, ?, ?)
       `;
       const [resultUbicCcts] = await pool.query(insertUbicCcts, [
-        cct_id,
-        zona_id,
-        sector_id,
-        municipio_id,
-        comunidad_id,
+        limpiarValor(cct_id),
+        limpiarValor(zona_id),
+        limpiarValor(sector_id),
+        limpiarValor(municipio_id),
+        limpiarValor(comunidad_id),
       ]);
       id_relacion = resultUbicCcts.insertId;
       console.log("ID insertado en 'ubic_ccts':", id_relacion);
@@ -1324,15 +1291,15 @@ const agregarPersonal = async (req, res) => {
     `;
     await pool.query(insertDetalleLaboral, [
       personal_id,
-      cargo,
+      limpiarValor(cargo),
       id_relacion,
-      tipo_organizacion,
-      fecha_ingreso,
-      fecha_nombramiento,
-      tipo_direccion,
-      plaza_id,
-      activo || 1,
-      pausa || 0,
+      limpiarValor(tipo_organizacion),
+      fechaIngresoLimpia,
+      fechaNombramientoLimpia,
+      limpiarValor(tipo_direccion),
+      limpiarValor(plaza_id),
+      limpiarValor(activo) !== null ? limpiarValor(activo) : 1, // Por defecto activo = 1
+      limpiarValor(pausa) !== null ? limpiarValor(pausa) : 0, // Por defecto pausa = 0
     ]);
 
     console.log("Confirmando transacción...");
@@ -1345,6 +1312,7 @@ const agregarPersonal = async (req, res) => {
     res.status(500).send("Error al insertar datos en personal y detalle laboral");
   }
 };
+
 
 
 
@@ -1446,6 +1414,46 @@ const borrarUsuario = async (req, res) => {
         console.error('Error al eliminar el usuario:', error); // Log de error
         res.status(500).json({ mensaje: 'Hubo un error al eliminar el usuario', error: error.message });
     }
+};
+
+
+const borrarController = async (req, res) => {
+  try {
+      // Log para ver el body recibido
+      console.log('BODY RECIBIDO:', req.body);
+
+      const { np } = req.body;  // Recibir el `np`
+
+      if (!np) {
+          console.error('Error: np no enviado.');
+          return res.status(400).json({ message: 'El campo np es requerido para eliminar el registro.' });
+      }
+
+      // Validar si `np` es realmente un número
+      if (isNaN(np)) {
+          console.error(`Error: np debe ser un número, recibido: ${np}`);
+          return res.status(400).json({ message: 'El campo np debe ser un número válido.' });
+      }
+
+      console.log(`Ejecutando DELETE en la tabla con np: ${np}`);
+
+      // Query de eliminación
+      const result = await pool.query('DELETE FROM lista_pendientes WHERE np = ?', [parseInt(np)]);
+
+      // Log de resultado de la query
+      console.log('RESULTADO QUERY DELETE:', result);
+
+      if (result.affectedRows === 0) {
+          console.error('Error: No se encontró el registro para eliminar.');
+          return res.status(404).json({ message: 'No se encontró el registro para eliminar.' });
+      }
+
+      console.log('Registro eliminado correctamente.');
+      res.status(200).json({ message: 'Registro eliminado correctamente.' });
+  } catch (error) {
+      console.error('Error en el controlador de eliminación:', error);
+      res.status(500).json({ message: 'Error al eliminar el registro.' });
+  }
 };
 
 module.exports = borrarUsuario;
@@ -1599,6 +1607,7 @@ module.exports = {
   borrarFila,
   borrarUsuario,
   actualizarRegistro,
+  borrarController
 
 
 

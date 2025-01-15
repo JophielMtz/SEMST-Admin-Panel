@@ -4,6 +4,7 @@ export const colFecha = () => ({
   headerName: "Fecha",
   field: "fecha",
   width: 115,
+  cellClass: "centrar-celda",
   cellEditor: "agDateCellEditor",
   valueFormatter: (params) => {
     if (!params.value) {
@@ -25,7 +26,7 @@ export const colFechaRegistro = () => ({
   width: 115,
   wrapHeaderText: true,
   autoHeaderHeight: true,
-  cellStyle: { "white-space": "normal", "line-height": "1.7" },
+  cellClass: "centrar-celda",
   cellEditor: "agDateCellEditor",
   valueFormatter: (params) => {
     if (!params.value) {
@@ -52,7 +53,7 @@ export const colFechaDocumento = () => ({
   width: 115,
   wrapHeaderText: true,
   autoHeaderHeight: true,
-  cellStyle: { "white-space": "normal", "line-height": "1.7" },
+  cellClass: "centrar-celda",
   cellEditor: "agDateCellEditor",
   valueFormatter: (params) => {
     if (!params.value) {
@@ -73,6 +74,7 @@ export const colFechaInicio = () => ({
   headerName: "Fecha de inicio",
   field: "fecha_inicio",
   width: 108,
+  cellClass: "centrar-celda",
   wrapHeaderText: true,
   autoHeaderHeight: true,
   cellEditor: "agDateCellEditor",
@@ -94,6 +96,7 @@ export const colFechaTermino = () => ({
   headerName: "Fecha de Termino",
   field: "fecha_termino",
   width: 110,
+  cellClass: "centrar-celda",
   wrapHeaderText: true,
   autoHeaderHeight: true,
   cellEditor: "agDateCellEditor",
@@ -118,6 +121,7 @@ export const colIniciMovimiento = () => ({
   headerName: "Inicio del Movimiento",
   field: "inicio_movimiento",
   width: 110,
+  cellClass: "centrar-celda",
   wrapHeaderText: true,
   autoHeaderHeight: true,
   cellEditor: "agDateCellEditor",
@@ -142,6 +146,7 @@ export const colTerminoMovimiento = () => ({
   headerName: "Término del Movimiento",
   field: "termino_movimiento",
   width: 110,
+  cellClass: "centrar-celda",
   wrapHeaderText: true,
   autoHeaderHeight: true,
   cellEditor: "agDateCellEditor",
@@ -166,6 +171,7 @@ export const Proceso = () => ({
   field: "tipo_proceso",
   headerName: "Proceso",
   editable: false,
+  cellClass: "centrar-celda",
   width: 109,
 });
 
@@ -176,7 +182,7 @@ export const nombreDocente = () => ({
   width: 280,
   wrapHeaderText: true,
   autoHeaderHeight: true,
-  // cellClass: "centrar-celda"
+  cellClass: "centrar-celda"
 });
 
 export const antiguedad = () => ({
@@ -198,6 +204,7 @@ export const observaciones = () => ({
   headerName: "Observaciones",
   minWidth: 250,
   wrapHeaderText: true,
+  cellClass: "centrar-celda",
   autoHeaderHeight: true,
   autoHeight: true,
   cellStyle: { "white-space": "normal", "line-height": "1.7" },
@@ -219,6 +226,7 @@ export const FuncionDocente = () => ({
   field: "funcion_docente",
   headerName: "Función Docente",
   width: 110,
+  cellClass: "centrar-celda",
   wrapHeaderText: true,
   autoHeaderHeight: true,
   cellStyle: { "white-space": "normal", "line-height": "1.7" },
@@ -230,6 +238,7 @@ export const municipioSale = () => ({
   headerName: "Municipio sale",
   editable: false,
   width: 150,
+  cellClass: "centrar-celda",
 });
 
 // 2. CCT Sale
@@ -238,6 +247,7 @@ export const cctSale = () => ({
   headerName: "CCT sale",
   editable: false,
   width: 115,
+  cellClass: "centrar-celda",
 });
 
 // 3. Comunidad Sale
@@ -248,6 +258,7 @@ export const comunidadSale = () => ({
   wrapHeaderText: true,
   autoHeaderHeight: true,
   width: 150,
+  cellClass: "centrar-celda",
   // cellStyle: { "white-space": "normal", "line-height": "1.7" },
 });
 
@@ -255,6 +266,7 @@ export const municipioEntra = () => ({
   field: "municipio_entra",
   headerName: "Municipio entra",
   width: 150,
+  cellClass: "centrar-celda",
   wrapHeaderText: true,
   cellEditor: "agSelectCellEditor",
   cellEditorParams: (params) => ({
@@ -301,6 +313,7 @@ export const comunidadEntra = () => ({
   field: "comunidad_entra",
   headerName: "Comunidad entra",
   width: 150,
+  cellClass: "centrar-celda",
   wrapHeaderText: true,
   autoHeaderHeight: true,
   width: 150,
@@ -362,6 +375,7 @@ export const cctEntra = () => ({
   field: "cct_entra",
   headerName: "CCT entra",
   width: 150,
+  cellClass: "centrar-celda",
   wrapHeaderText: true,
   cellEditor: "agSelectCellEditor",
   cellEditorParams: (params) => ({

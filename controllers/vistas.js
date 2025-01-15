@@ -19,6 +19,9 @@ const {
   historialLicenciaSinGoce
 } = require('../controllers/Renders');
 
+const { obtenerHistorialTablas } = require('./tabla-historiales-controller/historial-tabla'); // Importación correcta
+
+
 
 
 const vistasController = {
@@ -131,30 +134,25 @@ const vistasController = {
     }
   },
 
-  vistaGestionPersonal: (req, res) => {
+  vistaBusquedaAvanzada: (req, res) => {
     try {
-        res.render("panelAdm/gestion-de-personal");  // No necesitas enviar `listaGeneral` directamente
+        res.render("panelAdm/busqueda-avanzada");  
     } catch (error) {
         console.error("Error al renderizar la vista:", error);
         res.status(500).json({ message: "Error al cargar la vista de gestión de personal" });
     }
 },
 
-
-
+vistaListaPendientes: async (req, res) => {
+  try {
+    const { listaPendientes, historialPendientes } = await tablaListaPendientes(); 
+    const rolUsuario = req.user?.rol || 'invitado'; 
+    res.render("lista-pendientes", { listaPendientes, historialPendientes, rolUsuario }); 
+  } catch (error) {
+    res.render("lista-pendientes", { listaPendientes: [], historialPendientes: [], error: "No se pudieron cargar los pendientes", rolUsuario: 'invitado' });
+  }
+},
   
-
-  vistaListaPendientes: async (req, res) => {
-    try {
-      const { listaPendientes, historialPendientes } = await tablaListaPendientes(); // Llamamos la función que retorna ambas listas
-      res.render("lista-pendientes", { listaPendientes, historialPendientes }); // Renderizamos ambas listas
-    } catch (error) {
-      console.error("Error al cargar la vista de pendientes:", error);
-      res.render("lista-pendientes", { listaPendientes: [], historialPendientes: [], error: "No se pudieron cargar los pendientes" });
-    }
-  },
-  
-
   vistaReviciones: (req, res) => {
         res.render("revisiones");
   },
@@ -165,7 +163,14 @@ const vistasController = {
       res.render("pendientes");
     },
     vistaDocentesDisponibles: async (req, res) => {
-      res.render("gestionDocentes/docentes-disponibles");
+      try {
+        const datosDocentes = await obtenerHistorialTablas("historial_docente_disponible");
+        console.log("Datos obtenidos:", datosDocentes); // Para verificar que llegan los datos
+        res.render("gestionDocentes/docentes-disponibles", { datos: datosDocentes });
+      } catch (error) {
+        console.error("Error al renderizar la vista de docentes disponibles:", error);
+        res.status(500).send("Error al cargar la lista de docentes disponibles.");
+      }
     },
     vistaListaGeneral: async (req, res) => {
       res.render("personal/lista-general");

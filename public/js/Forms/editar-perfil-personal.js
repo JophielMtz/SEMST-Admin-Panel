@@ -135,7 +135,7 @@ function renderUbicacionFields(detalleLaboral) {
     container.innerHTML = '';
 
     camposConfiguracion.ubicacion.forEach(({ label, field, icon, type = "text", options = [] }) => {
-        const value = detalleLaboral?.[field] ?? "No disponible";
+        const value = detalleLaboral?.[field] ?? "No aplica";
 
         const fieldHtml = `
            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap editable-field" data-field="${field}">

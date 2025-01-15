@@ -1,0 +1,53 @@
+<div class="table-responsive">
+    <table id="datatable" class="table" data-toggle="data-table" data-editable-table data-tabla="historial_lista_pendientes">
+      <thead class="table-primary"> 
+        <tr>
+          <th class="text-center" style="width: 30px;">NP</th>
+          <th class="text-center" style="width: 50px;">Fecha Término</th>
+          <th class="text-center" style="max-width: 100px;">Estatus</th>
+          <th class="text-center" style="width: 150px;">Trámite</th>
+          <th class="text-center d-none d-md-table-cell" style="width: 120px;">Departamento</th> 
+          <th class="text-center d-none d-lg-table-cell">Observaciones Conflictos</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <% historialPendientes.forEach((pendiente) => { %>
+          <tr data-np="<%= pendiente.np %>">
+            <td class="text-gray fw-bold text-center" style="width: 30px;"><%= pendiente.np %></td>
+            <td class="text-gray text-center">
+              <% if (pendiente.fecha_termino) { %>
+                <%= new Date(pendiente.fecha_termino).toLocaleDateString() %>
+              <% } else { %>
+                Sin fecha de término
+              <% } %>
+            </td>
+            <td class="text-center">
+              <span class="badge rounded-pill bg-primary">
+                <%= pendiente.estatus || 'Sin estatus' %>
+              </span>
+            </td>
+            <td class="text-gray" style="max-width: 150px; white-space: normal; word-wrap: break-word;">
+              <span><%= pendiente.tramite || 'Sin trámite' %></span>
+            </td>
+            <td class="text-center text-gray d-none d-md-table-cell">
+              <span><%= pendiente.departamento || 'Sin departamento' %></span>
+            </td>
+            <td class="text-gray d-none d-lg-table-cell" style="max-width: 250px; white-space: normal; word-wrap: break-word;">
+              <span><%= pendiente.observaciones_conflictos || 'Sin observaciones' %></span>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th class="text-center" style="width: 30px;">NP</th>
+          <th class="text-center" style="width: 100px;">Fecha Término</th>
+          <th class="text-center" style="max-width: 100px;">Estatus</th>
+          <th class="text-center" style="width: 150px;">Trámite</th>
+          <th class="text-center d-none d-md-table-cell" style="width: 120px;">Departamento</th>
+          <th class="text-center d-none d-lg-table-cell">Observaciones Conflictos</th>
+        </tr>
+      </tfoot>
+    </table>
+</div>
+  

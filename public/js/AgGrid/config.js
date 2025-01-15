@@ -178,6 +178,7 @@ export const borrarColumna = (apiEndpoint) => {
     field: "Accion",
     headerName: "Acción",
     width: 90,
+    cellClass: "centrar-celda" ,
     editable: false,
     cellRenderer: (params) => {
       if (!params.data || (!params.data.np && !params.data.personal_id)) {

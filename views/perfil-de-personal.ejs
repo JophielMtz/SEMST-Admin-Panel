@@ -185,6 +185,10 @@
                                                 <% if (historialTipo === "Incidencias") { %>
                                                     <%- include('partials/h-incidencias', { dato: dato, historialTipo: historialTipo }) %>
                                                 <% } %>
+
+                                                <% if (historialTipo === "Nombramientos") { %>
+                                                    <%- include('partials/Historiales-para-perfil/h-nombramientos', { dato: dato, historialTipo: historialTipo }) %>
+                                                <% } %>
                     
                                                 <!-- Observaciones -->
                                                 <div class="mt-3">
