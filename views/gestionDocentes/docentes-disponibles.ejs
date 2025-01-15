@@ -279,7 +279,7 @@
 
 
         const datos = [
-       
+        { ...borrarColumna('/api/deleteRecord'), hide: true, colId: "Accion" },
         Columnas.Perfil,
         { field: "np", headerName: "NP", width: 70, editable: false },
         {...Columnas.colFecha(), editable: () => editMode,},

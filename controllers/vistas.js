@@ -143,6 +143,7 @@ const vistasController = {
     }
 },
 
+<<<<<<< HEAD
 vistaListaPendientes: async (req, res) => {
   try {
     const { listaPendientes, historialPendientes } = await tablaListaPendientes(); 
@@ -152,6 +153,17 @@ vistaListaPendientes: async (req, res) => {
     res.render("lista-pendientes", { listaPendientes: [], historialPendientes: [], error: "No se pudieron cargar los pendientes", rolUsuario: 'invitado' });
   }
 },
+=======
+  vistaListaPendientes: async (req, res) => {
+    try {
+      const { listaPendientes, historialPendientes } = await tablaListaPendientes(); // Llamamos la función que retorna ambas listas
+      res.render("lista-pendientes", { listaPendientes, historialPendientes }); // Renderizamos ambas listas
+    } catch (error) {
+      console.error("Error al cargar la vista de pendientes:", error);
+      res.render("lista-pendientes", { listaPendientes: [], historialPendientes: [], error: "No se pudieron cargar los pendientes" });
+    }
+  },
+>>>>>>> 246811bf54314976f76403c2c2c240f94bca2d12
   
   vistaReviciones: (req, res) => {
         res.render("revisiones");

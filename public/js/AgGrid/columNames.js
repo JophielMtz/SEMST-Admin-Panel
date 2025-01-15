@@ -190,7 +190,7 @@ export const antiguedad = () => ({
   headerName: "Antigüedad",
   editable: false,
   width: 109,
-  cellClass: "centrar-celda",
+  // cellClass: "centrar-celda",
 });
 export const telefono = () => ({
   field: "telefono",
