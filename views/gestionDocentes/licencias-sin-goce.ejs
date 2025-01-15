@@ -298,7 +298,7 @@
     const vacanteValidValues = ["Cubierta", "Sin cubrir", "Sin validar"];
 
     const datos = [
-        borrarColumna('/api/deleteRecord'),
+    
         Columnas.Perfil,
         { field: "np", headerName: "NP", width: 70, editable: false, cellClass: "centrar-celda" },
         {...Columnas.colFechaRegistro(), editable: () => editMode,},
