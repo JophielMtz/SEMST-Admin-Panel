@@ -1,0 +1,503 @@
+<div class="conatiner-fluid content-inner mt-n5 py-0">
+    <div class="row">
+        <div class="col-md-12 col-lg-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="header-title">
+                                <h4 class="card-title">Búsqueda Avanzada</h4>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            
+                            <div class="nav nav-tabs custom-nav gap-5 mb-5 d-flex" id="myTab" role="tablist">
+
+                                <!-- <button class="nav-link active ms-3" id="profile-tab" data-bs-toggle="tab"
+                                    data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                                    aria-selected="true"> 
+                                    <div class="icon-container">
+                                        <i class="fas fa-table mt-2 fa-2x"></i> 
+                                    </div>
+                                    <span class="mt-1">Tabla</span>
+                                </button> 
+
+                                <!-- <button class="nav-link" id="order-tab" data-bs-toggle="tab" data-bs-target="#order"
+                                    type="button" role="tab" aria-controls="order" aria-selected="false">
+                                    <!-- SVG va aquí -->
+                                    <!-- <div class="icon-container">
+                                        <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="mt-2">Personal</span>
+                                </button> 
+                                <!-- <button class="nav-link" id="adress-tab" data-bs-toggle="tab" data-bs-target="#adress"
+                                    type="button" role="tab" aria-controls="adress" aria-selected="false">
+                                    <!-- SVG va aquí -->
+                                    <!-- <div class="icon-container">
+                                        <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="mt-2">Your Address</span>
+                                </button> --> 
+                                <!-- <button class="nav-link" id="card-tab" data-bs-toggle="tab" data-bs-target="#card"
+                                    type="button" role="tab" aria-controls="card" aria-selected="false"> -->
+                                    <!-- SVG va aquí -->
+                                    <!-- <div class="icon-container">
+                                        <svg class="icon-40" width="40" height="40" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3 3h18v18H3z" fill="currentColor"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="mt-2">Your Cards</span>
+                                </button> -->
+                            </div>
+
+                            
+                            <div class="tab-content" id="myTabContent">
+                                <!-- Filtro de tabla -->
+                                <div class="tab-pane fade show active" id="profile" role="tabpanel"
+                                    aria-labelledby="profile-tab">
+                                    <div class="content-container">
+                                        <div class="card border shadow-none">
+                                            <div class="card-header border-bottom py-4 px-0 mx-4">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h4 class="mb-0">Lista General</h4>
+                                                    
+                                                    <button class="btn btn-primary" id="download-pdf">
+                                                        <span class="d-none d-md-block">
+                                                            Guardar como PDF
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="mb-3 mt-2 col-10 d-flex justify-content-center align-items-center mx-auto">
+                                                <input type="text" class="form-control" id="searchInput" placeholder="Buscar personal..." />
+                                            </div>
+                                            
+                                            <div class="card-body p-0 pt-3">
+                                                <div class="table-responsive">
+                                                    <table id="datatable" class="table table-striped" data-toggle="data-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th id="th_nombre">Nombre</th>
+                                                                <th id="th_fecha_nacimiento">Fecha de nacimiento</th>
+                                                                <th id="th_edad">Edad</th>
+                                                                <th id="th_rfc">RFC</th>
+                                                                <th id="th_curp">Curp</th>
+                                                                <th id="th_telefono">Teléfono</th>
+                                                                <th id="th_correo">Correo</th>
+                                                                <th id="th_nombre_cct">CCT</th>
+                                                                <th id="th_cargo">Cargo</th>
+                                                                <th id="th_antiguedad_compacta">Antigüedad Compacta</th>
+                                                                <th id="th_tipo_organizacion">Tipo de Organización</th>
+                                                                <th id="th_zona">Zona Escolar</th>
+                                                                <th id="th_tipo_entidad">Tipo de Entidad</th>
+                                                                <th id="th_tipo_direccion">Tipo de Dirección</th>
+                                                                <th id="th_nombramiento">Nombramiento</th>
+                                                                <th id="th_grado">Grado</th>
+                                                                <th id="th_municipio">Municipio</th>
+                                                                <th id="th_comunidad">Comunidad</th>
+                                                                <th id="th_zona">Zona</th>
+                                                                <th id="th_ze">ZE</th>
+                                                                <th id="">Sector</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody> <!-- Aquí se cargarán los datos -->
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 order-md-first order-lg-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Filtro avanzado</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Barra de Búsqueda -->
+                    <div class="mb-4">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Buscar personal..." />
+                    </div>
+                    <p class="text-end">
+                        <a class="btn btn-link w-100" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Datos Personales</a>
+                    </p>
+                    <hr class="hr-horizontal">
+                    
+                    <div class="collapse" id="collapseExample">
+                        <div class="card-body">
+                            <div class="d-flex flex-column">
+                                <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="nombre" id="nombre" checked>
+                                    <label class="form-check-label" for="nombre">Nombre</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="edad" id="edad">
+                                    <label class="form-check-label" for="edad">Edad</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="telefono" id="telefono">
+                                    <label class="form-check-label" for="telefono">Teléfono</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="rfc" id="rfc">
+                                    <label class="form-check-label" for="rfc">RFC</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="curp" id="curp">
+                                    <label class="form-check-label" for="curp">CURP</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="correo" id="correo">
+                                    <label class="form-check-label" for="correo">Correo</label>
+                                </div>
+                                <!-- <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="direccion" id="direccion">
+                                    <label class="form-check-label" for="direccion">Dirección</label>
+                                </div> -->
+                                <!-- <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="sexo" id="sexo">
+                                    <label class="form-check-label" for="sexo">Sexo</label>
+                                </div> -->
+                                <div class="form-check">
+                                    <input class="form-check-input me-2" type="checkbox" value="fecha_nacimiento" id="fecha_nacimiento">
+                                    <label class="form-check-label" for="fecha_nacimiento">Fecha de nacimiento</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-end">
+                        <a class="btn btn-link w-100" data-bs-toggle="collapse" href="#Laboral" role="button" aria-expanded="false" aria-controls="collapseExample">Datos Laborales</a>
+                    </p>
+                    <hr class="hr-horizontal">
+                    
+                    <div class="collapse" id="Laboral">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="cargo">Cargo</label>
+                                <select id="cargo" class="form-control">
+                                    <option value="">Todos los Cargos</option>
+                                    <option value="Docente">Docente</option>
+                                    <option value="DOCENTE DE APOYO">Docente de apoyo</option>
+                                    <option value="Director">Director</option>
+                                    <option value="SUBDIR DE GESTION">Subdir de Gestión</option>
+                                    <option value="DOCENTE/CAMB/ACT">Docente/Camb/Act</option>
+                                    <option value="AUXILIAR ADMVO">Auxiliar Admvo.</option>AUXILIAR SERVICIO
+                                    <option value="AUXILIAR SERVICIO">Auxiliar Servicio</option>
+                                    <option value="VELADOR">Velador</option>
+                                    
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tipo_organizacion">Tipo de Organización</label>
+                                <select id="tipo_organizacion" class="form-control">
+                                    <option value="">Todos</option>
+                                    <option value="org.">Org. Com.</option>
+                                    <option value="BIDOCENTE">Bidocente</option>
+                                    <option value="TRIDOCENTE">Tridocente</option>
+                                    <option value="UNITARIA">Unitaria</option>
+                                    
+                                </select>
+                            </div>
+        
+                            <div class="form-group">
+                                <label for="z_e">ZE</label>
+                                <select id="z_e" class="form-control">
+                                    <option value="">Todos los ZEs</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="zi">ZI</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo_entidad">Tipo de Entidad</label>
+                                <select id="tipo_entidad" class="form-control">
+                                    <option value="">Todos los Tipos de Entidad</option>
+                                    <option value="Estatal">Estatal</option>
+                                    <option value="Federal">Federal</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tipo_direccion">Tipo de Dirección</label>
+                                <select id="tipo_direccion" class="form-control">
+                                    <option value="">Todos los Tipos de Dirección</option>
+                                    <option value="D/Tecnico">D/Técnico</option>
+                                    <option value="D/Frente a grupo">D/Frente a grupo</option>
+                                    <option value="D/Comisionado">D/Comisionado</option>
+                                </select>
+                            </div>
+                            
+                            <div class="d-flex flex-column">
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="cargo" id="cargoCheckbox" onchange="toggleColumn('cargo')" checked>
+                                    <label class="form-check-label" for="cargoCheckbox">Cargo</label>
+                                </div>
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="tipo_organizacion" id="tipoOrganizacionCheckbox" onchange="toggleColumn('tipo_organizacion')" checked>
+                                    <label class="form-check-label" for="tipoOrganizacionCheckbox">Tipo de Organización</label>
+                                </div>
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="antiguedad_compacta" id="antiguedad_compacta" onchange="toggleColumn('antiguedad_compacta')">
+                                    <label class="form-check-label" for="antiguedad_compacta">Antigüedad </label>
+                                </div>
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="z_e" id="z_eCheckbox" onchange="toggleColumn('z_e')" checked>
+                                    <label class="form-check-label" for="z_eCheckbox">ZE</label>
+                                </div>
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="tipo_entidad" id="tipo_entidadCheckbox" onchange="toggleColumn('tipo_entidad')" checked>
+                                    <label class="form-check-label" for="tipo_entidadCheckbox">Tipo de Entidad</label>
+                                </div>
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="tipo_direccion" id="tipo_direccionCheckbox" onchange="toggleColumn('tipo_direccion')" checked>
+                                    <label class="form-check-label" for="tipo_direccionCheckbox">Tipo de Dirección</label>
+                                </div>
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="grado" id="grado" onchange="toggleColumn('grado')" >
+                                    <label class="form-check-label" for="grado">Grado</label>
+                                </div>
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="nombramiento" id="nombramiento" onchange="toggleColumn('nombramiento')">
+                                    <label class="form-check-label" for="nombramiento">Nombramiento</label>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-end">
+                        <a class="btn btn-link w-100" data-bs-toggle="collapse" href="#ubicacion" role="button" aria-expanded="false" aria-controls="collapseExample">Ubicación</a>
+                    </p>
+                    <hr class="hr-horizontal">
+                    
+                    <div class="collapse" id="ubicacion">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="sector">Sector</label>
+                                <select id="sector" class="form-control">
+                                    <option value="">Todos los Sectores</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="zona">Zona</label>
+                                <select id="zona" class="form-control">
+                                    <option value="">Todas las Zonas</option>
+                                </select>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="nombre_cct" id="nombre_cct" onchange="toggleColumn('nombre_cct')" checked>
+                                    <label class="form-check-label" for="nombre_cct">CCT</label>
+                                </div>
+                                <!-- Checkbox para Municipio -->
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="municipio" id="municipio" onchange="toggleColumn('municipio')" >
+                                    <label class="form-check-label" for="municipio">Municipio</label>
+                                </div>
+                    
+                                <!-- Checkbox para Comunidad -->
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="comunidad" id="comunidad" onchange="toggleColumn('comunidad')" >
+                                    <label class="form-check-label" for="comunidad">Comunidad</label>
+                                </div>
+                    
+                                <!-- Checkbox para Zona -->
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="zona" id="zonaCheckbox" onchange="toggleColumn('zona')" checked>
+                                    <label class="form-check-label" for="zonaCheckbox">Zona</label>
+                                </div>
+
+                                <!-- Checkbox para Sector -->
+                                <div class="form-check d-flex justify-content-start align-items-center">
+                                    <input class="form-check-input me-2" type="checkbox" value="sector" id="sectorCheckbox" onchange="toggleColumn('sector')" checked>
+                                    <label class="form-check-label" for="sectorCheckbox">Sector</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón para aplicar los filtros -->
+                    <div class="text-center mt-4">
+                        <button class="btn btn-primary" id="applyFiltersBtn">Limpiar Tabla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/tablas/tabla-busqueda-avanzada.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+        // Llenar el select de "Sector" con opciones del 1 al 10
+        const selectSector = $('#sector'); // Select de sectores
+        for (let i = 1; i <= 10; i++) {
+            const option = $('<option>')
+                .attr('value', i)  // Valor del sector (1 al 10)
+                .text( i); // Texto visible (ej. "Sector 1")
+            selectSector.append(option);
+        }
+
+        // Evento cuando el select de sector cambia
+        $('#sector').on('change', function() {
+            const sectorId = $(this).val();  // Obtener el sector seleccionado
+            const selectZona = $('#zona');  // Select de zonas
+
+            // Limpiar el select de zona antes de cargar nuevas opciones
+            selectZona.html('<option value="">Todas las Zonas</option>');
+
+            if (sectorId) {
+                // Realizar el fetch al endpoint para obtener las zonas
+                fetch(`/obtener-zonas/${sectorId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const zonas = data.zonas;  // Obtener las zonas del backend
+                        zonas.forEach(zona => {
+                            const optionZona = $('<option>')
+                                .attr('value', zona.zona_id)  // Valor de la zona
+                                .text( zona.numero_zona);  // Texto visible de la opción
+                            selectZona.append(optionZona);  // Agregar al select de zona
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener las zonas:', error);
+                    });
+            }
+        });
+    });
+</script>
+
+
+
+
+
+<!-- <script>
+    $(document).ready(function() {
+     // Inicializar DataTable
+     var table = $.fn.dataTable.isDataTable('#datatable-specific') ? 
+         $('#datatable-specific').DataTable() : 
+         $('#datatable-specific').DataTable({
+             "searching": true,
+             "paging": true,
+             "pageLength": 10,
+             "lengthMenu": [5, 10, 25, 50, 100],
+             "ordering": true,
+             "stateSave": true,
+             "autoWidth": false,
+             "scrollX": true,  // Desactiva auto-ajuste de ancho
+             "language": {
+                 "paginate": {
+                     "first": "Primero",
+                     "last": "Último",
+                     "next": "Siguiente",
+                     "previous": "Anterior"
+                 },
+                 "lengthMenu": "Mostrar _MENU_ filas",
+                 "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                 "infoEmpty": "No hay datos disponibles",
+                 "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+                 "zeroRecords": "No se encontraron resultados",
+                 "search": "Buscar:"
+             },
+          
+         });
+ 
+     // Ocultar columnas que no están en defaultVisible
+     const defaultVisible = ['nombre', 'nombre_cct', 'cargo', 'tipo_organizacion'];
+     table.columns().every(function(index) {
+         const column = table.column(index);
+         const columnClass = column.header().getAttribute('data-column');
+         if (!defaultVisible.includes(columnClass)) {
+             column.visible(false);
+         }
+     });
+ 
+     // Controlar visibilidad con checkboxes
+     $('.form-check-input').on('change', function() {
+         const columnClass = $(this).val();
+         const columnIndex = table.column(`[data-column="${columnClass}"]`).index();
+ 
+         if (columnIndex !== undefined) {
+             const column = table.column(columnIndex);
+             column.visible(!column.visible());  // Alternar visibilidad de la columna
+         }
+     });
+ 
+     // Búsqueda personalizada
+     $('#searchInput').on('keyup', function() {
+         table.search(this.value).draw();
+     });
+ });
+ </script> -->
+ 
+
+
+<!-- Filtro de datos -->
+<!-- <script>
+    $(document).ready(function() {
+        // Cambiar contenido según la categoría seleccionada
+        $('#categoryFilter').on('change', function() {
+            var selectedCategory = $(this).val();
+            
+            // Ocultar ambas secciones al inicio
+            $('#personalFields').hide();
+            $('#laboralFields').hide();
+
+            // Mostrar campos correspondientes según la categoría seleccionada
+            if (selectedCategory === 'personal') {
+                $('#personalFields').show();
+            } else if (selectedCategory === 'laboral') {
+                $('#laboralFields').show();
+            }
+        });
+
+        // Agregar lógica de filtro al botón de aplicar filtros
+        $('#applyFiltersBtn').on('click', function() {
+            var selectedCategory = $('#categoryFilter').val();
+            var selectedOption = null;
+
+            // Obtener la opción seleccionada para 'Datos Personales' o 'Datos Laborales'
+            if (selectedCategory === 'personal') {
+                selectedOption = $("input[name='personalOptions']:checked").val();
+            } else if (selectedCategory === 'laboral') {
+                selectedOption = $("input[name='laboralOptions']:checked").val();
+            }
+
+            // Aplicar el filtro según la selección
+            if (selectedOption) {
+                console.log('Aplicando filtro por:', selectedOption);
+                // Aquí debes implementar la lógica para filtrar los datos en la tabla
+                // Dependiendo de lo seleccionado, puedes enviar esta opción al servidor o filtrar en el frontend
+            } else {
+                console.log('No se seleccionó ninguna opción');
+            }
+        });
+    });
+</script> -->
+
+
+
+
+
+
+

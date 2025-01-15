@@ -24,17 +24,21 @@ $(document).ready(function() {
                         "render": function(data, type, row) {
                           var imgSrc = data ? "/uploads/Fotos-de-perfil-personal/" + data : "/images/avatars/avatar-default.png";
                           return `
-                            <div class="d-flex align-items-center" style="max-width: 5000000px; overflow: hidden; white-space: normal;">
-                              <img src="${imgSrc}" alt="Foto del docente" class="rounded-circle me-3 img-fluid" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
-                              <div style="word-wrap: break-word; max-width: 5000px;">
-                                <span style="font-size: 14px;">${row.nombre}</span>
+                            <div class="d-flex align-items-center py-2" style="max-width: 100%;">
+                              <div style="flex-shrink: 0; width: 50px; height: 50px;">
+                                <img src="${imgSrc}" alt="Foto del docente" class="rounded-circle img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                              </div>
+                              <div class="ms-3" style="max-width: calc(100% - 60px); word-wrap: break-word; white-space: normal;">
+                                <span style="font-size: 14px; font-weight: 500; display: block;">${row.nombre}</span>
                               </div>
                             </div>
                           `;
                         },
-                        "title": "Nombre", 
-                    },
-                    
+                        "title": "Nombre",
+                        "orderable": true,
+                        "width": "250px"
+                      },
+                      
                     { 
                         "data": "fecha_nacimiento", 
                         "title": "Fecha de nacimiento",
@@ -93,7 +97,7 @@ $(document).ready(function() {
                         'margin': '0 auto'       // Centra el contenedor
                     });
                 },
-                "pageLength": 20,  // Cantidad de registros por página
+                "pageLength": 10,  // Cantidad de registros por página
                 "responsive": true, 
                 "autoWidth": true, // Ajusta el ancho de las columnas según el contenido
                 "scrollX": false,  // Desactiva el scroll horizontal

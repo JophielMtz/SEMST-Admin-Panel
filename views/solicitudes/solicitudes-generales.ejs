@@ -404,12 +404,13 @@
              autoHeaderHeight: true,  autoHeight: true,   cellStyle: { "white-space": "normal", "line-height": "1.7" }, 
              autoHeight: true,  },
              {...Columnas.colFecha(), headerName: "Fecha Documento", field: "fecha_documento", editable: () => editMode, resizable: true, width: 115, },
-        { ...Columnas.observaciones(), editable: () => editMode, },
-        {field: "departamento",headerName: "Departamento",  wrapHeaderText: true, cellClass: "centrar-celda",
-         ...createSelectColumnProps(departamentoValidValues),},
+       
          {...Columnas.municipioSale(), headerName: "Municipio", field: "municipio",},
          {...Columnas.comunidadSale(), headerName: "Comunidad", field: "comunidad",},
          {...Columnas.cctSale(), headerName: "Clave CCT", field: "centro_clave_trabajo",},
+         { ...Columnas.observaciones(), editable: () => editMode, },
+        {field: "departamento",headerName: "Departamento",  wrapHeaderText: true, cellClass: "centrar-celda",
+         ...createSelectColumnProps(departamentoValidValues),},
          ...zonaColumns.map(col => ({...col, editable: col.field === "sector_id" || col.field === "zona_id" ? false : () => editMode,cellClass: "centrar-celda"
         })),
         {field: "tipo_organizacion",headerName: "Organizació",  wrapHeaderText: true, 
