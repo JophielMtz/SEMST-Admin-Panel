@@ -566,4 +566,81 @@ ul.timeline > li:before {
   flex-wrap: nowrap; /* Evita que los botones se envuelvan */
 }
 
+.card-body {
+  max-width: 100%; /* Ajusta el ancho al tamaño del viewport */
+  overflow-x: hidden; /* Evita que el contenido provoque scroll horizontal */
+}
 
+/* ======Diseño datatables======== */
+.table tbody td.status span {
+  position: relative;
+  font-size: 13px;
+  border-radius: 30px;
+  padding: 4px 10px 4px 25px; }
+  .table tbody td.status span:after {
+    position: absolute;
+    top: 7px;
+    left: 8px;
+    width: 10px;
+    height: 10px;
+    content: '';
+    border-radius: 50%; }
+/* ======Botones de estatus======== */
+.table tbody td.status .atendido {
+  background: #cff6dd;
+  color: #1fa750; }
+.table tbody td.status .atendido:after {
+  background: #23bd5a; }
+.table tbody td.status .sin-atender {
+  background: #fdf5dd;
+  color: #cfa00c; }
+.table tbody td.status .sin-atender:after {
+  background: #f2be1d; }
+.table tbody td.status .en-proceso {
+    background: #b5e9ec;
+    color: #278493; }
+.table tbody td.status .en-proceso:after {
+    background:  #00aeb7; }
+.table tbody td.status .a-disposicion {
+  background: #89b4ff;
+  color: #214cef; }
+.table tbody td.status .a-disposicion:after {
+  background:  #214cef; }
+.table tbody td.status .salud {
+  background: #a8d77f;
+  color: #508729; }
+.table tbody td.status .salud:after {
+  background:  #508729; }
+.table tbody td.status .inseguridad {
+  background: #ff9696;
+  color: #fb0707; }
+.table tbody td.status .inseguridad:after {
+  background:  #fb0707; }
+.table tbody td.status .sin-ct {
+  background: #e5bfe8;
+  color: #a651a8; }
+.table tbody td.status .sin-ct:after {
+  background:  #a651a8; }
+  .table tbody td.status .cubierta {
+    background: #a1d4b3;
+    color: #3f8858; }
+  .table tbody td.status .cubierta:after {
+    background:  #3f8858; }
+.table tbody td.status .sin-cubrir {
+  background: #cac28c;
+  color: #88823f; }
+.table tbody td.status .sin-cubrir:after {
+  background:  #88823f; }
+.table tbody td.status .no-se-justifica {
+  background: #e9ca60;
+  color: #c2761d; }
+.table tbody td.status .no-se-justifica:after {
+  background:  #c2761d; }
+
+.slider {
+  overflow: hidden; /* Asegura que el contenido no se desborde */
+  padding: 10px;
+  background-color: rgba(245, 245, 245, 0.4); /* Color de fondo claro */
+  border: 1px solid #0999d2; /* Borde sutil */
+  border-radius: 4px;
+}
